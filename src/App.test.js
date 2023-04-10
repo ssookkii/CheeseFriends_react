@@ -3,6 +3,7 @@ import App from './App';
 //merge 테스트
 //test//
 //test// 소영님 화이팅,,,,
+//vscode
 test('renders learn react link', () => {
   render(<App />);
   const linkElement = screen.getByText(/learn react/i);
