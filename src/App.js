@@ -7,26 +7,25 @@ import Regi from './login/regi';
 
 function App() {
 
-  return (
-    <div className="App">
-    <BrowserRouter>
+  return (    <div className="App">
+  <BrowserRouter>
 
-      <main>
-        <div className="py-4">
-          <div className="container">
-            <Routes>
+    <main>
+      <div className="py-4">
+        <div className="container">
+          <Routes>
 
-              <Route path="/" element={<Login/>}></Route>
+            <Route path="/" element={<Login/>}></Route>
 
-              <Route path="/regi" element={<Regi/>}></Route>
+            <Route path="/regi" element={<Regi/>}></Route>
 
-            </Routes>
-          </div>
+          </Routes>
         </div>
-      </main>
+      </div>
+    </main>
 
-    </BrowserRouter>
-  </div>
+  </BrowserRouter>
+</div>
   );
 }
 
