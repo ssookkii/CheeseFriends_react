@@ -6,7 +6,6 @@ import Login from './login/login';
 import Regi from './login/regi';
 
 function App() {
-
   return (    <div className="App">
   <BrowserRouter>
 
