@@ -29,8 +29,8 @@ function CFR() {
 
     return (
         <div>
-            <h1>Compare Faces</h1>
-            <button onClick={handleCompareButtonClick}>Compare</button>
+            <h1>치즈 프렌드 출석 시스템</h1>
+            <button onClick={handleCompareButtonClick}>출석 시스템 실행</button>
             {similarity !== null && (
                 <div>
                     <h2>Similarity: {similarity}</h2>
