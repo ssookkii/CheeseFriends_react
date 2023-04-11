@@ -6,25 +6,28 @@ import Login from './login/login';
 import Regi from './login/regi';
 
 function App() {
-  return (    <div className="App">
-  <BrowserRouter>
 
-    <main>
-      <div className="py-4">
-        <div className="container">
-          <Routes>
+  return (
+    <div className="App">
+      <BrowserRouter>
 
-            <Route path="/" element={<Login/>}></Route>
+        <main>
+          <div className="py-4">
+            <div className="container">
+              <Routes>
 
-            <Route path="/regi" element={<Regi/>}></Route>
+                <Route path="/" element={<Login/>}></Route>
 
-          </Routes>
-        </div>
-      </div>
-    </main>
+                <Route path="/regi" element={<Regi/>}></Route>
 
-  </BrowserRouter>
-</div>
+              </Routes>
+            </div>
+          </div>
+        </main>
+
+      </BrowserRouter>
+     
+    </div>
   );
 }
 
