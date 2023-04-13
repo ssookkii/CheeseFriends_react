@@ -1,14 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import ReactModal from 'react-modal';
+import App from './App';
 import './index.css';
-import CFR from './components/cfr';
 import reportWebVitals from './reportWebVitals';
+import EduAdd from './components/EduAdd';
 
-ReactDOM.render(
+const root = ReactDOM.createRoot(document.getElementById('root'));
+ReactModal.setAppElement('#root');
+root.render(
   <React.StrictMode>
-    <CFR />
+    <EduAdd/>
   </React.StrictMode>,
-  document.getElementById('root')
 );
 
 reportWebVitals();
