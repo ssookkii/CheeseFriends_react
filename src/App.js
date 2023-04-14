@@ -8,13 +8,6 @@ import Regi from './login/regi';
 function App() {
 
   return (
-<<<<<<< HEAD
-<<<<<<< HEAD
-    <div>
-     <p></p>
-=======
-=======
->>>>>>> d79a50edb2a998eb04709987d7af939ad8c70ddf
     <div className="App">
       <BrowserRouter>
 
@@ -34,10 +27,6 @@ function App() {
 
       </BrowserRouter>
      
-<<<<<<< HEAD
->>>>>>> b38a646e94896499dca6bba3309bac874473b85a
-=======
->>>>>>> d79a50edb2a998eb04709987d7af939ad8c70ddf
     </div>
   );
 }
