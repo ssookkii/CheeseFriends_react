@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { MapMarker, Map } from "react-kakao-maps-sdk";
 import axios from "axios";
 
 import MapSearch from './MapSearch';
+import { useParams } from 'react-router';
 
-function EduAdd() {
-    // const history = useNavigate();
-
+function EduUpdate(){
     const [isOpen, setOpen] = useState(false);
     const [place, setPlace] = useState({
         place_name : "",
@@ -16,6 +15,9 @@ function EduAdd() {
         x : "",
         y : "",
     });
+
+    let params = useParams();
+    console.log(params.eduCode);
 
     const openSearchModalHandler = () => {
         setOpen(true);
@@ -29,27 +31,39 @@ function EduAdd() {
     console.log(place);
     console.log(isOpen);
 
-    function eduAdd(){
+    const getEduData = async(eduCode) => {
+        const response = await axios.get("http://localhost:3000/getEdu", {params:{"eduCode":eduCode}})
+            console.log(response.data);
+            setPlace({
+                place_name : response.data.eduName,
+                road_address_name : response.data.eduAddress,
+                address_name : response.data.eduAddress,
+                phone : response.data.eduPhone,
+            });
+    }
+    useEffect(()=>{
+        getEduData(params.eduCode);
+    }, [params.eduCode]);
+    
+    function eduUpdate(){
         let eduData = null;
         if(place.road_address_name !== null || place.road_address_name !== "") {
             eduData = {
-                eduCode : place.place_name,
                 eduName : place.place_name,
                 eduAddress : place.road_address_name,
                 eduPhone : place.phone
             }
         }else {
             eduData = {
-                eduCode : place.place_name,
                 eduName : place.place_name,
                 eduAddress : place.address_name,
                 eduPhone : place.phone
             }
         }
-        axios.post("http://localhost:3000/eduAdd", null, {params: eduData})
+        axios.post("http://localhost:3000/eduUpdate", null, {params: eduData})
         .then(function(resp){
             if(resp.data !== null && resp.data !== "" && resp.data === "success"){
-                alert("등록되었습니다");
+                alert("수정되었습니다");
                 console.log(resp.data);
                 // history("/");
             }else if(resp.data !== null && resp.data !== "" && resp.data === "fail"){
@@ -100,13 +114,8 @@ function EduAdd() {
                     </Map>
 
                 <input type="text" defaultValue={place.phone} placeholder='학원번호'/>
-                <button onClick={eduAdd}>학원등록</button>
+                <button onClick={eduUpdate}>수정완료</button>
         </div>
-
-
-
     )
-
 }
-
-export default EduAdd
+export default EduUpdate
