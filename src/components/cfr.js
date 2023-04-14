@@ -5,8 +5,8 @@ function CFR() {
 
     const handleCompareButtonClick = async () => {
         try {
-            //const response = await fetch('http://localhost:3000/api/compareFaces', {
-                const response = await fetch(`http://localhost:3000/api/imgcrop/member1`, {
+            const response = await fetch('http://localhost:3000/api/compareFaces', {
+                //const response = await fetch(`http://localhost:3000/api/imgcrop/member1`, { 
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
