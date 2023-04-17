@@ -3,7 +3,7 @@ import { MapMarker, Map } from "react-kakao-maps-sdk";
 import axios from "axios";
 
 import MapSearch from './MapSearch';
-import { useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 
 function EduUpdate(){
     const [isOpen, setOpen] = useState(false);
@@ -15,6 +15,7 @@ function EduUpdate(){
         x : "",
         y : "",
     });
+    const navigate = useNavigate();
 
     let params = useParams();
     console.log(params.eduCode);
@@ -49,12 +50,14 @@ function EduUpdate(){
         let eduData = null;
         if(place.road_address_name !== null || place.road_address_name !== "") {
             eduData = {
+                eduCode : params.eduCode,
                 eduName : place.place_name,
                 eduAddress : place.road_address_name,
                 eduPhone : place.phone
             }
         }else {
             eduData = {
+                eduCode : params.eduCode,
                 eduName : place.place_name,
                 eduAddress : place.address_name,
                 eduPhone : place.phone
@@ -65,7 +68,7 @@ function EduUpdate(){
             if(resp.data !== null && resp.data !== "" && resp.data === "success"){
                 alert("수정되었습니다");
                 console.log(resp.data);
-                // history("/");
+                navigate("/edumanage");
             }else if(resp.data !== null && resp.data !== "" && resp.data === "fail"){
                 alert("입력칸을 확인해주십시오")
             }else if(resp.data !== null && resp.data !== "" && resp.data === "duplicate"){
@@ -80,7 +83,7 @@ function EduUpdate(){
     return (
 
         <div>
-
+                <input type="hidden" defaultValue={params.eduCode}/>
                 <input type="text" defaultValue={place.place_name} placeholder='학원이름'/>
                 {place.road_address_name !== null && place.road_address_name !== "" ? (
                     <input type="text" defaultValue={place.road_address_name} placeholder='학원검색'/>

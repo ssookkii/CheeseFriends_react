@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { MapMarker, Map } from "react-kakao-maps-sdk";
 import axios from "axios";
+import { useNavigate } from 'react-router';
 
 import MapSearch from './MapSearch';
 
 function EduAdd() {
-    // const history = useNavigate();
+    const navigate = useNavigate();
 
     const [isOpen, setOpen] = useState(false);
     const [place, setPlace] = useState({
@@ -51,7 +52,7 @@ function EduAdd() {
             if(resp.data !== null && resp.data !== "" && resp.data === "success"){
                 alert("등록되었습니다");
                 console.log(resp.data);
-                // history("/");
+                navigate("/edumanage");
             }else if(resp.data !== null && resp.data !== "" && resp.data === "fail"){
                 alert("입력칸을 확인해주십시오")
             }else if(resp.data !== null && resp.data !== "" && resp.data === "duplicate"){
