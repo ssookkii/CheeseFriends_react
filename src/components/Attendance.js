@@ -31,6 +31,7 @@ function Attendance() {
           <input type="text" value={subCode} onChange={(e) => setSubCode(e.target.value)} />
         </label>
         <button type="submit">Submit</button>
+
       </form>
     </div>
   );
