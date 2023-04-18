@@ -91,7 +91,6 @@ function Login(){
                     <input type="checkbox" checked={saveId} onChange={checkHandler} />id 저장
                 </td>
             </tr>
-           
 
             </tbody>
             </table>
