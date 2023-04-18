@@ -72,7 +72,7 @@ function EduManage(){
             </select>
             <input value={search} onChange={(e)=>setSearch(e.target.value)} placeholder="검색어"/>
             <button onClick={searchBtn}>검색</button>
-            <button>학원등록</button>
+            <Link to="/eduAdd">학원등록</Link> 
 
             <table border="1">
                 <colgroup>

@@ -1,7 +1,7 @@
 /*global kakao*/
 import React, { useState } from 'react';
 import ReactModal from 'react-modal';
-import './mapSearch.css';
+import './asset/css/mapSearch.css';
 
 function MapSearch({isOpen, onClose, setPlace}) {
     let ps = new kakao.maps.services.Places(); 

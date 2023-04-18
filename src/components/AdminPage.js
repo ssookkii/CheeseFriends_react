@@ -7,25 +7,48 @@ import EduUpdate from './EduUpdate';
 import SubjectManage from './SubjectManage';
 import SubUpdate from './SubUpdate';
 
+import './asset/css/reset.css';
+import './asset/css/AdminPage.css'
+
 function AdminPage() {
     return (
-    <div>
+    <div className='wrap'>
     <BrowserRouter>
-        <nav>
-        <Link to="/edumanage">홈</Link>
-        <Link to="/eduAdd">학원등록</Link> 
-        <Link to="/submanage">과목관리</Link> 
-        </nav>
+        <div className="contentWrap">
+            <nav className="sideMenu">
+                <ul>
+                    <li className='logo'>
+                        <img src="img/logo.png" alt="cheese friends"/>
+                    </li>
+                    <li>
+                        <Link to="/edumanage">기관관리</Link>
+                    </li>
+                    <li>
+                        <Link to="/submanage">과목관리</Link> 
+                    </li>
+                    <li>
+                        <Link to="/submanage">회원관리</Link> 
+                    </li>
+                    <li>
+                        <Link to="/submanage">보낸쪽지함</Link> 
+                    </li>
+                    <li>
+                        <Link to="/submanage">고객문의함</Link>
+                    </li>
+                </ul>
+            </nav>
+            <div>
+                <Routes>
+                    <Route path="/MapSearch" element={ <MapSearch/>} />
+                    <Route path="/eduAdd" element={ <EduAdd/>} />
+                    <Route path="/edumanage" element={ <EduManage/>} />
+                    <Route path="/eduupdate/:eduCode" exact element={<EduUpdate />} />
+                    <Route path="/submanage" element={ <SubjectManage/>} />
+                    <Route path="/subupdate/:subCode" exact element={<SubUpdate />} />
+                </Routes>
+            </div>
+        </div>
 
-        <Routes>
-        <Route path="/MapSearch" element={ <MapSearch/>} />
-        <Route path="/eduAdd" element={ <EduAdd/>} />
-        <Route path="/edumanage" element={ <EduManage/>} />
-        <Route path="/eduupdate/:eduCode" exact element={<EduUpdate />} />
-        <Route path="/submanage" element={ <SubjectManage/>} />
-        <Route path="/subupdate/:subCode" exact element={<SubUpdate />} />
-
-        </Routes>
 
     </BrowserRouter>
     </div>
