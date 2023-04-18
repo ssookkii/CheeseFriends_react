@@ -3,7 +3,7 @@
     justify-content: flex-start;
 }
 .sideMenu {
-    background-color:#54433A;
+    background-color:#434343;
     width:250px;
     border-top-right-radius: 20px;
     border-bottom-right-radius: 20px;
@@ -49,4 +49,11 @@
 }
 .sideMenu > ul > li:nth-child(6) > a::before {
     background-position: -110px 0;
+}
+.btnActive {
+    background-color: #FAC463;
+}
+
+main {
+    width:80%;
 }

@@ -1,0 +1,136 @@
+.topContent {
+    margin:50px 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width:95%;
+}
+.search {
+    border:1px solid #434343;
+    border-radius: 10px;
+    margin-left:5%;
+}
+.search > select {
+    width:100px;
+    height:40px;
+    padding:0 10px;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+    border:none;
+    font-size:0.9em;
+    color:#fff;
+    background: url(../../../../public/img/searchMenuW.png) no-repeat 86% 50% #434343;
+    background-size:10px;
+    -webkit-appearance: none; 
+    -moz-appearance: none;
+    appearance: none;
+}
+.search > select::-ms-expand {
+    display: none;
+}
+.search > input {
+    height:40px;
+    width:250px;
+    font-size:0.9em;
+    padding:0 15px;
+}
+.search .searchBtn {
+    color:#fff;
+    background: url(../../../../public/img/searchBtnIcon.png) no-repeat 50% 50% #434343;
+    text-indent: -9999px;
+    width:40px;
+    height:40px;
+    background-size:15px;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+.eduAdd {
+    background-color: #FAC463;
+    color:#fff;
+    width:100px;
+    height:40px;
+    border-radius: 10px;
+    text-align: center;
+    line-height: 39px;
+    font-weight: 600;
+    font-size:0.9em;
+    margin-left:20%;
+}
+
+/* 테이블 공통 css */
+.manageList {
+    margin:0 5%;
+}
+.manageList > thead > tr {position:relative; height:80px;}
+.manageList > thead > tr > th,
+.manageList > tbody > tr > td  {
+    text-align: center;
+    font-size:0.9em;
+}
+.manageList > thead > tr > th {
+    font-weight: 500;
+    font-size:0.9em;
+}
+.manageList > thead > tr::after {
+    content: "";
+    width:100%;
+    height:1px;
+    position:absolute;
+    left:0;
+    top:70px;
+    background-color: #a0a0a0;
+}
+.manageList > tbody > tr {
+    height:50px;
+}
+.manageList > tbody > tr > td .eduEdit,
+.manageList > tbody > tr > td .eduDel {
+    display:block;
+    width:40px;
+    border-radius: 5px;
+    color:#fff;
+    height:20px;
+    font-size:0.75em;
+    font-weight: 500;
+}
+.manageList > tbody > tr > td .eduEdit {
+    background-color: #376efa;
+    line-height:19px;
+    margin-right:5px;
+}
+.manageList > tbody > tr > td .eduDel {
+    background-color: #e80000;
+}
+
+/* EduManage 테이블 크기조절 */
+.edulist > tbody > tr > td:nth-child(1) {
+    width:10%;
+    font-weight: 600;
+}
+.edulist > tbody > tr > td:nth-child(2) {width:25%;}
+.edulist > tbody > tr > td:nth-child(3) {width:35%;}
+.edulist > tbody > tr > td:nth-child(4) {width:15%;}
+.edulist > tbody > tr > td:nth-child(5) {width:10%;}
+.edulist > tbody > tr > td:nth-child(6) {
+    display: flex;
+    justify-content: center;
+    position:relative;
+    top:15px;
+}
+
+/* SubjectManage 테이블 크기조절 */
+.sublist > tbody > tr > td:nth-child(1) {
+    width:10%;
+    font-weight: 600;
+}
+.sublist > tbody > tr > td:nth-child(2) {width:25%;}
+.sublist > tbody > tr > td:nth-child(3) {width:10%;}
+.sublist > tbody > tr > td:nth-child(4) {width:20%;}
+.sublist > tbody > tr > td:nth-child(5) {width:15%;}
+.sublist > tbody > tr > td:nth-child(6) {width:15%;}
+.sublist > tbody > tr > td:nth-child(7) {
+    display: flex;
+    justify-content: center;
+    position:relative;
+    top:15px;
+}

@@ -3,6 +3,16 @@ import { Link } from "react-router-dom";
 import axios from 'axios';
 import Pagination from "react-js-pagination";
 
+import { faAngleRight } from "@fortawesome/free-solid-svg-icons";
+import { faAngleLeft } from "@fortawesome/free-solid-svg-icons";
+import { faAnglesLeft } from "@fortawesome/free-solid-svg-icons";
+import { faAnglesRight } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+import './asset/css/reset.css';
+import manage from './asset/css/manageCommon.module.css';
+import './asset/css/pagination.css';
+
 function EduManage(){
     const [eduList, setEduList] = useState([]);
 
@@ -63,35 +73,29 @@ function EduManage(){
     },[]);
 
     return(
-        <div>           
-            <select vlaue={choice} onChange={(e)=>setChoice(e.target.value)}>
-                <option value="">검색</option>
-                <option value="eduCode">학원코드</option>
-                <option value="eduName">학원이름</option>
-                <option value="eduAddress">학원주소</option>
-            </select>
-            <input value={search} onChange={(e)=>setSearch(e.target.value)} placeholder="검색어"/>
-            <button onClick={searchBtn}>검색</button>
-            <Link to="/eduAdd">학원등록</Link> 
-
-            <table border="1">
-                <colgroup>
-                    <col width="70"/>
-                    <col width="100"/>
-                    <col width="100"/>
-                    <col width="100"/>
-                    <col width="100"/>
-                    <col width="100"/>
-                    <col width="100"/>
-                </colgroup>
+        <div className='wrap'>
+            <div className={manage.topContent}>
+                <div className={manage.search}>      
+                    <select value={choice} onChange={(e)=>setChoice(e.target.value)}>
+                        <option value="">검색</option>
+                        <option value="eduCode">학원코드</option>
+                        <option value="eduName">학원이름</option>
+                        <option value="eduAddress">학원주소</option>
+                    </select>
+                    <input value={search} onChange={(e)=>setSearch(e.target.value)} placeholder="검색어를 입력하세요"/>
+                    <button onClick={searchBtn} className={manage.searchBtn}>검색</button>
+                </div>
+                <Link to="/eduAdd" className={manage.eduAdd}>기관등록</Link>
+            </div>
+            <table className={`${manage.manageList} ${manage.edulist}`}>
                 <thead>
                     <tr>
-                        <td>학원코드</td>
-                        <td>학원이름</td>
-                        <td>학원주소</td>
-                        <td>학원번호</td>
-                        <td>학원계정</td>
-                        <td>관리</td>
+                        <th>학원코드</th>
+                        <th>학원이름</th>
+                        <th>학원주소</th>
+                        <th>학원번호</th>
+                        <th>학원계정</th>
+                        <th>관리</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -99,32 +103,30 @@ function EduManage(){
                         eduList.map(function(edu, i){
                             return (
                                 <tr key={i}>
-                                    <td><input type="checkbox"/></td>
                                     <td>{edu.eduCode}</td>
                                     <td>{edu.eduName}</td>
                                     <td>{edu.eduAddress}</td>
                                     <td>{edu.eduPhone}</td>
                                     <td>{edu.id}</td>
                                     <td>
-                                        <Link to={`/eduupdate/${edu.eduCode}`}>수정</Link>
-                                        <button onClick={() => deleteBtn(edu.eduCode)}>삭제</button>
+                                        <Link to={`/eduupdate/${edu.eduCode}`} className={manage.eduEdit}>수정</Link>
+                                        <button className={manage.eduDel} onClick={() => deleteBtn(edu.eduCode)}>삭제</button>
                                     </td>
                                 </tr>
                             )
                         })
                     }
                 </tbody>
-
             </table>
-
-            <br/>
             <Pagination
                 activePage={page}
-                itemsCountPerPage={15}
+                itemsCountPerPage={12}
                 totalItemsCount={totalCnt}
-                pageRangeDisplayed={15}
-                prevPageText={"이전"}
-                nextPageText={"다음"}
+                pageRangeDisplayed={12}
+                firstPageText={<FontAwesomeIcon icon={faAnglesLeft} />}
+                lastPageText={<FontAwesomeIcon icon={faAnglesRight} />}
+                prevPageText={<FontAwesomeIcon icon={faAngleLeft} />}
+                nextPageText={<FontAwesomeIcon icon={faAngleRight} />}
                 onChange={pageChange} />
         </div>
     )

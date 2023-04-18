@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { MapMarker, Map } from "react-kakao-maps-sdk";
 import axios from "axios";
 
 import MapSearch from './MapSearch';
 import { useNavigate, useParams } from 'react-router';
+
+import styles from './asset/css/EduAddEdit.module.css'
 
 function EduUpdate(){
     const [isOpen, setOpen] = useState(false);
@@ -15,22 +17,24 @@ function EduUpdate(){
         x : "",
         y : "",
     });
+    const [showMap, setShowMap] = useState(false);
+
     const navigate = useNavigate();
 
     let params = useParams();
     console.log(params.eduCode);
 
+    // 모달창 열고 닫는 handler
     const openSearchModalHandler = () => {
         setOpen(true);
     };
-
     const closeSearchModalHandler = () => {
         setOpen(false);
     };
 
-
     console.log(place);
     console.log(isOpen);
+    console.log(showMap);
 
     const getEduData = async(eduCode) => {
         const response = await axios.get("http://localhost:3000/getEdu", {params:{"eduCode":eduCode}})
@@ -82,18 +86,27 @@ function EduUpdate(){
 
     return (
 
-        <div>
+        <div className={styles.eduAddEditWrap}>
+            <h2 className={styles.h2Title}>교육기관수정</h2>
+            <div className={styles.eduSearchMap}>
                 <input type="hidden" defaultValue={params.eduCode}/>
-                <input type="text" defaultValue={place.place_name} placeholder='학원이름'/>
-                {place.road_address_name !== null && place.road_address_name !== "" ? (
-                    <input type="text" defaultValue={place.road_address_name} placeholder='학원검색'/>
-                    ) : (
-                    <input type="text" defaultValue={place.address_name} placeholder='학원검색'/>
-                )}
-                <button onClick={openSearchModalHandler}>검색</button>
+                <div className={styles.eduInputBox}>
+                    <span>교육기관이름</span>
+                    <input type="text" className={styles.eduInput} defaultValue={place.place_name} placeholder='학원이름'/>
+                </div>
+                <div className={styles.eduInputBox}>
+                    <span>교육기관주소</span>
+                    {place.road_address_name !== null && place.road_address_name !== "" ? (
+                        <input type="text" className={styles.eduInput} defaultValue={place.road_address_name} placeholder='학원검색'/>
+                        ) : (
+                        <input type="text" className={styles.eduInput} defaultValue={place.address_name} placeholder='학원검색'/>
+                    )}
+                    <button className={styles.edubtn} onClick={openSearchModalHandler}>검색</button>
+                </div>
                 <MapSearch isOpen={isOpen} onClose={closeSearchModalHandler} setPlace={setPlace}/>
                 
-                <Map // 지도를 표시할 Container
+                {showMap &&
+                    <Map // 지도를 표시할 Container
                     center={{
                         // 지도의 중심좌표
                         lat: place.y,
@@ -101,7 +114,7 @@ function EduUpdate(){
                     }}
                     style={{
                         // 지도의 크기
-                        width: "450px",
+                        width: "100%",
                         height: "450px",
                         zIndex: 1,
                     }}
@@ -114,11 +127,15 @@ function EduUpdate(){
                         lng: place.x,
                         }}
                     />
-                    </Map>
-
-                <input type="text" defaultValue={place.phone} placeholder='학원번호'/>
-                <button onClick={eduUpdate}>수정완료</button>
-        </div>
+                </Map>}
+                
+                    <div className={styles.eduInputBox}>
+                        <span>교육기관전화번호</span>
+                        <input type="text" className={styles.eduInput} defaultValue={place.phone} placeholder='학원번호'/>
+                    </div>
+                    <button className={`${styles.edubtn} ${styles.btnCenter}`} onClick={eduUpdate}>수정완료</button>
+                </div>
+            </div>
     )
 }
 export default EduUpdate

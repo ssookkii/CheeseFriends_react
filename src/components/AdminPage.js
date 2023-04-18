@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import MapSearch from './MapSearch';
 import EduAdd from './EduAdd';
@@ -11,6 +11,14 @@ import './asset/css/reset.css';
 import './asset/css/AdminPage.css'
 
 function AdminPage() {
+    let [btnActive, setBtnActive] = useState(
+        localStorage.getItem("btnActive") || "edumanage"
+    );
+
+    useEffect(() => {
+        localStorage.setItem("btnActive", btnActive);
+    }, [btnActive]);
+
     return (
     <div className='wrap'>
     <BrowserRouter>
@@ -20,24 +28,24 @@ function AdminPage() {
                     <li className='logo'>
                         <img src="img/logo.png" alt="cheese friends"/>
                     </li>
-                    <li>
-                        <Link to="/edumanage">기관관리</Link>
+                    <li className={btnActive === "edumanage" ? "btnActive" : ""} >
+                        <Link to="/edumanage" onClick={() => {setBtnActive('edumanage');}}>기관관리</Link>
                     </li>
-                    <li>
-                        <Link to="/submanage">과목관리</Link> 
+                    <li className={btnActive === "submanage" ? "btnActive" : ""}>
+                        <Link to="/submanage" onClick={() => {setBtnActive('submanage');}} >과목관리</Link> 
                     </li>
-                    <li>
-                        <Link to="/submanage">회원관리</Link> 
+                    <li className={btnActive === "" ? "btnActive" : ""}>
+                        <Link to="/submanage" onClick={() => {setBtnActive('');}} >회원관리</Link> 
                     </li>
-                    <li>
-                        <Link to="/submanage">보낸쪽지함</Link> 
+                    <li className={btnActive === "" ? "btnActive" : ""}>
+                        <Link to="/submanage" onClick={() => {setBtnActive('');}} >보낸쪽지함</Link> 
                     </li>
-                    <li>
-                        <Link to="/submanage">고객문의함</Link>
+                    <li className={btnActive === "" ? "btnActive" : ""}>
+                        <Link to="/submanage" onClick={() => {setBtnActive('');}} >고객문의함</Link>
                     </li>
                 </ul>
             </nav>
-            <div>
+            <main>
                 <Routes>
                     <Route path="/MapSearch" element={ <MapSearch/>} />
                     <Route path="/eduAdd" element={ <EduAdd/>} />
@@ -46,7 +54,7 @@ function AdminPage() {
                     <Route path="/submanage" element={ <SubjectManage/>} />
                     <Route path="/subupdate/:subCode" exact element={<SubUpdate />} />
                 </Routes>
-            </div>
+            </main>
         </div>
 
 

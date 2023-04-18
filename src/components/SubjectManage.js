@@ -3,6 +3,16 @@ import { Link } from "react-router-dom";
 import axios from 'axios';
 import Pagination from "react-js-pagination";
 
+import { faAngleRight } from "@fortawesome/free-solid-svg-icons";
+import { faAngleLeft } from "@fortawesome/free-solid-svg-icons";
+import { faAnglesLeft } from "@fortawesome/free-solid-svg-icons";
+import { faAnglesRight } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+import './asset/css/reset.css';
+import manage from './asset/css/manageCommon.module.css';
+
+
 function SubjectManage(){
     const [subList, setSubList] = useState([]);
 
@@ -64,38 +74,32 @@ function SubjectManage(){
 
 
     return(
-        <div>           
-            <select vlaue={choice} onChange={(e)=>setChoice(e.target.value)}>
-                <option value="">검색</option>
-                <option value="eduCode">학원코드</option>
-                <option value="eduName">학원이름</option>
-                <option value="subCode">과목코드</option>
-                <option value="subName">과목이름</option>
-                <option value="id">아이디</option>
-            </select>
-            <input value={search} onChange={(e)=>setSearch(e.target.value)} placeholder="검색어"/>
-            <button onClick={searchBtn}>검색</button>
-            <button>학원등록</button>
+        <div>
+            <div className={manage.topContent}>
+                <div className={manage.search}>       
+                    <select vlaue={choice} onChange={(e)=>setChoice(e.target.value)}>
+                        <option value="">검색</option>
+                        <option value="eduCode">학원코드</option>
+                        <option value="eduName">학원이름</option>
+                        <option value="subCode">과목코드</option>
+                        <option value="subName">과목이름</option>
+                        <option value="id">아이디</option>
+                    </select>
+                    <input value={search} onChange={(e)=>setSearch(e.target.value)} placeholder="검색어를 입력하세요"/>
+                    <button onClick={searchBtn} className={manage.searchBtn}>검색</button>
+                </div>
+            </div>
 
-            <table border="1">
-                <colgroup>
-                    <col width="70"/>
-                    <col width="100"/>
-                    <col width="100"/>
-                    <col width="100"/>
-                    <col width="100"/>
-                    <col width="100"/>
-                    <col width="100"/>
-                </colgroup>
+            <table className={`${manage.manageList} ${manage.sublist}`}>
                 <thead>
                     <tr>
-                        <td>학원코드</td>
-                        <td>학원이름</td>
-                        <td>과목코드</td>
-                        <td>과목이름</td>
-                        <td>담당교사아이디</td>
-                        <td>담당교사이름</td>
-                        <td>관리</td>
+                        <th>학원코드</th>
+                        <th>학원이름</th>
+                        <th>과목코드</th>
+                        <th>과목이름</th>
+                        <th>담당교사아이디</th>
+                        <th>담당교사이름</th>
+                        <th>관리</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -110,8 +114,8 @@ function SubjectManage(){
                                     <td>{sub.educatorName}</td>
                                     <td>{sub.name}</td>
                                     <td>
-                                        <Link to={`/subupdate/${sub.subCode}`}>수정</Link>
-                                        <button onClick={() => deleteBtn(sub.subCode)}>삭제</button>
+                                        <Link to={`/subupdate/${sub.subCode}`} className={manage.eduEdit}>수정</Link>
+                                        <button onClick={() => deleteBtn(sub.subCode)} className={manage.eduDel}>삭제</button>
                                     </td>
                                 </tr>
                             )
@@ -124,11 +128,13 @@ function SubjectManage(){
             <br/>
             <Pagination
                 activePage={page}
-                itemsCountPerPage={15}
+                itemsCountPerPage={12}
                 totalItemsCount={totalCnt}
-                pageRangeDisplayed={15}
-                prevPageText={"이전"}
-                nextPageText={"다음"}
+                pageRangeDisplayed={12}
+                firstPageText={<FontAwesomeIcon icon={faAnglesLeft} />}
+                lastPageText={<FontAwesomeIcon icon={faAnglesRight} />}
+                prevPageText={<FontAwesomeIcon icon={faAngleLeft} />}
+                nextPageText={<FontAwesomeIcon icon={faAngleRight} />}
                 onChange={pageChange} />
         </div>
     )
