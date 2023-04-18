@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Router, Routes, Link, useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.css';
 import { YouTubePlayer } from 'react-youtube';
 import axios from "axios";
 import Youtube from './Youtube';
 import Pagination from 'react-js-pagination';
-import { useEffect } from 'react';
+import styled from "styled-components";
 import AbLectureList from './AbLectureList';
 
 function LectureList() {
@@ -24,6 +24,16 @@ function LectureList() {
 
     }
 
+    const Btn = styled.button`
+        border:none;
+        cursor:pointer;
+        background:none;
+        font-size:18px;
+        &:hover {
+        color: #0d6efd;
+      }
+    `;
+
     const Leclist = lecturelist.map((list, i)=>{
         return(
             <tr key={i}>
@@ -32,11 +42,7 @@ function LectureList() {
                 <td> {list.title} </td>
                 <td> {list.regdate} </td>
                 <td>
-                    <Link to="./components/Youtube.js">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-caret-right-square-fill" viewBox="0 0 16 16">
-                        <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm5.5 10a.5.5 0 0 0 .832.374l4.5-4a.5.5 0 0 0 0-.748l-4.5-4A.5.5 0 0 0 5.5 4v8z"/>
-                    </svg>
-                    </Link>
+                    <Btn>▶</Btn>
                 </td>
             </tr>
         )
@@ -50,6 +56,43 @@ function LectureList() {
         window.open('./AbLectureList', '_blank');
  
     }
+
+    const [bbslist, setBbslist] = useState([]);
+    const [choice, setChoice] = useState('');
+
+    //paging
+    const [page, setPage] = useState(1);
+    const [totalCnt, setTotalCnt] = useState(0);
+
+    function getSubList(choice, page){
+        axios.get("http://localhost:3000/sublist", { params:{"choice":choice, "pageNumber":page } })
+        .then(function(resp) {
+          //  console.log(resp.data);
+          //  alert(JSON.stringify(resp.data[8]));
+
+          setBbslist(resp.data.list);
+          setTotalCnt(resp.data.cnt);
+        })
+        .catch(function(err){
+                alert(err);
+        })
+    }
+
+    function searchBtn(){
+        if(choice.toString().trim() === "") return;
+
+        getSubList(choice, 0);
+    }
+
+
+    function pageChange(page) {
+        setPage(page);
+        getSubList(choice, page-1);
+    }
+
+    useEffect(function(){
+        getSubList("", 0);
+    }, []);
 
     return(
 
@@ -85,7 +128,33 @@ function LectureList() {
 
         {/* 목록 */}
         <div style={{display:"block", width:"1000px", marginTop:"25px", marginLeft:"20px"}}>
-        <h2>외부 강의</h2>
+            <div style={{display:"flex"}}>
+            <h2>외부 강의</h2>
+            <select value={choice} onChange={(e)=>setChoice(e.target.value)}
+                style={{marginLeft:"140px", marginTop:"6px", height:"40", border:"none", borderBottom:"2px solid gray"}}>
+                <option value="">과목 선택하기</option>
+                <option value="kor">국어</option>
+                <option value="math">수학</option>
+                <option value="eng">영어</option>
+                <option value="social">사회</option>
+                <option value="sci">과학</option>
+            </select>
+            <button onClick={searchBtn}
+                style={{marginLeft:"14px", marginTop:"15px", height:"31px", borderRadius:"6px", width:"58px", background:"#0d6efd", color:"#fff", border:"none", cursor:"pointer"}}>
+                선택
+            </button>
+            <div style={{marginLeft:"260px", marginTop:"6px"}}>
+            <Pagination 
+                activePage={page}
+                itemsCountPerPage={10}
+                totalItemsCount={totalCnt}
+                pageRangeDisplayed={8}
+                prevPageText={"이전"}
+                nextPageText={"다음"}
+                onChange={pageChange} />
+            </div>
+        
+            </div>
         <table className="table" style={{marginTop:"28px"}}>
             <thead>
                 <tr>
@@ -101,7 +170,9 @@ function LectureList() {
             </tbody>
         </table>
         </div>
-        </div>
+
+        
+    </div>
 
     )
     }
