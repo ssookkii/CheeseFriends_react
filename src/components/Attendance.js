@@ -24,7 +24,16 @@ function Attendance() {
       handleSubmit();
     }
   }, [userId, eduCode, subCode]);
-
+  
+  useEffect(() => {
+    if (userId) {
+      fetch("http://localhost:3000/user/"+userId)
+        .then(response => response.text())
+        .then(name => setUserName(name))
+        .catch(error => console.log(error));
+    }
+  }, [userId]);
+  
   const handleSubmit = () => {
     if (!userId || !eduCode || !subCode) {
       console.log("모든 필드를 입력해주세요.");
@@ -64,14 +73,22 @@ function Attendance() {
             if (res !== prevUserId) {
               setUserId(res);
               prevUserId = res;
-              handleSubmit();
-            }
-          })
-          .catch((error) => {
-            console.error("Error while fetching userId:", error);
-            clearInterval(intervalId);
-          });
-      }, 5000);
+              axios
+              .get("http://localhost:3000/user/${res}")
+              .then((response) => {
+              const name = response.data;
+              userName = name;
+              console.log(userName);
+              setResponseMessage('${name}님은 ${attendanceStatus} 했습니다.');
+              })
+              .catch((error) => console.log(error));
+              }
+              })
+              .catch((error) => {
+              console.error("Error while fetching userId:", error);
+              clearInterval(intervalId);
+              });
+              }, 5000);
 
       return () => clearInterval(intervalId);
     } catch (error) {
@@ -86,7 +103,7 @@ function Attendance() {
         <button onClick={handleCompareButtonClick}>출석 시스템 실행</button>
         {userId !== "" ? (
           <div>
-            <h2>User ID: {userId}</h2>
+            <h2>이름: {userName}</h2>
           </div>
         ) : (
           <div>Loading...</div>
@@ -122,7 +139,7 @@ function Attendance() {
 
       {attendanceStatus !== "" && (
         <div>
-          <p>{userId}님은 {attendanceStatus} 했습니다.</p>
+          <p>{userName}님은 {attendanceStatus} 했습니다.</p>
         </div>
       )}
       
