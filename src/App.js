@@ -2,8 +2,12 @@ import React, {useEffect} from 'react';
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
 
 import './App.css';
+import Idsearch from './login/idsearch';
 import Login from './login/login';
 import Regi from './login/regi';
+import RegiParents from './login/regiparents';
+import Regiselect from './login/regiselect';
+import Regiteacher from './login/regiteacher';
 
 function App() {
 
@@ -18,7 +22,11 @@ function App() {
 
                 <Route path="/" element={<Login/>}></Route>
 
+                <Route path="/regiselect" element={<Regiselect/>}></Route>
                 <Route path="/regi" element={<Regi/>}></Route>
+                <Route path="/regiparents" element={<RegiParents/>}></Route>
+                <Route path="/regiteacher" element={<Regiteacher/>}></Route>
+                <Route path="/idsearch" element={<Idsearch/>}></Route>
 
               </Routes>
             </div>
