@@ -71,55 +71,6 @@ function Regiteacher(){
     
    
 
-
-    // 체크박스 관리 변수
-   const [checked, setChecked] = useState(false);
-   const [checkedInputs, setCheckedInputs] = useState([]);
-
-
-   const [checkvalue, setCheckvalue] = useState("");
-
-//    useEffect(()=>{
-//         console.log(checkedInputs);
-//         //debugger;
-//         changeHandler
-//     }, [checkedInputs]) 
-
-   // 체크박스 관리 함수
-   const edunameadd = (e) =>{
-
-        // if(e.target.checked){
-        //  //   alert("과목 체크 추가");
-        //  //debugger;
-        //     setCheckvalue(e.target.value);
-        //     // setChecked(false);
-        //     return;
-        // }else{
-      
-        // }
-   }
-
-   const checkOnlyOne = (e) => {
-        const checkboxes 
-            = document.getElementsByName("animal");
-        checkboxes.forEach((cb) => {
-            if(e.target.id !== cb.id && e.target.checked){
-                cb.checked = !e.target.checked;
-            }
-        })
-  
-    }
-    
-
-    useEffect(()=>{
-        console.log(checkvalue);
-    }, [checkvalue]) 
-
-
-    const isActive = (value) =>{
-        console.log(value);
-    }
-
     // 교육기관 이름 서치
     function educodecheck(){
         setEducheck(false);
@@ -193,59 +144,14 @@ function Regiteacher(){
                     element0.setAttribute("type", "radio");
                     element0.setAttribute("value", resp.data[i].eduCode);
                     const checkBoxId= resp.data[i].eduCode;
-                    root.render(
-                        // <input type="checkbox" onClick={(e) => edunameadd(e)} checked={checkvalue === resp.data[i].eduCode} value={resp.data[i].eduCode}/>
-                        // <td></td>
-                        <div>
-                        <tr>
-                            <td>
-                            <input type='checkbox' 
-                            id="animal1"
-                                name='animal' 
-                                value='rabbit' 
-                                onChange={checkOnlyOne}/>
-                            </td>
-                            <td>1</td>
-                            <td><label for="animal1">멀티캠퍼스인천</label></td>
-                            <td>zxcv2</td>
-                        </tr>
-
-                        <tr>
-                        <td>
-                            {/* <input type="checkbox" 
-                                id={checkBoxId}
-                                onChange={ (e)=>{
-                                    // changeHandler(e.currentTarget.checked,checkBoxId)
-                                    checkOnlyOne(this)
-                                    }}
-                                checked={checkedInputs.includes(checkBoxId) ? true : false} 
-                                value={checkBoxId}
-                                
-                                /> */}
-                        
-                        <input type='checkbox' 
-                        id="animal2"
-                            name='animal' 
-                            value='rabbit' 
-                            onChange={checkOnlyOne}/>
-                        </td>
-                        
-                        <td>2</td>
-
-
-                        <td><label for="animal2">멀티캠퍼스인천</label></td>
-                        <td>zxcv2</td>
-                    </tr>
-                    </div>
-                        
-                    );
+                   
            
-                    element0.onclick = edunameadd; //function(){alert('subcodeadd');};
+                    // element0.onclick = edunameadd; //function(){alert('subcodeadd');};
                     
                     td.append(element0)
                     subplus.appendChild(td);
         
-                //    setSub_codechecked((sub_codechecked) => [...sub_codechecked, sub_code])
+
         
                     // 번호
                     let element = document.createElement("td");
