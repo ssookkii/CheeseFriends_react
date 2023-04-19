@@ -26,7 +26,7 @@ function AdminPage() {
             <nav className="sideMenu">
                 <ul>
                     <li className='logo'>
-                        <img src="img/logo.png" alt="cheese friends"/>
+                        <img src="img/logo100h.png" alt="cheese friends"/>
                     </li>
                     <li className={btnActive === "edumanage" ? "btnActive" : ""} >
                         <Link to="/edumanage" onClick={() => {setBtnActive('edumanage');}}>기관관리</Link>
