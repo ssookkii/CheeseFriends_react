@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import axios from "axios";
 import { useNavigate, useParams } from 'react-router';
 
+import styles from './asset/css/addEdit.module.css'
+
 function SubUpdate(){
     const [subject, setSubject] = useState({
         eduCode : "",
@@ -77,29 +79,45 @@ function SubUpdate(){
 
     return (
 
-        <div>
-            <span>학원코드</span>
-            <input type="text" value={subject.eduCode}/>
-            <span>학원명</span>
-            <input type="text" value={subject.eduName}/>
-            <span>과목코드</span>
-            <input type="text" value={subject.subCode}/>
-            <span>과목명</span>
-            <input type="text" defaultValue={subject.subName} onInput={(e) => setSubject(prevState => ({...prevState, subName: e.target.value}))}/>
-            <span>담당교사아이디</span> 
-            <div>
-                <input type="text" list="list" id="ids" defaultValue={subject.educatorName} onInput={(e) => setSubject(prevState => ({...prevState, educatorName: e.target.value}))}/>
-                <datalist id="list">
-                    {
-                        id.map(function(id, i){
-                            return(
-                                <option key={i} value={id.id}/>
-                            )
-                        })
-                    }
-                </datalist>
+        <div className={styles.addEditWrap}>
+            <h2 className={styles.title}>과목수정</h2>
+            <div className={styles.InputBox}>
+                <span>학원코드</span>
+                <input type="text"  className={`${styles.Input} ${styles.nonChange}`} value={subject.eduCode}/>
             </div>
-            <button onClick={subUpdate}>수정완료</button>
+            <div className={styles.InputBox}>
+                <span>학원명</span>
+                <input type="text" className={`${styles.Input} ${styles.nonChange}`} value={subject.eduName}/>
+            </div>
+            <div className={styles.InputBox}>
+                <span>과목코드</span>
+                <input type="text" className={`${styles.Input} ${styles.nonChange}`} value={subject.subCode}/>
+            </div>
+            <div className={styles.InputBox}>
+                <span>과목명</span>
+                <input
+                type="text"
+                className={styles.Input}
+                defaultValue={subject.subName}
+                onInput={(e) => setSubject(prevState => ({...prevState, subName: e.target.value}))}
+                />
+            </div>
+            <div className={`${styles.InputBox} ${styles.datalistAlign}`}>
+                <span>담당교사아이디</span> 
+                <div>
+                    <input type="text" className={styles.Input} list="list" id="ids" defaultValue={subject.educatorName} onInput={(e) => setSubject(prevState => ({...prevState, educatorName: e.target.value}))}/>
+                    <datalist id="list">
+                        {
+                            id.map(function(id, i){
+                                return(
+                                    <option key={i} value={id.id}/>
+                                )
+                            })
+                        }
+                    </datalist>
+                </div>
+            </div>
+            <button className={`${styles.btn} ${styles.btnCenter}`} onClick={subUpdate}>수정완료</button>
         </div>
     )
 }

@@ -6,6 +6,8 @@ import EduManage from './EduManage'
 import EduUpdate from './EduUpdate';
 import SubjectManage from './SubjectManage';
 import SubUpdate from './SubUpdate';
+import TeacherManage from './TeacherManage';
+import TeacherUpdate from './teacherUpdate';
 
 import './asset/css/reset.css';
 import './asset/css/AdminPage.css'
@@ -26,7 +28,7 @@ function AdminPage() {
             <nav className="sideMenu">
                 <ul>
                     <li className='logo'>
-                        <img src="img/logo.png" alt="cheese friends"/>
+                        <img src="img/logo100h.png" alt="cheese friends"/>
                     </li>
                     <li className={btnActive === "edumanage" ? "btnActive" : ""} >
                         <Link to="/edumanage" onClick={() => {setBtnActive('edumanage');}}>기관관리</Link>
@@ -34,8 +36,8 @@ function AdminPage() {
                     <li className={btnActive === "submanage" ? "btnActive" : ""}>
                         <Link to="/submanage" onClick={() => {setBtnActive('submanage');}} >과목관리</Link> 
                     </li>
-                    <li className={btnActive === "" ? "btnActive" : ""}>
-                        <Link to="/submanage" onClick={() => {setBtnActive('');}} >회원관리</Link> 
+                    <li className={btnActive === "teachermanage" ? "btnActive" : ""}>
+                        <Link to="/teachermanage" onClick={() => {setBtnActive('teachermanage');}} >회원관리</Link> 
                     </li>
                     <li className={btnActive === "" ? "btnActive" : ""}>
                         <Link to="/submanage" onClick={() => {setBtnActive('');}} >보낸쪽지함</Link> 
@@ -53,6 +55,8 @@ function AdminPage() {
                     <Route path="/eduupdate/:eduCode" exact element={<EduUpdate />} />
                     <Route path="/submanage" element={ <SubjectManage/>} />
                     <Route path="/subupdate/:subCode" exact element={<SubUpdate />} />
+                    <Route path="/teachermanage" element={<TeacherManage />} />
+                    <Route path="/teacherupdate/:id" exact element={<TeacherUpdate />} />
                 </Routes>
             </main>
         </div>

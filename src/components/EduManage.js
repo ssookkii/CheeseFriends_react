@@ -109,8 +109,8 @@ function EduManage(){
                                     <td>{edu.eduPhone}</td>
                                     <td>{edu.id}</td>
                                     <td>
-                                        <Link to={`/eduupdate/${edu.eduCode}`} className={manage.eduEdit}>수정</Link>
-                                        <button className={manage.eduDel} onClick={() => deleteBtn(edu.eduCode)}>삭제</button>
+                                        <Link to={`/eduupdate/${edu.eduCode}`} className={manage.Edit}>수정</Link>
+                                        <button className={manage.Del} onClick={() => deleteBtn(edu.eduCode)}>삭제</button>
                                     </td>
                                 </tr>
                             )

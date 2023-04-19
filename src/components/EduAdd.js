@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router';
 
 import MapSearch from './MapSearch';
 
-import styles from './asset/css/EduAddEdit.module.css'
+import styles from './asset/css/addEdit.module.css'
 
 function EduAdd() {
     const navigate = useNavigate();
@@ -67,21 +67,21 @@ function EduAdd() {
 
     return (
 
-        <div className={styles.eduAddEditWrap}>
-            <h2 className={styles.h2Title}>교육기관등록</h2>
-            <div className={styles.eduSearchMap}>
-                <div className={styles.eduInputBox}>
+        <div className={styles.addEditWrap}>
+            <h2 className={styles.title}>교육기관등록</h2>
+            <div>
+                <div className={styles.InputBox}>
                     <span>교육기관이름</span>
-                    <input type="text" className={styles.eduInput} defaultValue={place.place_name} placeholder='학원이름'/>
+                    <input type="text" className={styles.Input} defaultValue={place.place_name} placeholder='학원이름'/>
                 </div>
-                <div className={styles.eduInputBox}>
+                <div className={styles.InputBox}>
                     <span>교육기관주소</span>
                     {place.road_address_name !== null && place.road_address_name !== "" ? (
-                        <input type="text" className={styles.eduInput} defaultValue={place.road_address_name} placeholder='학원검색'/>
+                        <input type="text" className={styles.Input} defaultValue={place.road_address_name} placeholder='학원검색'/>
                         ) : (
-                        <input type="text" className={styles.eduInput} defaultValue={place.address_name} placeholder='학원검색'/>
+                        <input type="text" className={styles.Input} defaultValue={place.address_name} placeholder='학원검색'/>
                     )}
-                    <button className={styles.edubtn} onClick={openSearchModalHandler}>검색</button>
+                    <button className={styles.btn} onClick={openSearchModalHandler}>검색</button>
                 </div>
                 <MapSearch isOpen={isOpen} onClose={closeSearchModalHandler} setPlace={setPlace}/>
                 
@@ -108,11 +108,11 @@ function EduAdd() {
                         }}
                     />
                 </Map>) : (<div/>)}
-                <div className={styles.eduInputBox}>
+                <div className={styles.InputBox}>
                     <span>교육기관전화번호</span>
-                    <input type="text" className={styles.eduInput} defaultValue={place.phone} placeholder='학원번호'/>
+                    <input type="text" className={styles.Input} defaultValue={place.phone} placeholder='학원번호'/>
                 </div>
-                <button className={`${styles.edubtn} ${styles.btnCenter}`} onClick={eduAdd}>학원등록</button>
+                <button className={`${styles.btn} ${styles.btnCenter}`} onClick={eduAdd}>학원등록</button>
             </div>
         </div>
 

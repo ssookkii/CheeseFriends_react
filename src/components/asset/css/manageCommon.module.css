@@ -83,8 +83,9 @@
 .manageList > tbody > tr {
     height:50px;
 }
-.manageList > tbody > tr > td .eduEdit,
-.manageList > tbody > tr > td .eduDel {
+.manageList > tbody > tr > td .Edit,
+.manageList > tbody > tr > td .detail,
+.manageList > tbody > tr > td .Del {
     display:block;
     width:40px;
     border-radius: 5px;
@@ -93,12 +94,17 @@
     font-size:0.75em;
     font-weight: 500;
 }
-.manageList > tbody > tr > td .eduEdit {
+.manageList > tbody > tr > td .Edit {
     background-color: #376efa;
     line-height:19px;
     margin-right:5px;
 }
-.manageList > tbody > tr > td .eduDel {
+.manageList > tbody > tr > td .detail {
+    background-color: #fac463;
+    line-height:19px;
+    margin-right:5px;
+}
+.manageList > tbody > tr > td .Del {
     background-color: #e80000;
 }
 
@@ -129,6 +135,26 @@
 .sublist > tbody > tr > td:nth-child(5) {width:15%;}
 .sublist > tbody > tr > td:nth-child(6) {width:15%;}
 .sublist > tbody > tr > td:nth-child(7) {
+    display: flex;
+    justify-content: center;
+    position:relative;
+    top:15px;
+}
+
+/* TeacherManage 테이블 크기조절 */
+.teacherlist > tbody > tr > td:nth-child(1) {
+    width:5%;
+}
+.teacherlist > tbody > tr > td:nth-child(2) {
+    width:10%;
+    font-weight: 600;
+}
+.teacherlist > tbody > tr > td:nth-child(3) {width:25%;}
+.teacherlist > tbody > tr > td:nth-child(4) {width:10%;}
+.teacherlist > tbody > tr > td:nth-child(5) {width:15%;}
+.teacherlist > tbody > tr > td:nth-child(6) {width:15%;}
+.teacherlist > tbody > tr > td:nth-child(7) {width:15%;}
+.teacherlist > tbody > tr > td:nth-child(8) {
     display: flex;
     justify-content: center;
     position:relative;
