@@ -5,8 +5,9 @@ import { useNavigate } from "react-router-dom";
 import Modal from "./modal";
 import Post from "./Post";
 
-function Regi(){
+function RegiParents(){
 
+    
     function regiselect(){
         window.location.href = "/regiselect";
     }
@@ -23,25 +24,19 @@ function Regi(){
     const [phone, setPhone] = useState("");
     const [phone_public, setPhone_public] = useState("");
     const [jointype, setJointype] = useState("");
-    const [auth, setAuth] = useState('student');
+    const [auth, setAuth] = useState('parents');
 
-    const [edu_code, setEdu_code] = useState("");
-    const [sub_code, setSub_code] = useState("");
-    const [edu_name, setEdu_name] = useState("");
-    const [educheck, setEducheck] = useState(false);
+    const [studentidinput, setStudentidinput] = useState("");
+    const [studentnameresult, setStudentnameresult] = useState("");
+    const [studentidresult, setStudentidresult] = useState("");
+    const [studentidcheck, setStudentidcheck] = useState(false);
+    const [authresult, setAuthresult] = useState("");
 
     const [passwordcheck, setPasswordcheck] = useState("");
 
     // 주소 api
     const [enroll_company, setEnroll_company] = useState({ address:'', });
     const [popup, setPopup] = useState(false);
-
-    const handleInput = (e) => {
-        setEnroll_company({
-            ...enroll_company,
-            [e.target.name]:e.target.value,
-        })
-    }
 
     // 모달 팝업
     const [modalOpen, setModalOpen] = useState(false);
@@ -76,77 +71,60 @@ function Regi(){
         setGender(e.target.value);
     }
 
-    function authChange(e){
-        setAuth(e.target.value);
-    }
 
-    // 교육기관 코드 체크
-    function educodecheck(){
-        setEducheck(false);
+    // 자녀 아이디 체크
+    function studentidcheckfunction(){
+        setStudentidcheck(false);
 
-        axios.get("http://localhost:3000/subjectlist", { params:{ "edu_code":edu_code}})
+        axios.get("http://localhost:3000/idmatching", { params:{ "studentid":studentidinput}})
         .then(function(resp){
-            const subplus = document.getElementById("subplus");
-
-
-            while (subplus.firstChild) {
-                subplus.removeChild(subplus.firstChild);
+            if(resp.data.auth === "student"){
+                console.log(resp.data.id);
+                console.log(resp.data.name);
+                console.log(resp.data.auth);
+                setStudentidresult(resp.data.id);
+                setStudentnameresult(resp.data.name);
+                setAuthresult(resp.data.auth);
             }
-
-            let element = document.createElement("option");
-            element.innerText = "과목을 선택해주세요";
-            element.setAttribute("value", "");
-            subplus.appendChild(element);
-          
-            for (let i = 0; i < resp.data.length; i++) {
-                let element = document.createElement("option");
-                element.innerHTML = resp.data[i].subname;
-                element.setAttribute("value", resp.data[i].subcode);
-                subplus.appendChild(element);
+            else if(resp.data.auth === "parents"){
+                alert("학부모로 가입된 아이디입니다");
+                return;
+            }else if(resp.data.auth === "teacher"){
+                alert("교사로 가입된 아이디입니다");
+                return;
+            }else{
+                setStudentidresult(resp.data.id);
+                setStudentnameresult(resp.data.name);
+                setAuthresult(resp.data.auth);
             }
-            
-        })
-
-        .catch(function(err){
-            alert('err')
-        })
-
-        axios.get("http://localhost:3000/eduname", { params:{ "edu_code":edu_code}})
-        .then(function(resp){
-            setEdu_name(resp.data);
+    
         })
         .catch(function(err){
             alert('err')
-        
         })
     }
 
     useEffect(()=>{
-           educodecheck(edu_code);        
-   }, [edu_code]) 
-
-  
-   function subcodecheck(e){
-        setSub_code(e.target.value);
-   }
+           studentidcheckfunction(studentidinput);        
+   }, [studentidinput]) 
 
 
    // 체크박스 관리 변수
-   const [sub_codechecked, setSub_codechecked] = useState([]);
+   const [studentidcheckbox, setStudentidcheckbox] = useState([]);
 
    // 체크박스 관리 함수
-   const subcodeadd = (e) =>{
+   const studentidadd = (e) =>{
         console.log("e.target.checked : " + e.target.checked);
         console.log("e.target.value : " + e.target.value);
 
         if(e.target.checked){
          //   alert("과목 체크 추가");
-            setSub_codechecked((sub_codechecked) => [...sub_codechecked, e.target.value])
+            setStudentidcheckbox((studentidcheckbox) => [...studentidcheckbox, e.target.value])
 
             return;
         }else{
          //   alert("과목 체크 제거");
-            setSub_codechecked((sub_codechecked) => sub_codechecked.filter((item)=> item !== e.target.value));
+            setStudentidcheckbox((studentidcheckbox) => studentidcheckbox.filter((item)=> item !== e.target.value));
 
             return;
         }
@@ -154,80 +132,60 @@ function Regi(){
 
    // 체크 배열 점검
     useEffect(()=>{
-        console.log(sub_codechecked);
-    }, [sub_codechecked]) 
+        console.log(studentidcheckbox);
+    }, [studentidcheckbox]) 
 
 
    // 추가된 과목 리스트 관리
    const [count, setCount] = useState(1);
-   const [sub_codecheck, setSub_codecheck] = useState([]);
+   const [studentidlist, setStudentidlist] = useState([]);
 
-   function subjectadd(){
+   function studentadd(){
         // 과목 중복추가 체크
-        if(sub_code === "" || sub_code === null){
-            alert("교육기관 코드 입력 후 과목을 선택해주세요")
-            return;
-        }
-
-        for (let i = 0; i < sub_codecheck.length; i++) {
-            if(sub_codecheck[i] === sub_code){
+        for (let i = 0; i < studentidlist.length; i++) {
+            if(studentidlist[i] === studentidresult){
                 alert("이미 추가된 과목입니다")
                 return;
             }
         }
- 
-        axios.get("http://localhost:3000/eduname", { params:{ "edu_code":edu_code}})
-        .then(function(resp){
-            const newItem = sub_code;
-            setSub_codecheck([...sub_codecheck, newItem]);
+        const newItem = studentidresult;
+        setStudentidlist([...studentidlist, newItem]);
 
-            const table = document.getElementById("subplus2");
-            const subplus = document.createElement("tr");
+        const table = document.getElementById("subplus2");
+        const subplus = document.createElement("tr");
 
-            // 체크박스
-            let td = document.createElement("td");
-            let element0 = document.createElement("input");
+        // 체크박스
+        let td = document.createElement("td");
+        let element0 = document.createElement("input");
 
-            element0.setAttribute("type", "checkbox");
-            element0.setAttribute("name", "subject");
-            element0.setAttribute("value", sub_code);
-            element0.setAttribute("checked", "checked");
-        //    element0.setAttribute("onchange", function(){alert('subcodeadd');});
-            element0.onchange = subcodeadd; //function(){alert('subcodeadd');};
+        element0.setAttribute("type", "checkbox");
+        element0.setAttribute("name", "subject");
+        element0.setAttribute("value", studentidresult);
+        element0.setAttribute("checked", "checked");
+    //    element0.setAttribute("onchange", function(){alert('subcodeadd');});
+        element0.onchange = studentidadd; //function(){alert('subcodeadd');};
 
-            td.append(element0)
-            subplus.appendChild(td);
+        td.append(element0)
+        subplus.appendChild(td);
 
-            setSub_codechecked((sub_codechecked) => [...sub_codechecked, sub_code])
+        setStudentidcheckbox((studentidcheckbox) => [...studentidcheckbox, studentidresult])
 
-            // 번호
-            let element = document.createElement("td");
-            element.innerText = count;
-            setCount(count+1);
-            subplus.appendChild(element);
+        // 번호
+        let element = document.createElement("td");
+        element.innerText = count;
+        setCount(count+1);
+        subplus.appendChild(element);
 
-            // 교육기관
-            let element2 = document.createElement("td");
-            element2.innerText = resp.data;
-            subplus.appendChild(element2);
+        // 아이디
+        let element2 = document.createElement("td");
+        element2.innerText = studentidresult;
+        subplus.appendChild(element2);
 
-            // 과목
-            axios.get("http://localhost:3000/subname", { params:{ "sub_code":sub_code}})
-            .then(function(resp){
-                let element3 = document.createElement("td");
-                element3.innerText = resp.data;
-                element3.setAttribute("value", "");
-                subplus.appendChild(element3);      
-            })
-            .catch(function(err){
-                alert('err')
-            })
+        let element3 = document.createElement("td");
+        element3.innerText = studentnameresult;
+        subplus.appendChild(element3);
 
-            table.appendChild(subplus);
-        })
-        .catch(function(err){
-            alert('err')
-        })
+        table.appendChild(subplus);
    }
 
 
@@ -441,6 +399,7 @@ function Regi(){
 
 
 
+
     const [namea, setNamea] = useState(true);
     const [codea, setCodea] = useState(true);
     const [ida, setIda] = useState(true);
@@ -471,9 +430,9 @@ function Regi(){
             setNamea(false);
             alert("이름을 입력해주세요");
             return;
-        }else if(sub_codechecked.length === 0){
+        }else if(studentidlist.length === 0){
             setCodea(false);
-            alert("코드입력후 과목을 추가 및 선택해주세요");
+            alert("자녀 아이디 입력 후 추가 및 선택해주세요");
             return;
         }else if(idc !== "이 아이디는 사용할 수 있습니다"){
             setIda(false);
@@ -529,14 +488,14 @@ function Regi(){
                     "auth":auth
                 }})
         .then(function(resp){
-            for (let i = 0; i < sub_codechecked.length; i++) {
-                console.log("sub_codechecked : " + sub_codechecked)
+            for (let i = 0; i < studentidcheckbox.length; i++) {
+                console.log("studentidcheckbox : " + studentidcheckbox)
                 if(resp.data === "YES"){
-                    // 과목 보내자
-                    axios.post("http://localhost:3000/addusersubject", null, 
+                    // 자녀 보내자
+                    axios.post("http://localhost:3000/adduserparents", null, 
                     { params:{  
-                                "id": id,
-                                "subcode":sub_codechecked[i]
+                                "studentid":studentidcheckbox[i],
+                                "parentsid":id
                             }})
                     .then(function(resp){
                         if(resp.data === "YES"){
@@ -550,6 +509,7 @@ function Regi(){
                         alert("err");
                         console.log(err);
                     })
+            
                 }else{
                     alert("가입되지 않았습니다");
                 }
@@ -559,9 +519,10 @@ function Regi(){
             alert("err");
             console.log(err);
         })
-
+    
         alert("정상적으로 가입되었습니다");
         history("/");      // 이동(link)
+    
     }
         
 
@@ -599,37 +560,27 @@ function Regi(){
                 </td>
             </tr>
             <tr>
-                <td align="left">교육기관 코드</td> 
+                <td align="left">자녀 아이디</td> 
                 <td align="left">
                 {codea === true 
-                        ? <input style={{ width:"230px"}} value={edu_code} onChange={(e)=>setEdu_code(e.target.value)} placeholder="코드를 입력해주세요" />
-                        : <input style={{  borderColor:"red", width:"230px"}} value={edu_code} onChange={(e)=>setEdu_code(e.target.value)} placeholder="코드를 입력해주세요" />}
-                    
+                        ? <input style={{ width:"230px"}} value={studentidinput} onChange={(e)=>setStudentidinput(e.target.value)} placeholder="자녀 아이디를 입력해주세요" />
+                        : <input style={{  borderColor:"red", width:"230px"}} value={studentidinput} onChange={(e)=>setStudentidinput(e.target.value)} placeholder="자녀 아이디를 입력해주세요" />}
                 </td>
                 
             </tr>
             <tr>
                 <td align="left">
-                    <div >교육기관명</div>
+                    <div>자녀이름</div>
                 </td>
                 <td align="left">
-                {edu_name === ""
-                        ? <div style={{ fontSize:"10px" }}>올바른 코드를 입력해주세요</div>
-                        : <div style={{ fontSize:"10px", color:'blue' }}>{edu_name}</div>}
-                    
+                {studentidresult === undefined
+                        ? <div style={{ fontSize:"10px" }}>자녀의 아이디를 입력해주세요</div>
+                        : <div style={{ fontSize:"10px", color:'blue' }}>{studentnameresult}&nbsp;&nbsp;<button onClick={studentadd}>추가</button></div>}
                 </td>
             </tr>
+           
             <tr>
-                <td align="left">과목</td> 
-                <td align="left">
-                    <select className="subplus" id="subplus" onChange={subcodecheck}>
-
-                    </select>&nbsp;&nbsp;
-                    <button onClick={subjectadd}>추가</button>
-                </td>
-            </tr>
-            <tr>
-                <td align="left">과목선택</td>
+                <td align="left">선택</td>
                 <td>
 
                     <table border="1" className="subplus2" id="subplus2">
@@ -638,7 +589,7 @@ function Regi(){
                         </colgroup>
                         <thead>
                             <tr>
-                                <th>선택</th><th>번호</th><th>교육기관</th><th>과목</th>
+                                <th>선택</th><th>번호</th><th>자녀아이디</th><th>자녀이름</th>
                             </tr>
                         </thead>
                     </table>
@@ -743,9 +694,7 @@ function Regi(){
                         <button onClick={captureImage} disabled={!mediaStream}>
                             사진 찍기
                         </button>
-                        <button onClick={saveImage} disabled={!imageSrc}>
-                            저장하기
-                        </button>
+                        
                         <div style={{ display: captured ? 'none' : 'block' }}>
                             <video ref={videoRef} autoPlay width={350} height={250} />
                         </div>
@@ -805,4 +754,4 @@ function Regi(){
     )
 }
 
-export default Regi;
+export default RegiParents;
