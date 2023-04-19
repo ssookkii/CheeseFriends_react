@@ -12,9 +12,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import './asset/css/reset.css';
 import manage from './asset/css/manageCommon.module.css';
 
-
-function SubjectManage(){
-    const [subList, setSubList] = useState([]);
+function TeacherManage(){
+    const [teacherList, setTeacherList] = useState([]);
 
     const [choice, setChoice] = useState('');
     const [search, setSearch] = useState('');
@@ -23,13 +22,13 @@ function SubjectManage(){
     const [page, setPage] = useState(1);
     const [totalCnt, setTotalCnt] = useState(0);
 
-    function getSubList(cho, sear, page){
-        axios.get("http://localhost:3000/sublist", { params:{"choice":cho, "search":sear, "pageNumber":page} })
+    function getTeacherList(cho, sear, page){
+        axios.get("http://localhost:3000/teacherlist", { params:{"choice":cho, "search":sear, "pageNumber":page} })
         .then(function(resp){
             console.log(resp.data);
             // alert(JSON.stringify(resp.data));
 
-            setSubList(resp.data.list);
+            setTeacherList(resp.data.list);
             setTotalCnt(resp.data.cnt);
         })
         .catch(function(err){
@@ -39,22 +38,22 @@ function SubjectManage(){
 
     function searchBtn(){
         // if(choice.toString().trim() === "" || search.toString().trim() === "") return;
-        getSubList(choice, search, 0);
+        getTeacherList(choice, search, 0);
     }
 
     function pageChange(page){
         setPage(page);
-        getSubList(choice, search, page-1);
+        getTeacherList(choice, search, page-1);
     }
 
-    function deleteBtn(subCode){
+    function deleteBtn(id){
         if(window.confirm("정말 삭제하시겠습니까?")){
-            axios.post("http://localhost:3000/subDelete", null, {params: {"subCode":subCode}})
+            axios.post("http://localhost:3000/teacherDelete", null, {params: {"id":id}})
             .then(function(resp){
                 if(resp.data !== null && resp.data !== "" && resp.data === "success"){
                     alert("삭제되었습니다.");
                     console.log(resp.data);
-                    window.location.replace("/submanage")
+                    window.location.replace("/teachermanage")
                 }else if(resp.data !== null && resp.data !== "" && resp.data === "fail"){
                     alert("삭제를 실패하였습니다.")
                 }
@@ -69,7 +68,7 @@ function SubjectManage(){
     }
 
     useEffect(function(){
-        getSubList("", "", 0);
+        getTeacherList("", "", 0);
     },[]);
 
 
@@ -81,8 +80,6 @@ function SubjectManage(){
                         <option value="">검색</option>
                         <option value="eduCode">학원코드</option>
                         <option value="eduName">학원이름</option>
-                        <option value="subCode">과목코드</option>
-                        <option value="subName">과목이름</option>
                         <option value="id">아이디</option>
                     </select>
                     <input value={search} onChange={(e)=>setSearch(e.target.value)} placeholder="검색어를 입력하세요"/>
@@ -90,32 +87,34 @@ function SubjectManage(){
                 </div>
             </div>
 
-            <table className={`${manage.manageList} ${manage.sublist}`}>
+            <table className={`${manage.manageList} ${manage.teacherlist}`}>
                 <thead>
                     <tr>
+                        <th><input type="checkbox"/></th>
                         <th>학원코드</th>
                         <th>학원이름</th>
-                        <th>과목코드</th>
-                        <th>과목이름</th>
-                        <th>담당교사아이디</th>
-                        <th>담당교사이름</th>
+                        <th>아이디</th>
+                        <th>이름</th>
+                        <th>이메일</th>
+                        <th>전화번호</th>
                         <th>관리</th>
                     </tr>
                 </thead>
                 <tbody>
                     {
-                        subList.map(function(sub, i){
+                        teacherList.map(function(t, i){
                             return (
                                 <tr key={i}>
-                                    <td>{sub.eduCode}</td>
-                                    <td>{sub.eduName}</td>
-                                    <td>{sub.subCode}</td>
-                                    <td>{sub.subName}</td>
-                                    <td>{sub.educatorName}</td>
-                                    <td>{sub.name}</td>
+                                    <td><input type="checkbox"/></td>
+                                    <td>{t.eduCode}</td>
+                                    <td>{t.eduName}</td>
+                                    <td>{t.id}</td>
+                                    <td>{t.name}</td>
+                                    <td>{t.email}</td>
+                                    <td>{t.phone}</td>
                                     <td>
-                                        <Link to={`/subupdate/${sub.subCode}`} className={manage.Edit}>수정</Link>
-                                        <button onClick={() => deleteBtn(sub.subCode)} className={manage.Del}>삭제</button>
+                                        <Link to={`/teacherupdate/${t.id}`} className={manage.detail}>보기</Link>
+                                        <button onClick={() => deleteBtn(t.id)} className={manage.Del}>삭제</button>
                                     </td>
                                 </tr>
                             )
@@ -139,4 +138,4 @@ function SubjectManage(){
         </div>
     )
 }
-export default SubjectManage
+export default TeacherManage

@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router';
 
 import MapSearch from './MapSearch';
 
-import styles from './asset/css/EduAddEdit.module.css'
+import styles from './asset/css/addEdit.module.css'
 
 function EduAdd() {
     const navigate = useNavigate();

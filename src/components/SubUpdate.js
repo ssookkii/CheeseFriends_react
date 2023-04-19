@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from "axios";
 import { useNavigate, useParams } from 'react-router';
 
-import styles from './asset/css/EduAddEdit.module.css'
+import styles from './asset/css/addEdit.module.css'
 
 function SubUpdate(){
     const [subject, setSubject] = useState({

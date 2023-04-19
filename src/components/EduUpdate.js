@@ -5,7 +5,7 @@ import axios from "axios";
 import MapSearch from './MapSearch';
 import { useNavigate, useParams } from 'react-router';
 
-import styles from './asset/css/EduAddEdit.module.css'
+import styles from './asset/css/addEdit.module.css'
 
 function EduUpdate(){
     const [isOpen, setOpen] = useState(false);
