@@ -1,0 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Noto+Sans+KR:wght@100;400;500;700;900&display=swap');
+* {box-sizing:border-box;}
+html,body {
+    margin:0; padding:0;
+    font-family: 'Noto Sans KR', "Font Awesome 5 Brands", sans-serif;
+}
+h1,h2,h3,h4,h5,h6,p,div,span,header,aside,footer,nav,main,article,section,ul,ol,li,dl,dt,dd,em,strong,s,del,sup,sub,a,table,tr,td,th,tbody,thead,tfoot,form,input,select,option,button,fieldset,legend,label,address {
+    margin:0; padding:0;
+    font-size:1.0em; font-style:normal;
+    font-weight:normal; line-height:1.0;
+    letter-spacing: -0.3px;
+}
+fieldset,table {border:0;}
+input, textarea {border:0; outline:none; resize:none;}
+button, a {border:0; cursor:pointer;}
+ul,ol,li {list-style:none;}
+table,tr,td,th {border-collapse:collapse;}
+th {text-align:left;}
+a {color:#202020; text-decoration:none;}
+.skip{display:none;}

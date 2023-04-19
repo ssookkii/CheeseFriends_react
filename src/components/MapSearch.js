@@ -1,7 +1,7 @@
 /*global kakao*/
 import React, { useState } from 'react';
 import ReactModal from 'react-modal';
-import './mapSearch.css';
+import './asset/css/mapSearch.css';
 
 function MapSearch({isOpen, onClose, setPlace}) {
     let ps = new kakao.maps.services.Places(); 
@@ -166,7 +166,7 @@ function MapSearch({isOpen, onClose, setPlace}) {
                 <div id="menu_wrap" className="bg_white">
                     <div className="option">
                         <div>
-                            키워드 : <input type="text" onChange={(e) => setKeyword(e.target.value)} size="15" />
+                            <input type="text" onChange={(e) => setKeyword(e.target.value)} placeholder='학원이름 또는 주소를 입력하세요'/>
                             <button onClick={() => searchPlaces()}>검색하기</button>
                         </div>
                     </div>
