@@ -1,0 +1,29 @@
+.att-sys-button {
+    width: 200px;
+    height: 30px;
+}
+
+.h1 {
+    margin:0; padding:0;
+    font-size:2.0em; 
+    font-weight:bold; line-height:3;
+    letter-spacing: -0.3px;
+}
+
+.nav ul {
+    margin: 0;
+    padding: 0;
+    flex-grow: 1; /* 빈 공간을 적절하게 나누도록 함 */
+    flex-basis: 0; /* 빈 공간을 적절하게 나누도록 함 */
+
+  }
+  
+  .nav ul:not(:last-child) {
+    margin-right: 10px; /* 인접한 ul 요소 사이의 간격 */
+  }
+
+  .attendance-system{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

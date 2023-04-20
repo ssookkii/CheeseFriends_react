@@ -2,6 +2,7 @@ import React, {useEffect} from 'react';
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
 import Attendance from "./components/Attendance";
 import AttendanceManage from "./components/AttendanceManage";
+import AttendanceManageTeacher from "./components/AttendanceManageTeacher";
 import Test from "./components/Test";
 import './App.css';
 import Login from './login/login';
@@ -22,9 +23,11 @@ function App() {
 
                 <Route path="/regi" element={<Regi/>}></Route>
 
+
                 <Route path="/attendance" element={<Attendance />} />
                 <Route path="/AttendanceManage" element={<AttendanceManage />} />
-                <Route path="/" element={<Test />} />
+                <Route path="/AttendanceManageTeacher" element={<AttendanceManageTeacher />} />
+                <Route path="/test" element={<Test />} />
               </Routes>
             </div>
           </div>
