@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from 'axios';
 import Pagination from "react-js-pagination";
 
@@ -19,9 +19,18 @@ function EduManage(){
     const [choice, setChoice] = useState('');
     const [search, setSearch] = useState('');
 
+    // let isLogin = JSON.parse(localStorage.getItem("login"));
+    const navigate = useNavigate();
+
     // paging
     const [page, setPage] = useState(1);
     const [totalCnt, setTotalCnt] = useState(0);
+
+    function logout(){
+        localStorage.removeItem("login");
+        alert("로그아웃되었습니다");
+        navigate("/admin");
+    }
 
     function getEduList(cho, sear, page){
         axios.get("http://localhost:3000/edulist", { params:{"choice":cho, "search":sear, "pageNumber":page} })
@@ -54,7 +63,7 @@ function EduManage(){
                 if(resp.data !== null && resp.data !== "" && resp.data === "success"){
                     alert("삭제되었습니다.");
                     console.log(resp.data);
-                    window.location.replace("/edumanage")
+                    window.location.replace("/adminpage/edumanage")
                 }else if(resp.data !== null && resp.data !== "" && resp.data === "fail"){
                     alert("삭제를 실패하였습니다.")
                 }
@@ -70,6 +79,7 @@ function EduManage(){
 
     useEffect(function(){
         getEduList("", "", 0);
+        // console.log(isLogin.auth);
     },[]);
 
     return(
@@ -85,7 +95,8 @@ function EduManage(){
                     <input value={search} onChange={(e)=>setSearch(e.target.value)} placeholder="검색어를 입력하세요"/>
                     <button onClick={searchBtn} className={manage.searchBtn}>검색</button>
                 </div>
-                <Link to="/eduAdd" className={manage.eduAdd}>기관등록</Link>
+                <Link to="/adminpage/eduAdd" className={manage.eduAdd}>기관등록</Link>
+                <button onClick={logout}>로그아웃</button>
             </div>
             <table className={`${manage.manageList} ${manage.edulist}`}>
                 <thead>
@@ -109,7 +120,7 @@ function EduManage(){
                                     <td>{edu.eduPhone}</td>
                                     <td>{edu.id}</td>
                                     <td>
-                                        <Link to={`/eduupdate/${edu.eduCode}`} className={manage.Edit}>수정</Link>
+                                        <Link to={`/adminpage/eduupdate/${edu.eduCode}`} className={manage.Edit}>수정</Link>
                                         <button className={manage.Del} onClick={() => deleteBtn(edu.eduCode)}>삭제</button>
                                     </td>
                                 </tr>

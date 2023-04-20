@@ -53,7 +53,7 @@ function TeacherManage(){
                 if(resp.data !== null && resp.data !== "" && resp.data === "success"){
                     alert("삭제되었습니다.");
                     console.log(resp.data);
-                    window.location.replace("/teachermanage")
+                    window.location.replace("/adminpage/teachermanage")
                 }else if(resp.data !== null && resp.data !== "" && resp.data === "fail"){
                     alert("삭제를 실패하였습니다.")
                 }
@@ -113,7 +113,7 @@ function TeacherManage(){
                                     <td>{t.email}</td>
                                     <td>{t.phone}</td>
                                     <td>
-                                        <Link to={`/teacherupdate/${t.id}`} className={manage.detail}>보기</Link>
+                                        <Link to={`/adminpage/teaupdate/${t.id}`} className={manage.detail}>보기</Link>
                                         <button onClick={() => deleteBtn(t.id)} className={manage.Del}>삭제</button>
                                     </td>
                                 </tr>

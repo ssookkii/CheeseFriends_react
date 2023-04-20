@@ -1,16 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
-import MapSearch from './MapSearch';
-import EduAdd from './EduAdd';
-import EduManage from './EduManage'
-import EduUpdate from './EduUpdate';
-import SubjectManage from './SubjectManage';
-import SubUpdate from './SubUpdate';
-import TeacherManage from './TeacherManage';
-import TeacherUpdate from './teacherUpdate';
+import { Link, Outlet, Routes, Route  } from "react-router-dom";
 
 import './asset/css/reset.css';
 import './asset/css/AdminPage.css'
+
 
 function AdminPage() {
     let [btnActive, setBtnActive] = useState(
@@ -21,49 +14,32 @@ function AdminPage() {
         localStorage.setItem("btnActive", btnActive);
     }, [btnActive]);
 
-    return (
-    <div className='wrap'>
-    <BrowserRouter>
-        <div className="contentWrap">
+    return (   
+        <div className="adminPageWrap">
             <nav className="sideMenu">
                 <ul>
-                    <li className='logo'>
-                        <img src="img/logo100h.png" alt="cheese friends"/>
-                    </li>
                     <li className={btnActive === "edumanage" ? "btnActive" : ""} >
-                        <Link to="/edumanage" onClick={() => {setBtnActive('edumanage');}}>기관관리</Link>
+                        <Link to="/adminpage/edumanage" onClick={() => {setBtnActive('edumanage');}}>기관관리</Link>
                     </li>
                     <li className={btnActive === "submanage" ? "btnActive" : ""}>
-                        <Link to="/submanage" onClick={() => {setBtnActive('submanage');}} >과목관리</Link> 
+                        <Link to="/adminpage/submanage" onClick={() => {setBtnActive('submanage');}} >과목관리</Link>
                     </li>
                     <li className={btnActive === "teachermanage" ? "btnActive" : ""}>
-                        <Link to="/teachermanage" onClick={() => {setBtnActive('teachermanage');}} >회원관리</Link> 
+                        <Link to="/adminpage/teachermanage" onClick={() => {setBtnActive('teachermanage');}} >회원관리</Link>
                     </li>
                     <li className={btnActive === "" ? "btnActive" : ""}>
-                        <Link to="/submanage" onClick={() => {setBtnActive('');}} >보낸쪽지함</Link> 
+                        <Link to="/adminpage/submanage" onClick={() => {setBtnActive('');}} >보낸쪽지함</Link>
                     </li>
                     <li className={btnActive === "" ? "btnActive" : ""}>
-                        <Link to="/submanage" onClick={() => {setBtnActive('');}} >고객문의함</Link>
+                        <Link to="/adminpage/submanage" onClick={() => {setBtnActive('');}} >고객문의함</Link>
                     </li>
                 </ul>
             </nav>
-            <main>
-                <Routes>
-                    <Route path="/MapSearch" element={ <MapSearch/>} />
-                    <Route path="/eduAdd" element={ <EduAdd/>} />
-                    <Route path="/edumanage" element={ <EduManage/>} />
-                    <Route path="/eduupdate/:eduCode" exact element={<EduUpdate />} />
-                    <Route path="/submanage" element={ <SubjectManage/>} />
-                    <Route path="/subupdate/:subCode" exact element={<SubUpdate />} />
-                    <Route path="/teachermanage" element={<TeacherManage />} />
-                    <Route path="/teacherupdate/:id" exact element={<TeacherUpdate />} />
-                </Routes>
+            <main className="adminContentWrap">
+                <Outlet/>
             </main>
         </div>
 
-
-    </BrowserRouter>
-    </div>
 );
 }
 

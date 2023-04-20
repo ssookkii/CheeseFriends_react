@@ -77,7 +77,7 @@ function EduUpdate(){
         .then(function(resp){
             if(resp.data !== null && resp.data !== "" && resp.data === "success"){
                 alert("수정되었습니다");
-                navigate("/edumanage");
+                navigate("/adminpage/edumanage");
             }else if(resp.data !== null && resp.data !== "" && resp.data === "fail"){
                 alert("입력칸을 확인해주십시오")
             }else if(resp.data !== null && resp.data !== "" && resp.data === "duplicate"){

@@ -54,7 +54,7 @@ function SubjectManage(){
                 if(resp.data !== null && resp.data !== "" && resp.data === "success"){
                     alert("삭제되었습니다.");
                     console.log(resp.data);
-                    window.location.replace("/submanage")
+                    window.location.replace("/adminpage/submanage")
                 }else if(resp.data !== null && resp.data !== "" && resp.data === "fail"){
                     alert("삭제를 실패하였습니다.")
                 }
@@ -114,7 +114,7 @@ function SubjectManage(){
                                     <td>{sub.educatorName}</td>
                                     <td>{sub.name}</td>
                                     <td>
-                                        <Link to={`/subupdate/${sub.subCode}`} className={manage.Edit}>수정</Link>
+                                        <Link to={`/adminpage/subupdate/${sub.subCode}`} className={manage.Edit}>수정</Link>
                                         <button onClick={() => deleteBtn(sub.subCode)} className={manage.Del}>삭제</button>
                                     </td>
                                 </tr>

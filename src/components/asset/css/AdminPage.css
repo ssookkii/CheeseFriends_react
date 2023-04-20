@@ -1,4 +1,4 @@
-.contentWrap {
+.adminPageWrap {
     display: flex;
     justify-content: flex-start;
 }
@@ -9,13 +9,20 @@
     border-bottom-right-radius: 20px;
     height:100vh;
 }
-.sideMenu > ul .logo {
-    width:180px;
-    margin:50px auto 15px;
+
+.sideMenu > ul {
+    position:relative;
+    margin:130px auto 15px;
     padding:0;
 }
-.sideMenu > ul .logo img {
-    width:100%;
+.sideMenu > ul::before {
+    content:"";
+    background:url(../../../../public/img/logo100h.png) no-repeat;
+    width:200px;
+    height:50px;
+    position:absolute;
+    left:15px;
+    top:-70px;
 }
 .sideMenu > ul > li {
     width:100%;
@@ -53,7 +60,6 @@
 .btnActive {
     background-color: #FAC463;
 }
-
-main {
+.adminContentWrap {
     width:80%;
 }
