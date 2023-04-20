@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { MapMarker, Map } from "react-kakao-maps-sdk";
 import axios from "axios";
 import { useNavigate } from 'react-router';
@@ -53,7 +53,7 @@ function EduAdd() {
             if(resp.data !== null && resp.data !== "" && resp.data === "success"){
                 alert("등록되었습니다");
                 console.log(resp.data);
-                navigate("/edumanage");
+                navigate("/adminpage/edumanage");
             }else if(resp.data !== null && resp.data !== "" && resp.data === "fail"){
                 alert("입력칸을 확인해주십시오")
             }else if(resp.data !== null && resp.data !== "" && resp.data === "duplicate"){
