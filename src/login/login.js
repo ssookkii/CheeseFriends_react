@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
+import Session from "react-session-api";
 
 import axios from "axios";
 
@@ -10,7 +11,7 @@ function Login(){
     const history = useNavigate();
 
     const [id, setId] = useState('');
-    const [pwd, setPwd] = useState('');
+    const [password, setPassword] = useState('');
 
     const [cookies, setCookies] = useCookies('');
 
@@ -18,7 +19,6 @@ function Login(){
     const [saveId, setSaveId] = useState(false);
 
     function checkHandler(){
-        alert(saveId);
         setSaveId(!saveId);
 
         if(!saveId === true && id !== ""){
@@ -29,15 +29,13 @@ function Login(){
     }
 
     function login(){
-        axios.post("http://localhost:3000/login", null, { params: {"id": id, "pwd": pwd}})
+        axios.post("http://localhost:3000/login", null, { params: {"id": id, "password": password}})
         .then(function(resp){
-            alert(resp.data);
             if(resp.data !== null && resp.data !== ""){
                 alert(resp.data.name + "님 환영합니다");
-
+                Session.set("login", resp.data);
                 localStorage.setItem("login", JSON.stringify(resp.data));
-                history("/bbslist");
-
+                history("/testmain");
             }else{
                 alert("id나 password를 확인하십시오");
             }
@@ -82,7 +80,7 @@ function Login(){
             <tr>
                 <td align="left">PW</td>
                 <td>
-                    <input type="password" value={pwd} onChange={(e)=>setPwd(e.target.value)} placeholder="패스워드" />
+                    <input type="password" value={password} onChange={(e)=>setPassword(e.target.value)} placeholder="패스워드" />
                 </td>
             </tr>
             <tr>
