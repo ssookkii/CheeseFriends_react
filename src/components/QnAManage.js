@@ -12,7 +12,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import './asset/css/reset.css';
 import manage from './asset/css/manageCommon.module.css';
 
-function TeacherManage(){
+function QnAManage(){
     const [teacherList, setTeacherList] = useState([]);
 
     const [choice, setChoice] = useState('');
@@ -85,30 +85,28 @@ function TeacherManage(){
                     <input value={search} onChange={(e)=>setSearch(e.target.value)} placeholder="검색어를 입력하세요"/>
                     <button onClick={searchBtn} className={manage.searchBtn}>검색</button>
                 </div>
-                <div className={manage.btnWrap}>
-                    <button className={`${manage.eduAdd} ${manage.del}`}>쪽지삭제</button>
-                    <Link to="/adminpage/mailwrite" className={manage.eduAdd}>쪽지쓰기</Link>
-                </div>
             </div>
 
-            <table className={`${manage.manageList} ${manage.maillist}`}>
+            <table className={`${manage.manageList} ${manage.qnalist}`}>
                 <thead>
-                    <tr className={manage.mailTr}>
+                    <tr>
                         <th><input type="checkbox"/></th>
                         <th>수신자</th>
                         <th>제목</th>
-                        <th>발송일</th>
+                        <th>문의일</th>
+                        <th>상태</th>
                     </tr>
                 </thead>
                 <tbody>
                     {
                         teacherList.map(function(t, i){
                             return (
-                                <tr key={i} className={manage.mailTr}>
+                                <tr key={i}>
                                     <td><input type="checkbox"/></td>
-                                    <td>abc123,ccc123,eee123,abc123,ccc123,eee123abc123,ccc123,eee123abc123,ccc123,eee123</td>
-                                    <td><Link to="/adminmanage">안녕하세요. 반갑습니다. 관리자입니다. 공지사항 전달드립니다. 안녕하세요. 반갑습니다. 관리자입니다. 공지사항 전달드립니다. 안녕하세요. 반갑습니다. 관리자입니다. 공지사항 전달드립니다. 안녕하세요. 반갑습니다. 관리자입니다. 공지사항 전달드립니다. 안녕하세요. 반갑습니다. 관리자입니다. 공지사항 전달드립니다. 안녕하세요. 반갑습니다. 관리자입니다. 공지사항 전달드립니다. 안녕하세요. 반갑습니다. 관리자입니다. 공지사항 전달드립니다. </Link></td>
-                                    <td>2023-04-21</td>
+                                    <td>{t.eduCode}</td>
+                                    <td><Link></Link></td>
+                                    <td>{t.id}</td>
+                                    <td><span></span><span>답변대기</span></td>
                                 </tr>
                             )
                         })
@@ -131,4 +129,4 @@ function TeacherManage(){
         </div>
     )
 }
-export default TeacherManage
+export default QnAManage

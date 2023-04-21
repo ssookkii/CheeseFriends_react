@@ -13,6 +13,9 @@ import SubjectManage from './components/SubjectManage';
 import SubUpdate from './components/SubUpdate';
 import TeacherManage from './components/TeacherManage';
 import TeaUpdate from './components/TeaUpdate';
+import SendMailManage from './components/SendMailManage';
+import MailWrite from './components/MailWrite';
+import QnAManage from './components/QnAManage';
 
 
 function App_ksy() {
@@ -33,6 +36,9 @@ function App_ksy() {
                                     <Route path="/adminpage/subupdate/:subCode" exact element={<SubUpdate />} />
                                     <Route path="/adminpage/teachermanage" element={<TeacherManage />} />
                                     <Route path="/adminpage/teaupdate/:id" exact element={<TeaUpdate />} />
+                                    <Route path="/adminpage/sendmailmanage" exact element={<SendMailManage />} />
+                                    <Route path="/adminpage/mailwrite" exact element={<MailWrite />} />
+                                    <Route path="/adminpage/qnamanage" exact element={<QnAManage />} />
                                 </Route>
                         
                         </Route>

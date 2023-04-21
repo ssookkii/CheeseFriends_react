@@ -4,6 +4,7 @@ import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 
 import axios from "axios";
+import styles from './asset/css/adminLogin.module.css';
 
 function Admin(){
     const history = useNavigate();
@@ -61,14 +62,30 @@ function Admin(){
     },[cookies]);
 
     return(
-        <div>
-            <h3>Login</h3>
-
-            <input type="text" value={id} onChange={(e)=>setId(e.target.value)} placeholder="아이디"></input><br/>
-            <input type="password" value={password} onChange={(e)=>setPassword(e.target.value)} placeholder="비밀번호"></input><br/>
-            <input type="checkbox" checked={saveId} onChange={CheckHandler}></input>아이디저장<br/>
-            <button onClick={login}>Login</button>&nbsp;
-            <button onClick={logout}>로그아웃</button>
+        <div className={styles.loginWrap}>
+            <h1 className={styles.h1}>Administrator</h1>
+            <div className={styles.loginContent}>
+            <input
+                type="text"
+                className={`${styles.idPwInput} ${styles.idInput}`}
+                value={id}
+                onChange={(e)=>setId(e.target.value)} placeholder="아이디" />
+            <input
+                type="password"
+                className={`${styles.idPwInput} ${styles.pwInput}`} 
+                value={password}
+                onChange={(e)=>setPassword(e.target.value)} placeholder="비밀번호"/>
+            <div>
+            <input type="checkbox"
+                name="SaveIdChk"
+                id="SaveIdChk"
+                checked={saveId}
+                className={styles.rememberId}
+                onChange={CheckHandler} />
+            <label for="SaveIdChk" className={styles.label}>아이디 저장</label>
+            </div>
+            <button onClick={login} className={styles.loginBtn}>Login</button>
+            </div>
         </div>
     )
 }

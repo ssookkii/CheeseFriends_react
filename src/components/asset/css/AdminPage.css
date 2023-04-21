@@ -60,6 +60,13 @@
 .btnActive {
     background-color: #FAC463;
 }
+.adminLogout {
+    margin:470px auto 0;
+    display: block;
+    background-color:#434343;
+    color:#fff;
+    font-size:0.9em;
+}
 .adminContentWrap {
     width:80%;
 }
