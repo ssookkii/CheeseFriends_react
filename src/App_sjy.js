@@ -11,6 +11,8 @@ import LearningWrite from './components/LearningWrite'
 import TaskList from './components/TaskList';
 import TaskDetail from './components/TaskDetail';
 import TaskWrite from './components/TaskWrite';
+import Youtube from './components/Youtube'
+import Chatbot from './components/Chatbot';
 
 function App_sjy() {
 
@@ -21,6 +23,7 @@ function App_sjy() {
                         <Route path="/lecture" element={ <LectureList/>} />
                         <Route path="/lecture/AbLectureList" element={ <AbLectureList/>} />
                         <Route path="/lecture/LectureWrite" element={ <LectureWrite/>} />
+                        <Route path="/lecture/Youtube" element={ <Youtube/>} />
 
                         <Route path="/learning" element={ <LearningList/>} />
                         <Route path="/learning/LearningDetail" element={ <LearningDetail/>} />
@@ -44,6 +47,7 @@ function App_sjy() {
                         <Route path="/service/ServiceWrite" element={ <ServiceWrite/>} />
                         <Route path="/service/ServiceAnswer" element={ <ServiceAnswer/>} /> */}
 
+                        <Route path="/service/Chatbot" element={ <Chatbot/> } />
                 </Routes>
             </main>
     </BrowserRouter>

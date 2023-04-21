@@ -1,34 +1,46 @@
-import React, { useState, useEffect, useRef } from "react";
-import axios from "axios";
+import React, { useEffect, useState, useRef } from "react";
+import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
+import Session from "react-session-api";
 
-import Modal from "./modal";
-import Post from "./Post";
+import axios from "axios";
+import Modal from "../login/modal";
+import Post from "../login/Post";
 
-function Regi(){
 
-    function regiselect(){
-        window.location.href = "/regiselect";
+function Changeme(){
+
+    let history = useNavigate();
+
+     // login 되어 있는지 검사
+     useEffect (()=>{
+        let login = Session.get("login");
+        if(login !== undefined){
+            setId(login.id);
+        }else{
+            alert('login해 주십시오');
+            history('/');
     }
 
-    const [id, setId] = useState('');
+    },[history]);
+
+    let login = Session.get("login");
+
+    
+    const [id, setId] = useState("");
     const [idc, setIdc] = useState("");
-    const [password, setPassword] = useState('');
-    const [name, setName] = useState('');
+    const [password, setPassword] = useState(login.password);
+    const [name, setName] = useState(login.name);
     const [gender, setGender] = useState("man");
-    const [email, setEmail] = useState('');
-    const [birth, setBirth] = useState("");
-    const [address, setAddress] = useState("");
-    const [facename, setFacename] = useState("");
+    const [email, setEmail] = useState(login.email);
+    const [birth, setBirth] = useState(login.birth);
+    const [address, setAddress] = useState(login.address);
+    const [facereceive, setFacereceive] = useState("http://localhost:3000/upload/" + login.id + ".jpg")
+    const [facename, setFacename] = useState(login.id + ".jpg");
     const [phone, setPhone] = useState("");
     const [phone_public, setPhone_public] = useState("");
     const [jointype, setJointype] = useState("");
     const [auth, setAuth] = useState('student');
-
-    const [edu_code, setEdu_code] = useState("");
-    const [sub_code, setSub_code] = useState("");
-    const [edu_name, setEdu_name] = useState("");
-    const [educheck, setEducheck] = useState(false);
 
     const [passwordcheck, setPasswordcheck] = useState("");
 
@@ -42,6 +54,11 @@ function Regi(){
             [e.target.name]:e.target.value,
         })
     }
+    
+    useEffect(()=>{
+        console.log(photostart)
+        enroll_company.address = login.address
+    },[])
 
     // 모달 팝업
     const [modalOpen, setModalOpen] = useState(false);
@@ -75,188 +92,6 @@ function Regi(){
     function genderChange(e){
         setGender(e.target.value);
     }
-
-    function authChange(e){
-        setAuth(e.target.value);
-    }
-
-    // 교육기관 코드 체크
-    function educodecheck(){
-        setEducheck(false);
-
-        axios.get("http://localhost:3000/subjectlist", { params:{ "edu_code":edu_code}})
-        .then(function(resp){
-            const subplus = document.getElementById("subplus");
-
-
-            while (subplus.firstChild) {
-                subplus.removeChild(subplus.firstChild);
-            }
-
-            let element = document.createElement("option");
-            element.innerText = "과목을 선택해주세요";
-            element.setAttribute("value", "");
-            subplus.appendChild(element);
-          
-            for (let i = 0; i < resp.data.length; i++) {
-                let element = document.createElement("option");
-                element.innerHTML = resp.data[i].subname;
-                element.setAttribute("value", resp.data[i].subcode);
-                subplus.appendChild(element);
-            }
-            
-        })
-
-        .catch(function(err){
-            alert('err')
-        })
-
-        axios.get("http://localhost:3000/eduname", { params:{ "edu_code":edu_code}})
-        .then(function(resp){
-            setEdu_name(resp.data);
-        })
-        .catch(function(err){
-            alert('err')
-        
-        })
-    }
-
-    useEffect(()=>{
-           educodecheck(edu_code);        
-   }, [edu_code]) 
-
-  
-   function subcodecheck(e){
-        setSub_code(e.target.value);
-   }
-
-
-   // 체크박스 관리 변수
-   const [sub_codechecked, setSub_codechecked] = useState([]);
-
-   // 체크박스 관리 함수
-   const subcodeadd = (e) =>{
-        console.log("e.target.checked : " + e.target.checked);
-        console.log("e.target.value : " + e.target.value);
-
-        if(e.target.checked){
-         //   alert("과목 체크 추가");
-            setSub_codechecked((sub_codechecked) => [...sub_codechecked, e.target.value])
-
-            return;
-        }else{
-         //   alert("과목 체크 제거");
-            setSub_codechecked((sub_codechecked) => sub_codechecked.filter((item)=> item !== e.target.value));
-
-            return;
-        }
-   }
-
-   // 체크 배열 점검
-    useEffect(()=>{
-        console.log(sub_codechecked);
-    }, [sub_codechecked]) 
-
-
-   // 추가된 과목 리스트 관리
-   const [count, setCount] = useState(1);
-   const [sub_codecheck, setSub_codecheck] = useState([]);
-
-   function subjectadd(){
-        // 과목 중복추가 체크
-        if(sub_code === "" || sub_code === null){
-            alert("교육기관 코드 입력 후 과목을 선택해주세요")
-            return;
-        }
-
-        for (let i = 0; i < sub_codecheck.length; i++) {
-            if(sub_codecheck[i] === sub_code){
-                alert("이미 추가된 과목입니다")
-                return;
-            }
-        }
- 
-        axios.get("http://localhost:3000/eduname", { params:{ "edu_code":edu_code}})
-        .then(function(resp){
-            const newItem = sub_code;
-            setSub_codecheck([...sub_codecheck, newItem]);
-
-            const table = document.getElementById("subplus2");
-            const subplus = document.createElement("tr");
-
-            // 체크박스
-            let td = document.createElement("td");
-            let element0 = document.createElement("input");
-
-            element0.setAttribute("type", "checkbox");
-            element0.setAttribute("name", "subject");
-            element0.setAttribute("value", sub_code);
-            element0.setAttribute("checked", "checked");
-        //    element0.setAttribute("onchange", function(){alert('subcodeadd');});
-            element0.onchange = subcodeadd; //function(){alert('subcodeadd');};
-
-            td.append(element0)
-            subplus.appendChild(td);
-
-            setSub_codechecked((sub_codechecked) => [...sub_codechecked, sub_code])
-
-            // 번호
-            let element = document.createElement("td");
-            element.innerText = count;
-            setCount(count+1);
-            subplus.appendChild(element);
-
-            // 교육기관
-            let element2 = document.createElement("td");
-            element2.innerText = resp.data;
-            subplus.appendChild(element2);
-
-            // 과목
-            axios.get("http://localhost:3000/subname", { params:{ "sub_code":sub_code}})
-            .then(function(resp){
-                let element3 = document.createElement("td");
-                element3.innerText = resp.data;
-                element3.setAttribute("value", "");
-                subplus.appendChild(element3);      
-            })
-            .catch(function(err){
-                alert('err')
-            })
-
-            table.appendChild(subplus);
-        })
-        .catch(function(err){
-            alert('err')
-        })
-   }
-
-
-    // 아이디 정규식
-    const idRegEx = /^[a-zA-z0-9]{6,12}$/
-
-    const idregCheck = (id) => {
-        if(id.match(idRegEx)===null) { //형식에 맞지 않을 경우 아래 콘솔 출력
-            setIdc("아이디 형식을 확인해주세요");
-            return;
-        }else{ // 맞을 경우 출력
-            axios.post("http://localhost:3000/idcheck", null, { params:{ "id":id}})
-            .then(function(resp){
-                if(resp.data === "YES"){
-                    setIdc("이 아이디는 사용할 수 있습니다");
-                }else{
-                    setIdc("사용중인 아이디입니다");
-                }
-            })
-            .catch(function(err){
-                alert('err')
-            })
-        }
-    }
-
-    useEffect(()=>{
-           idregCheck(id);        
-   }, [id]) 
-
 
     // 비밀번호 정규식
     const passwordRegEx = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/
@@ -394,13 +229,14 @@ function Regi(){
     }
 
     // 사진 캡쳐 api
-
+    const [photostart, setPhotostart] = useState(false);
     const videoRef = useRef(null);
     const [imageSrc, setImageSrc] = useState(null);
     const [captured, setCaptured] = useState(false);
     const [mediaStream, setMediaStream] = useState(null);
     
     const startCapture = async () => {
+        setPhotostart(true);
         const stream = await navigator.mediaDevices.getUserMedia({ video: true });
         videoRef.current.srcObject = stream;
         setMediaStream(stream);
@@ -421,17 +257,7 @@ function Regi(){
     };
 
 
-    let history = useNavigate();
-
-    function idChange(e){
-        setId(e.target.value);
-    }
-
-
-
     const [namea, setNamea] = useState(true);
-    const [codea, setCodea] = useState(true);
-    const [ida, setIda] = useState(true);
     const [passworda, setPassworda] = useState(true);
     const [passwordChecka, setPasswordchecka] = useState(true);
     const [emaila, setEmaila] = useState(true);
@@ -441,11 +267,9 @@ function Regi(){
     const [phonea, setPhonea] = useState(true);
     const [phone_publica, setPhone_publica] = useState(true);
 
-    function account(){
+    function change(){
         // 회원가입 유효검사
         setNamea(true);
-        setCodea(true);
-        setIda(true);
         setPassworda(true);
         setPasswordchecka(true);
         setEmaila(true);
@@ -458,14 +282,6 @@ function Regi(){
         if(namec !== "입력되었습니다"){
             setNamea(false);
             alert("이름을 입력해주세요");
-            return;
-        }else if(sub_codechecked.length === 0){
-            setCodea(false);
-            alert("코드입력후 과목을 추가 및 선택해주세요");
-            return;
-        }else if(idc !== "이 아이디는 사용할 수 있습니다"){
-            setIda(false);
-            alert("아이디를 입력해주세요");
             return;
         }else if(passwordc !== "안전한 비밀번호 입니다" ){
             setPassworda(false);
@@ -487,7 +303,7 @@ function Regi(){
             setAddressa(false);
             alert("주소를 입력해주세요");
             return;
-        }else if(imageSrc === "" || imageSrc === null){
+        }else if(photostart === true && imageSrc === "" || photostart === true && imageSrc === null){
             setPhotoa(false);
             alert("사진을 찍어주세요");
             return;
@@ -501,45 +317,31 @@ function Regi(){
             return;
         }
 
-
         // 보내자
-        axios.post("http://localhost:3000/adduser", null, 
+        axios.post("http://localhost:3000/changeuser", null, 
         { params:{  "id":id, 
                     "password":password, 
                     "name": name, 
                     "gender":gender,
                     "email":email,
-                    "birth":birth,
                     "address":address,
-                    "facename": id + ".jpg",
+                    "facename": facename,
                     "phone": phone,
                     "auth":auth
                 }})
         .then(function(resp){
-            for (let i = 0; i < sub_codechecked.length; i++) {
-                console.log("sub_codechecked : " + sub_codechecked)
-                if(resp.data === "YES"){
-                    // 과목 보내자
-                    axios.post("http://localhost:3000/addusersubject", null, 
-                    { params:{  
-                                "id": id,
-                                "subcode":sub_codechecked[i]
-                            }})
-                    .then(function(resp){
-                        if(resp.data === "YES"){
-                         //   alert("정상적으로 가입되었습니다");
-                         //   history("/");      // 이동(link)
-                        }else{
-                            alert("가입되지 않았습니다");
-                        }
-                    })
-                    .catch(function(err){
-                        alert("err");
-                        console.log(err);
-                    })
-                }else{
-                    alert("가입되지 않았습니다");
-                }
+            // 사진저장
+            if(photostart === true){
+                const formData = new FormData();
+                formData.append('uploadFile', imageSrc, id + ".jpg");
+            
+                fetch('http://localhost:3000/fileUpload', {
+                method: 'POST',
+                body: formData,
+                })
+                // .then((response) => response.json())
+                .then((result) => console.log(result))
+                .catch((error) => console.error(error));
             }
         })
         .catch(function(err){
@@ -547,32 +349,18 @@ function Regi(){
             console.log(err);
         })
 
-        // 사진저장
-        const formData = new FormData();
-        formData.append('uploadFile', imageSrc, id + ".jpg");
-    
-        fetch('http://localhost:3000/fileUpload', {
-        method: 'POST',
-        body: formData,
-        })
-        // .then((response) => response.json())
-        .then((result) => console.log(result))
-        .catch((error) => console.error(error));
-
-        alert("정상적으로 가입되었습니다");
-        history("/");      // 이동(link)
+        alert("정상적으로 변경되었습니다");
+        history("/testmain");   
     }
         
 
-    
-
     return(
         <div>
-            <h3>회원가입</h3>
-
+            <h1>개인정보변경</h1>
+            <br/><br/>
             <table border="1" align="center">
             <colgroup>
-                <col width="120"/><col width="250" /><col width="200" />
+                <col width="120"/><col width="350" /><col width="200" />
             </colgroup>
             <tbody>
             <tr>
@@ -598,64 +386,9 @@ function Regi(){
                 </td>
             </tr>
             <tr>
-                <td align="left">교육기관 코드</td> 
-                <td align="left">
-                {codea === true 
-                        ? <input style={{ width:"230px"}} value={edu_code} onChange={(e)=>setEdu_code(e.target.value)} placeholder="코드를 입력해주세요" />
-                        : <input style={{  borderColor:"red", width:"230px"}} value={edu_code} onChange={(e)=>setEdu_code(e.target.value)} placeholder="코드를 입력해주세요" />}
-                    
-                </td>
-                
-            </tr>
-            <tr>
-                <td align="left">
-                    <div >교육기관명</div>
-                </td>
-                <td align="left">
-                {edu_name === ""
-                        ? <div style={{ fontSize:"10px" }}>올바른 코드를 입력해주세요</div>
-                        : <div style={{ fontSize:"10px", color:'blue' }}>{edu_name}</div>}
-                    
-                </td>
-            </tr>
-            <tr>
-                <td align="left">과목</td> 
-                <td align="left">
-                    <select className="subplus" id="subplus" onChange={subcodecheck}>
-
-                    </select>&nbsp;&nbsp;
-                    <button onClick={subjectadd}>추가</button>
-                </td>
-            </tr>
-            <tr>
-                <td align="left">과목선택</td>
-                <td>
-
-                    <table border="1" className="subplus2" id="subplus2">
-                        <colgroup>
-                            <col width="50" /><col width="50" /><col width="200" /><col width="100" />
-                        </colgroup>
-                        <thead>
-                            <tr>
-                                <th>선택</th><th>번호</th><th>교육기관</th><th>과목</th>
-                            </tr>
-                        </thead>
-                    </table>
-                </td>
-            </tr>
-            <tr>
                 <td align="left">아이디</td> 
                 <td align="left">
-                    {ida === true 
-                        ? <input style={{ width:"230px"}} value={id} onChange={idChange} placeholder="영문자와 숫자로 6자 이상" />
-                        : <input style={{ borderColor:"red", width:"230px"}} value={id} onChange={idChange} placeholder="영문자와 숫자로 6자 이상" />}
-                </td>
-                <td>
-                    { idc === "이 아이디는 사용할 수 있습니다" 
-                        ? <div style={{ fontSize:"5px", color:'blue' }}>{idc}</div>
-                        : <div style={{ fontSize:"5px", color:'red' }}>{idc}</div>}
-                    
-                {/* <button onClick={idcheck}>아이디 체크</button> */}
+                    <div>{id}</div>
                 </td>
             </tr>
             <tr>
@@ -700,14 +433,7 @@ function Regi(){
             <tr>
                 <td align="left">생년월일</td> 
                 <td align="left">
-                    {birtha === true 
-                        ?  <input style={{width:"230px"}}  value={birth} onChange={(e)=>setBirth(e.target.value)} placeholder="주민번호 앞자리 6자로 입력해주세요" />
-                        :  <input style={{borderColor:"red", width:"230px"}}  value={birth} onChange={(e)=>setBirth(e.target.value)} placeholder="주민번호 앞자리 6자로 입력해주세요" />}
-                </td>
-                <td>
-                    { birthc === "올바르게 입력되었습니다" 
-                        ? <div style={{ fontSize:"5px", color:'blue' }}>{birthc}</div>
-                        : <div style={{ fontSize:"5px", color:'red' }}>{birthc}</div>}
+                    <div>{birth}</div>
                 </td>
             </tr>
             <tr>
@@ -732,10 +458,11 @@ function Regi(){
                     </div>
                 </td>
             </tr>
-            <tr>
+            {photostart === true
+            ?<tr>
                 <td align="left">사진</td> 
                     <div>
-                    {/* style={{ backgroundColor:'red' }} */}
+                        <div>photostart true</div>
                         {photoa === true 
                         ?  <button onClick={startCapture}>카메라 열기</button>
                         :  <button style={{ borderColor:'red' }} onClick={startCapture}>카메라 열기</button>}
@@ -750,11 +477,36 @@ function Regi(){
                             <img src={URL.createObjectURL(imageSrc)} alt="captured image" />
                             </div>
                         )}
+                     
                     </div>
                 <td align="left">
-                  
                 </td>
-            </tr>
+                </tr>
+            : 
+                <tr>
+                <td align="left">사진</td> 
+                    <div>
+                    {/* style={{ backgroundColor:'red' }} */}
+                        <div align="left">
+                            <table>
+                                <tr>
+                                    <td>
+                                        <img src={facereceive} width="100" height="100"/>
+                                    </td>
+                                    <td>
+                                        <button onClick={startCapture}>변경하기</button>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        
+                    </div>
+                <td align="left">
+                </td>
+                </tr>
+            }
+            
+  
             <tr>
                 <td align="left">번호</td>
                 <td align="left">
@@ -789,16 +541,18 @@ function Regi(){
                     
                 </td>
             </tr>
+       
 
             </tbody>
             </table>
 
             <br/>
-            <button onClick={regiselect}>가입유형선택</button>
-                &nbsp;
-            <button onClick={account}>회원가입</button>
+            <button onClick={change}>저장</button>
+            
+            
         </div>
     )
+
 }
 
-export default Regi;
+export default Changeme;

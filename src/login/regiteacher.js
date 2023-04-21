@@ -25,7 +25,6 @@ function Regiteacher(){
     const [jointype, setJointype] = useState("");
     const [auth, setAuth] = useState('teacher');
 
-    const [edu_code, setEdu_code] = useState("");
     const [edu_name, setEdu_name] = useState("");
     const [educheck, setEducheck] = useState(false);
 
@@ -68,120 +67,64 @@ function Regiteacher(){
         setGender(e.target.value);
     }
 
-    
-   
 
+    
     // 교육기관 이름 서치
+    const [edulistmatching, setEdulistmatching] = useState([]);
+
+
     function educodecheck(){
         setEducheck(false);
+
+        setEdulistmatching("");
 
         if(edu_name.length > 4){
             axios.get("http://localhost:3000/edusearch", { params:{ "edu_name":edu_name}})
             .then(function(resp){
+                const data = resp.data;
 
-                const table = document.getElementById("subplus2");
-               
-                while (table.firstChild) {
-                    table.removeChild(table.firstChild);
+                setEdulistmatching(data);
+
+                const element = document.getElementById("edulist");
+
+                while (element.firstChild) {
+                    element.removeChild(element.firstChild);
                 }
 
-                const colgroup = document.createElement("colgroup");
-                
-                let col = document.createElement("col");
-                col.setAttribute("width", "50");
-                colgroup.appendChild(col);
-
-                let col2 = document.createElement("col");
-                col2.setAttribute("width", "50");
-                colgroup.appendChild(col2);
-
-                let col3 = document.createElement("col");
-                col3.setAttribute("width", "200");
-                colgroup.appendChild(col3);
-
-                let col4 = document.createElement("col");
-                col4.setAttribute("width", "100");
-                colgroup.appendChild(col4);
-
-                table.appendChild(colgroup);
-              
-                
-                const thead = document.createElement("tr");
-
-                let th = document.createElement("th");
-                th.innerText = "선택";
-                thead.appendChild(th);
-
-                let th2 = document.createElement("th");
-                th2.innerText = "번호";
-                thead.appendChild(th2);
-
-                let th3 = document.createElement("th");
-                th3.innerText = "교육기관명";
-                thead.appendChild(th3);
-                
-                let th4 = document.createElement("th");
-                th4.innerText = "코드";
-                thead.appendChild(th4);
-
-                const root = createRoot(document.getElementById("subplus2"));
-
-                
-                table.appendChild(thead);
-
-
                 for (let i = 0; i < resp.data.length; i++) {
+                    console.log("resp.data[i].eduName : " + resp.data[i].eduName);
+                    console.log("resp.data[i].eduCode : " + resp.data[i].eduCode);
 
-                    const subplus = document.createElement("tr");
-
-                   
-
-
-                    // // 체크박스
-                    let td = document.createElement("td");
-                    let element0 = document.createElement("input");
-        
-                    element0.setAttribute("type", "radio");
-                    element0.setAttribute("value", resp.data[i].eduCode);
-                    const checkBoxId= resp.data[i].eduCode;
-                   
-           
-                    // element0.onclick = edunameadd; //function(){alert('subcodeadd');};
-                    
-                    td.append(element0)
-                    subplus.appendChild(td);
-        
-
-        
-                    // 번호
-                    let element = document.createElement("td");
-                    element.innerText = i+1;
-                    subplus.appendChild(element);
-        
-                    // 교육기관명
-                    let element2 = document.createElement("td");
-                    element2.innerText = resp.data[i].eduName;
-                    subplus.appendChild(element2);
-
-                    let element3 = document.createElement("td");
-                    element3.innerText = resp.data[i].eduCode;
-                    subplus.appendChild(element3);
-
-                    table.appendChild(subplus);
-                }  
-
-             
-
+                    let op = document.createElement("option");
+                    op.innerText = resp.data[i].eduName;
+                    op.setAttribute("value", resp.data[i].eduCode);
+                    element.appendChild(op);
+                }
             })
             .catch(function(err){
                 alert(err);
             })
         }
-    }
+    } 
 
     useEffect(()=>{
            educodecheck(edu_name);        
-   }, [edu_name]) 
+    }, [edu_name]) 
+
+    const [edu_codes, setEdu_codes] = useState("");
+
+    function educodecheckbtn(){
+        if(edulistmatching.length > 0){
+            for (let i = 0; i < edulistmatching.length; i++) {
+                if(edulistmatching[i].eduName === edu_name){
+                    setEdu_codes(edulistmatching[i].eduCode)
+                } 
+            } 
+        }else{
+            setEdu_codes("");
+        }
+    }
+   
 
 
     // 아이디 정규식
@@ -265,7 +208,7 @@ function Regiteacher(){
 
     
     // 생년월일 정규식
-    const birthRegEx = /([0-9]{2}(0[1-9]|1[0-2])(0[1-9]|[1,2][0-9]|3[0,1]))/
+    const birthRegEx = /^([0-9][0-9]|20\d{2})(0[0-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])$/
     const [birthc, setBirthc] = useState("");
 
     const birthCheck = (birth) => {
@@ -371,28 +314,12 @@ function Regiteacher(){
         }, 'image/png');
         setFacename(id + ".jpg");
     };
-    
-    const saveImage = () => {
-        const formData = new FormData();
-        formData.append('uploadFile', imageSrc, id + ".jpg");
-    
-        fetch('http://localhost:3000/fileUpload', {
-        method: 'POST',
-        body: formData,
-        })
-        // .then((response) => response.json())
-        .then((result) => console.log(result))
-        .catch((error) => console.error(error));
-    };
-
 
     let history = useNavigate();
 
     function idChange(e){
         setId(e.target.value);
     }
-
-
 
     const [namea, setNamea] = useState(true);
     const [codea, setCodea] = useState(true);
@@ -420,14 +347,25 @@ function Regiteacher(){
         setPhonea(true); 
         setPhone_publica(true);
 
+        let edu_code = "";
+
+        if(edulistmatching.length > 0){
+            for (let i = 0; i < edulistmatching.length; i++) {
+                if(edulistmatching[i].eduName === edu_name){
+                    edu_code = edulistmatching[i].eduCode
+                    console.log("edu_code : " + edu_code);
+                } 
+            } 
+        }
+
         if(namec !== "입력되었습니다"){
             setNamea(false);
             alert("이름을 입력해주세요");
             return;
-        // }else if(){
-        //     setCodea(false);
-        //     alert("코드입력후 과목을 추가 및 선택해주세요");
-        //     return;
+        }else if(edu_code === ""){
+            setCodea(false);
+            alert("교육기관명을 정확히 입력해주세요");
+            return;
         }else if(idc !== "이 아이디는 사용할 수 있습니다"){
             setIda(false);
             alert("아이디를 입력해주세요");
@@ -466,8 +404,6 @@ function Regiteacher(){
             return;
         }
 
-        
-
         // 보내자
         axios.post("http://localhost:3000/adduser", null, 
         { params:{  "id":id, 
@@ -488,10 +424,35 @@ function Regiteacher(){
             alert("err");
             console.log(err);
         })
+
+        axios.post("http://localhost:3000/adduseredu", null, 
+        { params:{  "id":id, 
+                    "educode":edu_code, 
+                }})
+        .then(function(resp){
+           
+        })
+        .catch(function(err){
+            alert("err");
+            console.log(err);
+        })
+
+        // 사진저장
+        const formData = new FormData();
+        formData.append('uploadFile', imageSrc, id + ".jpg");
+    
+        fetch('http://localhost:3000/fileUpload', {
+        method: 'POST',
+        body: formData,
+        })
+        // .then((response) => response.json())
+        .then((result) => console.log(result))
+        .catch((error) => console.error(error));
+
+        alert("정상적으로 가입되었습니다");
+        history("/");      // 이동(link)
     }
         
-
-    
 
     return(
         <div>
@@ -525,30 +486,28 @@ function Regiteacher(){
                 </td>
             </tr>
             <tr>
-                <td align="left">교육기관 코드</td> 
+                <td align="left">교육기관 명</td> 
                 <td align="left">
-                {namea === true 
-                        ? <input style={{ width:"230px"}} value={edu_name} onChange={(e)=>setEdu_name(e.target.value)} placeholder="교육기관 명을 입력해주세요" />
-                        : <input style={{  borderColor:"red", width:"230px"}} value={edu_name} onChange={(e)=>setEdu_name(e.target.value)} placeholder="교육기관 명을 입력해주세요" />}
+                <div>
+                    {codea === true 
+                        ? <input style={{ width:"230px"}}type="text" list="edulist" id="ids" onInput={(e) => setEdu_name(e.target.value)} />
+                        : <input style={{ borderColor:"red", width:"230px"}} type="text" list="edulist" id="ids" onInput={(e) => setEdu_name(e.target.value)} />}
                     
+                    <datalist id="edulist">
+                        
+                    </datalist>
+                </div>
+
                 </td>
                 
             </tr>
             <tr>
                 <td align="left">
-                    <div >교육기관명</div>
+                    <div >교육기관 코드</div>
                 </td>
                 <td align="left">
-                    <table border="1" className="subplus2" id="subplus2">
-                        <colgroup>
-                            <col width="50" /><col width="50" /><col width="200" /><col width="100" />
-                        </colgroup>
-                        <thead>
-                            <tr>
-                                <th>선택</th><th>번호</th><th>교육기관명</th><th>코드</th>
-                            </tr>
-                        </thead>
-                    </table>
+                    <div>{edu_codes}&nbsp;<button onClick={educodecheckbtn}>확인</button></div>
+
                 </td>
             </tr>
          
@@ -651,9 +610,6 @@ function Regiteacher(){
                         <button onClick={captureImage} disabled={!mediaStream}>
                             사진 찍기
                         </button>
-                        <button onClick={saveImage} disabled={!imageSrc}>
-                            저장하기
-                        </button>
                         <div style={{ display: captured ? 'none' : 'block' }}>
                             <video ref={videoRef} autoPlay width={350} height={250} />
                         </div>
@@ -709,6 +665,7 @@ function Regiteacher(){
             <button onClick={regiselect}>가입유형선택</button>
                 &nbsp;
             <button onClick={account}>회원가입</button>
+
         </div>
     )
 }

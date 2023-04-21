@@ -20,6 +20,10 @@ function Regiselect(){
         window.location.href = "/regiteacher"
     }
 
+    function login(){
+        window.location.href = "/"
+    }
+
     return(
         <div>
             <h1>회원가입</h1>
@@ -53,6 +57,9 @@ function Regiselect(){
 
                 </tr>
             </table>
+            <br/><br/><br/>
+
+            <button onClick={login}>로그인 화면으로</button>
         </div>
     )
 }

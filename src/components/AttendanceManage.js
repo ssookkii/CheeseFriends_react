@@ -15,8 +15,8 @@ function AttendanceManage() {
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [selectedSubject, setSelectedSubject] = useState('');
     const [attendanceData, setAttendanceData] = useState([]);
-    const [isBeforeClassAlertEnabled, setIsBeforeClassAlertEnabled] = useState(false);
-    const [isAbsentAlertEnabled, setIsAbsentAlertEnabled] = useState(false);
+  
+    const [absentAlarm, setabsentAlarm] = useState([]);
 
     function formatDate(date, format) {
         const year = date.getFullYear();
@@ -24,7 +24,6 @@ function AttendanceManage() {
         const day = String(date.getDate()).padStart(2, "0");
         return format.replace(/yyyy/, year).replace(/MM/, month).replace(/dd/, day);
       }
-      
 
       const [subjects, setSubjects] = useState([]);
 
@@ -33,7 +32,6 @@ function AttendanceManage() {
         axios.get(`http://localhost:3000/attManage/subjects/${userId}`)
             .then((response) => {
               setSubjects(response.data);
-              console.log(response.data);
       
               // 첫번째 항목을 기본 선택으로 설정
               if (response.data.length > 0) {
@@ -47,16 +45,16 @@ function AttendanceManage() {
 
       useEffect(() => {
         // 선택한 과목에 대한 출결 데이터를 가져오는 API 호출 
-        // EDU코드 어떻게 할 것인지 판별.
         axios.get(`http://localhost:3000/attManage/${userId}/${selectedSubject}/${eduCode}`)
           .then(response => {
             setAttendanceData(response.data);
-            console.log(response.data);
           })
           .catch(error => {
             console.error(error);
           });
       }, [selectedSubject]);
+      
+
 
       function getAttendanceStats(attendanceData, selectedDate) {
         const year = selectedDate.getFullYear();
@@ -91,13 +89,79 @@ function AttendanceManage() {
         setSelectedSubject(e.target.value);
     };
 
-    const handleBeforeClassAlertChange = (e) => {
-        setIsBeforeClassAlertEnabled(e.target.checked);
-    };
+    const handleBeforeClassAlertChange = (event) => {
+      setminCheck(event.target.checked);
+        const { checked } = event.target;
+        const url =`http://localhost:3000/attManage/${userId}/AlarmTrue`;
+        fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            userId: userId,
+            minCheck: checked // 체크되면 true, 체크해제하면 false
+          }),
+        })
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            return response.json();
+          })
+          .catch((error) => {
+            console.error('Error:', error);
+          });
+      };
+
+      const [minCheck, setminCheck] = useState([]);
+      
+      useEffect(() => {
+        // DB에서 minCheck 값을 가져옴
+        axios.get(`http://localhost:3000/attManage/${userId}/GetAlarm`)
+          .then((response) => {
+            setminCheck(response.data[0].minCheck);
+         
+            // data.minCheck 값이 true이면 minCheck를 true로, 그 외의 경우는 false로 설정
+          })
+          .catch((error) => {
+            console.error('Error:', error);
+            setminCheck(false);
+          });
+      }, []);
 
     const handleAbsentAlertChange = (e) => {
-        setIsAbsentAlertEnabled(e.target.checked);
+      setabsentAlarm(e.target.checked);
+        const { checked } = e.target;
+        const url = `http://localhost:3000/attManage/${userId}/AbsentAlarmTrue`;
+        fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            userId: userId,
+            absentAlarm: checked // 체크되면 true, 체크해제하면 false
+          }),
+        })
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            return response.json();
+          })
+          .catch((error) => {
+            console.error('Error:', error);
+          });
     };
+
+    useEffect(() => {
+      axios.get(`http://localhost:3000/attManage/${userId}/AbsentAlarm`)
+        .then((response) => {
+         setabsentAlarm(response.data[0].absentAlarm);
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+          setabsentAlarm(false);
+        });
+    }, []);
+
     const handleActiveDateChange = ({ activeStartDate }) => {
         setSelectedDate(activeStartDate);
       };
@@ -143,10 +207,10 @@ function AttendanceManage() {
           <br/><br/>
           <div className="checkboxes">
             <label>
-              <span>수업 시작 5분 전 알림</span>
+              <span>수업 시작 30분 전 알림</span>
               <input
                 type="checkbox"
-                checked={isBeforeClassAlertEnabled}
+                checked={minCheck}
                 onChange={handleBeforeClassAlertChange}
               />
             </label>
@@ -155,7 +219,7 @@ function AttendanceManage() {
               <span>'결석' 처리 알림</span>
               <input
                 type="checkbox"
-                checked={isAbsentAlertEnabled}
+                checked={absentAlarm}
                 onChange={handleAbsentAlertChange}
               />
             </label>

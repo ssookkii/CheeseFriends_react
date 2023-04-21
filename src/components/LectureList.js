@@ -35,6 +35,9 @@ export default function LectureList() {
 
     }
 
+    function goUtube(){
+        movePage('/lecture/Youtube');
+    }
     const Btn = styled.button`
         border:none;
         cursor:pointer;
@@ -53,7 +56,7 @@ export default function LectureList() {
                 <td> {list.title} </td>
                 <td> {list.regdate} </td>
                 <td>
-                    <Btn>▶</Btn>
+                    <Btn onClick={goUtube}>▶</Btn>
                 </td>
             </tr>
         )
