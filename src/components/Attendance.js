@@ -1,23 +1,46 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
+import './asset/css/AttendanceSystem.css';
 
 
 function Attendance() {
+  
   const [userId, setUserId] = useState("");
-  const [eduCode, setEduCode] = useState("");
+
   const [subCode, setSubCode] = useState("");
+  const [selectedSubject, setSelectedSubject] = useState('');
   const { search } = useLocation();
   const params = new URLSearchParams(search);
   const initialEduCode = params.get("eduCode");
   const initialSubCode = params.get("subCode");
   const [attendanceStatus, setResponseMessage] = useState("");
   const [userName, setUserName] = useState("");
+  const [subjects, setSubjects] = useState([]);
+
+  const teacherId = sessionStorage.getItem("userId");
+  const [eduCode, setEduCode] = useState(sessionStorage.getItem("eduCode"));
+
+
 
   useEffect(() => {
-    setEduCode(initialEduCode);
-    setSubCode(initialSubCode);
-  }, [initialEduCode, initialSubCode]);
+    // 백엔드에서 과목 데이터를 가져오는 API 호출
+    axios.get(`http://localhost:3000/attManage/subjects/${teacherId}`)
+        .then((response) => {
+          setSubjects(response.data);
+          console.log(response.data);
+  
+          //첫번째 항목을 기본 선택으로 설정
+          if (response.data.length > 0) {
+            setSelectedSubject(response.data[0].subCode);
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+  }, []);
+
+
 
   useEffect(() => {
     if (userId && eduCode && subCode) {
@@ -98,16 +121,37 @@ function Attendance() {
 
   return (
     <div>
-      <div>
+      <div className="attendance-system"  style={{ display: 'flex', justifyContent: 'center' }}>
         <h1>치즈 프렌드 출석 시스템</h1>
-        <button onClick={handleCompareButtonClick}>출석 시스템 실행</button>
+        <nav className="subject_nav">
+  <ul>
+    {subjects.map((subject) => (
+      <li
+        key={subject.subCode}
+        className={selectedSubject === subject.subCode ? 'active' : ''}
+        onClick={() => setSelectedSubject(subject.subCode)}
+        style={{ backgroundColor: selectedSubject === subject.subCode ? '#FFDC9D' : 'transparent' }}
+      >
+        {subject.subName}
+      </li>
+    ))}
+  </ul>
+</nav>
+        <button className="att-sys-button" onClick={handleCompareButtonClick}
+         style={{width:'200px'}}>출석 시스템 실행</button>
+        <br/> <br/> <br/>
         {userId !== "" ? (
           <div>
             <h2>이름: {userName}</h2>
+           
           </div>
+          
         ) : (
-          <div>Loading...</div>
+          
+          <div>Loading...<br/></div>
+         
         )}
+        <br/>
       </div>
 
       <form>
@@ -131,7 +175,7 @@ function Attendance() {
           SubCode:
           <input
             type="text"
-            value={subCode}
+            value={selectedSubject}
             onChange={(e) => setSubCode(e.target.value)}
           />
         </label>

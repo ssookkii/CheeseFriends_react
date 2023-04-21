@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "@ckeditor/ckeditor5-build-classic": "^37.0.1",
     "@ckeditor/ckeditor5-react": "^6.0.0",
     "@ckeditor/ckeditor5-upload": "^37.1.0",
@@ -13,6 +14,8 @@
     "@fortawesome/free-regular-svg-icons": "^6.4.0",
     "@fortawesome/free-solid-svg-icons": "^6.4.0",
     "@fortawesome/react-fontawesome": "^0.2.0",
+=======
+>>>>>>> 0a31c43f1c45f764577454147270a9da54703641
     "@fullcalendar/daygrid": "^6.1.5",
     "@fullcalendar/react": "^6.1.5",
 >>>>>>> 1bec3e788d809e408205bc93ed6569bd2d2e523a
