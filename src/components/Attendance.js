@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
 import './asset/css/AttendanceSystem.css';
+import { Link } from "react-router-dom";
+
 
 
 function Attendance() {
@@ -137,8 +139,9 @@ function Attendance() {
     ))}
   </ul>
 </nav>
+
         <button className="att-sys-button" onClick={handleCompareButtonClick}
-         style={{width:'200px'}}>출석 시스템 실행</button>
+         style={{width:'200px'}}>출석 시스템 실행</button>     
         <br/> <br/> <br/>
         {userId !== "" ? (
           <div>
@@ -186,7 +189,14 @@ function Attendance() {
           <p>{userName}님은 {attendanceStatus} 했습니다.</p>
         </div>
       )}
-      
+      <br/> <br/> <br/> <br/> <br/>
+      {/* <div className="attendance-manage-container">
+      <Link
+  to={`/attendance/attendanceQR?eduCode=${eduCode}&subCode=${selectedSubject}`}
+>
+  QRcode로 출석체크 하기
+</Link>
+       </div> */}
     </div>
   );
 }
