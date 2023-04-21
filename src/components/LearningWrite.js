@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import './LectureWrite.css';
+// import './asset/css/LectureWrite.css';
+
 import axios from "axios";
 
 
@@ -22,7 +23,10 @@ function LearningWrite() {
                 writer,
                 content
         }})
-            .then(resp => console.log(resp))
+            .then(
+                resp => console.log(resp)
+
+            )
             .catch(err => console.log(err));
 
     };

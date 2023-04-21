@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import './asset/css/LectureWrite.css'
+// import './asset/css/LectureWrite.css';
+
 import axios from "axios";
 
-function LectureWrite() {
+
+function TaskWrite() {
 
     const [subject, setSubject] = useState('');
     const [subjectCode, setSubjectCode] = useState('');
@@ -14,7 +16,7 @@ function LectureWrite() {
  
     const submitBtn = (event) => {
         event.preventDefault();
-        axios.post('http://localhost:3000/writeLecture', null, { params: {
+        axios.post('http://localhost:3000/writeTask', null, { params: {
                 subject,
                 subjectCode,
                 title,
@@ -29,7 +31,7 @@ function LectureWrite() {
    
         return (
             <div style={{margin:"30px 150px 50px 150px", padding:"15px", fontSize:"17px"}}>
-                <h2>강의 업로드</h2>
+                <h2>과제 제출</h2>
                 <hr/>
                 <>
                 제목
@@ -60,6 +62,7 @@ function LectureWrite() {
                 </>
                 <div style={{marginTop:"10px"}}>
                     <CKEditor
+                    
                         data={ content }
                         onBlur={ (event, editor) => {
                             const conts = editor.getData();
@@ -69,7 +72,9 @@ function LectureWrite() {
                         editor={ ClassicEditor }
                         config={{
                             placeholder: "내용을 입력하세요.",
-
+                            ckfinder: {
+                                uploadUrl: 'uploadFile.json',
+                            },
                         }}
                         onReady={ editor => {
                             // You can store the "editor" and use when it is needed.
@@ -94,4 +99,4 @@ function LectureWrite() {
 
 
 
-export default LectureWrite;
+export default TaskWrite;

@@ -3,10 +3,20 @@ import 'bootstrap/dist/css/bootstrap.css';
 import axios from "axios";
 import Pagination from 'react-js-pagination';
 import styled from "styled-components";
+import { useNavigate } from 'react-router';
 
 
-function LearningList() {
+export default function LearningList() {
+
     const [learninglist, setLearninglist] = useState([]);
+
+    const movePage = useNavigate();
+
+    function learnwrite() {
+        movePage('/learning/LearningWrite');
+    }
+
+
 
     function getLearnList() {
         axios.get("http://localhost:3000/learninglist")
@@ -89,7 +99,7 @@ function LearningList() {
 
     return(
 
-            <div style={{display:"flex", marginTop:"40px"}}>
+            <div style={{display:"flex", marginTop:"40px"}} className="learnlist">
 
             <div className="d-flex flex-column flex-shrink-0 p-3 text-bg-dark" style={{width:"280px", height:"630px", borderRadius:"16px"}}>
                 <a href="/" className="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
@@ -117,7 +127,7 @@ function LearningList() {
                     </ul>
                     <hr/>
                     <div className="dropdown">
-                        <button type="button" className="btn btn-secondary" style={{width:"248px"}}>
+                        <button type="button" className="btn btn-secondary" onClick={learnwrite} style={{width:"248px"}}>
                             글쓰기
                         </button>
                     </div>
@@ -175,4 +185,3 @@ function LearningList() {
     )
     }
 
-export default LearningList;

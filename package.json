@@ -3,22 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-<<<<<<< HEAD
-<<<<<<< HEAD
     "@ckeditor/ckeditor5-build-classic": "^37.0.1",
     "@ckeditor/ckeditor5-react": "^6.0.0",
     "@ckeditor/ckeditor5-upload": "^37.1.0",
-=======
     "@fortawesome/fontawesome-svg-core": "^6.4.0",
     "@fortawesome/free-brands-svg-icons": "^6.4.0",
     "@fortawesome/free-regular-svg-icons": "^6.4.0",
     "@fortawesome/free-solid-svg-icons": "^6.4.0",
     "@fortawesome/react-fontawesome": "^0.2.0",
-=======
->>>>>>> 0a31c43f1c45f764577454147270a9da54703641
     "@fullcalendar/daygrid": "^6.1.5",
     "@fullcalendar/react": "^6.1.5",
->>>>>>> 1bec3e788d809e408205bc93ed6569bd2d2e523a
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -45,12 +39,9 @@
     "react-speech": "^1.0.2",
     "react-stomp": "^5.1.0",
     "react-youtube": "^10.1.0",
-<<<<<<< HEAD
-    "styled-components": "^5.3.9",
-=======
     "sockjs-client": "^1.6.1",
     "stompjs": "^2.3.3",
->>>>>>> 1bec3e788d809e408205bc93ed6569bd2d2e523a
+    "styled-components": "^5.3.9",
     "tts-js": "^1.0.1",
     "web-vitals": "^2.1.4",
     "websocket": "^1.0.34"
