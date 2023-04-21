@@ -26,12 +26,6 @@ function EduManage(){
     const [page, setPage] = useState(1);
     const [totalCnt, setTotalCnt] = useState(0);
 
-    function logout(){
-        localStorage.removeItem("login");
-        alert("로그아웃되었습니다");
-        navigate("/admin");
-    }
-
     function getEduList(cho, sear, page){
         axios.get("http://localhost:3000/edulist", { params:{"choice":cho, "search":sear, "pageNumber":page} })
         .then(function(resp){
@@ -96,7 +90,7 @@ function EduManage(){
                     <button onClick={searchBtn} className={manage.searchBtn}>검색</button>
                 </div>
                 <Link to="/adminpage/eduAdd" className={manage.eduAdd}>기관등록</Link>
-                <button onClick={logout}>로그아웃</button>
+                
             </div>
             <table className={`${manage.manageList} ${manage.edulist}`}>
                 <thead>

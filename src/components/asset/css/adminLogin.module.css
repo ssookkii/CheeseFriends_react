@@ -1,0 +1,73 @@
+.loginWrap {
+    width:450px;
+    padding:100px 0;
+    margin:200px auto;
+    display: flex;
+    flex-flow: column;
+    /* box-shadow: 12px 12px 2px 1px #fac463; */
+}
+h1::before {
+    content:'';
+    background:url(../../../../public/img/logo100h.png) no-repeat;
+    position: absolute;
+    left: 25%;
+    top: -31px;
+    width: 200px;
+    height: 40px;
+    background-size: 200px;
+}
+h1 {
+    position:relative;
+    text-align: center;
+    font-size:1.0em;
+    font-weight: 600;
+    color:#555;
+}
+.loginContent {
+    display: flex;
+    flex-flow:column;
+    margin:0 auto;
+}
+/* id/pw입력칸 공통 */
+.idPwInput {
+    width:300px;
+    height:50px;
+    border:solid 1px #ddd;
+    border-radius: 10px;
+    padding : 10px 20px;
+}
+.idInput {
+    margin:30px 0 10px;
+}
+.pwInput {
+    margin:0 0 15px 0;
+}
+.rememberId{
+    display:none;
+}
+.label {
+    font-size:0.9em;
+    color:#555;
+    display: flex;
+    align-items: center;
+}
+.label::before {
+    background:url(../../../../public/img/check_icon.png);
+    content:'';
+    display:inline-block;
+    width:22px;
+    height:22px;
+    margin-right:10px;
+}
+.rememberId:checked+label::before {
+    background-position: 22px 0;
+}
+.loginBtn {
+    width:300px;
+    height:50px;
+    color:#fff;
+    background: #434343;
+    font-weight:600;
+    border-radius: 10px;
+    margin:20px 0 10px;
+}
