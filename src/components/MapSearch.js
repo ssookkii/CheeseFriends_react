@@ -1,7 +1,10 @@
 /*global kakao*/
 import React, { useState } from 'react';
 import ReactModal from 'react-modal';
-import './mapSearch.css';
+import './asset/css/mapSearch.css';
+
+import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function MapSearch({isOpen, onClose, setPlace}) {
     let ps = new kakao.maps.services.Places(); 
@@ -160,17 +163,19 @@ function MapSearch({isOpen, onClose, setPlace}) {
             el.removeChild(el.lastChild);
         }
     }
+    const activeEnter = (e) => {
+        if(e.key === "Enter") {
+            searchPlaces()
+        }
+    }
 
     return (
             <ReactModal isOpen={isOpen} onRequestClose={() => onClose()}>
                 <div id="menu_wrap" className="bg_white">
                     <div className="option">
-                        <div>
-                            키워드 : <input type="text" onChange={(e) => setKeyword(e.target.value)} size="15" />
-                            <button onClick={() => searchPlaces()}>검색하기</button>
-                        </div>
+                            <input type="text" className="mapInputKeword" onChange={(e) => setKeyword(e.target.value)} onKeyPress={(e) => activeEnter(e)} placeholder='학원이름 또는 주소를 입력하세요' autoFocus/>
+                            <button onClick={() => searchPlaces()}><FontAwesomeIcon icon={faMagnifyingGlass} /></button>
                     </div>
-                    <hr />
                     <ul id="placesList"></ul>
                     <div id="pagination"></div>
                 </div>

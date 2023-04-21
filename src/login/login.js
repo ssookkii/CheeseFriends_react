@@ -91,13 +91,12 @@ function Login(){
                     <input type="checkbox" checked={saveId} onChange={checkHandler} />id 저장
                 </td>
             </tr>
-           
 
             </tbody>
             </table>
 
             <br/>
-            처음이신가요?&nbsp;<a href="/regi">회원가입</a>
+            처음이신가요?&nbsp;<a href="/regiselect">회원가입</a>
             <br/>
             <a href="/idsearch">ID/비밀번호 찾기</a>
         </div>

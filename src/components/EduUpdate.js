@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { MapMarker, Map } from "react-kakao-maps-sdk";
 import axios from "axios";
 
 import MapSearch from './MapSearch';
-import { useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
+
+import styles from './asset/css/addEdit.module.css'
 
 function EduUpdate(){
     const [isOpen, setOpen] = useState(false);
@@ -15,25 +17,34 @@ function EduUpdate(){
         x : "",
         y : "",
     });
+    const [showMap, setShowMap] = useState(false);
 
+    const navigate = useNavigate();
     let params = useParams();
-    console.log(params.eduCode);
+    const prevPlace = usePrevPlace(place);
 
+    function usePrevPlace(place){
+        const prevPlace = useRef(place);
+        useEffect(() => {
+            prevPlace.current = place
+        }, [place]);
+        return prevPlace.current;
+    }
+    console.log(prevPlace.road_address_name);
+    console.log(place.road_address_name);
+    console.log(showMap);
+
+    // 모달창 열고 닫는 handler
     const openSearchModalHandler = () => {
         setOpen(true);
     };
-
     const closeSearchModalHandler = () => {
         setOpen(false);
+        setShowMap(true);
     };
-
-
-    console.log(place);
-    console.log(isOpen);
 
     const getEduData = async(eduCode) => {
         const response = await axios.get("http://localhost:3000/getEdu", {params:{"eduCode":eduCode}})
-            console.log(response.data);
             setPlace({
                 place_name : response.data.eduName,
                 road_address_name : response.data.eduAddress,
@@ -49,12 +60,14 @@ function EduUpdate(){
         let eduData = null;
         if(place.road_address_name !== null || place.road_address_name !== "") {
             eduData = {
+                eduCode : params.eduCode,
                 eduName : place.place_name,
                 eduAddress : place.road_address_name,
                 eduPhone : place.phone
             }
         }else {
             eduData = {
+                eduCode : params.eduCode,
                 eduName : place.place_name,
                 eduAddress : place.address_name,
                 eduPhone : place.phone
@@ -64,8 +77,7 @@ function EduUpdate(){
         .then(function(resp){
             if(resp.data !== null && resp.data !== "" && resp.data === "success"){
                 alert("수정되었습니다");
-                console.log(resp.data);
-                // history("/");
+                navigate("/adminpage/edumanage");
             }else if(resp.data !== null && resp.data !== "" && resp.data === "fail"){
                 alert("입력칸을 확인해주십시오")
             }else if(resp.data !== null && resp.data !== "" && resp.data === "duplicate"){
@@ -79,18 +91,27 @@ function EduUpdate(){
 
     return (
 
-        <div>
-
-                <input type="text" defaultValue={place.place_name} placeholder='학원이름'/>
-                {place.road_address_name !== null && place.road_address_name !== "" ? (
-                    <input type="text" defaultValue={place.road_address_name} placeholder='학원검색'/>
-                    ) : (
-                    <input type="text" defaultValue={place.address_name} placeholder='학원검색'/>
-                )}
-                <button onClick={openSearchModalHandler}>검색</button>
+        <div className={styles.addEditWrap}>
+            <h2 className={styles.title}>교육기관수정</h2>
+            <div>
+                <input type="hidden" defaultValue={params.eduCode}/>
+                <div className={styles.InputBox}>
+                    <span>교육기관이름</span>
+                    <input type="text" className={styles.Input} defaultValue={place.place_name} placeholder='학원이름'/>
+                </div>
+                <div className={styles.InputBox}>
+                    <span>교육기관주소</span>
+                    {place.road_address_name !== null && place.road_address_name !== "" ? (
+                        <input type="text" className={styles.Input} defaultValue={place.road_address_name} placeholder='학원검색'/>
+                        ) : (
+                        <input type="text" className={styles.Input} defaultValue={place.address_name} placeholder='학원검색'/>
+                    )}
+                    <button className={styles.btn} onClick={openSearchModalHandler}>검색</button>
+                </div>
                 <MapSearch isOpen={isOpen} onClose={closeSearchModalHandler} setPlace={setPlace}/>
                 
-                <Map // 지도를 표시할 Container
+                {prevPlace.road_address_name !== place.road_address_name && showMap ?
+                    <Map // 지도를 표시할 Container
                     center={{
                         // 지도의 중심좌표
                         lat: place.y,
@@ -98,7 +119,7 @@ function EduUpdate(){
                     }}
                     style={{
                         // 지도의 크기
-                        width: "450px",
+                        width: "100%",
                         height: "450px",
                         zIndex: 1,
                     }}
@@ -111,11 +132,15 @@ function EduUpdate(){
                         lng: place.x,
                         }}
                     />
-                    </Map>
-
-                <input type="text" defaultValue={place.phone} placeholder='학원번호'/>
-                <button onClick={eduUpdate}>수정완료</button>
-        </div>
+                </Map> : ""}
+                
+                    <div className={styles.InputBox}>
+                        <span>교육기관전화번호</span>
+                        <input type="text" className={styles.Input} defaultValue={place.phone} placeholder='학원번호'/>
+                    </div>
+                    <button className={`${styles.btn} ${styles.btnCenter}`} onClick={eduUpdate}>수정완료</button>
+                </div>
+            </div>
     )
 }
 export default EduUpdate

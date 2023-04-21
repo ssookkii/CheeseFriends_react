@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import { MapMarker, Map } from "react-kakao-maps-sdk";
 import axios from "axios";
+import { useNavigate } from 'react-router';
 
 import MapSearch from './MapSearch';
 
+import styles from './asset/css/addEdit.module.css'
+
 function EduAdd() {
-    // const history = useNavigate();
+    const navigate = useNavigate();
 
     const [isOpen, setOpen] = useState(false);
     const [place, setPlace] = useState({
@@ -13,8 +16,8 @@ function EduAdd() {
         road_address_name : "",
         address_name : "",
         phone : "",
-        x : "",
-        y : "",
+        x : 33.450701,
+        y : 126.570667,
     });
 
     const openSearchModalHandler = () => {
@@ -25,10 +28,9 @@ function EduAdd() {
         setOpen(false);
     };
 
-
     console.log(place);
     console.log(isOpen);
-
+    
     function eduAdd(){
         let eduData = null;
         if(place.road_address_name !== null || place.road_address_name !== "") {
@@ -51,7 +53,7 @@ function EduAdd() {
             if(resp.data !== null && resp.data !== "" && resp.data === "success"){
                 alert("등록되었습니다");
                 console.log(resp.data);
-                // history("/");
+                navigate("/adminpage/edumanage");
             }else if(resp.data !== null && resp.data !== "" && resp.data === "fail"){
                 alert("입력칸을 확인해주십시오")
             }else if(resp.data !== null && resp.data !== "" && resp.data === "duplicate"){
@@ -65,18 +67,26 @@ function EduAdd() {
 
     return (
 
-        <div>
-
-                <input type="text" defaultValue={place.place_name} placeholder='학원이름'/>
-                {place.road_address_name !== null && place.road_address_name !== "" ? (
-                    <input type="text" defaultValue={place.road_address_name} placeholder='학원검색'/>
-                    ) : (
-                    <input type="text" defaultValue={place.address_name} placeholder='학원검색'/>
-                )}
-                <button onClick={openSearchModalHandler}>검색</button>
+        <div className={styles.addEditWrap}>
+            <h2 className={styles.title}>교육기관등록</h2>
+            <div>
+                <div className={styles.InputBox}>
+                    <span>교육기관이름</span>
+                    <input type="text" className={styles.Input} defaultValue={place.place_name} placeholder='학원이름'/>
+                </div>
+                <div className={styles.InputBox}>
+                    <span>교육기관주소</span>
+                    {place.road_address_name !== null && place.road_address_name !== "" ? (
+                        <input type="text" className={styles.Input} defaultValue={place.road_address_name} placeholder='학원검색'/>
+                        ) : (
+                        <input type="text" className={styles.Input} defaultValue={place.address_name} placeholder='학원검색'/>
+                    )}
+                    <button className={styles.btn} onClick={openSearchModalHandler}>검색</button>
+                </div>
                 <MapSearch isOpen={isOpen} onClose={closeSearchModalHandler} setPlace={setPlace}/>
                 
-                <Map // 지도를 표시할 Container
+                {place.place_name !== null && place.place_name !== "" ?
+                    (<Map // 지도를 표시할 Container
                     center={{
                         // 지도의 중심좌표
                         lat: place.y,
@@ -84,7 +94,7 @@ function EduAdd() {
                     }}
                     style={{
                         // 지도의 크기
-                        width: "450px",
+                        width: "100%",
                         height: "450px",
                         zIndex: 1,
                     }}
@@ -97,10 +107,13 @@ function EduAdd() {
                         lng: place.x,
                         }}
                     />
-                    </Map>
-
-                <input type="text" defaultValue={place.phone} placeholder='학원번호'/>
-                <button onClick={eduAdd}>학원등록</button>
+                </Map>) : (<div/>)}
+                <div className={styles.InputBox}>
+                    <span>교육기관전화번호</span>
+                    <input type="text" className={styles.Input} defaultValue={place.phone} placeholder='학원번호'/>
+                </div>
+                <button className={`${styles.btn} ${styles.btnCenter}`} onClick={eduAdd}>학원등록</button>
+            </div>
         </div>
 
 

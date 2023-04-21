@@ -1,13 +1,11 @@
 import React, {useEffect} from 'react';
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
-
+import Attendance from "./components/Attendance";
+import AttendanceManage from "./components/AttendanceManage";
+import Test from "./components/Test";
 import './App.css';
-import Idsearch from './login/idsearch';
 import Login from './login/login';
 import Regi from './login/regi';
-import RegiParents from './login/regiparents';
-import Regiselect from './login/regiselect';
-import Regiteacher from './login/regiteacher';
 
 function App() {
 
@@ -20,14 +18,13 @@ function App() {
             <div className="container">
               <Routes>
 
-                <Route path="/" element={<Login/>}></Route>
+                <Route path="/login" element={<Login/>}></Route>
 
-                <Route path="/regiselect" element={<Regiselect/>}></Route>
                 <Route path="/regi" element={<Regi/>}></Route>
-                <Route path="/regiparents" element={<RegiParents/>}></Route>
-                <Route path="/regiteacher" element={<Regiteacher/>}></Route>
-                <Route path="/idsearch" element={<Idsearch/>}></Route>
 
+                <Route path="/attendance" element={<Attendance />} />
+                <Route path="/AttendanceManage" element={<AttendanceManage />} />
+                <Route path="/" element={<Test />} />
               </Routes>
             </div>
           </div>
