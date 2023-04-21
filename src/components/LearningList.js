@@ -1,31 +1,27 @@
 import React, { useEffect, useState } from 'react';
-import { Router, Routes, Link, useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.css';
-import { YouTubePlayer } from 'react-youtube';
 import axios from "axios";
-import Youtube from './Youtube';
 import Pagination from 'react-js-pagination';
 import styled from "styled-components";
-import AbLectureList from './AbLectureList';
+import { useNavigate } from 'react-router';
 
-export default function LectureList() {
-    const [lecturelist, setLecturelist] = useState([]);
+
+export default function LearningList() {
+
+    const [learninglist, setLearninglist] = useState([]);
 
     const movePage = useNavigate();
 
-    function lectwrite() {
-        movePage('/lecture/LectureWrite');
+    function learnwrite() {
+        movePage('/learning/LearningWrite');
     }
 
-    function AbLink() {
-        movePage('/lecture/AbLectureList');
 
-    }
 
-    function getLecList(seq) {
-        axios.get("http://localhost:3000/lecturelist")
+    function getLearnList() {
+        axios.get("http://localhost:3000/learninglist")
         .then(function(resp){
-            setLecturelist(resp.data);
+            setLearninglist(resp.data);
             console.log(resp.data);
             
         })
@@ -45,7 +41,7 @@ export default function LectureList() {
       }
     `;
 
-    const Leclist = lecturelist.map((list, i)=>{
+    const LearnList = learninglist.map((list, i)=>{
         return(
             <tr key={i}>
                 <th scope='row'> {i + 1} </th>
@@ -53,18 +49,17 @@ export default function LectureList() {
                 <td> {list.title} </td>
                 <td> {list.regdate} </td>
                 <td>
-                    <Btn>▶</Btn>
+                    {list.writer}
                 </td>
             </tr>
         )
     })
 
     useEffect(function(){
-        getLecList(0);
+        getLearnList(0);
     },[]);
     
-
-
+ 
     const [bbslist, setBbslist] = useState([]);
     const [choice, setChoice] = useState('');
 
@@ -104,30 +99,35 @@ export default function LectureList() {
 
     return(
 
-            <div style={{display:"flex"}}>
+            <div style={{display:"flex", marginTop:"40px"}} className="learnlist">
 
             <div className="d-flex flex-column flex-shrink-0 p-3 text-bg-dark" style={{width:"280px", height:"630px", borderRadius:"16px"}}>
                 <a href="/" className="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
                     <svg className="bi pe-none me-2" style={{width:"40", height:"32" }} ><use xlinkHref="#bootstrap"></use></svg>
-                    <span className="fs-4">인강 학습실</span>
+                    <span className="fs-4">학습용 자료실</span>
                 </a>
                 <hr />
                     <ul className="nav nav-pills flex-column mb-auto">
 
                         <li className="nav-item">
                                  <a href="#" className="nav-link active" aria-current="page" >                                        
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;외부강의 
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;수업 자료실 
                                 </a>
                         </li>
                         <li>
-                                <a href="#" className="nav-link text-white" onClick={AbLink} >
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;결석 학생용
+                                <a href="#" className="nav-link text-white" >
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;과제 제출실
+                                </a>
+                        </li>
+                        <li>
+                                <a href="#" className="nav-link text-white" >
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;수업 질문방
                                 </a>
                         </li>
                     </ul>
                     <hr/>
                     <div className="dropdown">
-                        <button type="button" className="btn btn-secondary" style={{width:"248px"}} onClick={lectwrite}>
+                        <button type="button" className="btn btn-secondary" onClick={learnwrite} style={{width:"248px"}}>
                             글쓰기
                         </button>
                     </div>
@@ -137,7 +137,7 @@ export default function LectureList() {
         {/* 목록 */}
         <div style={{display:"block", width:"1000px", marginTop:"25px", marginLeft:"20px"}}>
             <div style={{display:"flex"}}>
-            <h2>외부 강의</h2>
+            <h2>수업 자료실</h2>
             <select value={choice} onChange={(e)=>setChoice(e.target.value)}
                 style={{marginLeft:"140px", marginTop:"6px", height:"40", border:"none", borderBottom:"2px solid gray"}}>
                 <option value="">과목 선택하기</option>
@@ -168,13 +168,13 @@ export default function LectureList() {
                 <tr>
                     <th scope="col">번호</th>
                     <th scope="col">과목</th>
-                    <th scope="col">강의제목</th>
+                    <th scope="col">제목</th>
                     <th scope="col">작성일</th>
-                    <th scope="col"></th>
+                    <th scope="col">작성자</th>
                 </tr>
             </thead>
             <tbody className="table-group-divider">
-                {Leclist}
+                {LearnList}
             </tbody>
         </table>
         </div>
@@ -183,5 +183,5 @@ export default function LectureList() {
     </div>
 
     )
-}
+    }
 
