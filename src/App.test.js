@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import App from './App';
+import App from './App_psj';
 //merge 테스트
 //test//
 //test// 소영님 화이팅,,,,
