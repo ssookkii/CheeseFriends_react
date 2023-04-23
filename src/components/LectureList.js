@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { Router, Routes, Link, useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.css';
+import { faRobot } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { YouTubePlayer } from 'react-youtube';
 import axios from "axios";
 import Youtube from './Youtube';
 import Pagination from 'react-js-pagination';
 import styled from "styled-components";
-import AbLectureList from './AbLectureList';
+import './asset/css/ChatbotIcon.css'
 
 export default function LectureList() {
     const [lecturelist, setLecturelist] = useState([]);
@@ -20,6 +22,15 @@ export default function LectureList() {
     function AbLink() {
         movePage('/lecture/AbLectureList');
 
+    }
+    function moveleclist() {
+        movePage('/lecture/LectureList')
+    }
+    function movelearnlist() {
+        movePage('/learning/LearningList');
+    }
+    function movetasklist() {
+        movePage('/learning/TaskList');
     }
 
     function getLecList(seq) {
@@ -107,7 +118,7 @@ export default function LectureList() {
 
     return(
 
-            <div style={{display:"flex"}}>
+            <div style={{display:"flex", marginTop:"116px"}}>
 
             <div className="d-flex flex-column flex-shrink-0 p-3 text-bg-dark" style={{width:"280px", height:"630px", borderRadius:"16px"}}>
                 <a href="/" className="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
@@ -118,14 +129,14 @@ export default function LectureList() {
                     <ul className="nav nav-pills flex-column mb-auto">
 
                         <li className="nav-item">
-                                 <a href="#" className="nav-link active" aria-current="page" >                                        
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;외부강의 
-                                </a>
+                            <a href="#" className="nav-link active" aria-current="page" >                                        
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;외부강의 
+                            </a>
                         </li>
                         <li>
-                                <a href="#" className="nav-link text-white" onClick={AbLink} >
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;결석 학생용
-                                </a>
+                            <a href="#" className="nav-link text-white" onClick={AbLink} >
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;결석 학생용
+                            </a>
                         </li>
                     </ul>
                     <hr/>
@@ -139,10 +150,12 @@ export default function LectureList() {
 
         {/* 목록 */}
         <div style={{display:"block", width:"1000px", marginTop:"25px", marginLeft:"20px"}}>
-            <div style={{display:"flex"}}>
-            <h2>외부 강의</h2>
+            <div style={{display:"flex", marginTop:"-100px"}}>
+            <div style={{width:"310px", marginRight:"16px", cursor:"pointer", paddingTop:"19px", borderRadius:"14px", backgroundColor:"#0d6efd", color:"white", textAlign:"center"}} onClick={moveleclist}><h3>인강학습실</h3></div>
+            <div style={{width:"310px", marginRight:"16px", cursor:"pointer", paddingTop:"19px", borderRadius:"14px", backgroundColor:"white", textAlign:"center"}} onClick={movelearnlist}><h3>학습용자료실</h3></div>
+            <div style={{width:"310px", marginRight:"16px",cursor:"pointer", paddingTop:"19px", borderRadius:"14px", backgroundColor:"white", textAlign:"center"}} onClick={movetasklist}><h3>과제 제출실</h3></div>
             <select value={choice} onChange={(e)=>setChoice(e.target.value)}
-                style={{marginLeft:"140px", marginTop:"6px", height:"40", border:"none", borderBottom:"2px solid gray"}}>
+                style={{ marginTop:"6px", border:"none", height:"36px", borderBottom:"2px solid gray"}}>
                 <option value="">과목 선택하기</option>
                 <option value="kor">국어</option>
                 <option value="math">수학</option>
@@ -151,10 +164,10 @@ export default function LectureList() {
                 <option value="sci">과학</option>
             </select>
             <button onClick={searchBtn}
-                style={{marginLeft:"14px", marginTop:"15px", height:"31px", borderRadius:"6px", width:"58px", background:"#0d6efd", color:"#fff", border:"none", cursor:"pointer"}}>
+                style={{marginLeft:"8px", marginTop:"15px", height:"31px", borderRadius:"6px", width:"80px", background:"#0d6efd", color:"#fff", border:"none", cursor:"pointer"}}>
                 선택
             </button>
-            <div style={{marginLeft:"260px", marginTop:"6px"}}>
+            <div style={{marginLeft:"60px", marginTop:"6px"}}>
             <Pagination 
                 activePage={page}
                 itemsCountPerPage={10}
@@ -181,7 +194,8 @@ export default function LectureList() {
             </tbody>
         </table>
         </div>
-
+        
+        <FontAwesomeIcon icon="fa-solid fa-robot" size='2x' className='chatbot' />
         
     </div>
 

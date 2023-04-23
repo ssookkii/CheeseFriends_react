@@ -20,12 +20,12 @@ function App_sjy() {
         <BrowserRouter>
             <main>
                 <Routes>
-                        <Route path="/lecture" element={ <LectureList/>} />
+                        <Route path="/lecture/LectureList" element={ <LectureList/>} />
                         <Route path="/lecture/AbLectureList" element={ <AbLectureList/>} />
                         <Route path="/lecture/LectureWrite" element={ <LectureWrite/>} />
                         <Route path="/lecture/Youtube" element={ <Youtube/>} />
 
-                        <Route path="/learning" element={ <LearningList/>} />
+                        <Route path="/learning/LearningList" element={ <LearningList/>} />
                         <Route path="/learning/LearningDetail" element={ <LearningDetail/>} />
                         <Route path="/learning/LearningWrite" element={ <LearningWrite/>} />
                        

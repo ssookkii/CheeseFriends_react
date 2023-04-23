@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { CKEditor } from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { navigate, useNavigate } from 'react-router';
 // import './asset/css/LectureWrite.css';
 
 import axios from "axios";
@@ -13,9 +12,33 @@ function TaskWrite() {
     const [title, setTitle] = useState('');
     const [writer, setWriter] = useState('');
     const [content, setContent] = useState('');
- 
-    const submitBtn = (event) => {
-        event.preventDefault();
+
+    const navigate = useNavigate();
+
+    const onSubmit = (e) => {
+        e.preventDefault();
+        // alert('onSubmit');
+    
+        // file + form field -> 짐을 싼다
+        let formData = new FormData();
+        formData.append("subject", subject);
+        formData.append("subjectCode", subjectCode);
+        formData.append("title", title);
+        formData.append("writer", writer);
+        formData.append("content", content);
+    
+        formData.append("uploadFile", document.frm.uploadFile.files[0]);
+    
+        // 보내자!
+        axios.post("http://localhost:3000/fileUpload", formData)
+        .then(res=>{
+           console.log(res.data);
+           alert('file upload에 성공했습니다');
+        })
+        .catch(function(error){
+           alert('file upload에 실패했습니다');
+        });
+
         axios.post('http://localhost:3000/writeTask', null, { params: {
                 subject,
                 subjectCode,
@@ -23,16 +46,44 @@ function TaskWrite() {
                 writer,
                 content
         }})
-            .then(resp => console.log(resp))
+        .then( resp => {
+            console.log(resp);
+            navigate('/learning/TaskList');
+            })
             .catch(err => console.log(err));
 
-    };
+        }
+
+        // download
+        const download = async () => {
+            let filename = "zoom.txt";
+
+            const url = "http://localhost:3000/fileDownload?filename=" + filename;
+
+            // a tag 를 생성 + 자동실행
+            /*
+            const download = document.createElement('a');   // <a href='' 
+            download.setAttribute('href', url);
+            download.setAttribute('download', filename);
+            download.setAttribute('type', 'application/json');
+            download.click();
+            */
+
+            // react에서 window를 붙여줘야 한다
+            window.location.href = url;
+        }
+
+            const resetBtn = () => {
+                navigate('/learning/TaskList');
+            }
+
 
    
         return (
             <div style={{margin:"30px 150px 50px 150px", padding:"15px", fontSize:"17px"}}>
                 <h2>과제 제출</h2>
                 <hr/>
+                <form name="frm" onSubmit={onSubmit} encType="multipart/form-data">
                 <>
                 제목
                 <input type="text" id='title' className='title' name='title'
@@ -60,39 +111,14 @@ function TaskWrite() {
                 <>
                 내용
                 </>
-                <div style={{marginTop:"10px"}}>
-                    <CKEditor
-                    
-                        data={ content }
-                        onBlur={ (event, editor) => {
-                            const conts = editor.getData();
+                <input type="file" name='uploadFile' accept='*'/>
+                <hr/>
 
-                            setContent(conts);
-                        }}
-                        editor={ ClassicEditor }
-                        config={{
-                            placeholder: "내용을 입력하세요.",
-                            ckfinder: {
-                                uploadUrl: 'uploadFile.json',
-                            },
-                        }}
-                        onReady={ editor => {
-                            // You can store the "editor" and use when it is needed.
-                            console.log( 'Editor is ready to use!', editor );
-                        } }
-                        onChange={ ( event, editor ) => {
-                            const data = editor.getData();
-                            console.log( { event, editor, data } );
-                        } }
-                        onFocus={ ( event, editor ) => {
-                            console.log( 'Focus.', editor );
-                        } }
-                    />
-                </div>
                 <div className='btnwrapper'>
-                <button type='reset'>취소</button>
-                <button type='submit' onClick={submitBtn}>등록</button>
+                <button type='button' onClick={resetBtn}>취소</button>
+                <button type='submit' value='file upload'>등록</button>
                 </div>
+                </form>
             </div>
         );
     }
