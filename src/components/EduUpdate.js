@@ -97,7 +97,7 @@ function EduUpdate(){
                 <input type="hidden" defaultValue={params.eduCode}/>
                 <div className={styles.InputBox}>
                     <span>교육기관이름</span>
-                    <input type="text" className={styles.Input} defaultValue={place.place_name} placeholder='학원이름'/>
+                    <input type="text" className={styles.Input} defaultValue={place.place_name} onInput={(e) => setPlace(prevState => ({...prevState, place_name: e.target.value}))} placeholder='학원이름'/>
                 </div>
                 <div className={styles.InputBox}>
                     <span>교육기관주소</span>
@@ -136,7 +136,7 @@ function EduUpdate(){
                 
                     <div className={styles.InputBox}>
                         <span>교육기관전화번호</span>
-                        <input type="text" className={styles.Input} defaultValue={place.phone} placeholder='학원번호'/>
+                        <input type="text" className={styles.Input} defaultValue={place.phone} onInput={(e) => setPlace(prevState => ({...prevState, phone: e.target.value}))} placeholder='학원번호'/>
                     </div>
                     <button className={`${styles.btn} ${styles.btnCenter}`} onClick={eduUpdate}>수정완료</button>
                 </div>

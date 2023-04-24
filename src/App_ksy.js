@@ -16,6 +16,7 @@ import TeaUpdate from './components/TeaUpdate';
 import SendMailManage from './components/SendMailManage';
 import MailWrite from './components/MailWrite';
 import QnAManage from './components/QnAManage';
+import QnaAnswer from './components/QnaAnswer';
 
 
 function App_ksy() {
@@ -39,6 +40,7 @@ function App_ksy() {
                                     <Route path="/adminpage/sendmailmanage" exact element={<SendMailManage />} />
                                     <Route path="/adminpage/mailwrite" exact element={<MailWrite />} />
                                     <Route path="/adminpage/qnamanage" exact element={<QnAManage />} />
+                                    <Route path="/adminpage/qnaanswer/:seq" exact element={<QnaAnswer />} />
                                 </Route>
                         
                         </Route>
