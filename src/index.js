@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ReactModal from 'react-modal';
-import App from './App_psj';
+import App from './App_sjy';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 

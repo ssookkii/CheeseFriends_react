@@ -66,6 +66,7 @@ export default function LearningDetail() {
         </table>
         <button className="post-view-go-list-btn" onClick={learnlist}>목록</button>
       </div>
+
     </>
   )
 }

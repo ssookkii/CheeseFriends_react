@@ -1,0 +1,18 @@
+.chatbot {
+    width: 100%;
+    height: 120px;
+    text-align: center;
+    color: #E62200;
+    max-width: 300px;
+    border: solid 10px #ffa23c;
+    background: none;
+    border-radius: 15px;
+    padding-top: 30px;
+    animation: up-down 1.4s infinite ease-in-out alternate;
+
+    @keyframes up-down{
+        from{ transform: translatey(0px); }
+        to{ transform: translatey(-20px); }
+    }
+
+}

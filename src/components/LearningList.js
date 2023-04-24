@@ -16,6 +16,19 @@ export default function LearningList() {
         movePage('/learning/LearningWrite');
     }
 
+    function tasklist() {
+        movePage('/learning/TaskList');
+    }
+
+    function moveleclist() {
+        movePage('/lecture/LectureList')
+    }
+    function movelearnlist() {
+        movePage('/learning/LearningList');
+    }
+    function movetasklist() {
+        movePage('/learning/TaskList');
+    }
 
 
     function getLearnList() {
@@ -77,7 +90,7 @@ export default function LearningList() {
           setTotalCnt(resp.data.cnt);
         })
         .catch(function(err){
-                alert(err);
+            alert(err);
         })
     }
 
@@ -99,7 +112,7 @@ export default function LearningList() {
 
     return(
 
-            <div style={{display:"flex", marginTop:"40px"}} className="learnlist">
+            <div style={{display:"flex", marginTop:"116px"}} className="learnlist">
 
             <div className="d-flex flex-column flex-shrink-0 p-3 text-bg-dark" style={{width:"280px", height:"630px", borderRadius:"16px"}}>
                 <a href="/" className="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
@@ -110,19 +123,19 @@ export default function LearningList() {
                     <ul className="nav nav-pills flex-column mb-auto">
 
                         <li className="nav-item">
-                                 <a href="#" className="nav-link active" aria-current="page" >                                        
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;수업 자료실 
-                                </a>
+                            <a href="#" className="nav-link active" aria-current="page" >                                        
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;수업 자료실 
+                            </a>
                         </li>
                         <li>
-                                <a href="#" className="nav-link text-white" >
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;과제 제출실
-                                </a>
+                            <a href="#" className="nav-link text-white" onClick={tasklist}>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;과제 제출실
+                            </a>
                         </li>
                         <li>
-                                <a href="#" className="nav-link text-white" >
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;수업 질문방
-                                </a>
+                            <a href="#" className="nav-link text-white" >
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;수업 질문방
+                            </a>
                         </li>
                     </ul>
                     <hr/>
@@ -136,10 +149,12 @@ export default function LearningList() {
 
         {/* 목록 */}
         <div style={{display:"block", width:"1000px", marginTop:"25px", marginLeft:"20px"}}>
-            <div style={{display:"flex"}}>
-            <h2>수업 자료실</h2>
+        <div style={{display:"flex", marginTop:"-100px"}}>
+            <div style={{width:"310px", marginRight:"16px", cursor:"pointer", paddingTop:"19px", borderRadius:"14px", backgroundColor:"white", textAlign:"center"}} onClick={moveleclist}><h3>인강학습실</h3></div>
+            <div style={{width:"310px", marginRight:"16px", cursor:"pointer", paddingTop:"19px", borderRadius:"14px", backgroundColor:"#0d6efd", color:"white", textAlign:"center"}} onClick={movelearnlist}><h3>학습용자료실</h3></div>
+            <div style={{width:"310px", marginRight:"16px",cursor:"pointer", paddingTop:"19px", borderRadius:"14px", backgroundColor:"white", textAlign:"center"}} onClick={movetasklist}><h3>과제 제출실</h3></div>
             <select value={choice} onChange={(e)=>setChoice(e.target.value)}
-                style={{marginLeft:"140px", marginTop:"6px", height:"40", border:"none", borderBottom:"2px solid gray"}}>
+                style={{marginTop:"6px", border:"none", height:"36px", borderBottom:"2px solid gray"}}>
                 <option value="">과목 선택하기</option>
                 <option value="kor">국어</option>
                 <option value="math">수학</option>
@@ -148,10 +163,10 @@ export default function LearningList() {
                 <option value="sci">과학</option>
             </select>
             <button onClick={searchBtn}
-                style={{marginLeft:"14px", marginTop:"15px", height:"31px", borderRadius:"6px", width:"58px", background:"#0d6efd", color:"#fff", border:"none", cursor:"pointer"}}>
+                style={{marginLeft:"8px", marginTop:"15px", height:"31px", borderRadius:"6px", width:"80px", background:"#0d6efd", color:"#fff", border:"none", cursor:"pointer"}}>
                 선택
             </button>
-            <div style={{marginLeft:"260px", marginTop:"6px"}}>
+            <div style={{marginLeft:"60px", marginTop:"6px"}}>
             <Pagination 
                 activePage={page}
                 itemsCountPerPage={10}
