@@ -194,7 +194,7 @@ export default function LectureList() {
                 style={{marginLeft:"8px", marginTop:"28px", height:"31px", borderRadius:"6px", width:"80px", background:"#0d6efd", color:"#fff", border:"none", cursor:"pointer"}}>
                 선택
             </button>
-            <div style={{marginLeft:"60px", marginTop:"6px"}}>
+            {/* <div style={{marginLeft:"60px", marginTop:"6px"}}>
 
                 <Pagination 
 
@@ -206,7 +206,7 @@ export default function LectureList() {
                 nextPageText={"›"}
                 onChange={pageChange} /> 
             
-            </div>
+            </div> */}
         
         </div>
         <table className="table" style={{marginTop:"28px"}}>
