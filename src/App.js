@@ -19,6 +19,7 @@ import TeaUpdate from './components/TeaUpdate';
 import SendMailManage from './components/SendMailManage';
 import MailWrite from './components/MailWrite';
 import QnAManage from './components/QnAManage';
+import GradeManage from './components/GradeManage';
 
 import Attendance from "./components/Attendance";
 import AttendanceQR from "./components/AttendanceQR";
@@ -107,6 +108,7 @@ function App() {
                 <Route path="/adminpage/sendmailmanage" exact element={<SendMailManage />} />
                 <Route path="/adminpage/mailwrite" exact element={<MailWrite />} />
                 <Route path="/adminpage/qnamanage" exact element={<QnAManage />} />
+
               </Route>
             </Route>
           </Routes>
