@@ -1,0 +1,57 @@
+ nav {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1rem;
+    width: 800px;
+    background-color: beige;
+  }
+  
+  li.active {
+    background-color: #ccc;
+  }
+  
+  .calendar-wrapper {
+    display: flex;
+  }
+  
+  .checkbox-wrapper {
+    display: flex;
+    flex-direction: column;
+    margin-right: 1rem;
+
+  }
+
+.react-calendar {
+    width: 500px;
+    height: 500px;
+  }
+ 
+  .react-calendar__month-view__days__day {
+      display: table-cell;
+      font-size: 11px;
+      height: 80px;
+      vertical-align: top;
+      position: relative;
+  }
+
+  .absent {
+    background-color: #FFA1A1;
+  }
+  
+  .late {
+    background-color: #FFDC9D;
+  }
+  
+  .attend {
+    background-color: #A1c3B3;
+  }
+  .present {
+    background-color: red !important;
+    color: white;
+  }
+  .attendance-manage-container {
+    align-items: center;
+  }
+  .attcheck p {
+    margin-right: 20px;
+  }

@@ -2,9 +2,6 @@ import React, { useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
 import './App.css';
 
-import './components/asset/css/reset.css';
-import './components/asset/css/pagination.css';
-
 import PrivateRoutes from './components/PrivateRoutes';
 import Admin from './components/Admin';
 import AdminPage from './components/AdminPage';
@@ -19,13 +16,11 @@ import TeaUpdate from './components/TeaUpdate';
 import SendMailManage from './components/SendMailManage';
 import MailWrite from './components/MailWrite';
 import QnAManage from './components/QnAManage';
-import GradeManage from './components/GradeManage';
 
 import Attendance from "./components/Attendance";
 import AttendanceQR from "./components/AttendanceQR";
 import AttendanceManage from "./components/AttendanceManage";
 import AttendanceManageTeacher from "./components/AttendanceManageTeacher";
-import DataAnalysis from "./components/DataAnalysis";
 import Test from "./components/Test";
 
 import Idsearch from './login/idsearch';
@@ -87,10 +82,9 @@ function App() {
             <Route path="/attendance/attendanceQR" element={<AttendanceQR />} />
             <Route path="/AttendanceManage" element={<AttendanceManage />} />
             <Route path="/AttendanceManageTeacher" element={<AttendanceManageTeacher />} />
-            <Route path="/DataAnalysis" element={<DataAnalysis />} />
             <Route path="/test" element={<Test />} />
 
-            <Route path="/grademanage" element={<GradeManage />} />
+
             <Route path="/admin" element={<Admin />} />
             <Route exact path="/adminpage" element={<PrivateRoutes />}>
               <Route path="/adminpage" element={<AdminPage />} >
