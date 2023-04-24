@@ -88,7 +88,6 @@ function Regi(){
         .then(function(resp){
             const subplus = document.getElementById("subplus");
 
-
             while (subplus.firstChild) {
                 subplus.removeChild(subplus.firstChild);
             }
@@ -222,8 +221,9 @@ function Regi(){
             .catch(function(err){
                 alert('err')
             })
-
+            
             table.appendChild(subplus);
+
         })
         .catch(function(err){
             alert('err')

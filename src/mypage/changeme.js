@@ -14,7 +14,8 @@ function Changeme(){
 
      // login 되어 있는지 검사
      useEffect (()=>{
-        let login = Session.get("login");
+        let local = localStorage.getItem("login");
+        let login = JSON.parse(local);
         if(login !== undefined){
             setId(login.id);
         }else{
@@ -24,7 +25,8 @@ function Changeme(){
 
     },[history]);
 
-    let login = Session.get("login");
+    let local = localStorage.getItem("login");
+    let login = JSON.parse(local);
 
     
     const [id, setId] = useState("");

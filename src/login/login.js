@@ -35,6 +35,9 @@ function Login(){
                 alert(resp.data.name + "님 환영합니다");
                 Session.set("login", resp.data);
                 localStorage.setItem("login", JSON.stringify(resp.data));
+
+                let login = localStorage.getItem("login");
+                console.log(login);
                 history("/testmain");
             }else{
                 alert("id나 password를 확인하십시오");
