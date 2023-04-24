@@ -97,7 +97,6 @@ function Regiteacher(){
 
                     let op = document.createElement("option");
                     op.innerText = resp.data[i].eduName;
-                    op.setAttribute("value", resp.data[i].eduCode);
                     element.appendChild(op);
                 }
             })
