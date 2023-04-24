@@ -7,204 +7,205 @@ import './asset/css/AttendanceManage.css';
 
 function AttendanceManage() {
 
-      // 세션 스토리지
+  // 세션 스토리지
   const userId = sessionStorage.getItem("userId");
   const eduCode = sessionStorage.getItem("eduCode");
   const subCode = sessionStorage.getItem("subCode");
 
-    const [selectedDate, setSelectedDate] = useState(new Date());
-    const [selectedSubject, setSelectedSubject] = useState('');
-    const [attendanceData, setAttendanceData] = useState([]);
-  
-    const [absentAlarm, setabsentAlarm] = useState([]);
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedSubject, setSelectedSubject] = useState('');
+  const [attendanceData, setAttendanceData] = useState([]);
 
-    function formatDate(date, format) {
-        const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, "0");
-        const day = String(date.getDate()).padStart(2, "0");
-        return format.replace(/yyyy/, year).replace(/MM/, month).replace(/dd/, day);
+
+
+  function formatDate(date, format) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    return format.replace(/yyyy/, year).replace(/MM/, month).replace(/dd/, day);
+  }
+
+  const [subjects, setSubjects] = useState([]);
+
+  useEffect(() => {
+    // 백엔드에서 과목 데이터를 가져오는 API 호출
+    axios.get(`http://localhost:3000/attManage/subjects/${userId}`)
+      .then((response) => {
+        setSubjects(response.data);
+
+        // 첫번째 항목을 기본 선택으로 설정
+        if (response.data.length > 0) {
+          setSelectedSubject(response.data[0].subCode);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
+
+  useEffect(() => {
+    // 선택한 과목에 대한 출결 데이터를 가져오는 API 호출 
+    axios.get(`http://localhost:3000/attManage/${userId}/${selectedSubject}/${eduCode}`)
+      .then(response => {
+        setAttendanceData(response.data);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }, [selectedSubject]);
+
+
+
+  function getAttendanceStats(attendanceData, selectedDate) {
+    const year = selectedDate.getFullYear();
+    const month = selectedDate.getMonth() + 1;
+
+    const stats = {
+      absent: 0,
+      late: 0,
+      attend: 0,
+    };
+
+    attendanceData.forEach((data) => {
+      const date = new Date(data.attendanceTime);
+      if (date.getFullYear() === year && date.getMonth() + 1 === month) {
+        if (data.status === "결석") {
+          stats.absent++;
+        } else if (data.status === "지각") {
+          stats.late++;
+        } else {
+          stats.attend++;
+        }
       }
+    });
 
-      const [subjects, setSubjects] = useState([]);
+    return stats;
+  }
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
+  };
 
-      useEffect(() => {
-        // 백엔드에서 과목 데이터를 가져오는 API 호출
-        axios.get(`http://localhost:3000/attManage/subjects/${userId}`)
-            .then((response) => {
-              setSubjects(response.data);
-      
-              // 첫번째 항목을 기본 선택으로 설정
-              if (response.data.length > 0) {
-                setSelectedSubject(response.data[0].subCode);
-              }
-            })
-            .catch((error) => {
-              console.error(error);
-            });
-      }, []);
+  const handleSubjectChange = (e) => {
+    setSelectedSubject(e.target.value);
+  };
 
-      useEffect(() => {
-        // 선택한 과목에 대한 출결 데이터를 가져오는 API 호출 
-        axios.get(`http://localhost:3000/attManage/${userId}/${selectedSubject}/${eduCode}`)
-          .then(response => {
-            setAttendanceData(response.data);
-          })
-          .catch(error => {
-            console.error(error);
-          });
-      }, [selectedSubject]);
-      
+  const handleBeforeClassAlertChange = (event) => {
+    setminCheck(event.target.checked);
+    const { checked } = event.target;
+    const url = `http://localhost:3000/attManage/${userId}/AlarmTrue`;
+    fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        userId: userId,
+        minCheck: checked // 체크되면 true, 체크해제하면 false
+      }),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  };
 
+  const [minCheck, setminCheck] = useState([]);
 
-      function getAttendanceStats(attendanceData, selectedDate) {
-        const year = selectedDate.getFullYear();
-        const month = selectedDate.getMonth() + 1;
-        
-        const stats = {
-          absent: 0,
-          late: 0,
-          attend: 0,
-        };
-      
-        attendanceData.forEach((data) => {
-          const date = new Date(data.attendanceTime);
-          if (date.getFullYear() === year && date.getMonth() + 1 === month) {
-            if (data.status === "결석") {
-              stats.absent++;
-            } else if (data.status === "지각") {
-              stats.late++;
-            } else {
-              stats.attend++;
-            }
-          }
-        });
-      
-        return stats;
-      }
-    const handleDateChange = (date) => {
-        setSelectedDate(date);
-    };
+  useEffect(() => {
+    // DB에서 minCheck 값을 가져옴
+    axios.get(`http://localhost:3000/attManage/${userId}/GetAlarm`)
+      .then((response) => {
+        setminCheck(response.data[0].minCheck);
 
-    const handleSubjectChange = (e) => {
-        setSelectedSubject(e.target.value);
-    };
+        // data.minCheck 값이 true이면 minCheck를 true로, 그 외의 경우는 false로 설정
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+        setminCheck(false);
+      });
+  }, []);
 
-    const handleBeforeClassAlertChange = (event) => {
-      setminCheck(event.target.checked);
-        const { checked } = event.target;
-        const url =`http://localhost:3000/attManage/${userId}/AlarmTrue`;
-        fetch(url, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            userId: userId,
-            minCheck: checked // 체크되면 true, 체크해제하면 false
-          }),
-        })
-          .then((response) => {
-            if (!response.ok) {
-              throw new Error('Network response was not ok');
-            }
-            return response.json();
-          })
-          .catch((error) => {
-            console.error('Error:', error);
-          });
-      };
+  const handleAbsentAlertChange = (e) => {
+    setabsentAlarm(e.target.checked);
+    const { checked } = e.target;
+    const url = `http://localhost:3000/attManage/${userId}/AbsentAlarmTrue`;
+    fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        userId: userId,
+        absentAlarm: checked // 체크되면 true, 체크해제하면 false
+      }),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  };
 
-      const [minCheck, setminCheck] = useState([]);
-      
-      useEffect(() => {
-        // DB에서 minCheck 값을 가져옴
-        axios.get(`http://localhost:3000/attManage/${userId}/GetAlarm`)
-          .then((response) => {
-            setminCheck(response.data[0].minCheck);
-         
-            // data.minCheck 값이 true이면 minCheck를 true로, 그 외의 경우는 false로 설정
-          })
-          .catch((error) => {
-            console.error('Error:', error);
-            setminCheck(false);
-          });
-      }, []);
+  const [absentAlarm, setabsentAlarm] = useState([]);
+  useEffect(() => {
+    axios.get(`http://localhost:3000/attManage/${userId}/AbsentAlarm`)
+      .then((response) => {
+        setabsentAlarm(response.data[0].absentCheck);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+        setminCheck(false);
+      });
+  }, []);
 
-    const handleAbsentAlertChange = (e) => {
-      setabsentAlarm(e.target.checked);
-        const { checked } = e.target;
-        const url = `http://localhost:3000/attManage/${userId}/AbsentAlarmTrue`;
-        fetch(url, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            userId: userId,
-            absentAlarm: checked // 체크되면 true, 체크해제하면 false
-          }),
-        })
-          .then((response) => {
-            if (!response.ok) {
-              throw new Error('Network response was not ok');
-            }
-            return response.json();
-          })
-          .catch((error) => {
-            console.error('Error:', error);
-          });
-    };
-
-    useEffect(() => {
-      axios.get(`http://localhost:3000/attManage/${userId}/AbsentAlarm`)
-        .then((response) => {
-         setabsentAlarm(response.data[0].absentAlarm);
-        })
-        .catch((error) => {
-          console.error('Error:', error);
-          setabsentAlarm(false);
-        });
-    }, []);
-
-    const handleActiveDateChange = ({ activeStartDate }) => {
-        setSelectedDate(activeStartDate);
-      };
+  const handleActiveDateChange = ({ activeStartDate }) => {
+    setSelectedDate(activeStartDate);
+  };
 
 
 
 
-    const attendanceStats = getAttendanceStats(attendanceData, selectedDate);
+  const attendanceStats = getAttendanceStats(attendanceData, selectedDate);
 
   return (
     <div className="attendance-manage-container">
-<nav className='att_manage'>
-  <ul>
-    {subjects.map((subject) => (
-      <li
-        key={subject.subCode}
-        className={selectedSubject === subject.subCode ? 'active' : ''}
-        onClick={() => setSelectedSubject(subject.subCode)}
-        style={{ backgroundColor: selectedSubject === subject.subCode ? '#FFDC9D' : 'transparent' }}
-      >
-        {subject.subName}
-      </li>
-    ))}
-  </ul>
-</nav>
+      <nav className='att_manage'>
+        <ul>
+          {subjects.map((subject) => (
+            <li
+              key={subject.subCode}
+              className={selectedSubject === subject.subCode ? 'active' : ''}
+              onClick={() => setSelectedSubject(subject.subCode)}
+              style={{ backgroundColor: selectedSubject === subject.subCode ? '#FFDC9D' : 'transparent' }}
+            >
+              {subject.subName}
+            </li>
+          ))}
+        </ul>
+      </nav>
 
       <div className="attendance-stats">
-      <h2 style={{ fontSize: '20px' }} className="attendance-month">
-  {selectedDate.getFullYear()}년 {selectedDate.getMonth() + 1}월 출결 통계
-</h2>
-<br/>
-<div className='attcheck' style={{ display: 'flex', justifyContent: 'space-between' }}>
-  <p style={{color:'#A1c3B3', fontWeight:'bold'}} > 출석: {attendanceStats.attend}회  </p>       
-  <p style={{color:'#FFDC9D',fontWeight:'bold'}}> 지각: {attendanceStats.late}회 </p>
-  <p style={{color:'#FFA1A1',fontWeight:'bold'}}>결석: {attendanceStats.absent}회 </p>
-</div>
+        <h2 style={{ fontSize: '20px' }} className="attendance-month">
+          {selectedDate.getFullYear()}년 {selectedDate.getMonth() + 1}월 출결 통계
+        </h2>
+        <br />
+        <div className='attcheck' style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <p style={{ color: '#A1c3B3', fontWeight: 'bold' }} > 출석: {attendanceStats.attend}회  </p>
+          <p style={{ color: '#FFDC9D', fontWeight: 'bold' }}> 지각: {attendanceStats.late}회 </p>
+          <p style={{ color: '#FFA1A1', fontWeight: 'bold' }}>결석: {attendanceStats.absent}회 </p>
+        </div>
 
-</div>
+      </div>
       <div className="calendar-wrapper">
         <div className="checkbox-wrapper">
-          <br/><br/><br/><br/>
-          <img src="/img/alarm.png" alt="알림 이미지" width="150px" height="auto"/>
-          <br/><br/>
+          <br /><br /><br /><br />
+          <img src="/img/alarm.png" alt="알림 이미지" width="150px" height="auto" />
+          <br /><br />
           <div className="checkboxes">
             <label>
               <span>수업 시작 30분 전 알림</span>
@@ -214,7 +215,7 @@ function AttendanceManage() {
                 onChange={handleBeforeClassAlertChange}
               />
             </label>
-            <br/><br/>
+            <br /><br />
             <label>
               <span>'결석' 처리 알림</span>
               <input
@@ -226,45 +227,45 @@ function AttendanceManage() {
           </div>
         </div>
         <div className="calendar-container">
-                        <Calendar
-                onChange={handleDateChange}
-                onActiveDateChange={handleActiveDateChange}
-                value={selectedDate}
-                tileContent={({ date, view }) => {
-                    if (view !== "month") {
-                    return null;
-                    }
+          <Calendar
+            onChange={handleDateChange}
+            onActiveDateChange={handleActiveDateChange}
+            value={selectedDate}
+            tileContent={({ date, view }) => {
+              if (view !== "month") {
+                return null;
+              }
 
-                    const dateString = formatDate(date, "yyyy-MM-dd");
-                    const statusData = attendanceData.find(data => data.attendanceTime.startsWith(dateString));
+              const dateString = formatDate(date, "yyyy-MM-dd");
+              const statusData = attendanceData.find(data => data.attendanceTime.startsWith(dateString));
 
-                    return (
-                    <div>
-                        {statusData ? <div>{statusData.status}</div> : null}
-                    </div>
-                    );
-                }}
-                tileClassName={({ date, view }) => {
-                    if (view !== "month") {
-                    return null;
-                    }
+              return (
+                <div>
+                  {statusData ? <div>{statusData.status}</div> : null}
+                </div>
+              );
+            }}
+            tileClassName={({ date, view }) => {
+              if (view !== "month") {
+                return null;
+              }
 
-                    const dateString = formatDate(date, "yyyy-MM-dd");
-                    const statusData = attendanceData.find(data => data.attendanceTime.startsWith(dateString));
+              const dateString = formatDate(date, "yyyy-MM-dd");
+              const statusData = attendanceData.find(data => data.attendanceTime.startsWith(dateString));
 
-                    if (!statusData) {
-                    return null;
-                    }
+              if (!statusData) {
+                return null;
+              }
 
-                    if (statusData.status === "결석") {
-                    return "absent";
-                    } else if (statusData.status === "지각") {
-                    return "late";
-                    } else {
-                    return "attend";
-                    }
-                }}
-                />
+              if (statusData.status === "결석") {
+                return "absent";
+              } else if (statusData.status === "지각") {
+                return "late";
+              } else {
+                return "attend";
+              }
+            }}
+          />
         </div>
       </div>
 
