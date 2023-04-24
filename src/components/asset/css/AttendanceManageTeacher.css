@@ -10,154 +10,179 @@
   margin-bottom: 1rem;
   width: 800px;
 }
-  
-  ul {
-    display: flex;
-    list-style: none;
-    padding: 0;
-  }
-  
-  li {
-    margin-right: 1rem;
-    padding: 0.5rem;
-    cursor: pointer;
-    border-radius: 0.5rem;
-    font-weight: bold;
-  }
-  
-  li.active {
-    background-color: #ccc;
-  }
-  
 
-
-  .attendance-manage-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+ul {
+  display: flex;
+  list-style: none;
+  padding: 0;
 }
-  
-  .absent {
-    background-color: #FFA1A1;
-  }
-  
-  .late {
-    background-color: #FFDC9D;
-  }
-  
-  .attend {
-    background-color: #A1c3B3;
-  }
-  .present {
-    background-color: red !important;
-    color: white;
-  }
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Noto+Sans+KR:wght@100;400;500;700;900&display=swap');
-  * {box-sizing:border-box;}
-  html,body {
-      margin:0; padding:0;
-      font-family: 'Noto Sans KR', "Font Awesome 5 Brands", sans-serif;
-  }
-  ul,address {
-      margin:1px; padding:1px;
-      font-size:1.0em; font-style:normal;
-      font-weight:normal; line-height:2;
-      letter-spacing: -0.3px;
-  }
-  fieldset,table {border:0;}
-  input, textarea {border:0; outline:none; resize:none;}
-  button, a {border:0; cursor:pointer;}
-  ul,ol,li {list-style:none;}
-  table,tr,td,th {border-collapse:collapse;}
-  
-  a {color:#202020; text-decoration:none;}
-  .skip{display:none;}
 
-  .subject_nav{
-    font-size:1.7em;
+li {
+  margin-right: 1rem;
+  padding: 0.5rem;
+  cursor: pointer;
+  border-radius: 0.5rem;
+  font-weight: bold;
+}
 
-  }
-  .table-container{
-    width: 800px;
-    margin: auto;
-    text-align: center;
-  }
-  th {
-    background-color:rgb(238, 230, 211);
-    height: 40px;
-  }
- table {
-    border-collapse: collapse;
-  }
-  td{
-    font-size: 12px;
-  }
-  table th,
-  table td {
-    border: 1px solid rgb(238, 230, 211);
-  }
-  
-  table th {
-    background-color:rgb(238, 230, 211);
-  }
-  button {
+li.active {
+  background-color: #ccc;
+}
 
-        width: 50px;
-        height: 30px;
-      
-  }
-  .search-container{
-    margin-top:20px;
 
-  }
-  .date-picker-container{
-    margin-top: 20px;
-    margin-left: 40px;
-  }
 
-  nav ul {
-    margin: 0;
-    padding: 0;
-    flex-grow: 1; /* 빈 공간을 적절하게 나누도록 함 */
-    flex-basis: 0; /* 빈 공간을 적절하게 나누도록 함 */
+.attendance-manage-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
-  }
-  
-  nav ul:not(:last-child) {
-    margin-right: 10px; /* 인접한 ul 요소 사이의 간격 */
-  }
-  
-  .pagination {
-    display: flex;
-    justify-content: center;
-  }
-  
-  .pagination ul {
-    
-    display: flex;
-    list-style-type: none;
-  }
-  
-  .pagination li {
-    background-color: none;
-    padding: 0;
-    margin-top: 50px;
-  }
-  
-  .pagination li a {
-    display: block;
-    text-decoration: none;
-  }
-  
-  .pagination li.active a,
-  .pagination li a:hover {
-    background-color: rgb(236, 223, 195);
-    color: rgb(169, 153, 119);
-    padding: 5px;
-    border-radius: 5px;
-    position: relative;
-    bottom: +5px; 
-  }
-  .attendance-buttons button{
-    border-radius: 5px;
-  }
+.absent {
+  background-color: #FFA1A1;
+}
+
+.late {
+  background-color: #FFDC9D;
+}
+
+.attend {
+  background-color: #A1c3B3;
+}
+
+.present {
+  background-color: red !important;
+  color: white;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Noto+Sans+KR:wght@100;400;500;700;900&display=swap');
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Noto Sans KR', "Font Awesome 5 Brands", sans-serif;
+}
+
+ul,
+address {
+  margin: 1px;
+  padding: 1px;
+  font-size: 1.0em;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 2;
+  letter-spacing: -0.3px;
+}
+
+fieldset,
+table {
+  border: 0;
+}
+
+input,
+textarea {
+  border: 0;
+  outline: none;
+  resize: none;
+}
+
+button,
+a {
+  border: 0;
+  cursor: pointer;
+}
+
+ul,
+ol,
+li {
+  list-style: none;
+}
+
+table,
+tr,
+td,
+th {
+  border-collapse: collapse;
+}
+
+a {
+  color: #202020;
+  text-decoration: none;
+}
+
+.skip {
+  display: none;
+}
+
+.subject_nav {
+  font-size: 1.7em;
+
+}
+
+.table-container {
+  width: 800px;
+  margin: auto;
+  text-align: center;
+}
+
+.th {
+  background-color: rgb(238, 230, 211);
+  height: 40px;
+}
+
+.table {
+  border-collapse: collapse;
+}
+
+.td {
+  font-size: 12px;
+}
+
+table th,
+table td {
+  border: 1px solid rgb(238, 230, 211);
+}
+
+table th {
+  background-color: rgb(238, 230, 211);
+}
+
+button {
+
+  width: 50px;
+  height: 30px;
+
+}
+
+.search-container {
+  margin-top: 20px;
+
+}
+
+.date-picker-container {
+  margin-top: 20px;
+  margin-left: 40px;
+}
+
+nav ul {
+  margin: 0;
+  padding: 0;
+  flex-grow: 1;
+  /* 빈 공간을 적절하게 나누도록 함 */
+  flex-basis: 0;
+  /* 빈 공간을 적절하게 나누도록 함 */
+
+}
+
+nav ul:not(:last-child) {
+  margin-right: 10px;
+  /* 인접한 ul 요소 사이의 간격 */
+}
+
+.attendance-buttons button {
+  border-radius: 5px;
+}
