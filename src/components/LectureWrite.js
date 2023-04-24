@@ -8,7 +8,6 @@ import axios from "axios";
 function LectureWrite() {
 
     const [subject, setSubject] = useState('');
-    const [subjectCode, setSubjectCode] = useState('');
     const [title, setTitle] = useState('');
     const [writer, setWriter] = useState('');
     const [content, setContent] = useState('');
@@ -22,7 +21,6 @@ function LectureWrite() {
     // file + form field -> 짐을 싼다
     let formData = new FormData();
     formData.append("subject", subject);
-    formData.append("subjectCode", subjectCode);
     formData.append("title", title);
     formData.append("writer", writer);
     formData.append("content", content);
@@ -33,15 +31,14 @@ function LectureWrite() {
     axios.post("http://localhost:3000/fileUpload", formData)
     .then(res=>{
        console.log(res.data);
-       alert('file upload에 성공했습니다');
+       alert('성공적으로 등록되었습니다');
     })
     .catch(function(error){
-       alert('file upload에 실패했습니다');
+       alert('강의 등록에 실패했습니다');
     });
 
     axios.post('http://localhost:3000/writeLecture', null, { params: {
                 subject,
-                subjectCode,
                 title,
                 writer,
                 content
@@ -72,12 +69,26 @@ function LectureWrite() {
     window.location.href = url;
   }
 
-
     const resetBtn = () => {
         navigate('/lecture/LectureList');
     }
 
-      
+    const SelectBox = () => {
+        return (
+            <select onChange={changeSelectOptionHandler} value={subject} style={{marginLeft:"170px", width:"190px", border:"none", borderBottom:"2px solid lightgray"}}>
+                <option key="kor" value="국어">국어</option>
+                <option key="math" value="수학">수학</option>
+                <option key="eng" value="영어">영어</option>
+                <option key="social" value="사회">사회</option>
+                <option key="sci" value="과학">과학</option>
+            </select>
+        );
+    };
+
+    const changeSelectOptionHandler = (e) => {
+        setSubject(e.target.value);
+    };
+
         return (
             <div style={{margin:"30px 150px 50px 150px", padding:"15px", fontSize:"17px"}}>
                 <h2>강의 업로드</h2>
@@ -91,14 +102,8 @@ function LectureWrite() {
                     <hr/>
                     <>
                     과목
-                    <input type="text" id='subject' className='subject' name='subject'
-                        value={subject} onChange={(e) => setSubject(e.target.value)} />
-                    </>
-                    <hr/>
-                    <>
-                    과목코드
-                    <input type="text" id='subjectCode' className='subjectCode' name='subjectCode'
-                        value={subjectCode} onChange={(e) => setSubjectCode(e.target.value)} />
+                    <SelectBox />
+                
                     </>
                     <hr/>
                     <>

@@ -90,7 +90,7 @@ export default function LearningList() {
           setTotalCnt(resp.data.cnt);
         })
         .catch(function(err){
-                alert(err);
+            alert(err);
         })
     }
 

@@ -77,6 +77,22 @@ function TaskWrite() {
                 navigate('/learning/TaskList');
             }
 
+            const SelectBox = () => {
+                return (
+                    <select onChange={changeSelectOptionHandler} value={subject} style={{marginLeft:"170px", width:"190px", border:"none", borderBottom:"2px solid lightgray"}}>
+                        <option key="kor" value="국어">국어</option>
+                        <option key="math" value="수학">수학</option>
+                        <option key="eng" value="영어">영어</option>
+                        <option key="social" value="사회">사회</option>
+                        <option key="sci" value="과학">과학</option>
+                    </select>
+                );
+            };
+        
+            const changeSelectOptionHandler = (e) => {
+                setSubject(e.target.value);
+            };
+        
 
    
         return (
@@ -92,14 +108,7 @@ function TaskWrite() {
                 <hr/>
                 <>
                 과목
-                <input type="text" id='subject' className='subject' name='subject'
-                    value={subject} onChange={(e) => setSubject(e.target.value)} />
-                </>
-                <hr/>
-                <>
-                과목코드
-                <input type="text" id='subjectCode' className='subjectCode' name='subjectCode'
-                    value={subjectCode} onChange={(e) => setSubjectCode(e.target.value)} />
+                <SelectBox />
                 </>
                 <hr/>
                 <>
