@@ -375,17 +375,17 @@ function Sendemail(){
         }
         
 
-        // 파일 저장
-        const formData = new FormData();
-        formData.append('uploadFile', imageSrc, id + ".jpg");
+        // // 파일 저장
+        // const formData = new FormData();
+        // formData.append('uploadFile', imageSrc, id + ".jpg");
     
-        fetch('http://localhost:3000/fileUpload', {
-            method: 'POST',
-            body: formData,
-        })
-        // .then((response) => response.json())
-        .then((result) => console.log(result))
-        .catch((error) => console.error(error));
+        // fetch('http://localhost:3000/fileUpload', {
+        //     method: 'POST',
+        //     body: formData,
+        // })
+        // // .then((response) => response.json())
+        // .then((result) => console.log(result))
+        // .catch((error) => console.error(error));
 
         alert("쪽지를 보냈습니다");
         history("/testmain");      // 이동(link)
