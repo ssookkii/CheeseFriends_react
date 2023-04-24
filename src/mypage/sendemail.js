@@ -31,13 +31,14 @@ function Sendemail(){
     }
 
     // 이름으로 아이디 검색
-    // const [edulistmatching, setEdulistmatching] = useState([]);
+    // const [educheck, setEducheck] = useState(false);
+    // const [receivermatching, setReceivermatching] = useState([]);
 
 
     // function receivermatch(){
     //     setEducheck(false);
 
-    //     setEdulistmatching("");
+    //     setReceivermatching("");
 
     //     if(receiver.length > 5){
     //         axios.get("http://localhost:3000/receiversearch", { params:{ "edu_name":edu_name}})
