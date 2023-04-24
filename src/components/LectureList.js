@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import axios from "axios";
 import Pagination from 'react-js-pagination';
 import styled from "styled-components";
-import './asset/css/ChatbotIcon.css'
+
 
 
 export default function LectureList() {
