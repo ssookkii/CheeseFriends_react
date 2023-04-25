@@ -1,5 +1,5 @@
 .title, .subject {
-    margin-left: 170px;
+    margin-left: 60px;
     font-size: 17px;
     border: none;
     border-bottom: 2px solid lightgray;
@@ -10,14 +10,25 @@ input:hover {
 }
 
 .subjectCode {
-    margin-left: 135px;
+    margin-left: 60px;
     font-size: 17px;
     border: none;
     border-bottom: 2px solid lightgray;
 }
+.file {
+    margin-left: 60px;
+}
+
+.content {
+    border: 1px solid lightgray;
+    margin-top: 10px;
+    margin-left: 91px;
+    width: 922px;
+    height: 400px;
+}
 
 .writer, .regdate {
-    margin-left: 152px;
+    margin-left: 42px;
     font-size: 17px;
     border: none;
     border-bottom: 2px solid lightgray;
