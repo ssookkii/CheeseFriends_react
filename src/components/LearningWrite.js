@@ -31,10 +31,10 @@ function LearningWrite() {
     axios.post("http://localhost:3000/fileUpload", formData)
     .then(res=>{
        console.log(res.data);
-       alert('file upload에 성공했습니다');
+       alert('자료 업로드에 성공했습니다');
     })
     .catch(function(error){
-       alert('file upload에 실패했습니다');
+       alert('자료 업로드에 실패했습니다');
     });
 
     axios.post('http://localhost:3000/writeLearning', null, { params: {

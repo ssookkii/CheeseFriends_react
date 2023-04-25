@@ -44,12 +44,17 @@ import Testmain from './mypage/testmain';
 import LectureList from './components/LectureList'
 import AbLectureList from './components/AbLectureList'
 import LectureWrite from './components/LectureWrite'
+import LectureDetail from './components/LectureDetail';
 import LearningList from './components/LearningList'
 import LearningDetail from './components/LearningDetail'
 import LearningWrite from './components/LearningWrite'
 import TaskList from './components/TaskList';
 import TaskDetail from './components/TaskDetail';
 import TaskWrite from './components/TaskWrite';
+import QnaLearningList from './components/QnaLearningList';
+import QnaLearningDetail from './components/QnaLearningDetail';
+import QnaLearningWrite from './components/QnaLearningWrite';
+import QnaLearningAnswer from './components/QnaLearningAnswer';
 
 function App() {
 
@@ -63,12 +68,18 @@ function App() {
             <Route path="/lecture" element={<LectureList />} />
             <Route path="/lecture/AbLectureList" element={<AbLectureList />} />
             <Route path="/lecture/LectureWrite" element={<LectureWrite />} />
+            <Route path="/lecture/LectureDetail/:seq" element={<LectureDetail />} />
             <Route path="/learning" element={<LearningList />} />
-            <Route path="/learning/LearningDetail" element={<LearningDetail />} />
+            <Route path="/learning/LearningDetail/:seq" element={<LearningDetail />} />
             <Route path="/learning/LearningWrite" element={<LearningWrite />} />
             <Route path="/learning/TaskList" element={<TaskList />} />
-            <Route path="/learning/TaskDetail" element={<TaskDetail />} />
+            <Route path="/learning/TaskDetail/:seq" element={<TaskDetail />} />
             <Route path="/learning/TaskWrite" element={<TaskWrite />} />
+            <Route path="/learning/QnaLearningList" element={<QnaLearningList />} />
+            <Route path="/learning/QnaLearningDetail/:seq" element={<QnaLearningDetail />} />
+            <Route path="/learning/QnaLearningWrite" element={<QnaLearningWrite />} />
+            <Route path="/learning/QnaLearningAnswer" element={<QnaLearningAnswer />} />
+
 
             <Route path="/" element={<Login />} />
             <Route path="/regiselect" element={<Regiselect />} />

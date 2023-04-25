@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import axios from "axios";
 import Pagination from 'react-js-pagination';
 import styled from "styled-components";
-import { useNavigate } from 'react-router';
+import { useNavigate, Link } from 'react-router-dom';
 
 import { faAngleRight } from "@fortawesome/free-solid-svg-icons";
 import { faAngleLeft } from "@fortawesome/free-solid-svg-icons";
@@ -70,7 +70,7 @@ export default function LearningList() {
 
     //paging
     const [page, setPage] = useState(1);
-    const [totalCnt, setTotalCnt] = useState(0);
+    const [totalCnt, setTotalCnt] = useState(10);
 
     function getSubList(choice, search, page){
         axios.get("http://localhost:3000/learninglist", { params:{"choice":choice, "search":search, "pageNumber":page } })
@@ -97,7 +97,7 @@ export default function LearningList() {
     }
 
     useEffect(function(){
-        getSubList("", 0);
+        getSubList("","", 0);
     }, []);
 
 
@@ -172,7 +172,9 @@ export default function LearningList() {
                         <tr key={i}>
                             <td>{list.seq}</td>
                             <td>{list.subject}</td>
-                            <td>{list.title}</td>
+                            <td>
+                                <Link style={{textDecoration:"none"}} to={`/learning/LearningDetail/${list.seq}`}>{list.title}</Link>
+                            </td>
                             <td>{list.regdate}</td>
                             <td>{list.writer}</td>
                         </tr>
@@ -184,9 +186,9 @@ export default function LearningList() {
         <br/>
         <Pagination
                 activePage={page}
-                itemsCountPerPage={12}
+                itemsCountPerPage={8}
                 totalItemsCount={totalCnt}
-                pageRangeDisplayed={12}
+                pageRangeDisplayed={8}
                 firstPageText={<FontAwesomeIcon icon={faAnglesLeft} />}
                 lastPageText={<FontAwesomeIcon icon={faAnglesRight} />}
                 prevPageText={<FontAwesomeIcon icon={faAngleLeft} />}

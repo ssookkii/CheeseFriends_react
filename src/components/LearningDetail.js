@@ -1,72 +1,134 @@
-import { useNavigate } from 'react-router';
-import React, { useEffect, useState } from 'react';
-import 'bootstrap/dist/css/bootstrap.css';
-import styled from "styled-components";
-import axios from "axios";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import axios from 'axios';
 
 
-export default function LearningDetail() {
+// import "./LectureDetail.css";
 
-    const [learningdetail, setLearningdetail] = useState([]);
+function LearningDetail(){
+    let history = useNavigate();
 
-    const movePage = useNavigate();
+    const [bbs, setBbs] = useState();
 
-    function learnlist() {
-        movePage('/learning');
+    // 데이터를 모두 읽어 들일 때까지 rendering을 조절하는 변수
+    const [loading, setLoading] = useState(false);
+
+    let params = useParams();
+    console.log(params);
+    console.log(params.seq);
+
+    const bbsData = async(seq) => {
+        const response = await axios.get('http://localhost:3000/getLearning', { params:{"seq":seq} });
+
+        console.log("bbs:" + JSON.stringify(response.data));
+        setBbs(response.data);
+
+        setLoading(true);   // 여기서 rendering 해 준다
     }
 
-    function getLearnDetail(seq) {
-        axios.get('http://localhost:3000/getLearning?'+seq)
-        .then(function(resp){
-            setLearningdetail(resp.data);
-            console.log(resp.data);
-        })
-        .catch(function(err){
-            alert(err);
-        })
+    useEffect(()=>{
+        bbsData(params.seq);
+    }, [params.seq])
+
+    if(loading === false){
+        return <div>Loading...</div>
     }
-
-    const LearnDetail = learningdetail.map((list, i)=> {
-        return(
-            <tr key={i}>
-            <th scope='row'> {i + 1} </th>
-            <td> {list.title} </td>
-            <td> {list.subject} </td>
-            <td> {list.writer}</td>
-            <td> {list.regdate} </td>
-            <td> {list.content}</td>
-        </tr>
-        )
-    })
-
-    useEffect(function(){
-        getLearnDetail(0);
-    },[]);
     
+    const learnlist = () => {        
+        history('/learning');
+    }
+
+    const updateBbs = () => {
+        history("/bbsupdate/" + bbs.seq);
+    }
+
+    const download = async () => {
+        let filename = "file.txt";
+    
+        const url = "http://localhost:3000/fileDownload?filename=" + filename;
+    
+        // a tag 를 생성 + 자동실행
+        /*
+        const download = document.createElement('a');   // <a href='' 
+        download.setAttribute('href', url);
+        download.setAttribute('download', filename);
+        download.setAttribute('type', 'application/json');
+        download.click();
+        */
+    
+        // react에서 window를 붙여줘야 한다
+        window.location.href = url;
+      }
 
 
-  return (
-    <>
-      <h2>수업 자료실</h2>
+    // const handleDelete = (seq) => {
+    //     // 게시물 삭제 로직
+    //     // 삭제할 게시물의 postId를 받아와서 삭제 로직을 구현합니다.
+    //     const updatedPosts = bbs.filter(post => post.seq !== seq);
+    //     setBbs(updatedPosts);
+    //   }
 
-      <div className="post-view-wrapper">
-      <table className="table" style={{marginTop:"28px"}}>
-            <thead>
-                <tr>
-                    <th scope="row">제목</th>
-                    <th scope="row">과목</th>
-                    <th scope="row">작성자</th>
-                    <th scope="row">작성일</th>
-                    <th scope="row">내용</th>
-                </tr>
-            </thead>
-            <tbody className="table-group-divider">
-                {LearnDetail}
+    // // login한 id와 작성자 id와 같을 시에는 버튼을 보여준다
+    // function UpdateButtonLoad(){
+    //     let str = localStorage.getItem('login');
+    //     let login = JSON.parse(str);
+
+    //     if(login.writer !== bbs.writer){
+    //         return ""
+    //     }
+    //     return (
+    //         <span>
+    //             &nbsp;<button type="button" onClick={() => handleDelete(bbs.seq)} className="btn btn-primary">삭제하기</button>
+    //             &nbsp;<button type="button" onClick={updateBbs} className="btn btn-primary">글 수정</button>
+    //         </span>
+                        
+    //     )
+    // }
+
+    return (
+        <div style={{margin:"30px 150px 50px 150px", textAlign:"left", padding:"15px", fontSize:"17px"}}>
+            <h2>수업 자료실</h2>
+            <hr/>
+            <table className="table table-striped table-sm">
+            <colgroup>
+                <col style={{width: '150px'}}/>
+                <col style={{width: '500px'}}/>
+            </colgroup>
+            <tbody>
+            <tr>
+                <th>제목</th>
+                <td style={{ textAlign:"left" }}>{bbs.title}</td>
+            </tr>
+            <tr>
+                <th>과목</th>
+                <td style={{ textAlign:"left" }}>{bbs.subject}</td>
+            </tr>
+            <tr>
+                <th>작성자</th>
+                <td style={{ textAlign:"left" }}>{bbs.writer}</td>
+            </tr>
+            <tr>
+                <th>작성일</th>
+                <td style={{ textAlign:"left" }}>{bbs.regdate}</td>
+            </tr>
+            <tr>
+                <th>내용</th>
+                <td colSpan="2" style={{ backgroundColor:'white' }}>
+                    <button onClick={download} >첨부파일</button>
+                    <pre id="content" style={{ fontSize:'20px', fontFamily:'고딕, arial', backgroundColor:'white', textAlign:"left" }}>{bbs.content}</pre>
+                </td>
+            </tr>
             </tbody>
-        </table>
-        <button className="post-view-go-list-btn" onClick={learnlist}>목록</button>
-      </div>
-
-    </>
-  )
+            </table>
+            <div style={{textAlign:"center"}}>
+                <button style={{width:"100px", height:"42px"}} type="button" onClick={learnlist} className="btn btn-primary">목록으로</button>
+            </div>
+            
+            {/* <UpdateButtonLoad /> */}
+        
+        </div>
+    )
 }
+
+export default LearningDetail;
+

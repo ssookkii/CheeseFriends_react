@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import axios from "axios";
 import Pagination from 'react-js-pagination';
 import styled from "styled-components";
-import { useNavigate } from 'react-router';
+import { useNavigate, Link } from 'react-router-dom';
 
 import { faAngleRight } from "@fortawesome/free-solid-svg-icons";
 import { faAngleLeft } from "@fortawesome/free-solid-svg-icons";
@@ -77,7 +77,7 @@ export default function TaskList() {
     const [totalCnt, setTotalCnt] = useState(0);
 
     function getSubList(choice, search, page){
-        axios.get("http://localhost:3000/sublist", { params:{"choice":choice, "search":search, "pageNumber":page } })
+        axios.get("http://localhost:3000/tasklist", { params:{"choice":choice, "search":search, "pageNumber":page } })
         .then(function(resp) {
           //  console.log(resp.data);
           //  alert(JSON.stringify(resp.data[8]));
@@ -103,7 +103,7 @@ export default function TaskList() {
     }
 
     useEffect(function(){
-        getSubList("", 0);
+        getSubList("", "", 0);
     }, []);
 
     return(
@@ -178,7 +178,9 @@ export default function TaskList() {
                         <tr key={i}>
                             <td>{list.seq}</td>
                             <td>{list.subject}</td>
-                            <td>{list.title}</td>
+                            <td>
+                            <Link style={{textDecoration:"none"}} to={`/learning/TaskDetail/${list.seq}`}>{list.title}</Link>
+                            </td>
                             <td>{list.regdate}</td>
                             <td>{list.writer}</td>
                         </tr>
@@ -190,9 +192,9 @@ export default function TaskList() {
         <br/>
         <Pagination
                 activePage={page}
-                itemsCountPerPage={12}
+                itemsCountPerPage={8}
                 totalItemsCount={totalCnt}
-                pageRangeDisplayed={12}
+                pageRangeDisplayed={8}
                 firstPageText={<FontAwesomeIcon icon={faAnglesLeft} />}
                 lastPageText={<FontAwesomeIcon icon={faAnglesRight} />}
                 prevPageText={<FontAwesomeIcon icon={faAngleLeft} />}
@@ -200,11 +202,9 @@ export default function TaskList() {
                 onChange={pageChange} />
 
         </div>
-
-
-        
+       
     </div>
 
     )
-    }
+}
 

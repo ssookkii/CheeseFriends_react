@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.css';
 import axios from "axios";
 import Pagination from 'react-js-pagination';
@@ -68,7 +68,7 @@ export default function LectureList() {
 
     //paging
     const [page, setPage] = useState(1);
-    const [totalCnt, setTotalCnt] = useState(0);
+    const [totalCnt, setTotalCnt] = useState(10);
 
     function getSubList(choice, search, page){
         axios.get("http://localhost:3000/lecturelist", { params:{"choice":choice, "search":search, "pageNumber":page } })
@@ -95,7 +95,7 @@ export default function LectureList() {
     }
 
     useEffect(function(){
-        getSubList("", 0);
+        getSubList("", "", 0);
     }, []);
 
      
@@ -165,9 +165,13 @@ export default function LectureList() {
                         <tr key={i}>
                             <td>{list.seq}</td>
                             <td>{list.subject}</td>
-                            <td>{list.title}</td>
+                            <td>
+                                 {list.title}
+                            </td>
                             <td>{list.regdate}</td>
-                            <td>▶</td>
+                            <td>
+                                <Link style={{textDecoration:"none"}} to={`/lecture/LectureDetail/${list.seq}`}>▶</Link>
+                            </td>
                         </tr>
                     )
                 })
@@ -177,15 +181,14 @@ export default function LectureList() {
         <br/>
         <Pagination
                 activePage={page}
-                itemsCountPerPage={12}
+                itemsCountPerPage={8}
                 totalItemsCount={totalCnt}
-                pageRangeDisplayed={12}
+                pageRangeDisplayed={8}
                 firstPageText={<FontAwesomeIcon icon={faAnglesLeft} />}
                 lastPageText={<FontAwesomeIcon icon={faAnglesRight} />}
                 prevPageText={<FontAwesomeIcon icon={faAngleLeft} />}
                 nextPageText={<FontAwesomeIcon icon={faAngleRight} />}
                 onChange={pageChange} />
-
         </div>
                 
     </div>
