@@ -40,6 +40,10 @@ export default function TaskList() {
         movePage('/learning/TaskList');
     }
 
+    function qnalist() {
+        movePage('/learning/QnaLearningList');
+    }
+
     function getTaskList() {
         axios.get("http://localhost:3000/tasklist")
         .then(function(resp){
@@ -108,7 +112,7 @@ export default function TaskList() {
 
     return(
 
-            <div style={{display:"flex", marginTop:"116px"}} className="tasklist">
+        <div style={{display:"flex", marginTop:"116px"}} className="tasklist">
 
             <div className="d-flex flex-column flex-shrink-0 p-3 text-bg-dark" style={{width:"280px", height:"630px", borderRadius:"16px"}}>
                 <a href="/" className="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
@@ -129,7 +133,7 @@ export default function TaskList() {
                             </a>
                         </li>
                         <li>
-                            <a href="#" className="nav-link text-white" >
+                            <a href="#" className="nav-link text-white" onClick={qnalist} >
                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;수업 질문방
                             </a>
                         </li>

@@ -20,7 +20,6 @@ import SendMailManage from './components/SendMailManage';
 import MailWrite from './components/MailWrite';
 import QnAManage from './components/QnAManage';
 import GradeManage from './components/GradeManage';
-
 import Attendance from "./components/Attendance";
 import AttendanceQR from "./components/AttendanceQR";
 import AttendanceManage from "./components/AttendanceManage";
@@ -51,7 +50,7 @@ import LearningWrite from './components/LearningWrite'
 import TaskList from './components/TaskList';
 import TaskDetail from './components/TaskDetail';
 import TaskWrite from './components/TaskWrite';
-import QnaLearningList from './components/QnaLearningList';
+import QnaLearningList from './components/QnALearningList';
 import QnaLearningDetail from './components/QnaLearningDetail';
 import QnaLearningWrite from './components/QnaLearningWrite';
 import QnaLearningAnswer from './components/QnaLearningAnswer';
@@ -78,7 +77,7 @@ function App() {
             <Route path="/learning/QnaLearningList" element={<QnaLearningList />} />
             <Route path="/learning/QnaLearningDetail/:seq" element={<QnaLearningDetail />} />
             <Route path="/learning/QnaLearningWrite" element={<QnaLearningWrite />} />
-            <Route path="/learning/QnaLearningAnswer" element={<QnaLearningAnswer />} />
+            <Route path="/learning/QnaLearningAnswer/:seq" element={<QnaLearningAnswer />} />
 
 
             <Route path="/" element={<Login />} />
