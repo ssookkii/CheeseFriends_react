@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
-import './App.css';
 
 import './components/asset/css/reset.css';
 import './components/asset/css/pagination.css';
