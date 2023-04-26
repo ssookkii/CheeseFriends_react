@@ -50,10 +50,13 @@ import LearningWrite from './components/LearningWrite'
 import TaskList from './components/TaskList';
 import TaskDetail from './components/TaskDetail';
 import TaskWrite from './components/TaskWrite';
-import QnaLearningList from './components/QnALearningList';
+import QnALearningList from './components/QnALearningList';
 import QnaLearningDetail from './components/QnaLearningDetail';
 import QnaLearningWrite from './components/QnaLearningWrite';
 import QnaLearningAnswer from './components/QnaLearningAnswer';
+import EduInfoList from './components/EduInfoList';
+import EduInfoDetail from './components/EduInfoDetail';
+import EduInfoWrite from './components/EduInfoWrite';
 
 function App() {
 
@@ -74,10 +77,13 @@ function App() {
             <Route path="/learning/TaskList" element={<TaskList />} />
             <Route path="/learning/TaskDetail/:seq" element={<TaskDetail />} />
             <Route path="/learning/TaskWrite" element={<TaskWrite />} />
-            <Route path="/learning/QnaLearningList" element={<QnaLearningList />} />
+            <Route path="/learning/QnALearningList" element={<QnALearningList />} />
             <Route path="/learning/QnaLearningDetail/:seq" element={<QnaLearningDetail />} />
             <Route path="/learning/QnaLearningWrite" element={<QnaLearningWrite />} />
             <Route path="/learning/QnaLearningAnswer/:seq" element={<QnaLearningAnswer />} />
+            <Route path="/learning/EduInfoList" element={<EduInfoList />} />
+            <Route path="/learning/EduInfoWrite" element={<EduInfoWrite />} />
+            <Route path="/learning/EduInfoDetail/:seq" element={<EduInfoDetail />} />
 
 
             <Route path="/" element={<Login />} />

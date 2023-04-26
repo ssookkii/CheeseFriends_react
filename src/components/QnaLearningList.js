@@ -4,6 +4,7 @@ import axios from "axios";
 import Pagination from 'react-js-pagination';
 import styled from "styled-components";
 import { useNavigate, Link } from 'react-router-dom';
+import arrow from './asset/css/arrow.png';
 
 import { faAngleRight } from "@fortawesome/free-solid-svg-icons";
 import { faAngleLeft } from "@fortawesome/free-solid-svg-icons";
@@ -19,7 +20,7 @@ export default function QnaLearningList() {
     const movePage = useNavigate();
 
     function moveqnalist() {
-        movePage('/learning/QnaLearningList');
+        movePage('/learning/QnALearningList');
     }
     function qnawrite() {
         movePage('/learning/QnaLearningWrite');
@@ -44,7 +45,7 @@ export default function QnaLearningList() {
     }
 
     function moveEduInfo() {
-        movePage('/edu/EduInfoList');
+        movePage('/learning/EduInfoList');
     }
 
     function moveService() {
@@ -97,16 +98,9 @@ export default function QnaLearningList() {
           setTotalCnt(resp.data.cnt);
         })
         .catch(function(err){
-                alert(err);
+            alert(err);
         })
     }
-
-    function searchBtn(){
-        // if(choice.toString().trim() === "") return;
-
-        getSubList(choice, search, 0);
-    }
-
 
     function pageChange(page) {
         setPage(page);
@@ -168,8 +162,8 @@ export default function QnaLearningList() {
                 <tr>
                     <th scope="col">번호</th>
                     <th scope="col">과목</th>
-                    <th scope="col">제목</th>
-                    <th scope="col">작성일</th>
+                    <th scope="col" style={{width:"400px"}}>제목</th>
+                    <th scope="col" style={{width:"170px"}}>작성일</th>
                     <th scope="col">작성자</th>
                 </tr>
             </thead>
@@ -177,15 +171,7 @@ export default function QnaLearningList() {
             {
                 subList.map(function(list, i){
                     return (
-                        <tr key={i}>
-                            <td>{list.seq}</td>
-                            <td>{list.subject}</td>
-                            <td>
-                            <Link style={{textDecoration:"none"}} to={`/learning/QnaLearningDetail/${list.seq}`}>{list.title}</Link>
-                            </td>
-                            <td>{list.regdate}</td>
-                            <td>{list.writer}</td>
-                        </tr>
+                        <TableRow bbs={list} cnt={i + 1} key={i} />
                     )
                 })
             }
@@ -208,5 +194,51 @@ export default function QnaLearningList() {
     </div>
 
     )
+}
+
+function TableRow(props){
+    return (
+        <tr>
+            <td>{props.cnt}</td>
+            <td>{props.bbs.subject}</td>
+            <td style={{ textAlign:"left" }}>{getArrow(props.depth)}
+            <Link to={`/learning/QnaLearningDetail/${props.bbs.seq}`}>{props.bbs.title}</Link>
+            </td>
+            <td>{props.bbs.regdate}</td>
+            <td>{props.bbs.writer}</td>
+        </tr>
+    );
+}
+
+// // 제목에 대한 링크 및 삭제된 글의 처리
+// function BbsTitleProc(props){
+//     if(props.bbs.del === 0){
+//         return (
+//             <td style={{ textAlign:"left" }}>
+//                 {getArrow(props.bbs.depth)}                
+//                 <Link to={`/learning/QnALearningList/${props.bbs.seq}`}>{props.bbs.title}</Link>                
+//             </td>
+//         );
+//     }else{
+//         return (
+//             <td>*** 이 글은 작성자에 의해서 삭제되었습니다 ***</td>
+//         );
+//     }
+// }
+
+function getArrow( depth ) {
+	let nbsp = "&nbsp;&nbsp;&nbsp;&nbsp;";
+	
+	let ts = "";
+	for(var i = 0;i < depth; i++){
+		ts += nbsp;
+	}
+
+    // String -> Html
+    let space = <span dangerouslySetInnerHTML={{ __html: ts }}></span>    
+    if(depth === 0){
+        return "";
+    }
+	return (<>{space}<img src={arrow} alt="arrow.png" width='20px' height='20px'/>&nbsp;</>);
 }
 

@@ -14,6 +14,26 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 export default function LectureList() {
 
     const [lecturelist, setLecturelist] = useState([]);
+
+    const [userId, setUserId] = useState('');
+    const [showButton, setShowButton] = useState(false);
+  
+     // 아이디 입력 폼의 값이 변경될 때마다 상태를 업데이트
+    const handleUserIdChange = (event) => {
+        setUserId(event.target.value);
+    }
+
+    // 버튼 클릭 시 저장된 아이디와 입력된 아이디를 비교하여 버튼을 보여주거나 숨김
+    const handleButtonClick = () => {
+    if (userId === 'admin') {
+      setShowButton(true);
+    } else {
+      setShowButton(false);
+    }
+  }
+
+
+
     const movePage = useNavigate();
 
     function lectwrite() {

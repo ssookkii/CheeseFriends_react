@@ -5,7 +5,7 @@ import './asset/css/LectureWrite.css';
 import axios from "axios";
 
 
-export default function QnaLearningWrite() {
+export default function EduInfoWrite() {
 
     const [subject, setSubject] = useState('');
     const [title, setTitle] = useState('');
@@ -16,8 +16,27 @@ export default function QnaLearningWrite() {
 
    
     const resetBtn = () => {
-        navigate('/learning/QnaLearningList');
+        navigate('/learning/EduInfoList');
     }
+
+      // download
+  const download = async () => {
+    let filename = "zoom.txt";
+
+    const url = "http://localhost:3000/fileDownload?filename=" + filename;
+
+    // a tag 를 생성 + 자동실행
+    /*
+    const download = document.createElement('a');   // <a href='' 
+    download.setAttribute('href', url);
+    download.setAttribute('download', filename);
+    download.setAttribute('type', 'application/json');
+    download.click();
+    */
+
+    // react에서 window를 붙여줘야 한다
+    window.location.href = url;
+  }
 
     const SelectBox = () => {
         return (
@@ -45,23 +64,22 @@ export default function QnaLearningWrite() {
         formData.append("content", content);
 
         
-        axios.post('http://localhost:3000/writeQna', formData)
+        axios.post('http://localhost:3000/writeEduInfo', formData)
 
         .then( resp => {
             console.log(resp);
             alert('성공적으로 등록되었습니다');
 
-            navigate('/learning/QnaLearningList');
+            navigate('/learning/EduInfoList');
             })
             .catch(err => console.log(err));
-            alert('게시물 등록에 실패했습니다');
         }
     
 
    
     return (
         <div style={{margin:"30px 150px 50px 150px", textAlign:"left", padding:"15px", fontSize:"17px"}}>
-            <h2>수업 질문 등록</h2>
+            <h2>교육 정보 작성</h2>
             <hr/>
             <form name="frm" onSubmit={onSubmit} encType="multipart/form-data">
             <>
@@ -84,6 +102,7 @@ export default function QnaLearningWrite() {
             <>
             내용
             </>
+            <input type="file" name="uploadFile" className='file' accept="*"  />
             <br />
             <textarea id='content' className='content' name='content'
                 value={content} onChange={(e) => setContent(e.target.value)} />
