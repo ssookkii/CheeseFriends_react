@@ -10,6 +10,7 @@ function SubUpdate(){
         eduName : "",
         subCode : "",
         subName : "",
+        classGrade : "",
         educatorName : "",
     });
     const [id, setId] = useState([]);
@@ -29,6 +30,7 @@ function SubUpdate(){
                 eduName : response.data.eduName,
                 subCode : response.data.subCode,
                 subName : response.data.subName,
+                classGrade : response.data.classGrade,
                 educatorName : response.data.educatorName,
             });
     }
@@ -52,12 +54,16 @@ function SubUpdate(){
         } else if(subject.educatorName === null || subject.educatorName === ""){
             alert("담당교사 아이디를 입력해주세요");
             return;
+        } else if(subject.classGrade === null || subject.classGrade === ""){
+            alert("대상학년을 입력해주세요");
+            return;
         } else {
             subData = {
                 eduCode : params.eduCode,
                 eduName : params.eduName,
                 subCode : params.subCode,
                 subName : subject.subName,
+                classGrade : subject.classGrade,
                 educatorName : subject.educatorName,
             }
         }
@@ -101,6 +107,28 @@ function SubUpdate(){
                 defaultValue={subject.subName}
                 onInput={(e) => setSubject(prevState => ({...prevState, subName: e.target.value}))}
                 />
+            </div>
+            <div className={`${styles.InputBox} ${styles.datalistAlign}`}>
+                <span>대상학년</span>
+                <div>
+                    <input type="text" className={styles.Input} list="list" id="level" defaultValue={subject.classGrade} onInput={(e) => setSubject(prevState => ({...prevState, classGrade: e.target.value}))}/>
+                        <datalist id="list">
+                            <option value="일반">일반</option>
+                            <option value="고3">고3</option>
+                            <option value="고2">고2</option>
+                            <option value="고1">고1</option>
+                            <option value="중3">중3</option>
+                            <option value="중2">중2</option>
+                            <option value="중1">중1</option>
+                            <option value="초6">초6</option>
+                            <option value="초5">초5</option>
+                            <option value="초4">초4</option>
+                            <option value="초3">초3</option>
+                            <option value="초2">초2</option>
+                            <option value="초1">초1</option>
+                            <option value="유치부">유치부</option>
+                        </datalist>
+                </div>
             </div>
             <div className={`${styles.InputBox} ${styles.datalistAlign}`}>
                 <span>담당교사아이디</span> 

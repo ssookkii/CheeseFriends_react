@@ -49,6 +49,28 @@
     font-weight: 600;
     font-size: 0.9em;
 }
+.excelBtn > label {
+    position:relative;
+}
+.excelBtn > label > input {
+    display : none;
+}
+.excelBtn > label > div {
+    height: 40px;
+    color: #fff;
+    background-color: #FAC463;
+    width: 120px;
+    border-radius: 10px;
+    margin-left: 10px;
+    font-weight: 600;
+    font-size: 0.9em;
+    position: absolute;
+    left: -135px;
+    top: -10px;
+    line-height: 39px;
+    text-align: center;
+    cursor: pointer;
+}
 
 .content {
     margin:40px 0 ;

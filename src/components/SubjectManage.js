@@ -9,7 +9,7 @@ import { faAnglesLeft } from "@fortawesome/free-solid-svg-icons";
 import { faAnglesRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import './asset/css/reset.css';
+
 import manage from './asset/css/manageCommon.module.css';
 
 
@@ -97,6 +97,7 @@ function SubjectManage(){
                         <th>학원이름</th>
                         <th>과목코드</th>
                         <th>과목이름</th>
+                        <th>대상학년</th>
                         <th>담당교사아이디</th>
                         <th>담당교사이름</th>
                         <th>관리</th>
@@ -111,6 +112,7 @@ function SubjectManage(){
                                     <td>{sub.eduName}</td>
                                     <td>{sub.subCode}</td>
                                     <td>{sub.subName}</td>
+                                    <td>{sub.classGrade}</td>
                                     <td>{sub.educatorName}</td>
                                     <td>{sub.name}</td>
                                     <td>

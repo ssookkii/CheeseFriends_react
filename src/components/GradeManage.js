@@ -1,5 +1,7 @@
 import React, {useState, useEffect} from "react";
 import axios from "axios";
+import * as XLSX from 'xlsx'; 
+import * as FileSaver from 'file-saver';
 
 import styles from './asset/css/gradeManage.module.css';
 
@@ -10,10 +12,17 @@ function GradeManage(){
     const [subject, setSubject] = useState([]);
     const [student, setStudent] = useState([]);
     const [grade , setGrade] = useState([]);
+    console.log(grade);
+
+    const [choice, setChoice] = useState('name');
+    console.log(choice);
 
     const [insert, setInsert] = useState(false);
+    const [btnChange, setBtnChange] = useState(false);
 
-    let [btnActive, setBtnActive] = useState(0);
+    let [btnActive, setBtnActive] = useState(
+        parseInt(localStorage.getItem("btnActive")) || 0 
+    );
 
      // 담당하는 과목리스트 가져오기
     const getSubTeacherList = async(id) => {
@@ -23,25 +32,27 @@ function GradeManage(){
     }
 
      // 성적입력 전 과목학생리스트 가져오기
-    const getSubStudentList = async(id, subcode) => {
-        const response = await axios.get("http://localhost:3000/subStudentList", {params:{"educatorName":id, "subCode":subcode}})
+    const getSubStudentList = async(choice, id, subcode) => {
+        const response = await axios.get("http://localhost:3000/subStudentList", {params:{"educatorName":id, "subCode":subcode, "choice":choice}})
             setStudent(response.data);
     }
-    console.log(student);
-    console.log(grade[1]);
 
     // 성적입력 후 석차포함 가져오기
-    const getStudentGradeList = async(id, subcode) => {
-        const response = await axios.get("http://localhost:3000/gradeRanks", {params:{"educatorName":id, "subCode":subcode}})
+    const getStudentGradeList = async(choice, id, subcode) => {
+        const response = await axios.get("http://localhost:3000/gradeRanks", {params:{"educatorName":id, "subCode":subcode, "choice":choice}})
         console.log(response.data);
         setGrade(response.data);
     }
     // 타이틀 클릭하면 거기에 맞는 과목 가져오기
     const handleSubjectClick = (subCode, i) => {
-            getStudentGradeList(id, subCode);
-            getSubStudentList(id, subCode);
+            getStudentGradeList(choice, id, subCode);
+            getSubStudentList(choice, id, subCode);
         setBtnActive(i);
     }
+
+    useEffect(() => {
+        localStorage.setItem("btnActive", btnActive);
+    }, [btnActive]);
 
     useEffect(()=>{
         getSubTeacherList(id);
@@ -49,8 +60,8 @@ function GradeManage(){
 
     useEffect(()=>{
         if (subject.length > 0) {
-            getSubStudentList(id, subject[0].subCode);
-            getStudentGradeList(id, subject[0].subCode);
+            getSubStudentList(choice, id, subject[parseInt(localStorage.getItem("btnActive"))].subCode);
+            getStudentGradeList(choice, id, subject[parseInt(localStorage.getItem("btnActive"))].subCode);
         }
     }, [subject]);
 
@@ -61,6 +72,7 @@ function GradeManage(){
     // 성적입력버튼 활성화
     function gradeHandler(){
         setInsert(true);
+        setBtnChange(true);
     }
     // 성적입력
     function insertHandler(){
@@ -70,8 +82,9 @@ function GradeManage(){
             if(resp.data !== null && resp.data !== "" && resp.data === "success"){
                 alert("성적이 입력되었습니다.");
                 setInsert(false);
+                setBtnChange(true);
                 console.log(resp.data);
-                // window.location.reload();
+                window.location.reload();
             }else if(resp.data !== null && resp.data !== "" && resp.data === "duplicate"){
                 alert("성적이 이미 입력되었습니다.")
             }else if(resp.data !== null && resp.data !== "" && resp.data === "fail"){
@@ -89,8 +102,9 @@ function GradeManage(){
             if(resp.data !== null && resp.data !== "" && resp.data === "success"){
                 alert("성적이 수정되었습니다.");
                 setInsert(false);
+                setBtnChange(true);
                 console.log(resp.data);
-                // window.location.reload();
+                window.location.reload();
             }else if(resp.data !== null && resp.data !== "" && resp.data === "fail"){
                 alert("입력칸을 확인해주십시오")
             }
@@ -99,6 +113,98 @@ function GradeManage(){
             alert(err);
         })
     }
+    // 정렬
+    function changeSort(e){
+        const choice = e.target.value;
+        setChoice(choice);
+        getSubStudentList(choice, id, subject[parseInt(localStorage.getItem("btnActive"))].subCode);
+        getStudentGradeList(choice, id, subject[parseInt(localStorage.getItem("btnActive"))].subCode);
+    }
+    // 엑셀 다운로드
+    function ExcelDownload(){
+        const excelFileType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+        const excelFileExtension = '.xlsx';
+        // 입력된 성적 유무로 엑셀 다운로드 데이터 변경
+        const gradeData = grade.length > 0 ? 
+            grade.map((g) => ({
+                subCode: g.subCode,
+                subName: g.subName,
+                studentId: g.studentId,
+                name: g.name,
+                studentGrade: g.studentGrade,
+                studentRanks: g.studentRanks,
+                subTotal: g.subTotal
+            })) : 
+            student.map((s) => ({
+                subCode: s.subCode,
+                subName: s.subName,
+                studentId: s.userId,
+                name: s.name,
+                studentGrade: s.studentGrade
+            }));
+        const ws = XLSX.utils.json_to_sheet(gradeData);
+        console.log(ws);
+
+        const wb = { Sheets: { grade: ws }, SheetNames: ["grade"] };
+        const excelBuffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
+        const data = new Blob([excelBuffer], { type: excelFileType });
+        FileSaver.saveAs(data, `file${excelFileExtension}`, { autoBOM: true });
+    }
+    // 엑셀 업로드
+    function ExcelUpload(e){
+        const file = e.target.files[0];
+        const fileReader = new FileReader();
+        fileReader.readAsArrayBuffer(file);
+
+        fileReader.onload = (event) => {
+            const data = new Uint8Array(event.target.result);
+            const workbook = XLSX.read(data, { type: 'array' });
+            const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+            const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+            // 엑셀 파일의 내용을 이용한 작업 수행
+            if(grade.length > 0){
+                Promise.all(
+                    grade.map((g, i) => {
+                        return new Promise((resolve) => {
+                        setGrade(prevState => {
+                            const newState = [...prevState];
+                            newState[i] = { ...g, studentGrade: jsonData[i+1][4] };
+                            return newState;
+                        });
+                        resolve();
+                        });
+                    })
+                    ).then(() => {
+                        console.log('All grade updates are completed.');
+                        setBtnChange(true);
+                        alert("수정완료버튼을 눌러야 수정이 완료됩니다.");
+                    }).catch((err) => {
+                        console.error(err);
+                    });
+
+            }else {
+                Promise.all(
+                student.map((s, i) => {
+                    return new Promise((resolve) => {
+                    setStudent(prevState => {
+                        const newState = [...prevState];
+                        newState[i] = { ...s, studentGrade: jsonData[i+1][4] };
+                        return newState;
+                    });
+                    resolve();
+                    });
+                })
+                ).then(() => {
+                    setBtnChange(true);
+                    alert("입력완료버튼을 눌러야 입력이 완료됩니다.");
+                }).catch((err) => {
+                    console.error(err);
+                });
+            }
+            
+        };
+
+    };
 
     return(
         <div className={styles.wrap}>
@@ -112,13 +218,16 @@ function GradeManage(){
             }
             </div>
             <div className={styles.options}>
-                <select className={styles.search}>
-                    <option>이름</option>
-                    <option>석차</option>
+                <select className={styles.search} value={choice} onChange={changeSort}>
+                    <option value="name">이름</option>
+                    <option value="rank">석차</option>
                 </select>
                 <div className={styles.excelBtn}>
-                    <button>Excel 업로드</button>
-                    <button>Excel 다운로드</button>
+                    <label>
+                        <input type="file" onChange={ExcelUpload}/>
+                        <div>Excel 업로드</div>
+                    </label>
+                    <button onClick={ExcelDownload}>Excel 다운로드</button>
                 </div>
             </div>
             <table className={styles.content}>
@@ -197,11 +306,11 @@ function GradeManage(){
             </table>
             { grade.length > 0 ? 
             (<div>
-                {!insert ? <button className={styles.updateBtn} onClick={gradeHandler}>성적수정</button> : <button className={styles.updateBtn} onClick={updateHandler}>수정완료</button>}
+                {!btnChange ? <button className={styles.updateBtn} onClick={gradeHandler}>성적수정</button> : <button className={styles.updateBtn} onClick={updateHandler}>수정완료</button>}
             </div>) :
             (
             <div>
-                {!insert ? <button className={styles.updateBtn} onClick={gradeHandler}>성적입력</button> : <button className={styles.updateBtn} onClick={insertHandler}>입력완료</button>}
+                {!btnChange ? <button className={styles.updateBtn} onClick={gradeHandler}>성적입력</button> : <button className={styles.updateBtn} onClick={insertHandler}>입력완료</button>}
             </div>) 
             }
         </div>
