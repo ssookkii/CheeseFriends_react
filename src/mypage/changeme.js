@@ -194,6 +194,11 @@ function Changeme(){
           }
     },[phone])
 
+    // 휴대폰 번호 변경시 재인증 필요
+    useEffect(()=>{
+        setPhone_publiccheck("");
+    },[phone])
+
     
     // 휴대폰 인증번호 발송
     const [phone_publicc, setPhone_publicc] = useState("");

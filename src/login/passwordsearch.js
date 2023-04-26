@@ -92,6 +92,7 @@ function Passwordsearch(){
          })
      }
 
+
      // 휴대폰 인증번호 체크
     const [phone_publiccheck, setPhone_publiccheck] = useState("");
 
@@ -103,6 +104,11 @@ function Passwordsearch(){
             setPhone_publicch(false);
         }
     }
+
+    // 휴대폰 번호 변경시 재인증 필요
+    useEffect(()=>{
+        setPhone_publiccheck("");
+    },[phone])
 
     // 비밀번호 정규식
     const passwordRegEx = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/
@@ -169,22 +175,37 @@ function Passwordsearch(){
             alert("인증번호를 입력해주세요");
             return;
         }
+
+        
     
-        axios.post("http://localhost:3000/idchecktwo", null, { params:{ "id":id, "phone":phone }})
+        axios.post("http://localhost:3000/idcheck", null, { params:{ "id":id }})
         .then(function(resp){
             if(resp.data === "YES"){
-                alert("본인 명의의 아이디와 휴대폰 번호인지 확인해주세요");
+                alert("없는 아이디입니다. 아이디 확인 또는 아이디 찾기를 진행해주세요");
+                return;
             }else{
-                console.log("id : " + resp.data);
-                alert("본인 확인 되었습니다. 비밀번호를 새로 설정해주세요")
-                setFindidtext("비밀번호를 새로 설정해주세요")
-                setFindida(true)
-                setPasswordchangeon(true);
+                axios.post("http://localhost:3000/idchecktwo", null, { params:{ "id":id, "phone":phone }})
+                .then(function(resp){
+                    if(resp.data === "YES"){
+                        alert("본인 명의의 아이디와 휴대폰 번호인지 확인해주세요");
+                    }else{
+                        console.log("id : " + resp.data);
+                        alert("본인 확인 되었습니다. 비밀번호를 새로 설정해주세요")
+                        setFindidtext("비밀번호를 새로 설정해주세요")
+                        setFindida(true)
+                        setPasswordchangeon(true);
+                    }
+                })
+                .catch(function(err){
+                    alert("err");
+                })
             }
         })
         .catch(function(err){
             alert("err");
         })
+    
+        
     }
 
     // 비밀번호 재설정

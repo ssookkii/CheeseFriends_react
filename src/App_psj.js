@@ -31,7 +31,7 @@ import RegiParents from './login/regiparents';
 import Regiselect from './login/regiselect';
 import Regiteacher from './login/regiteacher';
 import Changeme from './mypage/changeme';
-import Email from './mypage/email';
+import Email from './mypage/receiveemaillist';
 import Sendemail from './mypage/sendemail';
 import Testmain from './mypage/testmain';
 
@@ -44,6 +44,9 @@ import LearningWrite from './components/LearningWrite'
 import TaskList from './components/TaskList';
 import TaskDetail from './components/TaskDetail';
 import TaskWrite from './components/TaskWrite';
+import Maildetail from './mypage/maildetail';
+import Sendemaillist from './mypage/sendemaillist';
+import Sendmaildetail from './mypage/sendmaildetail';
 
 function App() {
 
@@ -74,7 +77,13 @@ function App() {
             <Route path="/testmain" element={<Testmain />}>
               <Route path="/testmain/changeme" element={<Changeme />} />
               <Route path="/testmain/email" element={<Email />} />
+              <Route path="/testmain/email/:choice/:search" element={<Email />} />
               <Route path="/testmain/sendemail" element={<Sendemail />} />
+              <Route path="/testmain/sendemail/:sender" element={<Sendemail />} />
+              <Route path="/testmain/maildetail/:seq" element={<Maildetail />} />
+              <Route path="/testmain/sendemaillist" element={<Sendemaillist />} />
+              <Route path="/testmain/sendemaillist/:choice/:search" element={<Sendemaillist />} />
+              <Route path="/testmain/sendmaildetail/:seq" element={<Sendmaildetail />} />
             </Route>
 
 
