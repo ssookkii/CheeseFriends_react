@@ -5,15 +5,13 @@ function PapagoTranslator() {
   const [translatedText, setTranslatedText] = useState("");
 
   const translate = () => {
-    const clientId = "9sBjPxbXT3NFK1O86020";
-    const clientSecret = "zlm7AAxGhe";
+    const clientId = "9sPIM4UprmN3lUd6ddie";
+    const clientSecret = "nU9WPRg33w";
     const source = "ko";
     const target = "en";
     const apiURL = "https://openapi.naver.com/v1/papago/n2mt";
 
     fetch(apiURL, {
-      mode: 'cors',
-      credentials: 'include',
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
