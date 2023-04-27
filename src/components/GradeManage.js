@@ -43,6 +43,7 @@ function GradeManage(){
         console.log(response.data);
         setGrade(response.data);
     }
+    
     // 타이틀 클릭하면 거기에 맞는 과목 가져오기
     const handleSubjectClick = (subCode, i) => {
             getStudentGradeList(choice, id, subCode);
