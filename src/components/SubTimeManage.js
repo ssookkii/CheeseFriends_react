@@ -91,70 +91,66 @@ function SubTimeManage(){
             alert(err);
         })
     }
+    console.log(btnActive)
     // 과목수정
-    function subUpdate(){
-        //     let subUpdateData = null;
-        //     if(subData[btnActive].subName === null || subData[btnActive].subName === ""){
-        //         alert("과목명을 입력해주세요");
-        //         return;
-        //     }else if(subData[btnActive].classGrade === null || subData[btnActive].classGrade === ""){
-        //         alert("대상학년을 입력해주세요");
-        //         return;
-        //     }else{
-        //         subUpdateData = {
-        //             subCode : subData[btnActive].subCode,
-        //             subName : subData[btnActive].subName,
-        //             classGrade : subData[btnActive].classGrade,
-        //             educatorName : id,
-        //         }
-        //         // axios.post("http://localhost:3000/subUpdate", null, {params: {"subCode": subCode, "subName" : updateSubName, "classGrade":updateLevel, "educatorName":id}})
-        //         axios.post("http://localhost:3000/subUpdate", null, {params: subUpdateData})
-        //         .then(function(resp){
-        //             if(resp.data !== null && resp.data !== "" && resp.data === "success"){
-        //                 console.log(resp.data);
-        //                 alert("수정되었습니다");
-        //                 window.location.reload();
-        //             }else if(resp.data !== null && resp.data !== "" && resp.data === "fail"){
-        //                 alert("입력칸을 확인해주십시오")
-        //             }
-        //         })
-        //         .catch(function(err){
-        //             alert(err);
-        //         })
-        //     }
+    function timeUpdate(){
+        let timeUpdateData = null;
+        if(subDateTime[btnActive].subDay === null || subDateTime[btnActive].subDay === ""){
+            alert("요일을 선택해주세요");
+            return;
+        }else if(subDateTime[btnActive].subStartTime === null || subDateTime[btnActive].subStartTime === ""){
+            alert("강의시작시간을 입력해주세요");
+            return;
+        }else if(subDateTime[btnActive].subEndTime === null || subDateTime[btnActive].subEndTime === ""){
+            alert("강의종료시간을 입력해주세요");
+            return;
+        }else{
+            timeUpdateData = {
+                seq : subDateTime[btnActive].seq,
+                subDay : subDateTime[btnActive].subDay,
+                subStartTime : subDateTime[btnActive].subStartTime,
+                subEndTime : subDateTime[btnActive].subEndTime,
+                educatorName : id,
+            }
+            axios.post("http://localhost:3000/timeTableUpdate", null, {params: timeUpdateData})
+            .then(function(resp){
+                if(resp.data !== null && resp.data !== "" && resp.data === "success"){
+                    console.log(resp.data);
+                    alert("수정되었습니다");
+                    window.location.reload();
+                }else if(resp.data !== null && resp.data !== "" && resp.data === "fail"){
+                    alert("입력칸을 확인해주십시오")
+                }
+            })
+            .catch(function(err){
+                alert(err);
+            })
+        }
         }
     // 과목삭제
-    function deleteBtn(subCode){
-    //     if(window.confirm("정말 삭제하시겠습니까?")){
-    //         axios.post("http://localhost:3000/subDelete", null, {params: {"subCode":subCode}})
-    //         .then(function(resp){
-    //             if(resp.data !== null && resp.data !== "" && resp.data === "success"){
-    //                 alert("삭제되었습니다.");
-    //                 console.log(resp.data);
-    //             }else if(resp.data !== null && resp.data !== "" && resp.data === "fail"){
-    //                 alert("삭제를 실패하였습니다.")
-    //             }
-    //         })
-    //         .catch(function(err){
-    //             alert(err);
-    //         })
-    //     }else{
-    //         alert("취소되었습니다.");
-    //     }
+    function deleteBtn(seq){
+        if(window.confirm("정말 삭제하시겠습니까?")){
+            axios.post("http://localhost:3000/timeTableDelete", null, {params: {"seq":seq}})
+            .then(function(resp){
+                if(resp.data !== null && resp.data !== "" && resp.data === "success"){
+                    alert("삭제되었습니다.");
+                    console.log(resp.data);
+                    window.location.reload();
+                }else if(resp.data !== null && resp.data !== "" && resp.data === "fail"){
+                    alert("삭제를 실패하였습니다.")
+                }
+            })
+            .catch(function(err){
+                alert(err);
+            })
+        }else{
+            alert("취소되었습니다.");
+        }
         
     }
-    // 과목코드 입력되면 과목이름 분리, 대상학년 자동입력
-    // function changeSubName(e){
-    //     let subCode = prevState => ({...prevState, subName: e.target.value});
-    //     console.log(subCode);
-    //     setInsertDateTime(prevState => ({...prevState, subName: subCode.substr(1,4)}))
-    //     console.log("여기다");
-    //     console.log(insertDateTime.subCode);
-    // }
 
     console.log(insertDateTime);
     
-
     return(
         <div className={styles.wrap}>
         <div className={styles.subInputBox}>
@@ -243,7 +239,7 @@ function SubTimeManage(){
                                     {
                                         subUpdateBtn && btnActive === i ? 
                                         <div>
-                                            <select defaultValue={dateTime.subDay} onChange={(e) => subDateTime(prevState => {
+                                            <select defaultValue={dateTime.subDay} onChange={(e) => setSubDateTime(prevState => {
                                                     const newState = [...prevState];
                                                     newState[i].subDay = e.target.value;
                                                     return newState;
@@ -270,7 +266,7 @@ function SubTimeManage(){
                                                         type="time" 
                                                         className={styles.teTime}
                                                         defaultValue={dateTime.subStartTime} 
-                                                        onChange={(e) => subDateTime(prevState => {
+                                                        onChange={(e) => setSubDateTime(prevState => {
                                                             const newState = [...prevState];
                                                             newState[i].subStartTime = e.target.value;
                                                             return newState;
@@ -283,7 +279,7 @@ function SubTimeManage(){
                                                         type="time" 
                                                         className={styles.teTime}
                                                         defaultValue={dateTime.subEndTime} 
-                                                        onChange={(e) => subDateTime(prevState => {
+                                                        onChange={(e) => setSubDateTime(prevState => {
                                                             const newState = [...prevState];
                                                             newState[i].subEndTime = e.target.value;
                                                             return newState;
@@ -301,7 +297,7 @@ function SubTimeManage(){
                                     <div>
                                         {
                                             subUpdateBtn && btnActive === i ? 
-                                            <button className={`${styles.Edit} ${styles.ok}`} onClick={() => subUpdate(dateTime.subCode)}>완료</button>
+                                            <button className={`${styles.Edit} ${styles.ok}`} onClick={() => timeUpdate()}>완료</button>
                                             : <button className={styles.Edit} onClick={() => updateBtnHandler(i)}>수정</button>
                                         }
                                     </div>
@@ -309,7 +305,7 @@ function SubTimeManage(){
                                         {
                                             subUpdateBtn && btnActive === i ? 
                                             <button className={styles.Del} onClick={() => setSubUpdateBtn(false)}>취소</button>
-                                            : <button className={styles.Del} onClick={() => deleteBtn(dateTime.subCode)}>삭제</button>
+                                            : <button className={styles.Del} onClick={() => deleteBtn(dateTime.seq)}>삭제</button>
                                         }
                                     </div>
                                         

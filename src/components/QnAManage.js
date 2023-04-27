@@ -9,7 +9,6 @@ import { faAnglesLeft } from "@fortawesome/free-solid-svg-icons";
 import { faAnglesRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import './asset/css/reset.css';
 import manage from './asset/css/manageCommon.module.css';
 
 function QnAManage(){
