@@ -1,9 +1,9 @@
 .att-sys-button {
-    width: 200px;
-    height: 30px;
+  width: 200px;
+  height: 30px;
 }
 
-.h1 {
+/* .h1 {
     margin:0; padding:0;
     font-size:2.0em; 
     font-weight:bold; line-height:3;
@@ -13,17 +13,17 @@
 .nav ul {
     margin: 0;
     padding: 0;
-    flex-grow: 1; /* 빈 공간을 적절하게 나누도록 함 */
-    flex-basis: 0; /* 빈 공간을 적절하게 나누도록 함 */
+    flex-grow: 1;
+    flex-basis: 0; 
 
   }
   
   .nav ul:not(:last-child) {
-    margin-right: 10px; /* 인접한 ul 요소 사이의 간격 */
-  }
+    margin-right: 10px; 
+  } */
 
-  .attendance-system{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.attendance-system {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }

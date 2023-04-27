@@ -10,11 +10,11 @@ function PlayGame() {
   return (
 
     <div>
-       <div>
-            <h1>게임 플레이</h1>
-       </div>
-       <button type="button" onClick={handlePlayGame}>Play Game</button>
-        {showIframe && <div><iframe src="./WebGLTest/index.html" width="520" height="1090"></iframe></div>}
+      <div>
+        <h1>Prop 2 Sky</h1>
+      </div>
+      <button type="button" onClick={handlePlayGame}>Play Game</button>
+      {showIframe && <div><iframe src="./WebGLTest/index.html" width="520" height="1090"></iframe></div>}
 
     </div>
   );

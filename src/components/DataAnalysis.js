@@ -41,11 +41,31 @@ const countTotalAttendance = (attendanceData) => {
 const DataAnalysis = () => {
     const userId = sessionStorage.getItem('userId');
     const eduCode = sessionStorage.getItem('eduCode');
+    const userAuth = sessionStorage.getItem("auth");
     const [gradeData, setGradeData] = useState([]);
     const [attendanceData, setAttendanceData] = useState([]);
     const [currentMonth, setCurrentMonth] = useState(new Date().getMonth() + 1);
     const totalAttendanceChartData = countTotalAttendance(attendanceData);
     const [selectedRate, setSelectedRate] = useState('출석률');
+    const [currentUserId, setCurrentUserId] = useState(null);
+
+    useEffect(() => {
+        if (userAuth === "student") {
+            setCurrentUserId(userId);
+            console.log(currentUserId);
+        } else if (userAuth === "parents") {
+            // 백엔드에서 학생 아이디를 가져오는 API 호출
+            axios
+                .get(`http://localhost:3000/attManage/getStudentId/${userId}`)
+                .then((response) => {
+                    setCurrentUserId(response.data);
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+        }
+    }, [userAuth, userId]);
+
     const handleRateChange = (newRate) => {
         setSelectedRate(newRate);
     }
@@ -213,7 +233,7 @@ const DataAnalysis = () => {
             return buf;
         };
 
-        saveAs(new Blob([s2ab(wbout)], { type: 'application/octet-stream' }), 'student_data_report.xlsx');
+        saveAs(new Blob([s2ab(wbout)], { type: 'application/octet-stream' }), '치즈프렌드 리포트.xlsx');
 
     };
 
@@ -224,10 +244,10 @@ const DataAnalysis = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const gradeResponse = await axios.get(`${API_URL}/${eduCode}/${userId}/grades`);
+                const gradeResponse = await axios.get(`${API_URL}/${eduCode}/${currentUserId}/grades`);
                 setGradeData(gradeResponse.data);
 
-                const attendanceResponse = await axios.get(`${API_URL}/${eduCode}/${userId}/attendance`);
+                const attendanceResponse = await axios.get(`${API_URL}/${eduCode}/${currentUserId}/attendance`);
                 setAttendanceData(attendanceResponse.data);
             } catch (error) {
                 console.error('Error fetching student data:', error);
@@ -235,7 +255,7 @@ const DataAnalysis = () => {
         };
 
         fetchData();
-    }, []);
+    }, [currentUserId]);
 
     const getChartData = (data) => {
         return data.map((item) => {

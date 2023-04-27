@@ -142,11 +142,12 @@
     width:10%;
     font-weight: 600;
 }
-.sublist > thead > tr > th:nth-child(2) {width:25%;}
+.sublist > thead > tr > th:nth-child(2) {width:20%;}
 .sublist > thead > tr > th:nth-child(3) {width:10%;}
-.sublist > thead > tr > th:nth-child(4) {width:20%;}
+.sublist > thead > tr > th:nth-child(4) {width:15%;}
 .sublist > thead > tr > th:nth-child(5) {width:15%;}
 .sublist > thead > tr > th:nth-child(6) {width:15%;}
+.sublist > thead > tr > th:nth-child(7) {width:15%;}
 .sublist > tbody > tr > td:nth-last-child(1) {
     display: flex;
     justify-content: center;

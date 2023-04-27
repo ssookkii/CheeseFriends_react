@@ -5,7 +5,8 @@ function Test() {
   useEffect(() => {
     sessionStorage.setItem("userId", "user01");
     sessionStorage.setItem("eduCode", "EDU001");
-    sessionStorage.setItem("subCode", "SUB003");
+    sessionStorage.setItem("subCode", "SUB001");
+    sessionStorage.setItem("auth", "student");
   }, []);
 
   // 세션 스토리지

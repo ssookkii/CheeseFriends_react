@@ -393,6 +393,11 @@ function Regi() {
         }
     }
 
+    // 휴대폰 번호 변경시 재인증 필요
+    useEffect(()=>{
+        setPhone_publiccheck("");
+    },[phone])
+
     // 사진 캡쳐 api
 
     const videoRef = useRef(null);

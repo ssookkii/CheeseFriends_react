@@ -60,6 +60,7 @@ li.active {
   box-sizing: border-box;
 }
 
+/* 
 html,
 body {
   margin: 0;
@@ -112,7 +113,7 @@ th {
 a {
   color: #202020;
   text-decoration: none;
-}
+} */
 
 .skip {
   display: none;
@@ -129,6 +130,7 @@ a {
   text-align: center;
 }
 
+/* 
 .th {
   background-color: rgb(238, 230, 211);
   height: 40px;
@@ -156,7 +158,7 @@ button {
   width: 50px;
   height: 30px;
 
-}
+} */
 
 .search-container {
   margin-top: 20px;
@@ -168,20 +170,17 @@ button {
   margin-left: 40px;
 }
 
-nav ul {
+/* nav ul {
   margin: 0;
   padding: 0;
   flex-grow: 1;
-  /* 빈 공간을 적절하게 나누도록 함 */
   flex-basis: 0;
-  /* 빈 공간을 적절하게 나누도록 함 */
 
 }
 
 nav ul:not(:last-child) {
   margin-right: 10px;
-  /* 인접한 ul 요소 사이의 간격 */
-}
+} */
 
 .attendance-buttons button {
   border-radius: 5px;

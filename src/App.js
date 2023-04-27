@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
-import './App.css';
 
 import './components/asset/css/reset.css';
 import './components/asset/css/pagination.css';
@@ -19,6 +18,7 @@ import TeaUpdate from './components/TeaUpdate';
 import SendMailManage from './components/SendMailManage';
 import MailWrite from './components/MailWrite';
 import QnAManage from './components/QnAManage';
+import QnaAnswer from './components/QnaAnswer';
 import GradeManage from './components/GradeManage';
 import Attendance from "./components/Attendance";
 import AttendanceQR from "./components/AttendanceQR";
@@ -36,9 +36,12 @@ import RegiParents from './login/regiparents';
 import Regiselect from './login/regiselect';
 import Regiteacher from './login/regiteacher';
 import Changeme from './mypage/changeme';
-import Email from './mypage/email';
+import Email from './mypage/receiveemaillist';
 import Sendemail from './mypage/sendemail';
 import Testmain from './mypage/testmain';
+import Maildetail from './mypage/maildetail';
+import Sendemaillist from './mypage/sendemaillist';
+import Sendmaildetail from './mypage/sendmaildetail';
 
 import LectureList from './components/LectureList'
 import AbLectureList from './components/AbLectureList'
@@ -50,13 +53,18 @@ import LearningWrite from './components/LearningWrite'
 import TaskList from './components/TaskList';
 import TaskDetail from './components/TaskDetail';
 import TaskWrite from './components/TaskWrite';
-import QnALearningList from './components/QnALearningList';
+import QnALearningList from './components/QnaLearningList';
 import QnaLearningDetail from './components/QnaLearningDetail';
 import QnaLearningWrite from './components/QnaLearningWrite';
 import QnaLearningAnswer from './components/QnaLearningAnswer';
 import EduInfoList from './components/EduInfoList';
 import EduInfoDetail from './components/EduInfoDetail';
 import EduInfoWrite from './components/EduInfoWrite';
+import Chatbot from './components/Chatbot';
+
+import PlayGame from './components/PlayGame';
+import PlayGame1 from './components/PlayGame1';
+import PlayGame2 from './components/PlayGame2';
 
 function App() {
 
@@ -66,6 +74,12 @@ function App() {
 
         <main>
           <Routes>
+
+            <Route path="/playgame" element={<PlayGame />} />
+            <Route path="/playgame1" element={<PlayGame1 />} />
+            <Route path="/playgame2" element={<PlayGame2 />} />
+
+            <Route path="/service/Chatbot" element={<Chatbot />} />
 
             <Route path="/lecture" element={<LectureList />} />
             <Route path="/lecture/AbLectureList" element={<AbLectureList />} />
@@ -96,7 +110,13 @@ function App() {
             <Route path="/testmain" element={<Testmain />}>
               <Route path="/testmain/changeme" element={<Changeme />} />
               <Route path="/testmain/email" element={<Email />} />
+              <Route path="/testmain/email/:choice/:search" element={<Email />} />
               <Route path="/testmain/sendemail" element={<Sendemail />} />
+              <Route path="/testmain/sendemail/:sender" element={<Sendemail />} />
+              <Route path="/testmain/maildetail/:seq" element={<Maildetail />} />
+              <Route path="/testmain/sendemaillist" element={<Sendemaillist />} />
+              <Route path="/testmain/sendemaillist/:choice/:search" element={<Sendemaillist />} />
+              <Route path="/testmain/sendmaildetail/:seq" element={<Sendmaildetail />} />
             </Route>
 
 
@@ -124,6 +144,7 @@ function App() {
                 <Route path="/adminpage/sendmailmanage" exact element={<SendMailManage />} />
                 <Route path="/adminpage/mailwrite" exact element={<MailWrite />} />
                 <Route path="/adminpage/qnamanage" exact element={<QnAManage />} />
+                <Route path="/adminpage/qnaanswer/:seq" exact element={<QnaAnswer />} />
 
               </Route>
             </Route>

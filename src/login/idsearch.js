@@ -97,6 +97,11 @@ function Idsearch(){
         }
     }
 
+    // 휴대폰 번호 변경시 재인증 필요
+    useEffect(()=>{
+        setPhone_publiccheck("");
+    },[phone])
+
     // 아이디 찾기 함수
     const [namea, setNamea] = useState(true);
     const [phonea, setPhonea] = useState(true);
@@ -130,9 +135,10 @@ function Idsearch(){
     
         axios.post("http://localhost:3000/idsearch", null, { params:{ "name":name, "phone":phone }})
         .then(function(resp){
+            console.log(resp.data);
             
-            if(resp.data === ""){
-                alert("본인 명의의 아이디와 휴대폰 번호인지 확인해주세요");
+            if(resp.data === null || resp.data === ""){
+                alert("이름과 본인명의의 휴대폰 번호인지 확인해주세요");
             }else{
                 console.log("id : " + resp.data);
                 setFindid(resp.data.id);
@@ -142,7 +148,7 @@ function Idsearch(){
             }
         })
         .catch(function(err){
-            alert("err");
+            alert("이름과 본인명의의 휴대폰 번호인지 확인해주세요");
         })
     }
 
