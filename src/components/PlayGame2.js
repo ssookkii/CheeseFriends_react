@@ -14,7 +14,7 @@ function PlayGame2() {
             <h1>Speed Typing</h1>
        </div>
        <button type="button" onClick={handlePlayGame}>Play Game</button>
-        {showIframe && <div><iframe src="./typingGame/index.html" width="1000" height="1200"></iframe></div>}
+        {showIframe && <div><iframe src="../typingGame/index.html" width="1000" height="1200"></iframe></div>}
 
     </div>
   );
