@@ -23,7 +23,7 @@ function Chatbot(){
         setUmessage('');
 
         // 데이터 받기(back-end)
-        axios.post("http://localhost:3000/chatBot", null, { params:{ "msg":umessage } })
+        axios.post("http://localhost:3000/chatbot", null, { params:{ "msg":umessage } })
         .then(function(resp){
             // alert(JSON.stringify(resp.data));
             // alert(resp.data.bubbles[0].type);
