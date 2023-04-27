@@ -1,27 +1,33 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
+
+import './components/asset/css/reset.css';
+import './components/asset/css/pagination.css';
 import './App.css';
 
-import PrivateRoutes from './components/PrivateRoutes';
-import Admin from './components/Admin';
-import AdminPage from './components/AdminPage';
-import MapSearch from './components/MapSearch';
-import EduAdd from './components/EduAdd';
-import EduManage from './components/EduManage'
-import EduUpdate from './components/EduUpdate';
-import SubjectManage from './components/SubjectManage';
-import SubUpdate from './components/SubUpdate';
-import TeacherManage from './components/TeacherManage';
-import TeaUpdate from './components/TeaUpdate';
-import SendMailManage from './components/SendMailManage';
-import MailWrite from './components/MailWrite';
-import QnAManage from './components/QnAManage';
-
-import Attendance from "./components/Attendance";
-import AttendanceQR from "./components/AttendanceQR";
-import AttendanceManage from "./components/AttendanceManage";
-import AttendanceManageTeacher from "./components/AttendanceManageTeacher";
-import Test from "./components/Test";
+// import PrivateRoutes from './components/PrivateRoutes';
+// import Admin from './components/Admin';
+// import AdminPage from './components/AdminPage';
+// import MapSearch from './components/MapSearch';
+// import EduAdd from './components/EduAdd';
+// import EduManage from './components/EduManage'
+// import EduUpdate from './components/EduUpdate';
+// import SubjectManage from './components/SubjectManage';
+// import SubUpdate from './components/SubUpdate';
+// import TeacherManage from './components/TeacherManage';
+// import TeaUpdate from './components/TeaUpdate';
+// import SendMailManage from './components/SendMailManage';
+// import MailWrite from './components/MailWrite';
+// import QnAManage from './components/QnAManage';
+// import QnaAnswer from './components/QnaAnswer';
+// import GradeManage from './components/GradeManage';
+// import Attendance from "./components/Attendance";
+// import AttendanceQR from "./components/AttendanceQR";
+// import AttendanceManage from "./components/AttendanceManage";
+// import AttendanceManageTeacher from "./components/AttendanceManageTeacher";
+// import DataAnalysis from "./components/DataAnalysis";
+// import DataAnalysisTeacher from "./components/DataAnalysisTeacher";
+// import Test from "./components/Test";
 
 import Idsearch from './login/idsearch';
 import Login from './login/login';
@@ -34,19 +40,33 @@ import Changeme from './mypage/changeme';
 import Email from './mypage/receiveemaillist';
 import Sendemail from './mypage/sendemail';
 import Testmain from './mypage/testmain';
-
-import LectureList from './components/LectureList'
-import AbLectureList from './components/AbLectureList'
-import LectureWrite from './components/LectureWrite'
-import LearningList from './components/LearningList'
-import LearningDetail from './components/LearningDetail'
-import LearningWrite from './components/LearningWrite'
-import TaskList from './components/TaskList';
-import TaskDetail from './components/TaskDetail';
-import TaskWrite from './components/TaskWrite';
 import Maildetail from './mypage/maildetail';
 import Sendemaillist from './mypage/sendemaillist';
 import Sendmaildetail from './mypage/sendmaildetail';
+import Grademypage from './mypage/grademypage';
+
+// import LectureList from './components/LectureList'
+// import AbLectureList from './components/AbLectureList'
+// import LectureWrite from './components/LectureWrite'
+// import LectureDetail from './components/LectureDetail';
+// import LearningList from './components/LearningList'
+// import LearningDetail from './components/LearningDetail'
+// import LearningWrite from './components/LearningWrite'
+// import TaskList from './components/TaskList';
+// import TaskDetail from './components/TaskDetail';
+// import TaskWrite from './components/TaskWrite';
+// import QnALearningList from './components/QnaLearningList';
+// import QnaLearningDetail from './components/QnaLearningDetail';
+// import QnaLearningWrite from './components/QnaLearningWrite';
+// import QnaLearningAnswer from './components/QnaLearningAnswer';
+// import EduInfoList from './components/EduInfoList';
+// import EduInfoDetail from './components/EduInfoDetail';
+// import EduInfoWrite from './components/EduInfoWrite';
+// import Chatbot from './components/Chatbot';
+
+// import PlayGame from './components/PlayGame';
+// import PlayGame1 from './components/PlayGame1';
+// import PlayGame2 from './components/PlayGame2';
 
 function App() {
 
@@ -57,15 +77,30 @@ function App() {
         <main>
           <Routes>
 
-            <Route path="/lecture" element={<LectureList />} />
+            {/* <Route path="/playgame" element={<PlayGame />} />
+            <Route path="/playgame1" element={<PlayGame1 />} />
+            <Route path="/playgame2" element={<PlayGame2 />} />
+
+            <Route path="/service/Chatbot" element={<Chatbot />} /> */}
+
+            {/* <Route path="/lecture" element={<LectureList />} />
             <Route path="/lecture/AbLectureList" element={<AbLectureList />} />
             <Route path="/lecture/LectureWrite" element={<LectureWrite />} />
+            <Route path="/lecture/LectureDetail/:seq" element={<LectureDetail />} />
             <Route path="/learning" element={<LearningList />} />
-            <Route path="/learning/LearningDetail" element={<LearningDetail />} />
+            <Route path="/learning/LearningDetail/:seq" element={<LearningDetail />} />
             <Route path="/learning/LearningWrite" element={<LearningWrite />} />
             <Route path="/learning/TaskList" element={<TaskList />} />
-            <Route path="/learning/TaskDetail" element={<TaskDetail />} />
+            <Route path="/learning/TaskDetail/:seq" element={<TaskDetail />} />
             <Route path="/learning/TaskWrite" element={<TaskWrite />} />
+            <Route path="/learning/QnALearningList" element={<QnALearningList />} />
+            <Route path="/learning/QnaLearningDetail/:seq" element={<QnaLearningDetail />} />
+            <Route path="/learning/QnaLearningWrite" element={<QnaLearningWrite />} />
+            <Route path="/learning/QnaLearningAnswer/:seq" element={<QnaLearningAnswer />} />
+            <Route path="/learning/EduInfoList" element={<EduInfoList />} />
+            <Route path="/learning/EduInfoWrite" element={<EduInfoWrite />} />
+            <Route path="/learning/EduInfoDetail/:seq" element={<EduInfoDetail />} /> */}
+
 
             <Route path="/" element={<Login />} />
             <Route path="/regiselect" element={<Regiselect />} />
@@ -84,16 +119,20 @@ function App() {
               <Route path="/testmain/sendemaillist" element={<Sendemaillist />} />
               <Route path="/testmain/sendemaillist/:choice/:search" element={<Sendemaillist />} />
               <Route path="/testmain/sendmaildetail/:seq" element={<Sendmaildetail />} />
+              <Route path="/testmain/grademypage" element={<Grademypage />} />
             </Route>
 
-
+        {/* 
             <Route path="/attendance" element={<Attendance />} />
             <Route path="/attendance/attendanceQR" element={<AttendanceQR />} />
             <Route path="/AttendanceManage" element={<AttendanceManage />} />
             <Route path="/AttendanceManageTeacher" element={<AttendanceManageTeacher />} />
+            <Route path="/DataAnalysis" element={<DataAnalysis />} />
+            <Route path="/DataAnalysisTeacher" element={<DataAnalysisTeacher />} />
             <Route path="/test" element={<Test />} />
 
 
+            <Route path="/grademanage" element={<GradeManage />} />
             <Route path="/admin" element={<Admin />} />
             <Route exact path="/adminpage" element={<PrivateRoutes />}>
               <Route path="/adminpage" element={<AdminPage />} >
@@ -108,8 +147,10 @@ function App() {
                 <Route path="/adminpage/sendmailmanage" exact element={<SendMailManage />} />
                 <Route path="/adminpage/mailwrite" exact element={<MailWrite />} />
                 <Route path="/adminpage/qnamanage" exact element={<QnAManage />} />
+                <Route path="/adminpage/qnaanswer/:seq" exact element={<QnaAnswer />} />
+
               </Route>
-            </Route>
+            </Route> */}
           </Routes>
         </main>
 

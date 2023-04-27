@@ -38,7 +38,7 @@ function Sidemenu(){
                     </tr>
                     <tr>
                         <td align="left">
-                            <label for="">성적표</label>
+                            <Link to="grademypage">성적표</Link>
                         </td>
                     </tr>
                     <tr>
