@@ -35,7 +35,6 @@ import RegiParents from './login/regiparents';
 import Regiselect from './login/regiselect';
 import Regiteacher from './login/regiteacher';
 import Changeme from './mypage/changeme';
-import Email from './mypage/receivemail';
 import Sendemail from './mypage/sendemail';
 import Testmain from './mypage/testmain';
 
@@ -49,7 +48,7 @@ import LearningWrite from './components/LearningWrite'
 import TaskList from './components/TaskList';
 import TaskDetail from './components/TaskDetail';
 import TaskWrite from './components/TaskWrite';
-import QnALearningList from './components/QnALearningList';
+import QnALearningList from './components/QnaLearningList';
 import QnaLearningDetail from './components/QnaLearningDetail';
 import QnaLearningWrite from './components/QnaLearningWrite';
 import QnaLearningAnswer from './components/QnaLearningAnswer';
@@ -94,7 +93,6 @@ function App() {
             <Route path="/passwordsearch" element={<Passwordsearch />} />
             <Route path="/testmain" element={<Testmain />}>
               <Route path="/testmain/changeme" element={<Changeme />} />
-              <Route path="/testmain/email" element={<Email />} />
               <Route path="/testmain/sendemail" element={<Sendemail />} />
             </Route>
 
