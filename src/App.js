@@ -63,7 +63,6 @@ import QnaLearningAnswer from './components/QnaLearningAnswer';
 import EduInfoList from './components/EduInfoList';
 import EduInfoDetail from './components/EduInfoDetail';
 import EduInfoWrite from './components/EduInfoWrite';
-import Chatbot from './components/Chatbot';
 
 import PlayGame from './components/PlayGame';
 import PlayGame1 from './components/PlayGame1';
@@ -84,8 +83,7 @@ function App() {
             <Route path="/playgame2" element={<PlayGame2 />} />
 
             <Route path="/service/Chatbot" element={<Chatbot />} />
-            <Route path='/service/papago' element={<PapagoTranslator/>} />
-            
+            <Route path='/service/papago' element={<PapagoTranslator />} />
             <Route path="/lecture" element={<LectureList />} />
             <Route path="/lecture/AbLectureList" element={<AbLectureList />} />
             <Route path="/lecture/LectureWrite" element={<LectureWrite />} />
