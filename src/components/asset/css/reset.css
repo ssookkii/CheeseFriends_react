@@ -4,12 +4,12 @@ html,body {
     margin:0; padding:0;
     font-family: 'Noto Sans KR', "Font Awesome 5 Brands", sans-serif;
 }
-/* h1,h2,h3,h4,h5,h6,p,div,span,header,aside,footer,nav,main,article,section,ul,ol,li,dl,dt,dd,em,strong,s,del,sup,sub,a,table,tr,td,th,tbody,thead,tfoot,form,input,select,option,button,fieldset,legend,label,address {
+h1,h2,h3,h4,h5,h6,p,div,span,header,aside,footer,nav,main,article,section,ul,ol,li,dl,dt,dd,em,strong,s,del,sup,sub,a,table,tr,td,th,tbody,thead,tfoot,form,input,select,option,button,fieldset,legend,label,address {
     margin:0; padding:0;
     font-size:1.0em; font-style:normal;
     font-weight:normal; line-height:1.0;
     letter-spacing: -0.3px;
-} */
+}
 fieldset,table {border:0;}
 input, textarea {border:0; outline:none; resize:none;}
 button, a {border:0; cursor:pointer;}
