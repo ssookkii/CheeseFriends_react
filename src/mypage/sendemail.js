@@ -8,8 +8,6 @@ import axios from "axios";
 import Addmodal from "./addmodal";
 import Searchmodal from "./searchmodal";
 
-
-
 function Sendemail(){
 
     let history = useNavigate();
