@@ -82,7 +82,7 @@ function App() {
             <Route path="/playgame1" element={<PlayGame1 />} />
             <Route path="/playgame2" element={<PlayGame2 />} />
 
-            <Route path="/service/Chatbot" element={<Chatbot />} />
+
             <Route path='/service/papago' element={<PapagoTranslator />} />
             <Route path="/lecture" element={<LectureList />} />
             <Route path="/lecture/AbLectureList" element={<AbLectureList />} />
