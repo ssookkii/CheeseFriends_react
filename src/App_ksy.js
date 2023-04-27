@@ -1,7 +1,8 @@
 import React, { useState, useEffect }  from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 
-import './App.css';
+import './components/asset/css/reset.css';
+
 import PrivateRoutes from './components/PrivateRoutes';
 import Admin from './components/Admin';
 import AdminPage from './components/AdminPage';
@@ -20,6 +21,7 @@ import QnaAnswer from './components/QnaAnswer';
 import GradeManage from './components/GradeManage';
 import SubjectAdd from './components/SubjectAdd';
 import SubTimeManage from './components/SubTimeManage';
+import TimeTable from './components/TimeTable';
 import Login from './login/login';
 
 
@@ -27,10 +29,11 @@ function App_ksy() {
 
     return (
         <BrowserRouter>
-       
+        
             <main>
                 <Routes>
                 <Route path="/" element={<Login />} />
+                <Route path="/timetable" element={<TimeTable />} />
                 <Route path="/subjectadd" element={<SubjectAdd />} />
                 <Route path="/subtimemanage" element={<SubTimeManage />} />
                 <Route path="/grademanage" element={<GradeManage />} />

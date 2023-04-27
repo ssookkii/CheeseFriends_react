@@ -20,6 +20,9 @@ import MailWrite from './components/MailWrite';
 import QnAManage from './components/QnAManage';
 import QnaAnswer from './components/QnaAnswer';
 import GradeManage from './components/GradeManage';
+import SubjectAdd from './components/SubjectAdd';
+import SubTimeManage from './components/SubTimeManage';
+
 import Attendance from "./components/Attendance";
 import AttendanceQR from "./components/AttendanceQR";
 import AttendanceManage from "./components/AttendanceManage";
@@ -129,6 +132,8 @@ function App() {
             <Route path="/test" element={<Test />} />
 
 
+            <Route path="/subjectadd" element={<SubjectAdd />} />
+            <Route path="/subtimemanage" element={<SubTimeManage />} />
             <Route path="/grademanage" element={<GradeManage />} />
             <Route path="/admin" element={<Admin />} />
             <Route exact path="/adminpage" element={<PrivateRoutes />}>
