@@ -46,7 +46,6 @@ const DataAnalysisTeacher = () => {
             출결상태: row.name,
             출석현황: row.value,
         }));
-        console.log(attendanceRows);
         const wsAttendance = XLSX.utils.json_to_sheet(attendanceRows);
 
         const chartDataRows = reportData.chartData.map((row) => ({
@@ -59,22 +58,26 @@ const DataAnalysisTeacher = () => {
         ));
         const wsChartData = XLSX.utils.json_to_sheet(chartDataRows);
 
-        const allStudentsRows = reportData.gradesData.map((gradeData) => {
-            const attendanceData = reportData.attendanceData.reduce((result, row) => {
-                result[row.name] = row.value;
-                return result;
-            }, {});
+        const allStudentsRows = gradesData.map((gradeData) => {
+            // 학생 이름을 기반으로 학생의 출석 데이터를 찾습니다.
+            const studentAttendanceData = students.filter(student => student.name === gradeData.studentName);
+
+            // 학생의 출석 현황을 계산합니다.
+            const attendanceCount = studentAttendanceData.filter(data => data.status === '출석').length;
+            const absenceCount = studentAttendanceData.filter(data => data.status === '결석').length;
+            const tardinessCount = studentAttendanceData.filter(data => data.status === '지각').length;
 
             return {
                 과목: reportData.subject,
                 월: reportData.month,
                 학생이름: gradeData.studentName,
                 점수: gradeData.studentGrade,
-                출석: attendanceData['출석'] || 0,
-                결석: attendanceData['결석'] || 0,
-                지각: attendanceData['지각'] || 0,
+                출석: attendanceCount,
+                결석: absenceCount,
+                지각: tardinessCount,
             };
         });
+
 
         const wsAllStudents = XLSX.utils.json_to_sheet(allStudentsRows);
 
@@ -83,7 +86,7 @@ const DataAnalysisTeacher = () => {
         XLSX.utils.book_append_sheet(wb, wsChartData, "평균 점수 차트");
         XLSX.utils.book_append_sheet(wb, wsAllStudents, "전체 학생 데이터");
 
-        XLSX.writeFile(wb, "report-data.xlsx");
+        XLSX.writeFile(wb, "치즈프렌드 리포트.xlsx");
     };
 
 

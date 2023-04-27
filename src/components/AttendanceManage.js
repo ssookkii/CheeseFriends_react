@@ -10,11 +10,29 @@ function AttendanceManage() {
   // 세션 스토리지
   const userId = sessionStorage.getItem("userId");
   const eduCode = sessionStorage.getItem("eduCode");
-  const subCode = sessionStorage.getItem("subCode");
+  const userAuth = sessionStorage.getItem("auth");
 
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [selectedSubject, setSelectedSubject] = useState('');
   const [attendanceData, setAttendanceData] = useState([]);
+  const [currentUserId, setCurrentUserId] = useState(null);
+
+  useEffect(() => {
+    if (userAuth === "student") {
+      setCurrentUserId(userId);
+      console.log(currentUserId);
+    } else if (userAuth === "parents") {
+      // 백엔드에서 학생 아이디를 가져오는 API 호출
+      axios
+        .get(`http://localhost:3000/attManage/getStudentId/${userId}`)
+        .then((response) => {
+          setCurrentUserId(response.data);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+  }, [userAuth, userId]);
 
 
 
@@ -28,31 +46,36 @@ function AttendanceManage() {
   const [subjects, setSubjects] = useState([]);
 
   useEffect(() => {
-    // 백엔드에서 과목 데이터를 가져오는 API 호출
-    axios.get(`http://localhost:3000/attManage/subjects/${userId}`)
+    if (!currentUserId) return;
+    // 백엔드에서 eduCode와 일치하는 과목 데이터를 가져오는 API 호출
+    axios.get(`http://localhost:3000/attManage/subjects/${currentUserId}`)
       .then((response) => {
-        setSubjects(response.data);
+        // 현재 eduCode와 일치하는 과목 데이터만 필터링하여 setSubjects에 저장
+        const filteredSubjects = response.data.filter(subject => subject.eduCode === eduCode);
+        setSubjects(filteredSubjects);
 
         // 첫번째 항목을 기본 선택으로 설정
-        if (response.data.length > 0) {
-          setSelectedSubject(response.data[0].subCode);
+        if (filteredSubjects.length > 0) {
+          setSelectedSubject(filteredSubjects[0].subCode);
         }
       })
       .catch((error) => {
         console.error(error);
       });
-  }, []);
+  }, [currentUserId, eduCode]);
+
 
   useEffect(() => {
+    if (!currentUserId || !selectedSubject) return;
     // 선택한 과목에 대한 출결 데이터를 가져오는 API 호출 
-    axios.get(`http://localhost:3000/attManage/${userId}/${selectedSubject}/${eduCode}`)
+    axios.get(`http://localhost:3000/attManage/${currentUserId}/${selectedSubject}/${eduCode}`)
       .then(response => {
         setAttendanceData(response.data);
       })
       .catch(error => {
         console.error(error);
       });
-  }, [selectedSubject]);
+  }, [selectedSubject, currentUserId]);
 
 
 
@@ -92,12 +115,12 @@ function AttendanceManage() {
   const handleBeforeClassAlertChange = (event) => {
     setminCheck(event.target.checked);
     const { checked } = event.target;
-    const url = `http://localhost:3000/attManage/${userId}/AlarmTrue`;
+    const url = `http://localhost:3000/attManage/${currentUserId}/AlarmTrue`;
     fetch(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        userId: userId,
+        userId: currentUserId,
         minCheck: checked // 체크되면 true, 체크해제하면 false
       }),
     })
@@ -115,8 +138,9 @@ function AttendanceManage() {
   const [minCheck, setminCheck] = useState([]);
 
   useEffect(() => {
+    if (!currentUserId) return;
     // DB에서 minCheck 값을 가져옴
-    axios.get(`http://localhost:3000/attManage/${userId}/GetAlarm`)
+    axios.get(`http://localhost:3000/attManage/${currentUserId}/GetAlarm`)
       .then((response) => {
         setminCheck(response.data[0].minCheck);
 
@@ -126,17 +150,17 @@ function AttendanceManage() {
         console.error('Error:', error);
         setminCheck(false);
       });
-  }, []);
+  }, [currentUserId]);
 
   const handleAbsentAlertChange = (e) => {
     setabsentAlarm(e.target.checked);
     const { checked } = e.target;
-    const url = `http://localhost:3000/attManage/${userId}/AbsentAlarmTrue`;
+    const url = `http://localhost:3000/attManage/${currentUserId}/AbsentAlarmTrue`;
     fetch(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        userId: userId,
+        userId: currentUserId,
         absentAlarm: checked // 체크되면 true, 체크해제하면 false
       }),
     })
@@ -153,15 +177,16 @@ function AttendanceManage() {
 
   const [absentAlarm, setabsentAlarm] = useState([]);
   useEffect(() => {
-    axios.get(`http://localhost:3000/attManage/${userId}/AbsentAlarm`)
+    if (!currentUserId) return;
+    axios.get(`http://localhost:3000/attManage/${currentUserId}/AbsentAlarm`)
       .then((response) => {
         setabsentAlarm(response.data[0].absentCheck);
       })
       .catch((error) => {
         console.error('Error:', error);
-        setminCheck(false);
+        setabsentAlarm(false);
       });
-  }, []);
+  }, [currentUserId]);
 
   const handleActiveDateChange = ({ activeStartDate }) => {
     setSelectedDate(activeStartDate);
