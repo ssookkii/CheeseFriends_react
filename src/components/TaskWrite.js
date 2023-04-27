@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { CKEditor } from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-// import './asset/css/LectureWrite.css';
+import { navigate, useNavigate } from 'react-router';
+ import './asset/css/LectureWrite.css';
 
 import axios from "axios";
 
@@ -9,30 +8,95 @@ import axios from "axios";
 function TaskWrite() {
 
     const [subject, setSubject] = useState('');
-    const [subjectCode, setSubjectCode] = useState('');
     const [title, setTitle] = useState('');
     const [writer, setWriter] = useState('');
     const [content, setContent] = useState('');
- 
-    const submitBtn = (event) => {
-        event.preventDefault();
+
+    const navigate = useNavigate();
+
+    const onSubmit = (e) => {
+        e.preventDefault();
+        // alert('onSubmit');
+    
+        // file + form field -> 짐을 싼다
+        let formData = new FormData();
+        formData.append("subject", subject);
+        formData.append("title", title);
+        formData.append("writer", writer);
+        formData.append("content", content);
+    
+        formData.append("uploadFile", document.frm.uploadFile.files[0]);
+    
+        // 보내자!
+        axios.post("http://localhost:3000/fileUpload", formData)
+        .then(res=>{
+           console.log(res.data);
+           alert('성공적으로 등록되었습니다');
+        })
+        .catch(function(error){
+           alert('과제 제출에 실패했습니다');
+        });
+
         axios.post('http://localhost:3000/writeTask', null, { params: {
                 subject,
-                subjectCode,
                 title,
                 writer,
                 content
         }})
-            .then(resp => console.log(resp))
+        .then( resp => {
+            console.log(resp);
+            navigate('/learning/TaskList');
+            })
             .catch(err => console.log(err));
 
-    };
+        }
+
+        // download
+        const download = async () => {
+            let filename = "zoom.txt";
+
+            const url = "http://localhost:3000/fileDownload?filename=" + filename;
+
+            // a tag 를 생성 + 자동실행
+            /*
+            const download = document.createElement('a');   // <a href='' 
+            download.setAttribute('href', url);
+            download.setAttribute('download', filename);
+            download.setAttribute('type', 'application/json');
+            download.click();
+            */
+
+            // react에서 window를 붙여줘야 한다
+            window.location.href = url;
+        }
+
+            const resetBtn = () => {
+                navigate('/learning/TaskList');
+            }
+
+            const SelectBox = () => {
+                return (
+                    <select onChange={changeSelectOptionHandler} value={subject} style={{marginLeft:"60px", width:"190px", border:"none", borderBottom:"2px solid lightgray"}}>
+                        <option key="kor" value="국어">국어</option>
+                        <option key="math" value="수학">수학</option>
+                        <option key="eng" value="영어">영어</option>
+                        <option key="social" value="사회">사회</option>
+                        <option key="sci" value="과학">과학</option>
+                    </select>
+                );
+            };
+        
+            const changeSelectOptionHandler = (e) => {
+                setSubject(e.target.value);
+            };
+        
 
    
         return (
-            <div style={{margin:"30px 150px 50px 150px", padding:"15px", fontSize:"17px"}}>
+            <div style={{margin:"30px 150px 50px 150px", textAlign:"left", padding:"15px", fontSize:"17px"}}>
                 <h2>과제 제출</h2>
                 <hr/>
+                <form name="frm" onSubmit={onSubmit} encType="multipart/form-data">
                 <>
                 제목
                 <input type="text" id='title' className='title' name='title'
@@ -41,14 +105,7 @@ function TaskWrite() {
                 <hr/>
                 <>
                 과목
-                <input type="text" id='subject' className='subject' name='subject'
-                    value={subject} onChange={(e) => setSubject(e.target.value)} />
-                </>
-                <hr/>
-                <>
-                과목코드
-                <input type="text" id='subjectCode' className='subjectCode' name='subjectCode'
-                    value={subjectCode} onChange={(e) => setSubjectCode(e.target.value)} />
+                <SelectBox />
                 </>
                 <hr/>
                 <>
@@ -60,39 +117,16 @@ function TaskWrite() {
                 <>
                 내용
                 </>
-                <div style={{marginTop:"10px"}}>
-                    <CKEditor
-                    
-                        data={ content }
-                        onBlur={ (event, editor) => {
-                            const conts = editor.getData();
+                <input type="file" name='uploadFile' className='file' accept='*' />
+                <br />
+                <textarea id='content' className='content' name='content'
+                    value={content} onChange={(e) => setContent(e.target.value)} />
 
-                            setContent(conts);
-                        }}
-                        editor={ ClassicEditor }
-                        config={{
-                            placeholder: "내용을 입력하세요.",
-                            ckfinder: {
-                                uploadUrl: 'uploadFile.json',
-                            },
-                        }}
-                        onReady={ editor => {
-                            // You can store the "editor" and use when it is needed.
-                            console.log( 'Editor is ready to use!', editor );
-                        } }
-                        onChange={ ( event, editor ) => {
-                            const data = editor.getData();
-                            console.log( { event, editor, data } );
-                        } }
-                        onFocus={ ( event, editor ) => {
-                            console.log( 'Focus.', editor );
-                        } }
-                    />
-                </div>
                 <div className='btnwrapper'>
-                <button type='reset'>취소</button>
-                <button type='submit' onClick={submitBtn}>등록</button>
+                <button type='button' onClick={resetBtn}>취소</button>
+                <button type='submit' value='file upload'>등록</button>
                 </div>
+                </form>
             </div>
         );
     }

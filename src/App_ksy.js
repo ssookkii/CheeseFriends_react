@@ -16,15 +16,24 @@ import TeaUpdate from './components/TeaUpdate';
 import SendMailManage from './components/SendMailManage';
 import MailWrite from './components/MailWrite';
 import QnAManage from './components/QnAManage';
+import QnaAnswer from './components/QnaAnswer';
+import GradeManage from './components/GradeManage';
+import SubjectAdd from './components/SubjectAdd';
+import SubTimeManage from './components/SubTimeManage';
+import Login from './login/login';
 
 
 function App_ksy() {
 
     return (
         <BrowserRouter>
-    
+       
             <main>
                 <Routes>
+                <Route path="/" element={<Login />} />
+                <Route path="/subjectadd" element={<SubjectAdd />} />
+                <Route path="/subtimemanage" element={<SubTimeManage />} />
+                <Route path="/grademanage" element={<GradeManage />} />
                 <Route path="/admin" element={ <Admin/>} />
                         <Route exact path="/adminpage" element={<PrivateRoutes/>}>
                                 <Route path="/adminpage" element={ <AdminPage/>} >
@@ -39,6 +48,7 @@ function App_ksy() {
                                     <Route path="/adminpage/sendmailmanage" exact element={<SendMailManage />} />
                                     <Route path="/adminpage/mailwrite" exact element={<MailWrite />} />
                                     <Route path="/adminpage/qnamanage" exact element={<QnAManage />} />
+                                    <Route path="/adminpage/qnaanswer/:seq" exact element={<QnaAnswer />} />
                                 </Route>
                         
                         </Route>

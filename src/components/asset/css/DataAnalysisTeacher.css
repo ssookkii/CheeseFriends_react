@@ -1,0 +1,21 @@
+.container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.chart-section {
+    width: 48%;
+}
+
+.datanav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.datanav nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 60%;
+}

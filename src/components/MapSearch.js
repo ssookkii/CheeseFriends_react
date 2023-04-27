@@ -17,7 +17,7 @@ function MapSearch({isOpen, onClose, setPlace}) {
             alert('키워드를 입력해주세요!');
             return false;
         }
-        ps.keywordSearch(keyword, placesSearchCB);
+        ps.keywordSearch(keyword, placesSearchCB, {category_group_code : 'SC4, AC5, PS3'});
     }
 
     function placesSearchCB (data, status, pagination) {

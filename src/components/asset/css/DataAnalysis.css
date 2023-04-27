@@ -1,0 +1,24 @@
+.charts-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.chart {
+    width: 49%;
+}
+
+.attendance-rate-charts {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.attendance-rate-chart {
+    flex: 0 0 auto;
+    width: 120px;
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

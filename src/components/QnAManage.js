@@ -13,7 +13,7 @@ import './asset/css/reset.css';
 import manage from './asset/css/manageCommon.module.css';
 
 function QnAManage(){
-    const [teacherList, setTeacherList] = useState([]);
+    const [qnaList, setQnaList] = useState([]);
 
     const [choice, setChoice] = useState('');
     const [search, setSearch] = useState('');
@@ -22,13 +22,13 @@ function QnAManage(){
     const [page, setPage] = useState(1);
     const [totalCnt, setTotalCnt] = useState(0);
 
-    function getTeacherList(cho, sear, page){
-        axios.get("http://localhost:3000/teacherlist", { params:{"choice":cho, "search":sear, "pageNumber":page} })
+    function getQnaList(cho, sear, page){
+        axios.get("http://localhost:3000/qnalist", { params:{"choice":cho, "search":sear, "pageNumber":page} })
         .then(function(resp){
             console.log(resp.data);
             // alert(JSON.stringify(resp.data));
 
-            setTeacherList(resp.data.list);
+            setQnaList(resp.data.list);
             setTotalCnt(resp.data.cnt);
         })
         .catch(function(err){
@@ -38,12 +38,12 @@ function QnAManage(){
 
     function searchBtn(){
         // if(choice.toString().trim() === "" || search.toString().trim() === "") return;
-        getTeacherList(choice, search, 0);
+        getQnaList(choice, search, 0);
     }
 
     function pageChange(page){
         setPage(page);
-        getTeacherList(choice, search, page-1);
+        getQnaList(choice, search, page-1);
     }
 
     function deleteBtn(id){
@@ -68,7 +68,7 @@ function QnAManage(){
     }
 
     useEffect(function(){
-        getTeacherList("", "", 0);
+        getQnaList("", "", 0);
     },[]);
 
 
@@ -76,7 +76,7 @@ function QnAManage(){
         <div>
             <div className={manage.topContent}>
                 <div className={manage.search}>       
-                    <select vlaue={choice} onChange={(e)=>setChoice(e.target.value)}>
+                    <select value={choice} onChange={(e)=>setChoice(e.target.value)}>
                         <option value="">검색</option>
                         <option value="eduCode">학원코드</option>
                         <option value="eduName">학원이름</option>
@@ -91,7 +91,8 @@ function QnAManage(){
                 <thead>
                     <tr>
                         <th><input type="checkbox"/></th>
-                        <th>수신자</th>
+                        <th>작성자</th>
+                        <th>문의주제</th>
                         <th>제목</th>
                         <th>문의일</th>
                         <th>상태</th>
@@ -99,14 +100,20 @@ function QnAManage(){
                 </thead>
                 <tbody>
                     {
-                        teacherList.map(function(t, i){
+                        qnaList.map(function(qna, i){
                             return (
                                 <tr key={i}>
                                     <td><input type="checkbox"/></td>
-                                    <td>{t.eduCode}</td>
-                                    <td><Link></Link></td>
-                                    <td>{t.id}</td>
-                                    <td><span></span><span>답변대기</span></td>
+                                    <td>{qna.writer}</td>
+                                    <td>{qna.topic}</td>
+                                    <td><Link to={`/adminpage/qnaanswer/${qna.seq}`}>{qna.title}</Link></td>
+                                    <td>{qna.regdate.substr(0, 11)}</td>
+                                    
+                                    {qna.reply === 0 ?
+                                        (<td><span></span><span>답변대기</span></td>) :
+                                        (<td><span className={manage.qnaReply}></span><span>답변완료</span></td>)
+                                    }
+                                    
                                 </tr>
                             )
                         })
