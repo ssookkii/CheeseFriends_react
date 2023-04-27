@@ -35,7 +35,7 @@ import RegiParents from './login/regiparents';
 import Regiselect from './login/regiselect';
 import Regiteacher from './login/regiteacher';
 import Changeme from './mypage/changeme';
-import Email from './mypage/email';
+import Email from './mypage/receivemail';
 import Sendemail from './mypage/sendemail';
 import Testmain from './mypage/testmain';
 

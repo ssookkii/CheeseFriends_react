@@ -6,7 +6,7 @@ import { BrowserRouter, Route, Link } from 'react-router-dom'
 import axios from "axios";
 import Sidemenu from "./sidemenu";
 import Changeme from "./changeme";
-import Email from "./email";
+import Email from "./receiveemaillist";
 
 
 function Testmain(){

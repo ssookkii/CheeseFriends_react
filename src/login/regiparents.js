@@ -144,7 +144,7 @@ function RegiParents(){
         // 과목 중복추가 체크
         for (let i = 0; i < studentidlist.length; i++) {
             if(studentidlist[i] === studentidresult){
-                alert("이미 추가된 과목입니다")
+                alert("해당 자녀의 아이디가 이미 추가되었습니다")
                 return;
             }
         }
@@ -350,6 +350,11 @@ function RegiParents(){
             setPhone_publicch(false);
         }
     }
+
+    // 휴대폰 번호 변경시 재인증 필요
+    useEffect(()=>{
+        setPhone_publiccheck("");
+    },[phone])
 
     // 사진 캡쳐 api
     const videoRef = useRef(null);
