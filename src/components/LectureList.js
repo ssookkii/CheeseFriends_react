@@ -1,15 +1,39 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.css';
 import axios from "axios";
 import Pagination from 'react-js-pagination';
 import styled from "styled-components";
 
-
+import { faAngleRight } from "@fortawesome/free-solid-svg-icons";
+import { faAngleLeft } from "@fortawesome/free-solid-svg-icons";
+import { faAnglesLeft } from "@fortawesome/free-solid-svg-icons";
+import { faAnglesRight } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function LectureList() {
 
     const [lecturelist, setLecturelist] = useState([]);
+
+    const [userId, setUserId] = useState('');
+    const [showButton, setShowButton] = useState(false);
+  
+     // 아이디 입력 폼의 값이 변경될 때마다 상태를 업데이트
+    const handleUserIdChange = (event) => {
+        setUserId(event.target.value);
+    }
+
+    // 버튼 클릭 시 저장된 아이디와 입력된 아이디를 비교하여 버튼을 보여주거나 숨김
+    const handleButtonClick = () => {
+    if (userId === 'admin') {
+      setShowButton(true);
+    } else {
+      setShowButton(false);
+    }
+  }
+
+
+
     const movePage = useNavigate();
 
     function lectwrite() {
@@ -21,10 +45,10 @@ export default function LectureList() {
 
     }
     function moveleclist() {
-        movePage('/lecture/LectureList')
+        movePage('/lecture')
     }
     function movelearnlist() {
-        movePage('/learning/LearningList');
+        movePage('/learning');
     }
     function movetasklist() {
         movePage('/learning/TaskList');
@@ -53,102 +77,48 @@ export default function LectureList() {
       }
     `;
 
-    const LecList = lecturelist.map((list, i)=>{
-        return(
-            <tr key={i}>
-                <th scope='row'> {i + 1} </th>
-                <td> {list.subject} </td>
-                <td> {list.title} </td>
-                <td> {list.regdate} </td>
-                <td>
-                    {list.writer}
-                </td>
-            </tr>
-        )
-    })
-
     useEffect(function(){
         getLecList(0);
     },[]);
     
   
-    // const [bbslist, setBbslist] = useState([]);
-    // const [choice, setChoice] = useState('');
+    const [subList, setSubList] = useState([]);
+    const [choice, setChoice] = useState('');
+    const [search, setSearch] = useState('');
 
-    // //paging
-    // const [page, setPage] = useState(1);
-    // const [totalCnt, setTotalCnt] = useState(0);
+    //paging
+    const [page, setPage] = useState(1);
+    const [totalCnt, setTotalCnt] = useState(10);
 
-    // function getSubList(choice, page){
-    //     axios.get("http://localhost:3000/sublist", { params:{"choice":choice, "pageNumber":page } })
-    //     .then(function(resp) {
-    //       //  console.log(resp.data);
-    //       //  alert(JSON.stringify(resp.data[8]));
+    function getSubList(choice, search, page){
+        axios.get("http://localhost:3000/lecturelist", { params:{"choice":choice, "search":search, "pageNumber":page } })
+        .then(function(resp) {
+          //  console.log(resp.data);
+          //  alert(JSON.stringify(resp.data[8]));
 
-    //       setBbslist(resp.data.list);
-    //       setTotalCnt(resp.data.cnt);
-    //     })
-    //     .catch(function(err){
-    //         alert(err);
-    //     })
-    // }
+          setSubList(resp.data.list);
+          setTotalCnt(resp.data.cnt);
+        })
+        .catch(function(err){
+            alert(err);
+        })
+    }
 
-    // function pageChange(page) {
-    //     setPage(page);
-    //     getSubList(choice, page-1);
-    // }
+    function searchBtn(){
+        // if(choice.toString().trim() === "" || search.toString().trim() === "") return;
+        getSubList(choice, search, 0);
+    }
 
-    // useEffect(function(){
-    //     getSubList("", 0);
-    // }, []);
+    function pageChange(page) {
+        setPage(page);
+        getSubList(choice, search, page-1);
+    }
 
-    const SelectBox = () => {
-        return (
-            <select onChange={handleSortingChange} style={{marginLeft:"2px", marginTop:"20px", width:"138px", border:"none", borderBottom:"2px solid lightgray"}}>
-                <option key="kor" value="국어">국어</option>
-                <option key="math" value="수학">수학</option>
-                <option key="eng" value="영어">영어</option>
-                <option key="social" value="사회">사회</option>
-                <option key="sci" value="과학">과학</option>
-            </select>
-        );
-    };
+    useEffect(function(){
+        getSubList("", "", 0);
+    }, []);
 
-    const [pageData, setPageData] = useState([]);
-  
-    const handleSortingChange = (e) => {
-        const sortingOption = e.target.value; // 선택된 옵션의 값
-        let sortedPageData = [...lecturelist]; // 정렬된 페이지 데이터
-    
-        // 선택된 옵션에 따라 페이지 데이터를 정렬
-        switch (sortingOption) {
-          case '국어':
-            sortedPageData.sort((a, b) => a.subject.localeCompare(b.subject)); 
-            break;
-          case '수학':
-
-          sortedPageData.sort((a, b) => a.subject.localeCompare(b.subject)); 
-            break;
-          case '영어':
-    
-          sortedPageData.sort((a, b) => a.subject.localeCompare(b.subject)); 
-            break;
-          case '사회':
-
-          sortedPageData.sort((a, b) => a.subject.localeCompare(b.subject)); 
-            break;
-          case '과학':
-
-          sortedPageData.sort((a, b) => a.subject.localeCompare(b.subject)); 
-            break;
-
-          default:
-            break;
-        }
-    
-        setPageData(sortedPageData); // 정렬된 페이지 데이터를 상태에 업데이트
-      };
-
+     
     return(
 
         <div style={{display:"flex", marginTop:"116px"}}>
@@ -188,26 +158,15 @@ export default function LectureList() {
             <div style={{width:"310px", marginRight:"16px", cursor:"pointer", paddingTop:"19px", borderRadius:"14px", backgroundColor:"white", textAlign:"center"}} onClick={movelearnlist}><h3>학습용자료실</h3></div>
             <div style={{width:"310px", marginRight:"16px",cursor:"pointer", paddingTop:"19px", borderRadius:"14px", backgroundColor:"white", textAlign:"center"}} onClick={movetasklist}><h3>과제 제출실</h3></div>
             
-            <SelectBox style={{ marginTop:"6px", border:"none", height:"36px", borderBottom:"2px solid gray"}}/>
-
-            <button
-                style={{marginLeft:"8px", marginTop:"28px", height:"31px", borderRadius:"6px", width:"80px", background:"#0d6efd", color:"#fff", border:"none", cursor:"pointer"}}>
-                선택
-            </button>
-            {/* <div style={{marginLeft:"60px", marginTop:"6px"}}>
-
-                <Pagination 
-
-                activePage={page}
-                itemsCountPerPage={10}
-                totalItemsCount={totalCnt}
-                pageRangeDisplayed={8}
-                prevPageText={"‹"}
-                nextPageText={"›"}
-                onChange={pageChange} /> 
-            
-            </div> */}
-        
+            <select vlaue={choice} onChange={(e)=>setChoice(e.target.value)}
+            style={{border:"none", borderBottom:"1px solid lightgray", height:"31px", marginTop:"14px", marginRight:"6px" }}>
+                <option value="">검색</option>
+                <option value="subject">과목</option>
+                <option value="title">제목</option>
+                <option value="content">내용</option>
+            </select>
+            <input value={search} onChange={(e)=>setSearch(e.target.value)} style={{marginTop:"14px", height:"31px"}} placeholder="검색어를 입력하세요"/>
+            <button onClick={searchBtn} style={{marginTop:"14px"}}>검색</button>
         </div>
         <table className="table" style={{marginTop:"28px"}}>
             <thead>
@@ -216,13 +175,40 @@ export default function LectureList() {
                     <th scope="col">과목</th>
                     <th scope="col">강의제목</th>
                     <th scope="col">작성일</th>
-                    <th scope="col"></th>
+                    <th scope="col">재생하기</th>
                 </tr>
             </thead>
             <tbody className="table-group-divider">
-                {LecList}
+            {
+                subList.map(function(list, i){
+                    return (
+                        <tr key={i}>
+                            <td>{list.seq}</td>
+                            <td>{list.subject}</td>
+                            <td>
+                                 {list.title}
+                            </td>
+                            <td>{list.regdate}</td>
+                            <td>
+                                <Link style={{textDecoration:"none"}} to={`/lecture/LectureDetail/${list.seq}`}>▶</Link>
+                            </td>
+                        </tr>
+                    )
+                })
+            }
             </tbody>
         </table>
+        <br/>
+        <Pagination
+                activePage={page}
+                itemsCountPerPage={8}
+                totalItemsCount={totalCnt}
+                pageRangeDisplayed={8}
+                firstPageText={<FontAwesomeIcon icon={faAnglesLeft} />}
+                lastPageText={<FontAwesomeIcon icon={faAnglesRight} />}
+                prevPageText={<FontAwesomeIcon icon={faAngleLeft} />}
+                nextPageText={<FontAwesomeIcon icon={faAngleRight} />}
+                onChange={pageChange} />
         </div>
                 
     </div>

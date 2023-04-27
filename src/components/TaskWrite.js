@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { navigate, useNavigate } from 'react-router';
-// import './asset/css/LectureWrite.css';
+ import './asset/css/LectureWrite.css';
 
 import axios from "axios";
 
@@ -8,7 +8,6 @@ import axios from "axios";
 function TaskWrite() {
 
     const [subject, setSubject] = useState('');
-    const [subjectCode, setSubjectCode] = useState('');
     const [title, setTitle] = useState('');
     const [writer, setWriter] = useState('');
     const [content, setContent] = useState('');
@@ -22,7 +21,6 @@ function TaskWrite() {
         // file + form field -> 짐을 싼다
         let formData = new FormData();
         formData.append("subject", subject);
-        formData.append("subjectCode", subjectCode);
         formData.append("title", title);
         formData.append("writer", writer);
         formData.append("content", content);
@@ -33,15 +31,14 @@ function TaskWrite() {
         axios.post("http://localhost:3000/fileUpload", formData)
         .then(res=>{
            console.log(res.data);
-           alert('file upload에 성공했습니다');
+           alert('성공적으로 등록되었습니다');
         })
         .catch(function(error){
-           alert('file upload에 실패했습니다');
+           alert('과제 제출에 실패했습니다');
         });
 
         axios.post('http://localhost:3000/writeTask', null, { params: {
                 subject,
-                subjectCode,
                 title,
                 writer,
                 content
@@ -79,7 +76,7 @@ function TaskWrite() {
 
             const SelectBox = () => {
                 return (
-                    <select onChange={changeSelectOptionHandler} value={subject} style={{marginLeft:"170px", width:"190px", border:"none", borderBottom:"2px solid lightgray"}}>
+                    <select onChange={changeSelectOptionHandler} value={subject} style={{marginLeft:"60px", width:"190px", border:"none", borderBottom:"2px solid lightgray"}}>
                         <option key="kor" value="국어">국어</option>
                         <option key="math" value="수학">수학</option>
                         <option key="eng" value="영어">영어</option>
@@ -96,7 +93,7 @@ function TaskWrite() {
 
    
         return (
-            <div style={{margin:"30px 150px 50px 150px", padding:"15px", fontSize:"17px"}}>
+            <div style={{margin:"30px 150px 50px 150px", textAlign:"left", padding:"15px", fontSize:"17px"}}>
                 <h2>과제 제출</h2>
                 <hr/>
                 <form name="frm" onSubmit={onSubmit} encType="multipart/form-data">
@@ -120,8 +117,10 @@ function TaskWrite() {
                 <>
                 내용
                 </>
-                <input type="file" name='uploadFile' accept='*'/>
-                <hr/>
+                <input type="file" name='uploadFile' className='file' accept='*' />
+                <br />
+                <textarea id='content' className='content' name='content'
+                    value={content} onChange={(e) => setContent(e.target.value)} />
 
                 <div className='btnwrapper'>
                 <button type='button' onClick={resetBtn}>취소</button>
