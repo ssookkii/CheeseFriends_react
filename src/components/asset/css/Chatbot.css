@@ -1,63 +1,32 @@
 @charset "UTF-8";
-* {
-    margin: 0;
-    padding: 0;
-}
 
-body {
-    margin: 10px auto;
-    font-family: "Lato";
-    font-weight: 300;
-    background-color: #EEEEEE;
-}
 
 .myform {
-/* padding: 15px 25px; */
-    padding-left: 25px;
-    padding-right: 25px;
+    /* padding: 15px 25px; */
+    padding-left: 20px;
+    padding-right: 20px;
     display: flex;
     gap: 10px;
     justify-content: center;
 }
 
-form label {
-    font-size: 1.5rem;
-    font-weight: bold;
-}
-
-input {
-    font-family: "Lato";
-}
-
-a {
-color: #0000ff;
-    /* text-decoration: none; */
-}
-
-a:hover {
-    text-decoration: underline;
-}
-
 /* 투명도 : https://hype4.academy/tools/glassmorphism-generator */
-.wrapper, .loginform {
+.wrapper,
+.loginform {
     margin: 0 auto;
-    padding-bottom: 25px;        
-    width: 400px;
+    padding-bottom: 20px;
+    width: 300px;
     max-width: 100%;
-    /* background: #976d89;     */
-    /* border: 2px solid #212121; */
-     /* border-radius: 12px; */
-
-    background: rgba( 255, 255, 255, 0.25 );
-    box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
-    backdrop-filter: blur( 4px );
-    -webkit-backdrop-filter: blur( 4px );
+    background: rgba(255, 255, 255, 0.25);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
     border-radius: 10px;
-    border: 1px solid rgba( 255, 255, 255, 0.18 );
+    border: 1px solid rgba(255, 255, 255, 0.18);
 }
 
 .loginform {
-    padding-top: 18px;
+    padding-top: 20px;
     text-align: center;
 }
 
@@ -68,23 +37,38 @@ a:hover {
 }
 
 .chatbox {
-    /* text-align: left; */
-    margin: 0 auto;
-    margin-bottom: 15px;
-    padding: 10px;    
-    height: 500px;
-    width: 330px;       
-    overflow: auto;
-    /* background: #fff; */
-    /* border: 1px solid #989898; */
-    /* border-radius: 4px;     */
 
-    background: rgba( 255, 255, 255, 0.25 );
-    box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
-    backdrop-filter: blur( 4px );
-    -webkit-backdrop-filter: blur( 4px );
+    margin: 0 auto;
+    margin-bottom: 20px;
+    padding: 10px;
+    height: 300px;
+    width: 280px;
+    overflow: auto;
+    background: rgba(255, 255, 255, 0.25);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
     border-radius: 10px;
-    border: 1px solid rgba( 255, 255, 255, 0.18 );
+    border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+
+.chat-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: white;
+    border: none;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
+    z-index: 999;
+}
+
+.chat-button img {
+    width: 40px;
+    height: 40px;
 }
 
 .usermsgwrite {
@@ -104,7 +88,8 @@ a:hover {
     padding: 2px 8px;
 }
 
-.submitmsg, .enter{
+.submitmsg,
+.enter {
     background: #F9FA9B;
     /* border: 1px solid #000; */
     color: #222;
@@ -122,7 +107,7 @@ a:hover {
 
 .menu {
     padding: 10px 30px;
-    display: flex;    
+    display: flex;
     color: #fff;
 }
 
@@ -130,12 +115,9 @@ a:hover {
     flex: 1;
 }
 
-a.exit {
-    color: white;
-    background: #c62828;
-    padding: 4px 8px;
-    border-radius: 4px;
-    font-weight: bold;
+.welcome {
+    color: darksalmon;
+    text-align: center;
 }
 
 .msgln {
@@ -152,7 +134,8 @@ a.exit {
     vertical-align: super;
 }
 
-.msgln b.user-name, .msgln b.user-name-left {
+.msgln b.user-name,
+.msgln b.user-name-left {
     font-weight: bold;
     background: #546e7a;
     color: white;
@@ -166,20 +149,32 @@ a.exit {
     background: orangered;
 }
 
-.usermsg, .botmsg{
+.usermsg,
+.botmsg {
     display: inline-block;
     background-color: #B4E4FF;
     color: #666;
     font-size: small;
     font-weight: bold;
     border-radius: 0.3em;
-    padding: 8px 8px 8px 8px;  								/* (위, 오른쪽, 아래, 왼쪽 순임) */  	  	
+    padding: 8px 8px 8px 8px;
+    /* (위, 오른쪽, 아래, 왼쪽 순임) */
     text-align: left;
     max-width: 70%;
     margin-bottom: 2px;
 }
 
-.usermsg{
-    background-color: #95BDFF;
-    color: #333;  
+.usermsg {
+    background-color: antiquewhite;
+    color: #333;
+}
+
+.botmsgContainer {
+    display: flex;
+    align-items: center;
+}
+
+.botmsg {
+    margin-right: 5px;
+    background-color: #F9FA9B;
 }
