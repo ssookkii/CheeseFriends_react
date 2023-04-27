@@ -63,7 +63,6 @@ import QnaLearningAnswer from './components/QnaLearningAnswer';
 import EduInfoList from './components/EduInfoList';
 import EduInfoDetail from './components/EduInfoDetail';
 import EduInfoWrite from './components/EduInfoWrite';
-import Chatbot from './components/Chatbot';
 
 import PlayGame from './components/PlayGame';
 import PlayGame1 from './components/PlayGame1';
