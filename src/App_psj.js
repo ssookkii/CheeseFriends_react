@@ -44,6 +44,7 @@ import Maildetail from './mypage/maildetail';
 import Sendemaillist from './mypage/sendemaillist';
 import Sendmaildetail from './mypage/sendmaildetail';
 import Grademypage from './mypage/grademypage';
+import Learningmypage from './mypage/learningmypage';
 
 // import LectureList from './components/LectureList'
 // import AbLectureList from './components/AbLectureList'
@@ -120,6 +121,10 @@ function App() {
               <Route path="/testmain/sendemaillist/:choice/:search" element={<Sendemaillist />} />
               <Route path="/testmain/sendmaildetail/:seq" element={<Sendmaildetail />} />
               <Route path="/testmain/grademypage" element={<Grademypage />} />
+              <Route path="/testmain/grademypage/:choice/:search" element={<Grademypage />} />
+              <Route path="/testmain/learningmypage" element={<Learningmypage />} />
+              <Route path="/testmain/learningmypage/:choice/:search" element={<Learningmypage />} />
+              
             </Route>
 
         {/* 

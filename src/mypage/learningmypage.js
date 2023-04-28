@@ -9,7 +9,7 @@ import axios from "axios";
 import * as XLSX from 'xlsx'; 
 import * as FileSaver from 'file-saver';
 
-function Grademypage(){
+function Learningmypage(){
     const [id, setId] = useState("");
 
     let history = useNavigate();
@@ -29,7 +29,7 @@ function Grademypage(){
 
     },[history]);
 
-    const [gradelist, setGradelist] = useState([]);
+    const [mysubjectlist, setMysubjectlist] = useState([]);
 
     const [choice, setChoice] = useState("");
     const [search, setSearch] = useState("");
@@ -50,10 +50,10 @@ function Grademypage(){
         console.log("search작동")
 
         if(choice.toString().trim() !== "" && search.toString().trim() !== ""){
-            navigate('/testmain/grademypage/' + choice + "/" + search);
+            navigate('/testmain/learningmypage/' + choice + "/" + search);
         }
         else{
-            navigate('/testmain/grademypage/');
+            navigate('/testmain/learningmypage/');
         }
         // 데이터를 다시 한번 갖고 온다
         setPage(1)
@@ -71,11 +71,11 @@ function Grademypage(){
 
     const fetchData = async (id, c, s, p) => {
         console.log("id : " + id);
-        await axios.get('http://localhost:3000/gradecheck', { params:{ "receiver":id, "choice":c, "search":s, "pageNumber":p} })
+        await axios.get('http://localhost:3000/subjectcheck', { params:{ "receiver":id, "choice":c, "search":s, "pageNumber":p} })
         .then(function(res){
             console.log("성공");
             console.log("res.data.cnt : " + res.data.cnt);
-            setGradelist(res.data.list);
+            setMysubjectlist(res.data.list);
             setTotalCnt(res.data.cnt);  // 글의 총수
 
         })
@@ -92,10 +92,11 @@ function Grademypage(){
         return (
             <tr>
                 <td>{props.cnt}</td>
-                <td>{props.grade.eduname}</td>
-                <td>{props.grade.subname}</td>
-                <td>{props.grade.studentgrade}</td>
-                <td>{props.grade.studentranks} / {props.grade.subtotal}</td>
+                <td>{props.subjectlist.eduname}</td>
+                <td>{props.subjectlist.subname}</td>
+                <td>{props.subjectlist.educatorname}</td>
+                <td>{props.subjectlist.startdate} ~ {props.subjectlist.enddate}</td>
+                <td>{props.subjectlist.state}</td>
             </tr>
         );
     }
@@ -105,7 +106,7 @@ function Grademypage(){
     return(
         <div>
             <div>
-                <h1>성적표</h1>
+                <h1>수강중인 학습</h1>
 
                 <table align="center">
                     <colgroup>
@@ -132,19 +133,20 @@ function Grademypage(){
 
                 <table className="table" border="1" align="center">
                     <colgroup>
-                        <col width="50" /><col width="100" /><col width="100" /><col width="100" /><col width="100" />
+                        <col width="50" /><col width="100" /><col width="100" /><col width="100" /><col width="200" /><col width="100" />
                     </colgroup>
                     <tr>
                         <th>번호</th>
                         <th>교육기관</th>
                         <th>과목</th>
-                        <th>성적</th>
-                        <th>석차</th>
+                        <th>선생님</th>
+                        <th>수강기간</th>
+                        <th>상태</th>
                     </tr>
                         {
-                            gradelist.map(function(dto, i){
+                            mysubjectlist.map(function(dto, i){
                                 return (
-                                    <TableRow grade={dto} cnt={(page-1)*10+(i+1)} key={i} />
+                                    <TableRow subjectlist={dto} cnt={(page-1)*10+(i+1)} key={i} />
                                 )
                             })
                         }            
@@ -164,4 +166,4 @@ function Grademypage(){
     )
 }
 
-export default Grademypage;
+export default Learningmypage;

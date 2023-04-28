@@ -12,6 +12,22 @@ function Sendemail(){
 
     let history = useNavigate();
     
+     // login 되어 있는지 검사
+     useEffect (()=>{
+        let local = localStorage.getItem("login");
+        let login = JSON.parse(local);
+        if(login !== undefined){
+            setId(login.id);
+        }else{
+            alert('login해 주십시오');
+            history('/');
+    }
+
+    },[history]);
+
+    let local = localStorage.getItem("login");
+    let login = JSON.parse(local);
+    
     // 모달 팝업2
     const [modalOpen2, setModalOpen2] = useState(false);
 
@@ -136,7 +152,7 @@ function Sendemail(){
         setReceivercheckboxlist([]);
         // 교육기관, 과목 둘다 선택시
         if(edu_code !== "" && sub_code !== ""){
-            await axios.get("http://localhost:3000/userlist", { params:{ "educode":edu_code, "subcode":sub_code}})
+            await axios.get("http://localhost:3000/userlist", { params:{ "educode":edu_code, "subcode":sub_code, "id":id}})
             .then(function(resp){
                 setUseraddlist(resp.data.list);     
                 setIdlist([]);
@@ -155,7 +171,7 @@ function Sendemail(){
         // 교육기관만 선택시
         else if(edu_code !== "" && sub_code === ""){
             console.log("교육기관만 선택함");
-            await axios.get("http://localhost:3000/userlisttwo", { params:{ "educode":edu_code}})
+            await axios.get("http://localhost:3000/userlisttwo", { params:{ "educode":edu_code, "id":id}})
             .then(function(resp){
                 setUseraddlist(resp.data.list);
                 console.log("userlist 성공");
@@ -186,21 +202,6 @@ function Sendemail(){
     }
  
 
-     // login 되어 있는지 검사
-     useEffect (()=>{
-        let local = localStorage.getItem("login");
-        let login = JSON.parse(local);
-        if(login !== undefined){
-            setId(login.id);
-        }else{
-            alert('login해 주십시오');
-            history('/');
-    }
-
-    },[history]);
-
-    let local = localStorage.getItem("login");
-    let login = JSON.parse(local);
 
     const [receiver, setReceiver] = useState("");
     const [title, setTitle] = useState("");
