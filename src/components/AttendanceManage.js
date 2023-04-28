@@ -8,9 +8,10 @@ import './asset/css/AttendanceManage.css';
 function AttendanceManage() {
 
   // 세션 스토리지
-  const userId = sessionStorage.getItem("userId");
+  const loginInfo = JSON.parse(localStorage.getItem("login"));
+  const userId = loginInfo?.id;
+  const userAuth = loginInfo?.auth;
   const eduCode = sessionStorage.getItem("eduCode");
-  const userAuth = sessionStorage.getItem("auth");
 
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [selectedSubject, setSelectedSubject] = useState('');

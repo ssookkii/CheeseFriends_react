@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { BarChart, Bar, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { ComposedChart, BarChart, Bar, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import { saveAs } from 'file-saver';
@@ -39,9 +39,11 @@ const countTotalAttendance = (attendanceData) => {
 
 
 const DataAnalysis = () => {
-    const userId = sessionStorage.getItem('userId');
+    const loginInfo = JSON.parse(localStorage.getItem("login"));
+    const userId = loginInfo?.id;
+    const userAuth = loginInfo?.auth;
     const eduCode = sessionStorage.getItem('eduCode');
-    const userAuth = sessionStorage.getItem("auth");
+
     const [gradeData, setGradeData] = useState([]);
     const [attendanceData, setAttendanceData] = useState([]);
     const [currentMonth, setCurrentMonth] = useState(new Date().getMonth() + 1);
@@ -246,6 +248,7 @@ const DataAnalysis = () => {
             try {
                 const gradeResponse = await axios.get(`${API_URL}/${eduCode}/${currentUserId}/grades`);
                 setGradeData(gradeResponse.data);
+                console.log(gradeResponse.data);
 
                 const attendanceResponse = await axios.get(`${API_URL}/${eduCode}/${currentUserId}/attendance`);
                 setAttendanceData(attendanceResponse.data);
@@ -273,6 +276,8 @@ const DataAnalysis = () => {
         return ((total - rank + 1) / total * 100).toFixed(2);
     }
 
+
+
     return (
         <div>
             <h2>성적 및 출결 데이터</h2>
@@ -291,18 +296,19 @@ const DataAnalysis = () => {
                             <Bar yAxisId="right" dataKey="rankRate" name="석차율" fill="#82ca9d" />
                         </BarChart>
                     </ResponsiveContainer>
-
                     <ResponsiveContainer width="100%" height={300}>
-                        <BarChart data={gradeData}>
+                        <ComposedChart data={gradeData}>
                             <CartesianGrid strokeDasharray="3 3" />
                             <XAxis dataKey="subName" />
                             <YAxis />
                             <Tooltip />
                             <Legend />
                             <Bar dataKey="subTotal" name="전체인원" fill="#8884d8" />
-                            <Line dataKey={(data) => calculateRankPercentage(data.studentRanks, data.subTotal)} name="등수율" stroke="#82ca9d" />
-                        </BarChart>
+                            <Line type="monotone" dataKey="studentRanks" name="등수" stroke="#82ca9d" />
+                        </ComposedChart>
                     </ResponsiveContainer>
+
+
 
                 </div>
                 <div className="chart">
