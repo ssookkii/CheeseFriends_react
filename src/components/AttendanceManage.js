@@ -12,11 +12,15 @@ function AttendanceManage() {
   const userId = loginInfo?.id;
   const userAuth = loginInfo?.auth;
   const eduCode = sessionStorage.getItem("eduCode");
+  const apiKey = "2ea8b6684971e20330bd9d5078317e7d";
+
+
 
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [selectedSubject, setSelectedSubject] = useState('');
   const [attendanceData, setAttendanceData] = useState([]);
   const [currentUserId, setCurrentUserId] = useState(null);
+  const [weatherData, setWeatherData] = useState([]);
 
   useEffect(() => {
     if (userAuth === "student") {
@@ -34,6 +38,34 @@ function AttendanceManage() {
         });
     }
   }, [userAuth, userId]);
+
+  const fetchWeatherData = async () => {
+    const startDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1);
+    const endDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0);
+    const dateList = [];
+
+    for (let date = startDate; date <= endDate; date.setDate(date.getDate() + 1)) {
+      dateList.push(formatDate(new Date(date), "yyyy-MM-dd"));
+    }
+
+    const weatherDataList = await Promise.all(
+      dateList.map(async (date) => {
+        const response = await axios.get(
+          `https://api.openweathermap.org/data/2.5/weather?q=seoul&appid=${apiKey}&units=metric&dt=${date}`
+        );
+        return {
+          date,
+          weather: response.data.weather[0].description,
+        };
+      })
+    );
+
+    setWeatherData(weatherDataList);
+  };
+
+  useEffect(() => {
+    fetchWeatherData();
+  }, [selectedDate]);
 
 
 
@@ -263,14 +295,17 @@ function AttendanceManage() {
               }
 
               const dateString = formatDate(date, "yyyy-MM-dd");
-              const statusData = attendanceData.find(data => data.attendanceTime.startsWith(dateString));
+              const statusData = attendanceData.find((data) => data.attendanceTime.startsWith(dateString));
+              const weatherDataItem = weatherData.find((data) => data.date === dateString);
 
               return (
                 <div>
                   {statusData ? <div>{statusData.status}</div> : null}
+                  {weatherDataItem ? <div>{weatherDataItem.weather}</div> : null}
                 </div>
               );
             }}
+
             tileClassName={({ date, view }) => {
               if (view !== "month") {
                 return null;
