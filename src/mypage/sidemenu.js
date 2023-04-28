@@ -43,7 +43,7 @@ function Sidemenu(){
                     </tr>
                     <tr>
                         <td align="left">
-                            <label for="">수강중인 학습</label>
+                            <Link to="learningmypage">수강중인 학습</Link>
                         </td>
                     </tr>
                     <tr>
