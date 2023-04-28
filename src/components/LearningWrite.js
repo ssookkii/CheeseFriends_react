@@ -32,6 +32,7 @@ function LearningWrite() {
     .then(res=>{
        console.log(res.data);
        alert('자료 업로드에 성공했습니다');
+       navigate('/learning');
     })
     .catch(function(error){
        alert('자료 업로드에 실패했습니다');

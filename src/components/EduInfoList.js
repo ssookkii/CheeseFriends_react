@@ -83,7 +83,7 @@ export default function EduInfoList() {
     
 
         {/* 목록 */}
-        <div style={{display:"block", width:"1000px", marginTop:"25px"}}>
+        <div style={{display:"block", width:"1000px", marginTop:"25px", marginLeft:"100px"}}>
             <div className='navwrapper'>
                 <div className='eduinfonav-1' onClick={learnlist} ><h3>학습용 자료실</h3></div>
                 <div className='eduinfonav-2' onClick={infolist} ><h3>교육 정보</h3></div>

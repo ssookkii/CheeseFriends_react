@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
+import axios from 'axios';
 
-function PapagoTranslator() {
+
+function PapagoVer2() {
   const [text, setText] = useState("");
   const [translatedText, setTranslatedText] = useState("");
 
@@ -11,20 +13,22 @@ function PapagoTranslator() {
     const target = "en";
     const apiURL = "https://openapi.naver.com/v1/papago/n2mt";
 
-    fetch(apiURL, {
-      method: "POST",
+    axios({
+      method: "post",
+      baseURL: apiURL,
+      data: `source=${source}&target=${target}&text=${encodeURIComponent(text)}`,
       headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
+        "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
         "X-Naver-Client-Id": clientId,
         "X-Naver-Client-Secret": clientSecret,
-      },
-      body: `source=${source}&target=${target}&text=${encodeURIComponent(text)}`,
+      }
     })
-      .then((res) => res.json())
-      .then((data) => {
-        setTranslatedText(data.message.result.translatedText);
-      })
-      .catch((error) => console.log(error));
+    .then((response) => {
+      setTranslatedText(response.data.message.result.translatedText);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
   };
 
   return (
@@ -36,4 +40,4 @@ function PapagoTranslator() {
   );
 }
 
-export default PapagoTranslator;
+export default PapagoVer2;

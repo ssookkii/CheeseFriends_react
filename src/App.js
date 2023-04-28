@@ -67,7 +67,13 @@ import EduInfoWrite from './components/EduInfoWrite';
 import PlayGame from './components/PlayGame';
 import PlayGame1 from './components/PlayGame1';
 import PlayGame2 from './components/PlayGame2';
-import PapagoTranslator from './components/PapagoTranslator';
+import Chatbot from './components/Chatbot';
+import PapagoController from './components/PapagoController';
+import PapagoVer2 from './components/PapagoVer2';
+import ServiceList from './components/ServiceList';
+import ServiceWrite from './components/ServiceWrite';
+import ServiceDetail from './components/ServiceDetail';
+import ServiceAnswer from './components/ServiceAnswer';
 
 function App() {
 
@@ -83,25 +89,31 @@ function App() {
             <Route path="/playgame2" element={<PlayGame2 />} />
 
             <Route path="/service/Chatbot" element={<Chatbot />} />
-            <Route path='/service/papago' element={<PapagoTranslator/>} />
+            <Route path='/service/papago' element={<PapagoController />} />
+            <Route path='/service/papago2' element={<PapagoVer2 />} />
+            <Route path='/service/ServiceList' element={<ServiceList /> }/>
+            <Route path='/service/ServiceWrite' element={<ServiceWrite />} />
+            <Route path='/service/ServiceDetail/:seq' element={<ServiceDetail />} />
+            <Route path='/service/ServiceAnswer' element={<ServiceAnswer />} />
             
             <Route path="/lecture" element={<LectureList />} />
-            <Route path="/lecture/AbLectureList" element={<AbLectureList />} />
-            <Route path="/lecture/LectureWrite" element={<LectureWrite />} />
-            <Route path="/lecture/LectureDetail/:seq" element={<LectureDetail />} />
+              <Route path="/lecture/AbLectureList" element={<AbLectureList />} />
+              <Route path="/lecture/LectureWrite" element={<LectureWrite />} />
+              <Route path="/lecture/LectureDetail/:seq" element={<LectureDetail />} />
+
             <Route path="/learning" element={<LearningList />} />
-            <Route path="/learning/LearningDetail/:seq" element={<LearningDetail />} />
-            <Route path="/learning/LearningWrite" element={<LearningWrite />} />
-            <Route path="/learning/TaskList" element={<TaskList />} />
-            <Route path="/learning/TaskDetail/:seq" element={<TaskDetail />} />
-            <Route path="/learning/TaskWrite" element={<TaskWrite />} />
-            <Route path="/learning/QnALearningList" element={<QnALearningList />} />
-            <Route path="/learning/QnaLearningDetail/:seq" element={<QnaLearningDetail />} />
-            <Route path="/learning/QnaLearningWrite" element={<QnaLearningWrite />} />
-            <Route path="/learning/QnaLearningAnswer/:seq" element={<QnaLearningAnswer />} />
-            <Route path="/learning/EduInfoList" element={<EduInfoList />} />
-            <Route path="/learning/EduInfoWrite" element={<EduInfoWrite />} />
-            <Route path="/learning/EduInfoDetail/:seq" element={<EduInfoDetail />} />
+              <Route path="/learning/LearningDetail/:seq" element={<LearningDetail />} />
+              <Route path="/learning/LearningWrite" element={<LearningWrite />} />
+              <Route path="/learning/TaskList" element={<TaskList />} />
+              <Route path="/learning/TaskDetail/:seq" element={<TaskDetail />} />
+              <Route path="/learning/TaskWrite" element={<TaskWrite />} />
+              <Route path="/learning/QnALearningList" element={<QnALearningList />} />
+              <Route path="/learning/QnaLearningDetail/:seq" element={<QnaLearningDetail />} />
+              <Route path="/learning/QnaLearningWrite" element={<QnaLearningWrite />} />
+              <Route path="/learning/QnaLearningAnswer/:seq" element={<QnaLearningAnswer />} />
+              <Route path="/learning/EduInfoList" element={<EduInfoList />} />
+              <Route path="/learning/EduInfoWrite" element={<EduInfoWrite />} />
+              <Route path="/learning/EduInfoDetail/:seq" element={<EduInfoDetail />} />
 
 
             <Route path="/" element={<Login />} />
