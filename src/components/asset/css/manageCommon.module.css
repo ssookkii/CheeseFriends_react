@@ -193,7 +193,10 @@
     line-height: 49px;
     padding:0 5px;
 }
-.maillist > tbody > tr > td:nth-child(3) {text-align:left;}
+.maillist > tbody > tr > td:nth-child(3) {
+    text-align:left;
+    padding : 0 20px;
+}
 
 /* QnAManage 테이블 크기조절 custom */
 .qnalist > thead > tr > th:nth-child(1) {
