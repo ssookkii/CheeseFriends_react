@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from "axios";
 import { useNavigate, useParams, Link } from 'react-router-dom';
 
-import styles from './asset/css/qnawrite.module.css'
+import styles from './asset/css/adminWrite.module.css'
 
 function QnaAnswer(){
     const login = JSON.parse(localStorage.getItem("login"));

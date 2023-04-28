@@ -13,7 +13,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import manage from './asset/css/manageCommon.module.css';
 
 function TeacherManage(){
-    const [teacherList, setTeacherList] = useState([]);
+    const id = JSON.parse(localStorage.getItem("login"));
+    const sender = id.id;
+
+    const [sendMailList, setSendMailList] = useState([]);
 
     const [choice, setChoice] = useState('');
     const [search, setSearch] = useState('');
@@ -22,13 +25,13 @@ function TeacherManage(){
     const [page, setPage] = useState(1);
     const [totalCnt, setTotalCnt] = useState(0);
 
-    function getTeacherList(cho, sear, page){
-        axios.get("http://localhost:3000/teacherlist", { params:{"choice":cho, "search":sear, "pageNumber":page} })
+    // 보낸메일 리스트 받아오기
+    function getSendMailList(cho, sear, page){
+        axios.get("http://localhost:3000/sendMaillist", { params:{"choice":cho, "search":sear, "pageNumber":page, "sender":sender} })
         .then(function(resp){
             console.log(resp.data);
             // alert(JSON.stringify(resp.data));
-
-            setTeacherList(resp.data.list);
+            setSendMailList(resp.data.list);
             setTotalCnt(resp.data.cnt);
         })
         .catch(function(err){
@@ -38,12 +41,12 @@ function TeacherManage(){
 
     function searchBtn(){
         // if(choice.toString().trim() === "" || search.toString().trim() === "") return;
-        getTeacherList(choice, search, 0);
+        getSendMailList(choice, search, 0);
     }
 
     function pageChange(page){
         setPage(page);
-        getTeacherList(choice, search, page-1);
+        getSendMailList(choice, search, page-1);
     }
 
     function deleteBtn(id){
@@ -68,7 +71,7 @@ function TeacherManage(){
     }
 
     useEffect(function(){
-        getTeacherList("", "", 0);
+        getSendMailList("", "", 0);
     },[]);
 
 
@@ -78,9 +81,9 @@ function TeacherManage(){
                 <div className={manage.search}>       
                     <select vlaue={choice} onChange={(e)=>setChoice(e.target.value)}>
                         <option value="">검색</option>
-                        <option value="eduCode">학원코드</option>
-                        <option value="eduName">학원이름</option>
-                        <option value="id">아이디</option>
+                        <option value="title">제목</option>
+                        <option value="content">내용</option>
+                        <option value="receiver">아이디</option>
                     </select>
                     <input value={search} onChange={(e)=>setSearch(e.target.value)} placeholder="검색어를 입력하세요"/>
                     <button onClick={searchBtn} className={manage.searchBtn}>검색</button>
@@ -102,13 +105,13 @@ function TeacherManage(){
                 </thead>
                 <tbody>
                     {
-                        teacherList.map(function(t, i){
+                        sendMailList.map(function(mail, i){
                             return (
                                 <tr key={i} className={manage.mailTr}>
                                     <td><input type="checkbox"/></td>
-                                    <td>abc123,ccc123,eee123,abc123,ccc123,eee123abc123,ccc123,eee123abc123,ccc123,eee123</td>
-                                    <td><Link to="/adminmanage">안녕하세요. 반갑습니다. 관리자입니다. 공지사항 전달드립니다. 안녕하세요. 반갑습니다. 관리자입니다. 공지사항 전달드립니다. 안녕하세요. 반갑습니다. 관리자입니다. 공지사항 전달드립니다. 안녕하세요. 반갑습니다. 관리자입니다. 공지사항 전달드립니다. 안녕하세요. 반갑습니다. 관리자입니다. 공지사항 전달드립니다. 안녕하세요. 반갑습니다. 관리자입니다. 공지사항 전달드립니다. 안녕하세요. 반갑습니다. 관리자입니다. 공지사항 전달드립니다. </Link></td>
-                                    <td>2023-04-21</td>
+                                    <td>{mail.receiver}</td>
+                                    <td><Link to={`/adminpage/maildetailadmin/${mail.wdate}`}>{mail.title}</Link></td>
+                                    <td>{mail.wdate}</td>
                                 </tr>
                             )
                         })
