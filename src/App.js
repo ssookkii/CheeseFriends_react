@@ -88,7 +88,6 @@ function App() {
             <Route path="/playgame1" element={<PlayGame1 />} />
             <Route path="/playgame2" element={<PlayGame2 />} />
 
-<<<<<<< HEAD
             <Route path="/service/Chatbot" element={<Chatbot />} />
             <Route path='/service/papago' element={<PapagoController />} />
             <Route path='/service/papago2' element={<PapagoVer2 />} />
@@ -97,10 +96,6 @@ function App() {
             <Route path='/service/ServiceDetail/:seq' element={<ServiceDetail />} />
             <Route path='/service/ServiceAnswer' element={<ServiceAnswer />} />
             
-=======
-
-            <Route path='/service/papago' element={<PapagoTranslator />} />
->>>>>>> 8004899b7c935f747a7c369549170e606bb258b5
             <Route path="/lecture" element={<LectureList />} />
               <Route path="/lecture/AbLectureList" element={<AbLectureList />} />
               <Route path="/lecture/LectureWrite" element={<LectureWrite />} />
