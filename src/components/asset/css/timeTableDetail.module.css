@@ -1,0 +1,52 @@
+.wrap {
+    margin:50px 5% 0;
+}
+.btnWrap {
+    display:flex;
+    justify-content: end;
+}
+.btnWrap > a {
+    background-color: #FAC463;
+    color:#fff;
+    width:100px;
+    font-weight: 600;
+    height:40px;
+    border-radius: 10px;
+    display: block;
+    text-align: center;
+    line-height: 39px;
+}
+.btnWrap > a:first-child {
+    margin-right:5px;
+}
+.timeTable {
+    margin-top:40px;
+    width:100%;
+    text-align: center;
+}
+/* 공통 테이블 선 */
+.timeTable > thead > tr > th,
+.timeTable > tbody > tr > td {
+    border-right:1px solid #eee;
+}
+.timeTable > tbody > tr > td {
+    border-bottom:1px solid #eee;
+}
+.timeTable > thead > tr > th:first-child {
+    background: none;
+}
+/* th, td 속성 */
+.timeTable > thead > tr > th {
+    width:12.5%;
+    height:40px;
+    text-align: center;
+    background-color: #FAC463;
+    color:#fff;
+    font-weight: 600;
+}
+.timeTable > tbody > tr > td:first-child {
+    background-color: #eee;
+}
+.timeTable > tbody > tr > td {
+    height:50px;
+}

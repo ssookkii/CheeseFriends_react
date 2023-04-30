@@ -527,6 +527,35 @@ function Regi() {
                 for (let i = 0; i < sub_codechecked.length; i++) {
                     console.log("sub_codechecked : " + sub_codechecked)
                     if (resp.data === "YES") {
+                        // 교육기관 보내자
+                        axios.post("http://localhost:3000/educodematching", null,
+                            {
+                                params: {
+                                    "sub_code": sub_codechecked[i]
+                                }
+                            })
+                        .then(function (resp) {
+                            console.log(resp.data);
+                            axios.post("http://localhost:3000/adduseredu", null,
+                                {
+                                    params: {
+                                        "id":id,
+                                        "educode": resp.data
+                                    }
+                                })
+                            .then(function (r) {
+
+                            })
+                            .catch(function (err) {
+                                alert("err");
+                                console.log(err);
+                            })
+                        })
+                        .catch(function (err) {
+                            alert("err");
+                            console.log(err);
+                        })
+
                         // 과목 보내자
                         axios.post("http://localhost:3000/addusersubject", null,
                             {
@@ -535,18 +564,13 @@ function Regi() {
                                     "subcode": sub_codechecked[i]
                                 }
                             })
-                            .then(function (resp) {
-                                if (resp.data === "YES") {
-                                    //   alert("정상적으로 가입되었습니다");
-                                    //   history("/");      // 이동(link)
-                                } else {
-                                    alert("가입되지 않았습니다");
-                                }
-                            })
-                            .catch(function (err) {
-                                alert("err");
-                                console.log(err);
-                            })
+                        .then(function (resp) {
+
+                        })
+                        .catch(function (err) {
+                            alert("err");
+                            console.log(err);
+                        })
                     } else {
                         alert("가입되지 않았습니다");
                     }

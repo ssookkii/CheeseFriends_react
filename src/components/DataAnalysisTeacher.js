@@ -11,7 +11,10 @@ const API_URL = 'http://localhost:3000/da';
 
 const DataAnalysisTeacher = () => {
 
-    const userId = sessionStorage.getItem('userId');
+    const loginInfo = JSON.parse(localStorage.getItem("login"));
+    const userId = loginInfo?.id;
+    const userAuth = loginInfo?.auth;
+
     const [gradesData, setGradesData] = useState([]);
     const [averageScoreChartData, setAverageScoreChartData] = useState([]);
     const [filteredAverageScoreChartData, setFilteredAverageScoreChartData] = useState([]);
@@ -196,10 +199,10 @@ const DataAnalysisTeacher = () => {
 
     useEffect(() => {
         // 백엔드에서 과목 데이터를 가져오는 API 호출
-        axios.get(`http://localhost:3000/attManage/subjects/${userId}`)
+        axios.get(`http://localhost:3000/attManage/teacher/subjects/${userId}`)
             .then((response) => {
                 setSubjects(response.data);
-                //console.log(response.data);
+                console.log(response.data);
 
                 // 첫번째 항목을 기본 선택으로 설정
                 if (response.data.length > 0) {
@@ -210,6 +213,7 @@ const DataAnalysisTeacher = () => {
                 console.error(error);
             });
     }, []);
+
     useEffect(() => {
         if (!selectedSubject) return; // 선택된 과목이 없으면 함수 실행을 중지합니다.
 
