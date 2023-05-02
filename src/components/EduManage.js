@@ -51,7 +51,7 @@ function EduManage(){
     }
 
     function deleteBtn(eduCode){
-        if(window.confirm("정말 삭제하시겠습니까?")){
+        if(window.confirm("삭제하면 학원에 등록된 회원정보도 삭제됩니다. 정말 삭제하시겠습니까?")){
             axios.post("http://localhost:3000/eduDelete", null, {params: {"eduCode":eduCode}})
             .then(function(resp){
                 if(resp.data !== null && resp.data !== "" && resp.data === "success"){
@@ -63,7 +63,7 @@ function EduManage(){
                 }
             })
             .catch(function(err){
-                alert(err);
+                alert("등록된 과목이 있어 삭제가 불가능합니다. 과목을 먼저 삭제해주세요.");
             })
         }else{
             alert("취소되었습니다.");

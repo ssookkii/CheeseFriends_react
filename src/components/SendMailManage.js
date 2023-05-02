@@ -25,6 +25,10 @@ function TeacherManage(){
     const [page, setPage] = useState(1);
     const [totalCnt, setTotalCnt] = useState(0);
 
+    // 체크박스 관리 변수
+    const [deletecheckboxlist, setDeletecheckboxlist] = useState([]);
+    const [ischeck, setIscheck] = useState(false);
+
     // 보낸메일 리스트 받아오기
     function getSendMailList(cho, sear, page){
         axios.get("http://localhost:3000/sendMaillist", { params:{"choice":cho, "search":sear, "pageNumber":page, "sender":sender} })
@@ -38,6 +42,36 @@ function TeacherManage(){
             alert(err);
         })
     }
+    // 체크박스 확인
+    const deletecheck = (checked, id) =>{    
+        if(checked){
+            setDeletecheckboxlist([...deletecheckboxlist, id]); 
+        }else{
+            setIscheck(false);
+            setDeletecheckboxlist((deletecheckboxlist) => deletecheckboxlist.filter((item)=> item !== id)); 
+
+        }
+    }
+
+    // 체크 배열 점검
+    useEffect(()=>{
+        console.log(deletecheckboxlist);
+    }, [deletecheckboxlist]) 
+
+    function allcheck(e){
+        if(e.target.checked){
+            setIscheck(true);
+            for (let i = 0; i < sendMailList.length; i++) {
+                setDeletecheckboxlist((deletecheckboxlist) => [...deletecheckboxlist, sendMailList[i].wdate]);
+            }
+            console.log("setIscheck : " + ischeck);
+        }
+        else{
+            setIscheck(false);
+            setDeletecheckboxlist([]);
+            console.log("setIscheck : " + ischeck);
+        }
+    }
 
     function searchBtn(){
         // if(choice.toString().trim() === "" || search.toString().trim() === "") return;
@@ -49,21 +83,24 @@ function TeacherManage(){
         getSendMailList(choice, search, page-1);
     }
 
-    function deleteBtn(id){
+    function deleteBtn(){
         if(window.confirm("정말 삭제하시겠습니까?")){
-            axios.post("http://localhost:3000/teacherDelete", null, {params: {"id":id}})
-            .then(function(resp){
-                if(resp.data !== null && resp.data !== "" && resp.data === "success"){
-                    alert("삭제되었습니다.");
-                    console.log(resp.data);
-                    window.location.replace("/adminpage/teachermanage")
-                }else if(resp.data !== null && resp.data !== "" && resp.data === "fail"){
-                    alert("삭제를 실패하였습니다.")
-                }
-            })
-            .catch(function(err){
-                alert(err);
-            })
+            for (let i = 0; i < deletecheckboxlist.length; i++) {
+                axios.post("http://localhost:3000/deleteMail", null, {params: { "wdate":deletecheckboxlist[i]}})
+                .then(function(resp){
+                    if(resp.data !== null && resp.data !== "" && resp.data === "success"){
+                        console.log(resp.data);
+                    }else if(resp.data !== null && resp.data !== "" && resp.data === "fail"){
+                        alert("삭제를 실패하였습니다.")
+                    }
+                })
+                .catch(function(err){
+                    alert(err);
+                })
+            }
+            alert("삭제되었습니다.");
+            setDeletecheckboxlist([]);
+            window.location.replace("/adminpage/sendmailmanage")
         }else{
             alert("취소되었습니다.");
         }
@@ -83,13 +120,12 @@ function TeacherManage(){
                         <option value="">검색</option>
                         <option value="title">제목</option>
                         <option value="content">내용</option>
-                        <option value="receiver">아이디</option>
                     </select>
                     <input value={search} onChange={(e)=>setSearch(e.target.value)} placeholder="검색어를 입력하세요"/>
                     <button onClick={searchBtn} className={manage.searchBtn}>검색</button>
                 </div>
                 <div className={manage.btnWrap}>
-                    <button className={`${manage.eduAdd} ${manage.del}`}>쪽지삭제</button>
+                    <button className={`${manage.eduAdd} ${manage.del}`} onClick={deleteBtn}>쪽지삭제</button>
                     <Link to="/adminpage/mailwrite" className={manage.eduAdd}>쪽지쓰기</Link>
                 </div>
             </div>
@@ -97,7 +133,7 @@ function TeacherManage(){
             <table className={`${manage.manageList} ${manage.maillist}`}>
                 <thead>
                     <tr className={manage.mailTr}>
-                        <th><input type="checkbox"/></th>
+                        <th><input type="checkbox" onChange={allcheck} checked={ischeck?true:false}/></th>
                         <th>수신자</th>
                         <th>제목</th>
                         <th>발송일</th>
@@ -108,7 +144,12 @@ function TeacherManage(){
                         sendMailList.map(function(mail, i){
                             return (
                                 <tr key={i} className={manage.mailTr}>
-                                    <td><input type="checkbox"/></td>
+                                    <td>
+                                        <input type="checkbox" 
+                                            id={mail.wdate}
+                                            onChange={(e)=>deletecheck(e.currentTarget.checked, mail.wdate)} 
+                                            checked={deletecheckboxlist.includes(mail.wdate)?true:false || ischeck?true:false}/>
+                                    </td>
                                     <td>{mail.receiver}</td>
                                     <td><Link to={`/adminpage/maildetailadmin/${mail.wdate}`}>{mail.title}</Link></td>
                                     <td>{mail.wdate}</td>

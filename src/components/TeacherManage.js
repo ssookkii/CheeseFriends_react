@@ -18,6 +18,9 @@ function TeacherManage(){
     const [choice, setChoice] = useState('');
     const [search, setSearch] = useState('');
 
+    const [deletecheckboxlist, setDeletecheckboxlist] = useState([]);
+    const [ischeck, setIscheck] = useState(false);
+
     // paging
     const [page, setPage] = useState(1);
     const [totalCnt, setTotalCnt] = useState(0);
@@ -34,6 +37,36 @@ function TeacherManage(){
         .catch(function(err){
             alert(err);
         })
+    }
+    // 체크박스 확인
+    const deletecheck = (checked, id) =>{    
+        if(checked){
+            setDeletecheckboxlist([...deletecheckboxlist, id]); 
+        }else{
+            setIscheck(false);
+            setDeletecheckboxlist((deletecheckboxlist) => deletecheckboxlist.filter((item)=> item !== id)); 
+
+        }
+    }
+
+    // 체크 배열 점검
+    useEffect(()=>{
+        console.log(deletecheckboxlist);
+    }, [deletecheckboxlist]) 
+
+    function allcheck(e){
+        if(e.target.checked){
+            setIscheck(true);
+            for (let i = 0; i < teacherList.length; i++) {
+                setDeletecheckboxlist((deletecheckboxlist) => [...deletecheckboxlist, teacherList[i].id]);
+            }
+            console.log("setIscheck : " + ischeck);
+        }
+        else{
+            setIscheck(false);
+            setDeletecheckboxlist([]);
+            console.log("setIscheck : " + ischeck);
+        }
     }
 
     function searchBtn(){
@@ -71,6 +104,19 @@ function TeacherManage(){
         getTeacherList("", "", 0);
     },[]);
 
+    function openMailWrite(){
+        if(deletecheckboxlist.length > 0){
+            const props = {
+                id: deletecheckboxlist
+                // 다른 props가 있다면 여기에 추가
+            };
+            const strProps = JSON.stringify(props); // 객체를 문자열로 변환합니다.
+            window.open(`/usermailwrite?props=${strProps}`, '_blank', 'width=800px,height=700px,scrollbars=yes');
+        }else{
+            alert("회원을 선택해주세요");
+        }
+    }
+
 
     return(
         <div>
@@ -85,12 +131,13 @@ function TeacherManage(){
                     <input value={search} onChange={(e)=>setSearch(e.target.value)} placeholder="검색어를 입력하세요"/>
                     <button onClick={searchBtn} className={manage.searchBtn}>검색</button>
                 </div>
+                <button onClick={openMailWrite} className={manage.eduAdd}>쪽지쓰기</button>
             </div>
 
             <table className={`${manage.manageList} ${manage.teacherlist}`}>
                 <thead>
                     <tr>
-                        <th><input type="checkbox"/></th>
+                        <th><input type="checkbox" onChange={allcheck} checked={ischeck?true:false}/></th>
                         <th>학원코드</th>
                         <th>학원이름</th>
                         <th>아이디</th>
@@ -105,7 +152,12 @@ function TeacherManage(){
                         teacherList.map(function(t, i){
                             return (
                                 <tr key={i}>
-                                    <td><input type="checkbox"/></td>
+                                    <td>
+                                    <input type="checkbox" 
+                                            id={t.id}
+                                            onChange={(e)=>deletecheck(e.currentTarget.checked, t.id)} 
+                                            checked={deletecheckboxlist.includes(t.id)?true:false || ischeck?true:false}/>
+                                    </td>
                                     <td>{t.eduCode}</td>
                                     <td>{t.eduName}</td>
                                     <td>{t.id}</td>

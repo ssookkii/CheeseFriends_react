@@ -85,6 +85,19 @@ function QnaAnswer(){
         axios.post("http://localhost:3000/answerWrite", null, {params: answerData})
         .then(function(resp){
             if(resp.data !== null && resp.data !== "" && resp.data === "success"){
+                axios.post("http://localhost:3000/mailsend", null, 
+                { params:{  "sender":login.id, 
+                            "receiver":qna.writer, 
+                            "title": answer.title, 
+                            "content":answer.content,
+                }})
+                .then(function(resp){
+                  //  alert("성공");
+                })
+                .catch(function(err){
+                    alert("err");
+                    console.log(err);
+                })
                 alert("답변이 등록되었습니다");
                 console.log(resp.data);
                 window.location.reload();
@@ -116,6 +129,19 @@ function QnaAnswer(){
         axios.post("http://localhost:3000/answerUpdate", null, {params: answerData})
         .then(function(resp){
             if(resp.data !== null && resp.data !== "" && resp.data === "success"){
+                axios.post("http://localhost:3000/mailsend", null, 
+                { params:{  "sender":login.id, 
+                            "receiver":qna.writer, 
+                            "title": answer.title, 
+                            "content":answer.content,
+                }})
+                .then(function(resp){
+                  //  alert("성공");
+                })
+                .catch(function(err){
+                    alert("err");
+                    console.log(err);
+                })
                 alert("답변이 수정되었습니다");
                 setAnswerChange(false);
                 window.location.reload();

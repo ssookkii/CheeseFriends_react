@@ -179,9 +179,10 @@
     width:3%;
 }
 .maillist > thead > tr > th:nth-child(2) {
-    width:15%;
+    width:20%;
 }
-.maillist > thead > tr > th:nth-child(3) {width:70%;}
+.maillist > thead > tr > th:nth-child(3) {width:60%;}
+.maillist > thead > tr > th:nth-child(4) {width:17%;}
 
 .maillist > tbody > tr > td:nth-child(2), 
 .maillist > tbody > tr > td:nth-child(3) {
