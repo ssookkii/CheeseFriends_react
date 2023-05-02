@@ -213,7 +213,7 @@ function Attendance() {
             </ul>
           </nav>
 
-          <button className="attendancebtn btn-round btn-marquee" onClick={handleCompareButtonClick} style={{ height: '50px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <button className="attendancebtn btn-round btn-marquee" onClick={handleCompareButtonClick} style={{ width: '200px', height: '50px', fontSize: '1rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <span data-text="출석 시스템 실행하기" >
               출석 시스템 실행하기
             </span>
@@ -231,7 +231,7 @@ function Attendance() {
           ) : (
             <div class="loading-container">
               <div class="loading"></div>
-              <div id="loading-text">loading</div>
+              <div id="loading-text">loading...</div>
             </div>
           )}
           <br />
