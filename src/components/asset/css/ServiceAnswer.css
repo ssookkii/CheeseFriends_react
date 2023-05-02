@@ -1,0 +1,58 @@
+.answertable {
+    width: 900px;
+    height: 260px;
+    margin: auto;
+    margin-left: 260px;
+    text-align: left;
+}
+
+.ph2 {
+    margin-left: 360px;
+    margin-top: 30px;
+    font-size: 19px;
+}
+.ph2>svg {
+    color: #fbca73;
+}
+
+.tablewrapper {
+    margin-top: 120px;
+    width: 900px;
+    height: 260px;
+    margin-left: 260px;
+
+}
+
+.answertablet {
+    width: 900px;
+    height: 260px;
+    margin: auto;
+    text-align: left;
+    margin-left: 85px;
+}
+.servinput {
+    border-bottom: 1px solid lightgray;
+}
+
+.ph2a {
+    margin-left: 100px;
+    margin-top: 30px;
+    font-size: 19px;
+}
+.ph2a>svg {
+    color: #fbca73;
+}
+
+.btwrapper {
+    text-align: center;
+    margin-top: 101px;
+    margin-left: 273px;
+}
+
+.servtext{
+    width: 630px;
+    height: 200px;
+    margin: auto;
+    border: 1px solid lightgray;
+    margin-bottom: -72px;
+}
