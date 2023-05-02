@@ -1,0 +1,10 @@
+.kakao_btn{
+    background-image: url("/src/login/img/kakao_login_medium_wide.png");
+    background-repeat: no-repeat;
+    background-size : cover;
+    margin: 10px auto;
+    /* padding: -10px; */
+    color: transparent;
+    width: 300px;
+    height: 45px;
+}

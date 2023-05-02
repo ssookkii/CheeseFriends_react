@@ -10,8 +10,7 @@ import * as XLSX from 'xlsx';
 import * as FileSaver from 'file-saver';
 
 function Grademypage(){
-    const [id, setId] = useState("");
-
+   
     let history = useNavigate();
     let local = localStorage.getItem("login");
     let login = JSON.parse(local);
@@ -21,7 +20,45 @@ function Grademypage(){
     let local = localStorage.getItem("login");
     let login = JSON.parse(local);
     if(login !== undefined){
-        setId(login.id);
+        
+        // 로그인 된 계정의 auth 점검하여 조건 분기
+        if(login.auth === 'student'){
+            console.log('login.auth : ' + login.auth)
+            setId(login.id);
+            fetchData(login.id, '', '', 0);
+
+        }else if(login.auth === 'parents'){
+            console.log('login.auth : ' + login.auth)
+            axios.post("http://localhost:3000/parentsidmatching", null, { params:{ "parentsid":login.id}})
+            .then(function(resp){    
+
+                const studentplus = document.getElementById("studentplus");
+
+                while (studentplus.firstChild) {
+                    studentplus.removeChild(studentplus.firstChild);
+                }
+
+                let element = document.createElement("option");
+                element.innerText = "자녀선택";
+                element.setAttribute("value", "");
+                studentplus.appendChild(element);
+
+                for (let i = 0; i < resp.data.length; i++) {
+                    let element = document.createElement("option");
+                    element.innerHTML = resp.data[i].name;
+                    element.setAttribute("value", resp.data[i].studentid);
+                    studentplus.appendChild(element);
+                }
+
+                setId(resp.data[0].studentid);
+                fetchData(resp.data[0].studentid, '', '', 0);
+            })
+            .catch(function(err){
+                console.log(err);
+                alert('err')
+            })
+        }
+       
     }else{
         alert('login해 주십시오');
         history('/');
@@ -29,13 +66,27 @@ function Grademypage(){
 
     },[history]);
 
+    const [parentsid, setParentsid] = useState(login.id);
+    const [id, setId] = useState("");
+
     const [gradelist, setGradelist] = useState([]);
 
     const [choice, setChoice] = useState("");
     const [search, setSearch] = useState("");
+    const [student, setStudent] = useState("");
 
     const choiceChange = (e) => setChoice(e.target.value);
     const searchChange = (e) => setSearch(e.target.value);
+
+    // 자녀 선택
+    function studentChange(e){
+        console.log("studentid : " + e.target.value)
+        setStudent(e.target.value);
+        setId(e.target.value);
+        if(e.target.value !== ''){
+            fetchData(e.target.value, '', '', 0);
+        }
+    }
 
     // paging
     const [page, setPage] = useState(1);
@@ -63,18 +114,14 @@ function Grademypage(){
     // 페이지 설정
     function handlePageChange(page){
         setPage(page);
-        console.log("page : " + page);
         fetchData(id, choice, search, page-1);
     }
  
 
 
     const fetchData = async (id, c, s, p) => {
-        console.log("id : " + id);
         await axios.get('http://localhost:3000/gradecheck', { params:{ "receiver":id, "choice":c, "search":s, "pageNumber":p} })
         .then(function(res){
-            console.log("성공");
-            console.log("res.data.cnt : " + res.data.cnt);
             setGradelist(res.data.list);
             setTotalCnt(res.data.cnt);  // 글의 총수
 
@@ -99,6 +146,28 @@ function Grademypage(){
             </tr>
         );
     }
+
+    // 엑셀 다운로드
+    function ExcelDownload(){
+        const excelFileType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+        const excelFileExtension = '.xlsx';
+        // 입력된 성적 유무로 엑셀 다운로드 데이터 변경
+        const gradeData =  
+            gradelist.map((g, i) => ({
+                번호:i+1,
+                교육기관: g.eduname,
+                과목: g.subname,
+                점수: g.studentgrade,
+                석차: g.studentranks + "/" + g.subtotal
+            }));
+        const ws = XLSX.utils.json_to_sheet(gradeData);
+        console.log(ws);
+
+        const wb = { Sheets: { grade: ws }, SheetNames: ["grade"] };
+        const excelBuffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
+        const data = new Blob([excelBuffer], { type: excelFileType });
+        FileSaver.saveAs(data, `file${excelFileExtension}`, { autoBOM: true });
+    }
   
 
 
@@ -112,6 +181,13 @@ function Grademypage(){
                         <col width="100" /><col width="100" /><col width="100" />
                     </colgroup>
                     <tr>
+                        {login.auth === 'parents'
+                        ?<td>
+                            <select value={student} onChange={studentChange} className="studentplus" id="studentplus">
+                                <option value=''>자녀선택</option>
+                            </select>
+                        </td>
+                        : <td></td>}
                         <td>
                             <select value={choice} onChange={choiceChange}>
                                 <option value=''>검색</option>
@@ -128,6 +204,8 @@ function Grademypage(){
                     </tr>
                 </table>
 
+                <br/>
+                <button onClick={ExcelDownload}>엑셀 다운로드</button>
                 <br/><br/>
 
                 <table className="table" border="1" align="center">
@@ -149,6 +227,8 @@ function Grademypage(){
                             })
                         }            
                 </table>
+
+                
 
                 <Pagination
                     activePage={page}
