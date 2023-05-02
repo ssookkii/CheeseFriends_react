@@ -42,7 +42,7 @@ const DataAnalysis = () => {
     const loginInfo = JSON.parse(localStorage.getItem("login"));
     const userId = loginInfo?.id;
     const userAuth = loginInfo?.auth;
-    const eduCode = sessionStorage.getItem('eduCode');
+
 
     const [gradeData, setGradeData] = useState([]);
     const [attendanceData, setAttendanceData] = useState([]);
@@ -50,11 +50,12 @@ const DataAnalysis = () => {
     const totalAttendanceChartData = countTotalAttendance(attendanceData);
     const [selectedRate, setSelectedRate] = useState('출석률');
     const [currentUserId, setCurrentUserId] = useState(null);
+    const [selectedEdu, setSelectedEdu] = useState('');
+    const [eduCode, seteduCode] = useState([]);
 
     useEffect(() => {
         if (userAuth === "student") {
             setCurrentUserId(userId);
-            console.log(currentUserId);
         } else if (userAuth === "parents") {
             // 백엔드에서 학생 아이디를 가져오는 API 호출
             axios
@@ -67,6 +68,20 @@ const DataAnalysis = () => {
                 });
         }
     }, [userAuth, userId]);
+
+    useEffect(() => {
+        if (!currentUserId) return;
+        axios.get(`http://localhost:3000/attManage/edu/${currentUserId}`)
+            .then((response) => {
+                seteduCode(response.data);
+                if (response.data.length > 0) {
+                    setSelectedEdu(response.data[0].eduCode);
+                }
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }, [currentUserId]);
 
     const handleRateChange = (newRate) => {
         setSelectedRate(newRate);
@@ -244,13 +259,13 @@ const DataAnalysis = () => {
 
 
     useEffect(() => {
+        if (!selectedEdu) return;
         const fetchData = async () => {
             try {
-                const gradeResponse = await axios.get(`${API_URL}/${eduCode}/${currentUserId}/grades`);
+                const gradeResponse = await axios.get(`${API_URL}/${selectedEdu}/${currentUserId}/grades`);
                 setGradeData(gradeResponse.data);
-                console.log(gradeResponse.data);
 
-                const attendanceResponse = await axios.get(`${API_URL}/${eduCode}/${currentUserId}/attendance`);
+                const attendanceResponse = await axios.get(`${API_URL}/${selectedEdu}/${currentUserId}/attendance`);
                 setAttendanceData(attendanceResponse.data);
             } catch (error) {
                 console.error('Error fetching student data:', error);
@@ -258,7 +273,7 @@ const DataAnalysis = () => {
         };
 
         fetchData();
-    }, [currentUserId]);
+    }, [currentUserId, selectedEdu]);
 
     const getChartData = (data) => {
         return data.map((item) => {
@@ -281,6 +296,20 @@ const DataAnalysis = () => {
     return (
         <div>
             <h2>성적 및 출결 데이터</h2>
+            <nav className="edu_nav" style={{ width: '50%', opacity: '0.7' }}>
+                <ul>
+                    {eduCode.map((edu) => (
+                        <li
+                            key={edu.eduCode}
+                            className={selectedEdu === edu.eduCode ? 'active' : ''}
+                            onClick={() => setSelectedEdu(edu.eduCode)}
+                            style={{ fontSize: '20px' }}
+                        >
+                            <img src="./img/cheese.png" alt="Attendance statistics" width="20px" />  {edu.eduName}
+                        </li>
+                    ))}
+                </ul>
+            </nav>
             <div className="charts-container">
                 <div className="chart">
                     <h3>성적 데이터</h3>

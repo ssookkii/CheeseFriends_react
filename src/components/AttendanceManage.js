@@ -11,16 +11,13 @@ function AttendanceManage() {
   const loginInfo = JSON.parse(localStorage.getItem("login"));
   const userId = loginInfo?.id;
   const userAuth = loginInfo?.auth;
-  const eduCode = sessionStorage.getItem("eduCode");
-  const apiKey = "2ea8b6684971e20330bd9d5078317e7d";
-
-
 
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [selectedSubject, setSelectedSubject] = useState('');
   const [attendanceData, setAttendanceData] = useState([]);
   const [currentUserId, setCurrentUserId] = useState(null);
-  const [weatherData, setWeatherData] = useState([]);
+  const [selectedEdu, setSelectedEdu] = useState('');
+  const [eduCode, seteduCode] = useState([]);
 
   useEffect(() => {
     if (userAuth === "student") {
@@ -39,33 +36,22 @@ function AttendanceManage() {
     }
   }, [userAuth, userId]);
 
-  const fetchWeatherData = async () => {
-    const startDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1);
-    const endDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0);
-    const dateList = [];
-
-    for (let date = startDate; date <= endDate; date.setDate(date.getDate() + 1)) {
-      dateList.push(formatDate(new Date(date), "yyyy-MM-dd"));
-    }
-
-    const weatherDataList = await Promise.all(
-      dateList.map(async (date) => {
-        const response = await axios.get(
-          `https://api.openweathermap.org/data/2.5/weather?q=seoul&appid=${apiKey}&units=metric&dt=${date}`
-        );
-        return {
-          date,
-          weather: response.data.weather[0].description,
-        };
-      })
-    );
-
-    setWeatherData(weatherDataList);
-  };
-
   useEffect(() => {
-    fetchWeatherData();
-  }, [selectedDate]);
+    if (!currentUserId) return;
+    axios.get(`http://localhost:3000/attManage/edu/${currentUserId}`)
+      .then((response) => {
+        seteduCode(response.data);
+        if (response.data.length > 0) {
+          setSelectedEdu(response.data[0].eduCode);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, [currentUserId]);
+
+
+
 
 
 
@@ -84,7 +70,7 @@ function AttendanceManage() {
     axios.get(`http://localhost:3000/attManage/subjects/${currentUserId}`)
       .then((response) => {
         // 현재 eduCode와 일치하는 과목 데이터만 필터링하여 setSubjects에 저장
-        const filteredSubjects = response.data.filter(subject => subject.eduCode === eduCode);
+        const filteredSubjects = response.data.filter(subject => subject.eduCode === selectedEdu);
         setSubjects(filteredSubjects);
 
         // 첫번째 항목을 기본 선택으로 설정
@@ -95,20 +81,20 @@ function AttendanceManage() {
       .catch((error) => {
         console.error(error);
       });
-  }, [currentUserId, eduCode]);
+  }, [currentUserId, eduCode, selectedEdu]);
 
 
   useEffect(() => {
-    if (!currentUserId || !selectedSubject) return;
+    if (!currentUserId || !selectedSubject || !selectedEdu) return;
     // 선택한 과목에 대한 출결 데이터를 가져오는 API 호출 
-    axios.get(`http://localhost:3000/attManage/${currentUserId}/${selectedSubject}/${eduCode}`)
+    axios.get(`http://localhost:3000/attManage/${currentUserId}/${selectedSubject}/${selectedEdu}`)
       .then(response => {
         setAttendanceData(response.data);
       })
       .catch(error => {
         console.error(error);
       });
-  }, [selectedSubject, currentUserId]);
+  }, [selectedSubject, currentUserId, selectedEdu]);
 
 
 
@@ -120,6 +106,8 @@ function AttendanceManage() {
       absent: 0,
       late: 0,
       attend: 0,
+      out: 0,
+      early: 0,
     };
 
     attendanceData.forEach((data) => {
@@ -129,8 +117,12 @@ function AttendanceManage() {
           stats.absent++;
         } else if (data.status === "지각") {
           stats.late++;
-        } else {
+        } else if (data.status === "출석") {
           stats.attend++;
+        } else if (data.status === "외출") {
+          stats.out++;
+        } else {
+          stats.early++;
         }
       }
     });
@@ -231,42 +223,63 @@ function AttendanceManage() {
   const attendanceStats = getAttendanceStats(attendanceData, selectedDate);
 
   return (
-    <div className="attendance-manage-container">
-      <nav className='att_manage'>
+    <div className="attendance-manage-container" >
+      <nav className="edu_nav" style={{ width: '50%', opacity: '0.7', margin: '15px' }}>
         <ul>
-          {subjects.map((subject) => (
+          {eduCode.map((edu) => (
             <li
-              key={subject.subCode}
-              className={selectedSubject === subject.subCode ? 'active' : ''}
-              onClick={() => setSelectedSubject(subject.subCode)}
-              style={{ backgroundColor: selectedSubject === subject.subCode ? '#FFDC9D' : 'transparent' }}
+              key={edu.eduCode}
+              className={selectedEdu === edu.eduCode ? 'active' : ''}
+              onClick={() => setSelectedEdu(edu.eduCode)}
+              style={{ fontSize: '20px' }}
             >
-              {subject.subName}
+              <img src="./img/cheese.png" alt="Attendance statistics" width="20px" />  {edu.eduName}
             </li>
           ))}
         </ul>
+        <nav className='att_manage' style={{}}>
+          <ul>
+            {subjects.map((subject) => (
+              <li
+                key={subject.subCode}
+                className={selectedSubject === subject.subCode ? 'active' : ''}
+                onClick={() => setSelectedSubject(subject.subCode)}
+
+              >
+                {subject.subName}
+              </li>
+            ))}
+          </ul>
+        </nav>
       </nav>
 
+
       <div className="attendance-stats">
-        <h2 style={{ fontSize: '20px' }} className="attendance-month">
-          {selectedDate.getFullYear()}년 {selectedDate.getMonth() + 1}월 출결 통계
-        </h2>
+
+        <div className='AttendanceDate' >
+          <h2 style={{ fontSize: '18px', width: "60%" }} className="attendance-month">
+            {selectedDate.getFullYear()}년 {selectedDate.getMonth() + 1}월 출결 통계
+          </h2>
+        </div>
         <br />
         <div className='attcheck' style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <p style={{ color: '#A1c3B3', fontWeight: 'bold' }} > 출석: {attendanceStats.attend}회  </p>
-          <p style={{ color: '#FFDC9D', fontWeight: 'bold' }}> 지각: {attendanceStats.late}회 </p>
-          <p style={{ color: '#FFA1A1', fontWeight: 'bold' }}>결석: {attendanceStats.absent}회 </p>
+          <p style={{ color: '#677bde', fontWeight: 'bold' }} > 출석: {attendanceStats.attend}회  </p>
+          <p style={{ color: '#face5e', fontWeight: 'bold' }}> 지각: {attendanceStats.late}회 </p>
+          <p style={{ color: '#f19c9c', fontWeight: 'bold' }}>결석: {attendanceStats.absent}회 </p>
+          <p style={{ color: '#868686', fontWeight: 'bold' }}>외출: {attendanceStats.out}회 </p>
+          <p style={{ color: '#b6d7b4', fontWeight: 'bold' }}>조퇴: {attendanceStats.early}회 </p>
         </div>
 
       </div>
+
       <div className="calendar-wrapper">
         <div className="checkbox-wrapper">
           <br /><br /><br /><br />
           <img src="/img/alarm.png" alt="알림 이미지" width="150px" height="auto" />
           <br /><br />
-          <div className="checkboxes">
-            <label>
-              <span>수업 시작 30분 전 알림</span>
+          <div className="Attcheckboxes">
+            <label className='AttLabel'>
+              <span Att-tooltip="수업 시작 30분 전에 출석 알림을 문자로 받을 수 있습니다.">수업 시작 30분 전 알림</span>
               <input
                 type="checkbox"
                 checked={minCheck}
@@ -274,8 +287,8 @@ function AttendanceManage() {
               />
             </label>
             <br /><br />
-            <label>
-              <span>'결석' 처리 알림</span>
+            <label >
+              <span Abs-tooltip="결석 처리가 될 경우 알림을 문자로 받아볼 수 있습니다.">'결석' 처리 알림</span>
               <input
                 type="checkbox"
                 checked={absentAlarm}
@@ -284,28 +297,26 @@ function AttendanceManage() {
             </label>
           </div>
         </div>
-        <div className="calendar-container">
+        <div className="calendar-container" >
           <Calendar
             onChange={handleDateChange}
             onActiveDateChange={handleActiveDateChange}
             value={selectedDate}
+
             tileContent={({ date, view }) => {
               if (view !== "month") {
                 return null;
               }
 
               const dateString = formatDate(date, "yyyy-MM-dd");
-              const statusData = attendanceData.find((data) => data.attendanceTime.startsWith(dateString));
-              const weatherDataItem = weatherData.find((data) => data.date === dateString);
+              const statusData = attendanceData.find(data => data.attendanceTime.startsWith(dateString));
 
               return (
                 <div>
                   {statusData ? <div>{statusData.status}</div> : null}
-                  {weatherDataItem ? <div>{weatherDataItem.weather}</div> : null}
                 </div>
               );
             }}
-
             tileClassName={({ date, view }) => {
               if (view !== "month") {
                 return null;
@@ -322,10 +333,15 @@ function AttendanceManage() {
                 return "absent";
               } else if (statusData.status === "지각") {
                 return "late";
+              } else if (statusData.status === "외출") {
+                return "out";
+              } else if (statusData.status === "조퇴") {
+                return "early";
               } else {
                 return "attend";
               }
             }}
+
           />
         </div>
       </div>

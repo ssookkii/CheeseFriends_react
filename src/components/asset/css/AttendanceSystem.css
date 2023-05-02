@@ -1,29 +1,564 @@
-.att-sys-button {
-  width: 200px;
-  height: 30px;
+.attendancebtn {
+  background-color: antiquewhite;
+  opacity: 0.7;
 }
 
-/* .h1 {
-    margin:0; padding:0;
-    font-size:2.0em; 
-    font-weight:bold; line-height:3;
-    letter-spacing: -0.3px;
+.btn-marquee {
+  border: none;
+  overflow: hidden;
+  transition: 0.5s;
 }
 
-.nav ul {
-    margin: 0;
-    padding: 0;
-    flex-grow: 1;
-    flex-basis: 0; 
+.btn-round {
+  border-radius: 30px;
+}
 
+.btn-marquee:hover {
+  transform: scale(1.1);
+}
+
+.btn-marquee span {
+  display: block;
+  padding: 0 20px;
+  animation: move-left 5s linear infinite;
+  font-weight: bold;
+  color: #555;
+}
+
+.btn-marquee span::after {
+  position: absolute;
+  content: attr(data-text);
+  top: 0;
+  left: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  font-weight: bold;
+  color: #555;
+}
+
+@keyframes jittery {
+
+  5%,
+  50% {
+    transform: scale(1);
   }
-  
-  .nav ul:not(:last-child) {
-    margin-right: 10px; 
-  } */
+
+  10% {
+    transform: scale(0.9);
+  }
+
+  15% {
+    transform: scale(1.15);
+  }
+
+  20% {
+    transform: scale(1.15) rotate(-5deg);
+  }
+
+  25% {
+    transform: scale(1.15) rotate(5deg);
+  }
+
+  30% {
+    transform: scale(1.15) rotate(-3deg);
+  }
+
+  35% {
+    transform: scale(1.15) rotate(2deg);
+  }
+
+  40% {
+    transform: scale(1.15) rotate(0);
+  }
+}
+
+@keyframes jelly {
+  25% {
+    transform: scale(0.9, 1.1);
+  }
+
+  50% {
+    transform: scale(1.1, 0.9);
+  }
+
+  75% {
+    transform: scale(0.95, 1.05);
+  }
+}
+
+@keyframes pulse {
+  from {
+    box-shadow: 0 0 0 0 var(--btn-bg);
+  }
+}
+
+@keyframes move-left {
+  to {
+    transform: translateX(-100%);
+  }
+}
 
 .attendance-system {
+  width: 530px;
+  padding: 100px 0;
+  margin: 200px auto;
   display: flex;
-  flex-direction: column;
+  flex-flow: column;
+  height: 530px;
+
+}
+
+.attendance-wrapper {
+  display: none;
+}
+
+.AttendanceH1 {
+  text-align: center;
+  font-size: 1.0em;
+  font-weight: 600;
+  color: #555;
+  margin-left: 20px;
+}
+
+.subject_nav {
+  display: inline-block;
+}
+
+.attendancebtn {
+  display: inline-block;
+}
+
+.weather {
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 50px;
+}
+
+.weather p {
+  font-size: 0.8em;
+  color: #555;
+}
+
+ul {
+  display: flex;
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  margin-right: 1rem;
+  padding: 0.5rem;
+  cursor: pointer;
+  border-radius: 0.5rem;
+  font-weight: bold;
+}
+
+.subject_nav {
+  display: flex;
+  justify-content: space-between;
   align-items: center;
+  background-color: white;
+
+}
+
+.subject_nav ul {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+}
+
+.subject_nav li {
+  margin-right: 1rem;
+  padding: 0.5rem;
+  cursor: pointer;
+  border-radius: 0.5rem;
+  font-weight: bold;
+  background-color: transparent;
+  transition: background-color 0.2s ease;
+
+}
+
+.subject_nav li.active,
+.subject_nav li:hover {
+  background-color: #80735e;
+  color: white;
+
+}
+
+.attendancebtn-btn {
+  width: 130px;
+  height: 40px;
+  padding: 10px 25px;
+  border: 2px solid rgb(199, 97, 97);
+  font-family: 'Lato', sans-serif;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  display: inline-block;
+}
+
+/* 5 */
+.btn-marquee {
+  line-height: 42px;
+  padding: 0;
+  border: none;
+}
+
+.btn-marquee:hover {
+  background: transparent;
+  color: #555;
+  box-shadow:
+    -7px -7px 20px 0px #fff9,
+    -4px -4px 5px 0px #fff9,
+    7px 7px 20px 0px rgba(145, 108, 85, 0.133),
+    7px 7px 20px 0px rgba(145, 108, 85, 0.133),
+}
+
+.btn-marquee:before,
+.btn-marquee:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 2px;
+  width: 0;
+  background: #000;
+  transition: 400ms ease all;
+}
+
+.btn-marquee:after {
+  right: inherit;
+  top: inherit;
+  left: 0;
+  bottom: 0;
+}
+
+.btn-marquee:hover:before,
+.btn-marquee:hover:after {
+  width: 100%;
+  transition: 800ms ease all;
+}
+
+.AttendanceInfo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+@keyframes rotate-loading {
+  0% {
+    transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+  }
+}
+
+@-moz-keyframes rotate-loading {
+  0% {
+    transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+  }
+}
+
+@-webkit-keyframes rotate-loading {
+  0% {
+    transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+  }
+}
+
+@-o-keyframes rotate-loading {
+  0% {
+    transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+  }
+}
+
+@keyframes rotate-loading {
+  0% {
+    transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+  }
+}
+
+@-moz-keyframes rotate-loading {
+  0% {
+    transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+  }
+}
+
+@-webkit-keyframes rotate-loading {
+  0% {
+    transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+  }
+}
+
+@-o-keyframes rotate-loading {
+  0% {
+    transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+  }
+}
+
+@keyframes loading-text-opacity {
+  0% {
+    opacity: 0
+  }
+
+  20% {
+    opacity: 0
+  }
+
+  50% {
+    opacity: 1
+  }
+
+  100% {
+    opacity: 0
+  }
+}
+
+@-moz-keyframes loading-text-opacity {
+  0% {
+    opacity: 0
+  }
+
+  20% {
+    opacity: 0
+  }
+
+  50% {
+    opacity: 1
+  }
+
+  100% {
+    opacity: 0
+  }
+}
+
+@-webkit-keyframes loading-text-opacity {
+  0% {
+    opacity: 0
+  }
+
+  20% {
+    opacity: 0
+  }
+
+  50% {
+    opacity: 1
+  }
+
+  100% {
+    opacity: 0
+  }
+}
+
+@-o-keyframes loading-text-opacity {
+  0% {
+    opacity: 0
+  }
+
+  20% {
+    opacity: 0
+  }
+
+  50% {
+    opacity: 1
+  }
+
+  100% {
+    opacity: 0
+  }
+}
+
+.loading-container,
+.loading {
+  height: 100px;
+  position: relative;
+  width: 100px;
+  border-radius: 100%;
+}
+
+
+.loading-container {
+  margin: 40px auto
+}
+
+.loading {
+  border: 2px solid rgb(151, 120, 103);
+  border-color: transparent rgb(159, 136, 91) transparent rgb(159, 136, 91);
+  -moz-animation: rotate-loading 1.5s linear 0s infinite normal;
+  -moz-transform-origin: 50% 50%;
+  -o-animation: rotate-loading 1.5s linear 0s infinite normal;
+  -o-transform-origin: 50% 50%;
+  -webkit-animation: rotate-loading 1.5s linear 0s infinite normal;
+  -webkit-transform-origin: 50% 50%;
+  animation: rotate-loading 1.5s linear 0s infinite normal;
+  transform-origin: 50% 50%;
+}
+
+.loading-container:hover .loading {
+  border-color: transparent #834b40 transparent #743f33;
+}
+
+.loading-container:hover .loading,
+.loading-container .loading {
+  -webkit-transition: all 0.5s ease-in-out;
+  -moz-transition: all 0.5s ease-in-out;
+  -ms-transition: all 0.5s ease-in-out;
+  -o-transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out;
+}
+
+#loading-text {
+  -moz-animation: loading-text-opacity 2s linear 0s infinite normal;
+  -o-animation: loading-text-opacity 2s linear 0s infinite normal;
+  -webkit-animation: loading-text-opacity 2s linear 0s infinite normal;
+  animation: loading-text-opacity 2s linear 0s infinite normal;
+  color: #555;
+  font-family: "Helvetica Neue, " Helvetica", " "arial";
+  font-size: 10px;
+  font-weight: bold;
+  margin-top: 45px;
+  opacity: 0;
+  position: absolute;
+  text-align: center;
+  text-transform: uppercase;
+  top: 0;
+  width: 100px;
+}
+
+.name {
+  font-size: 30px;
+  font-weight: bold;
+  color: #555;
+  margin-bottom: 10px;
+
+}
+
+.status {
+  font-size: 17px;
+  color: #555;
+  overflow: hidden;
+  margin: 0 auto;
+  letter-spacing: 0.15em;
+
+}
+
+.typing {
+  width: 34ch;
+  animation: typing 2s steps(22), blink .5s step-end infinite alternate;
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: 3px solid;
+  font-family: monospace;
+}
+
+@keyframes typing {
+  from {
+    width: 0
+  }
+}
+
+@keyframes blink {
+  50% {
+    border-color: transparent
+  }
 }

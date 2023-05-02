@@ -236,22 +236,22 @@ function AttendanceManageTeacher() {
   return (
     <div className="attendance-manage-teacher-container">
       <br />
-      <nav style={{ backgroundColor: 'white' }}>
-        <ul style={{ fontSize: '22px' }}>
+      <nav style={{ backgroundColor: 'white' }}
+        className="attendanceNav">
+        <ul style={{ fontSize: '24px' }}>
           {subjects.map((subject) => (
             <li
               key={subject.subCode}
               className={selectedSubject === subject.subCode ? 'active' : ''}
               onClick={() => setSelectedSubject(subject.subCode)}
-              style={{ backgroundColor: selectedSubject === subject.subCode ? '#FFDC9D' : 'transparent' }}
+
             >
               {subject.subName}
             </li>
           ))}
         </ul>
 
-
-        <ul style={{ marginTop: '12px', marginLeft: '170px' }}>
+        <ul style={{}}>
           <li
             className={searchMethod === 'date' ? 'active' : ''}
             onClick={() => setSearchMethod('date')}
@@ -274,6 +274,7 @@ function AttendanceManageTeacher() {
               type="date"
               value={selectedDate.toISOString().substr(0, 10)}
               onChange={(e) => setSelectedDate(new Date(e.target.value))}
+              style={{ width: '100px', marginLeft: '110px', marginBottom: '15px' }}
             />
           </div>
         )}
@@ -285,43 +286,43 @@ function AttendanceManageTeacher() {
               placeholder="학생 이름 입력"
               value={searchText}
               onChange={(e) => setSearchText(e.target.value)}
-              style={{ width: '100px' }}
+              style={{ width: '150px', marginLeft: '100px', marginBottom: '15px' }}
             />
-            <button style={{ fontSize: '13px', backgroundColor: '#FFDC9D' }}>검색</button>
           </div>
         )}
+
       </nav>
       <div className='attcheck' style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <p style={{ color: '#A1c3B3', fontWeight: 'bold' }} >출석: {attendanceStats.attendanceCount}회 </p>
-        <p style={{ color: '#FFDC9D', fontWeight: 'bold' }}> 지각: {attendanceStats.absenceCount}회 </p>
-        <p style={{ color: '#FFA1A1', fontWeight: 'bold' }}>결석:{attendanceStats.lateCount}회</p>
+        <p style={{ color: '#677bde', fontWeight: 'bold' }} >출석: {attendanceStats.attendanceCount}회 </p>
+        <p style={{ color: '#face5e', fontWeight: 'bold' }}> 지각: {attendanceStats.absenceCount}회 </p>
+        <p style={{ color: '#f19c9c', fontWeight: 'bold' }}>결석:{attendanceStats.lateCount}회</p>
       </div>
 
       <div className="table-container">
         <table>
-          <thead>
+          <thead style={{}}>
             <tr style={{ fontSize: "17px" }}>
-              <th
-                style={{ width: "80px" }}
+              <th className="attendanceTeacherTh"
+                style={{ width: "150px", textAlign: 'center', fontWeight: "bold" }}
                 onClick={() => updateSortState("name")}
               >
                 이름 {sortColumn === "name" && sortOrder !== 0 && (sortOrder === 1 ? <FontAwesomeIcon icon={faSortUp} /> : <FontAwesomeIcon icon={faSortDown} />)}
               </th>
-              <th
-                style={{ width: "160px" }}
+              <th className="attendanceTeacherTh"
+                style={{ width: "160px", textAlign: 'center', fontWeight: "bold" }}
                 onClick={() => updateSortState("attendanceTime")}
               >
                 출석 시간 {sortColumn === "attendanceTime" && sortOrder !== 0 && (sortOrder === 1 ? <FontAwesomeIcon icon={faSortUp} /> : <FontAwesomeIcon icon={faSortDown} />)}
               </th>
-              <th
-                style={{ width: "100px" }}
+              <th className="attendanceTeacherTh"
+                style={{ width: "100px", textAlign: 'center', fontWeight: "bold" }}
                 onClick={() => updateSortState("status")}
               >
                 출석 현황 {sortColumn === "status" && sortOrder !== 0 && (sortOrder === 1 ? <FontAwesomeIcon icon={faSortUp} /> : <FontAwesomeIcon icon={faSortDown} />)}
               </th>
 
-              <th style={{ width: "180px" }}>메모</th>
-              <th style={{ width: "310px" }}>출석 처리</th>
+              <th className="attendanceTeacherTh" style={{ width: "180px", textAlign: 'center', fontWeight: "bold" }}>메모</th>
+              <th className="attendanceTeacherTh" style={{ width: "310px", textAlign: 'center', fontWeight: "bold" }}>출석 처리</th>
             </tr>
           </thead>
           <tbody>
@@ -339,17 +340,18 @@ function AttendanceManageTeacher() {
                 <td>{formatDate(new Date(student.attendanceTime), "yyyy-MM-dd HH:mm ")}</td>
                 <td
                   style={{
-                    backgroundColor:
+                    fontWeight: 800,
+                    color:
                       student.status === '외출'
-                        ? '#e0e2ff'
+                        ? '#868686'
                         : student.status === '조퇴'
-                          ? '#e0e2ff'
+                          ? '#b6d7b4'
                           : student.status === '출석'
-                            ? '#d0e4da'
+                            ? '#677bde'
                             : student.status === '지각'
-                              ? '#f1e2c9'
+                              ? '#face5e'
                               : student.status === '결석'
-                                ? '#fccaca' : ''
+                                ? '#f19c9c' : ''
                     ,
                   }}
                 >
@@ -365,43 +367,59 @@ function AttendanceManageTeacher() {
                 </td>
                 <td>
                   <div className="attendance-buttons">
-                    <button
-                      className={student.status === '출석' ? 'active' : ''}
+                    <a
+                      href="#"
+                      className={`Attbutton attend ${student.status === '출석' ? 'active' : ''}`}
                       onClick={() => handleAttendanceButtonClick(student.attendanceID, '출석')}
-                      style={{ backgroundColor: student.status === '출석' ? '#d0e4da' : '#fff' }}
+                      style={{ backgroundColor: student.status === '출석' ? '#80735e' : '#aaa191' }}
                     >
-                      출석
-                    </button>
-                    <button
-                      className={student.status === '결석' ? 'active' : ''}
+                      <div>
+                        <span>출석</span>
+                      </div>
+                    </a>
+                    <a
+                      href="#"
+                      className={`Attbutton absent ${student.status === '결석' ? 'active' : ''}`}
                       onClick={() => handleAttendanceButtonClick(student.attendanceID, '결석')}
-                      style={{ backgroundColor: student.status === '결석' ? '#fccaca' : '#fff' }}
+                      style={{ backgroundColor: student.status === '결석' ? '#80735e' : '#aaa191' }}
                     >
-                      결석
-                    </button>
-                    <button
-                      className={student.status === '지각' ? 'active' : ''}
+                      <div>
+                        <span>결석</span>
+                      </div>
+                    </a>
+                    <a
+                      href="#"
+                      className={`Attbutton late ${student.status === '지각' ? 'active' : ''}`}
                       onClick={() => handleAttendanceButtonClick(student.attendanceID, '지각')}
-                      style={{ backgroundColor: student.status === '지각' ? '#f1e2c9' : '#fff' }}
-                    >
-                      지각
-                    </button>
-                    <button
-                      className={student.status === '외출' ? 'active' : ''}
-                      onClick={() => handleAttendanceButtonClick(student.attendanceID, '외출')}
-                      style={{ backgroundColor: student.status === '외출' ? '#e0e2ff' : '#fff' }}
-                    >
-                      외출
-                    </button>
-                    <button
-                      className={student.status === '조퇴' ? 'active' : ''}
-                      onClick={() => handleAttendanceButtonClick(student.attendanceID, '조퇴')}
-                      style={{ backgroundColor: student.status === '조퇴' ? '#e0e2ff' : '#fff' }}
-                    >
-                      조퇴
-                    </button>
+                      style={{ backgroundColor: student.status === '지각' ? '#80735e' : '#aaa191' }}
 
+                    >
+                      <div>
+                        <span>지각</span>
+                      </div>
+                    </a>
+                    <a
+                      href="#"
+                      className={`Attbutton out ${student.status === '외출' ? 'active' : ''}`}
+                      onClick={() => handleAttendanceButtonClick(student.attendanceID, '외출')}
+                      style={{ backgroundColor: student.status === '외출' ? '#80735e' : '#aaa191' }}
+                    >
+                      <div>
+                        <span>외출</span>
+                      </div>
+                    </a>
+                    <a
+                      href="#"
+                      className={`Attbutton early ${student.status === '조퇴' ? 'active' : ''}`}
+                      onClick={() => handleAttendanceButtonClick(student.attendanceID, '조퇴')}
+                      style={{ backgroundColor: student.status === '조퇴' ? '#80735e' : '#aaa191' }}
+                    >
+                      <div>
+                        <span>조퇴</span>
+                      </div>
+                    </a>
                   </div>
+
                 </td>
               </tr>
             ))}

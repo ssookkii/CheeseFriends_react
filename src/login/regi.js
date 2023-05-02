@@ -394,9 +394,9 @@ function Regi() {
     }
 
     // 휴대폰 번호 변경시 재인증 필요
-    useEffect(()=>{
+    useEffect(() => {
         setPhone_publiccheck("");
-    },[phone])
+    }, [phone])
 
     // 사진 캡쳐 api
 
@@ -534,27 +534,27 @@ function Regi() {
                                     "sub_code": sub_codechecked[i]
                                 }
                             })
-                        .then(function (resp) {
-                            console.log(resp.data);
-                            axios.post("http://localhost:3000/adduseredu", null,
-                                {
-                                    params: {
-                                        "id":id,
-                                        "educode": resp.data
-                                    }
-                                })
-                            .then(function (r) {
+                            .then(function (resp) {
+                                console.log(resp.data);
+                                axios.post("http://localhost:3000/adduseredu", null,
+                                    {
+                                        params: {
+                                            "id": id,
+                                            "educode": resp.data
+                                        }
+                                    })
+                                    .then(function (r) {
 
+                                    })
+                                    .catch(function (err) {
+                                        alert("err");
+                                        console.log(err);
+                                    })
                             })
                             .catch(function (err) {
                                 alert("err");
                                 console.log(err);
                             })
-                        })
-                        .catch(function (err) {
-                            alert("err");
-                            console.log(err);
-                        })
 
                         // 과목 보내자
                         axios.post("http://localhost:3000/addusersubject", null,
@@ -564,13 +564,13 @@ function Regi() {
                                     "subcode": sub_codechecked[i]
                                 }
                             })
-                        .then(function (resp) {
+                            .then(function (resp) {
 
-                        })
-                        .catch(function (err) {
-                            alert("err");
-                            console.log(err);
-                        })
+                            })
+                            .catch(function (err) {
+                                alert("err");
+                                console.log(err);
+                            })
                     } else {
                         alert("가입되지 않았습니다");
                     }
@@ -590,7 +590,12 @@ function Regi() {
             body: formData,
         })
             // .then((response) => response.json())
-            .then((result) => console.log(result))
+            .then((result) => {
+                console.log(result);
+                return fetch(`http://localhost:3000/api/imgcrop/${id}`, {
+                    method: 'POST',
+                });
+            })
             .catch((error) => console.error(error));
 
         alert("정상적으로 가입되었습니다");

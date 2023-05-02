@@ -23,8 +23,8 @@ const DataAnalysisTeacher = () => {
     const [students, setStudents] = useState([]);
     const [searchText, setSearchText] = useState('');
     const [filteredStudents, setFilteredStudents] = useState([]);
-    const [chartTitle, setChartTitle] = useState('전체 학생 출결 데이터');
-    const [gradechartTitle, setgradeChartTitle] = useState('전체 학생 과목 평균 점수');
+    const [chartTitle, setChartTitle] = useState('학생 출결 현황');
+    const [gradechartTitle, setgradeChartTitle] = useState('학생 과목 평균 점수');
     const [currentMonth, setCurrentMonth] = useState(new Date().getMonth() + 1);
     const [chartData, setChartData] = useState([
         { name: '출석', value: 0 },
@@ -194,7 +194,7 @@ const DataAnalysisTeacher = () => {
         ]);
 
         // 차트 제목 설정
-        setChartTitle(searchText ? `"${searchText}"의 출결 데이터` : '전체 학생 출결 데이터');
+        setChartTitle(searchText ? `"${searchText}"의 출결 현황` : '학생 출결 현황');
     }, [selectedSubject, searchText, students]);
 
     useEffect(() => {
@@ -259,10 +259,10 @@ const DataAnalysisTeacher = () => {
 
         // 차트 제목 설정
         if (searchText && filtered.length > 0) {
-            setChartTitle(`"${searchText}"의 출결 데이터`);
+            setChartTitle(`"${searchText}"의 출결 현황`);
 
         } else {
-            setChartTitle('전체 학생 출결 데이터');
+            setChartTitle('학생 출결 현황');
         }
     }, [selectedSubject, searchText, students, currentMonth]
 
@@ -286,14 +286,12 @@ const DataAnalysisTeacher = () => {
                                 key={subject.subCode}
                                 className={selectedSubject === subject.subCode ? 'active' : ''}
                                 onClick={() => setSelectedSubject(subject.subCode)}
-                                style={{ backgroundColor: selectedSubject === subject.subCode ? '#FFDC9D' : 'transparent' }}
+
                             >
                                 {subject.subName}
                             </li>
                         ))}
                     </ul>
-
-
                     <div className="search-container">
                         <input
                             type="text"
@@ -302,16 +300,30 @@ const DataAnalysisTeacher = () => {
                             onChange={(e) => setSearchText(e.target.value)}
                             style={{ width: '100px' }}
                         />
-                        <button style={{ fontSize: '13px', backgroundColor: '#FFDC9D' }} onClick={searchMethod}>검색</button>
-                        <button onClick={exportToExcel}>리포트 출력</button>
+                        <a
+                            href="#"
+                            className="DAreportButton"
+                            onClick={exportToExcel}
+
+                        >
+                            <div>
+                                <span style={{ alignItems: 'center' }}>리포트 출력</span>
+                            </div>
+                        </a>
+
+
                     </div>
 
 
                 </nav>
             </div>
-            <div className="container">
+            <div className="DataContainer">
                 <div className="chart-section">
-                    <h3>과목별 평균 점수 차트</h3>
+                    <div className='AttendanceDate' >
+                        <h2 style={{ fontSize: '18px', width: '32%' }} className="attendance-month">
+                            과목별 평균 점수
+                        </h2>
+                    </div>
                     <ResponsiveContainer width="100%" height={400}>
                         <BarChart
                             data={searchText ? filteredAverageScoreChartData : averageScoreChartData}
@@ -322,15 +334,20 @@ const DataAnalysisTeacher = () => {
                             <YAxis allowDecimals={false} />
                             <Tooltip />
                             <Legend />
-                            <Bar dataKey="value" name="평균 점수" fill="#8884d8" />
+                            <Bar dataKey="value" name="평균 점수" fill="#e7bd6d" />
 
                         </BarChart>
                     </ResponsiveContainer>
                 </div>
 
                 <div className="chart-section">
+                    <div className='AttendanceDate' >
+                        <h2 style={{ fontSize: '18px' }} className="attendance-month">
+                            {chartTitle}<span style={{ fontSize: '14px' }}> ( {currentMonth}월 )</span>
+                        </h2>
+                    </div>
 
-                    <h3>{chartTitle}<span> ( {currentMonth}월 )</span></h3>
+
                     <div className="month-controls">
                         <button onClick={() => changeMonth(-1)}>이전</button>
 
@@ -343,8 +360,8 @@ const DataAnalysisTeacher = () => {
                             <YAxis allowDecimals={false} />
                             <Tooltip />
                             <Legend />
-                            <Bar dataKey="value" name="학생 출결 현황" fill="#8884d8">
-                                <Cell fill="#82ca9d" name="출석" />
+                            <Bar dataKey="value" name="학생 출결 현황" fill="#e7bd6d">
+                                <Cell fill="#a2b0f6" name="출석" />
                                 <Cell fill="#ffc658" name="결석" />
                                 <Cell fill="#f44336" name="지각" />
                             </Bar>
@@ -357,8 +374,8 @@ const DataAnalysisTeacher = () => {
                                 value={attendanceRate}
                                 text={`${isNaN(attendanceRate) ? 0 : attendanceRate.toFixed(2)}%`}
                                 styles={buildStyles({
-                                    textColor: '#82ca9d',
-                                    pathColor: '#82ca9d',
+                                    textColor: '#a2b0f6',
+                                    pathColor: '#a2b0f6',
                                 })}
                             />  <p>출석률</p>
                         </div>

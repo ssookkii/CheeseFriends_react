@@ -1,16 +1,22 @@
-.container {
+.DataContainer {
     display: flex;
     justify-content: space-between;
+    flex-wrap: wrap;
 }
 
 .chart-section {
     width: 48%;
+    margin-bottom: 2rem;
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
 }
 
 .datanav {
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 1em 0;
 }
 
 .datanav nav {
@@ -18,4 +24,232 @@
     justify-content: space-between;
     align-items: center;
     width: 60%;
+    margin: 0 auto;
+}
+
+.datanav ul {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+}
+
+.datanav li {
+    margin-right: 1rem;
+    padding: 0.5rem;
+    cursor: pointer;
+    border-radius: 0.5rem;
+    font-weight: bold;
+    background-color: transparent;
+    transition: background-color 0.2s ease;
+
+}
+
+
+.datanav li.active {
+    background-color: #80735e;
+    color: white;
+    opacity: 0.8;
+}
+
+.datanav li:hover {
+    background-color: #80735e;
+    color: white;
+    opacity: 0.8;
+}
+
+.datanav .date-picker-container {
+    margin-left: 40px;
+}
+
+.datanav .search-container input[type="text"] {
+    width: 150px;
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+}
+
+.search-container input[type="text"] {
+    padding: 0.5em;
+    border: none;
+    border-bottom: 2px solid #ccc;
+    margin-right: 1em;
+    font-size: 13px;
+}
+
+.search-container button {
+    padding: 1em 1em;
+    background-color: #e7bd6d;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.search-container button:hover {
+    background-color: #726b4f;
+}
+
+
+.chart-section h3 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #555;
+
+}
+
+.month-controls {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.month-controls button {
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    color: #333;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.month-controls button:hover {
+    background-color: rgb(197, 186, 159);
+    color: #fff;
+}
+
+.chart-section p {
+    font-size: 1rem;
+    margin: 0;
+}
+
+.averageStyle:before {
+    content: "";
+    border-top: 1px solid white;
+    position: absolute;
+    width: 300%;
+    top: 35%;
+    left: -100%;
+    z-index: -999;
+}
+
+.averageStyle:after {
+    content: "";
+    border-bottom: 1px solid white;
+    position: absolute;
+    width: 300%;
+    bottom: 35%;
+    left: -100%;
+    z-index: -999;
+}
+
+.DAreportButton {
+    width: 105px;
+    --background: #80735e;
+    --shadow: 0 2px 8px -1px rgba(21, 25, 36, 0.32);
+    --shadow-hover: 0 4px 20px -2px rgba(21, 25, 36, 0.5);
+    --font-size: 14px;
+    --duration: 0.44s;
+    --move-hover: -4px;
+    --font-shadow: var(--font-size);
+    padding: 10px 15px;
+    line-height: var(--font-size);
+    border-radius: 10px;
+    display: block;
+    font-size: var(--font-size);
+    letter-spacing: 0.5px;
+    background: var(--background);
+    color: #fff;
+    box-shadow: var(--shadow);
+    transform: translateY(var(--y)) translateZ(0);
+    transition: transform var(--duration) ease, box-shadow var(--duration) ease;
+    margin: 1px;
+    margin-top: 5px;
+}
+
+.DAreportButton div {
+    display: flex;
+    overflow: hidden;
+    text-shadow: 0 var(--font-shadow) 0 #fff;
+}
+
+.DAreportButton div span {
+    display: block;
+    backface-visibility: hidden;
+    font-style: normal;
+    transition: transform var(--duration) ease;
+    transform: translateY(var(--m)) translateZ(0);
+
+}
+
+.DAreportButton div span:nth-child(1) {
+    transition-delay: 0.05s;
+}
+
+.DAreportButton div span:nth-child(2) {
+    transition-delay: 0.1s;
+}
+
+.DAreportButton div span:nth-child(3) {
+    transition-delay: 0.15s;
+}
+
+.DAreportButton div span:nth-child(4) {
+    transition-delay: 0.2s;
+}
+
+.DAreportButton div span:nth-child(5) {
+    transition-delay: 0.25s;
+}
+
+.DAreportButton div span:nth-child(6) {
+    transition-delay: 0.3s;
+}
+
+.DAreportButton div span:nth-child(7) {
+    transition-delay: 0.35s;
+}
+
+.DAreportButton div span:nth-child(8) {
+    transition-delay: 0.4s;
+}
+
+.DAreportButton div span:nth-child(9) {
+    transition-delay: 0.45s;
+}
+
+.DAreportButton div span:nth-child(10) {
+    transition-delay: 0.5s;
+}
+
+.DAreportButton div span:nth-child(11) {
+    transition-delay: 0.55s;
+
+}
+
+.DAreportButton:hover {
+    --y: var(--move-hover);
+    --shadow: var(--shadow-hover);
+}
+
+.DAreportButton:hover span {
+    --m: calc(var(--font-size) * -1);
+
+}
+
+.DAreportButton.reverse {
+    --font-shadow: calc(var(--font-size) * -1);
+
+}
+
+.DAreportButton.reverse:hover span {
+    --m: calc(var(--font-size));
+
 }
