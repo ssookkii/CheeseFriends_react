@@ -15,7 +15,11 @@ function Email(){
     const [modalOpen, setModalOpen] = useState(false);
 
     const openModal = () => {
-        setModalOpen(true);
+        if(deletecheckboxlist.length > 0){
+            setModalOpen(true);
+        }else{
+            alert("삭제할 쪽지를 선택해주세요");
+        }
     };
 
     const closeModal = () => {
@@ -189,6 +193,7 @@ function Email(){
             </tr>
         );
     }
+       
   
     // 메일 상세보기로 가기
     function Maildetail(props){

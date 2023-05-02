@@ -1,0 +1,30 @@
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+import Session from "react-session-api";
+import axios from "axios";
+
+function Kakao_auth_url(){
+
+    const CLIENT_ID = "f3613163848bb3a96a1dd490a0855f2c";
+    const REDIRECT_URI =  "http://localhost:9100/kakaologin";
+
+    // 프런트엔드 리다이랙트 URI 예시
+    // const REDIRECT_URI =  "http://localhost:3000/oauth/callback/kakao";
+
+    // 백엔드 리다이랙트 URI 예시
+    // const REDIRECT_URI =  "http://localhost:5000/kakao/code";
+
+
+    return(
+        <div>
+            <div>
+                <h1>안녕</h1>
+                
+            </div>
+        </div>
+    )
+
+}
+
+export const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code`;

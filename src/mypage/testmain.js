@@ -32,7 +32,7 @@ function Testmain(){
                 </tr>
                 <tr>
                     <td style={{height: "600px"}}>
-                        <div className="container">
+                        <div>
                             <Outlet/>                        
                         </div>
                     </td>

@@ -5,29 +5,29 @@ import './components/asset/css/reset.css';
 import './components/asset/css/pagination.css';
 import './App.css';
 
-// import PrivateRoutes from './components/PrivateRoutes';
-// import Admin from './components/Admin';
-// import AdminPage from './components/AdminPage';
-// import MapSearch from './components/MapSearch';
-// import EduAdd from './components/EduAdd';
-// import EduManage from './components/EduManage'
-// import EduUpdate from './components/EduUpdate';
-// import SubjectManage from './components/SubjectManage';
-// import SubUpdate from './components/SubUpdate';
-// import TeacherManage from './components/TeacherManage';
-// import TeaUpdate from './components/TeaUpdate';
-// import SendMailManage from './components/SendMailManage';
-// import MailWrite from './components/MailWrite';
-// import QnAManage from './components/QnAManage';
-// import QnaAnswer from './components/QnaAnswer';
-// import GradeManage from './components/GradeManage';
-// import Attendance from "./components/Attendance";
-// import AttendanceQR from "./components/AttendanceQR";
-// import AttendanceManage from "./components/AttendanceManage";
-// import AttendanceManageTeacher from "./components/AttendanceManageTeacher";
-// import DataAnalysis from "./components/DataAnalysis";
-// import DataAnalysisTeacher from "./components/DataAnalysisTeacher";
-// import Test from "./components/Test";
+import PrivateRoutes from './components/PrivateRoutes';
+import Admin from './components/Admin';
+import AdminPage from './components/AdminPage';
+import MapSearch from './components/MapSearch';
+import EduAdd from './components/EduAdd';
+import EduManage from './components/EduManage'
+import EduUpdate from './components/EduUpdate';
+import SubjectManage from './components/SubjectManage';
+import SubUpdate from './components/SubUpdate';
+import TeacherManage from './components/TeacherManage';
+import TeaUpdate from './components/TeaUpdate';
+import SendMailManage from './components/SendMailManage';
+import MailWrite from './components/MailWrite';
+import QnAManage from './components/QnAManage';
+import QnaAnswer from './components/QnaAnswer';
+import GradeManage from './components/GradeManage';
+import Attendance from "./components/Attendance";
+import AttendanceQR from "./components/AttendanceQR";
+import AttendanceManage from "./components/AttendanceManage";
+import AttendanceManageTeacher from "./components/AttendanceManageTeacher";
+import DataAnalysis from "./components/DataAnalysis";
+import DataAnalysisTeacher from "./components/DataAnalysisTeacher";
+import Test from "./components/Test";
 
 import Idsearch from './login/idsearch';
 import Login from './login/login';
@@ -45,6 +45,11 @@ import Sendemaillist from './mypage/sendemaillist';
 import Sendmaildetail from './mypage/sendmaildetail';
 import Grademypage from './mypage/grademypage';
 import Learningmypage from './mypage/learningmypage';
+import Breakaway from './mypage/breakaway';
+import Studentlist from './mypage/studentlist';
+import Socialloginselect from './login/socialloginselect';
+import Kakao from './login/kakao';
+import KakaoRedirectHandler from './mypage/KakaoRedirectHandeler';
 
 // import LectureList from './components/LectureList'
 // import AbLectureList from './components/AbLectureList'
@@ -104,6 +109,11 @@ function App() {
 
 
             <Route path="/" element={<Login />} />
+            <Route path="/socialloginselect" element={<Socialloginselect />} />
+            {/* <Route path="/kakaologin" element={<KakaoRedirectHandler/>} /> */}
+            <Route path="/kakaologin" element={<Kakao/>} />
+            {/* <Route path="/kakaologin/:code" element={<Kakao/>} /> */}
+
             <Route path="/regiselect" element={<Regiselect />} />
             <Route path="/regi" element={<Regi />} />
             <Route path="/regiparents" element={<RegiParents />} />
@@ -124,10 +134,16 @@ function App() {
               <Route path="/testmain/grademypage/:choice/:search" element={<Grademypage />} />
               <Route path="/testmain/learningmypage" element={<Learningmypage />} />
               <Route path="/testmain/learningmypage/:choice/:search" element={<Learningmypage />} />
-              
+              <Route path="/testmain/breakaway" element={<Breakaway />} />
+              <Route path="/testmain/studentlist" element={<Studentlist />} />
+              <Route path="/testmain/studentlist/:choice/:search" element={<Studentlist />} />
+              <Route path="/testmain/AttendanceManageTeacher" element={<AttendanceManageTeacher />} />
+              <Route path="/testmain/DataAnalysisTeacher" element={<DataAnalysisTeacher />} />
+              <Route path="/testmain/DataAnalysis" element={<DataAnalysis />} />
+              <Route path="/testmain/AttendanceManage" element={<AttendanceManage />} />
             </Route>
 
-        {/* 
+
             <Route path="/attendance" element={<Attendance />} />
             <Route path="/attendance/attendanceQR" element={<AttendanceQR />} />
             <Route path="/AttendanceManage" element={<AttendanceManage />} />
@@ -155,7 +171,7 @@ function App() {
                 <Route path="/adminpage/qnaanswer/:seq" exact element={<QnaAnswer />} />
 
               </Route>
-            </Route> */}
+            </Route> 
           </Routes>
         </main>
 

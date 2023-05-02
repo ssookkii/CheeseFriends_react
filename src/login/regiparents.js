@@ -148,44 +148,60 @@ function RegiParents(){
                 return;
             }
         }
-        const newItem = studentidresult;
-        setStudentidlist([...studentidlist, newItem]);
 
-        const table = document.getElementById("subplus2");
-        const subplus = document.createElement("tr");
+        console.log("studentidresult : " + studentidresult)
+        axios.post("http://localhost:3000/studentidmatching", null, { params:{ "studentid":studentidresult}})
+        .then(function(resp){
+            if(resp.data === "YES"){
+                const newItem = studentidresult;
+                setStudentidlist([...studentidlist, newItem]);
 
-        // 체크박스
-        let td = document.createElement("td");
-        let element0 = document.createElement("input");
+                const table = document.getElementById("subplus2");
+                const subplus = document.createElement("tr");
 
-        element0.setAttribute("type", "checkbox");
-        element0.setAttribute("name", "subject");
-        element0.setAttribute("value", studentidresult);
-        element0.setAttribute("checked", "checked");
-    //    element0.setAttribute("onchange", function(){alert('subcodeadd');});
-        element0.onchange = studentidadd; //function(){alert('subcodeadd');};
+                // 체크박스
+                let td = document.createElement("td");
+                let element0 = document.createElement("input");
 
-        td.append(element0)
-        subplus.appendChild(td);
+                element0.setAttribute("type", "checkbox");
+                element0.setAttribute("name", "subject");
+                element0.setAttribute("value", studentidresult);
+                element0.setAttribute("checked", "checked");
+            //    element0.setAttribute("onchange", function(){alert('subcodeadd');});
+                element0.onchange = studentidadd; //function(){alert('subcodeadd');};
 
-        setStudentidcheckbox((studentidcheckbox) => [...studentidcheckbox, studentidresult])
+                td.append(element0)
+                subplus.appendChild(td);
 
-        // 번호
-        let element = document.createElement("td");
-        element.innerText = count;
-        setCount(count+1);
-        subplus.appendChild(element);
+                setStudentidcheckbox((studentidcheckbox) => [...studentidcheckbox, studentidresult])
 
-        // 아이디
-        let element2 = document.createElement("td");
-        element2.innerText = studentidresult;
-        subplus.appendChild(element2);
+                // 번호
+                let element = document.createElement("td");
+                element.innerText = count;
+                setCount(count+1);
+                subplus.appendChild(element);
 
-        let element3 = document.createElement("td");
-        element3.innerText = studentnameresult;
-        subplus.appendChild(element3);
+                // 아이디
+                let element2 = document.createElement("td");
+                element2.innerText = studentidresult;
+                subplus.appendChild(element2);
 
-        table.appendChild(subplus);
+                let element3 = document.createElement("td");
+                element3.innerText = studentnameresult;
+                subplus.appendChild(element3);
+
+                table.appendChild(subplus);
+            }else{
+                alert("이미 해당 자녀와 연결된 학부모 계정이 있습니다")
+                return;
+            }
+        })
+        .catch(function(err){
+            console.log(err);
+            alert('err')
+        })
+
+        
    }
 
 
@@ -524,6 +540,18 @@ function RegiParents(){
             alert("err");
             console.log(err);
         })
+
+        // 사진저장
+        const formData = new FormData();
+        formData.append('uploadFile', imageSrc, id + ".jpg");
+
+        fetch('http://localhost:3000/fileUpload', {
+            method: 'POST',
+            body: formData,
+        })
+            // .then((response) => response.json())
+            .then((result) => console.log(result))
+            .catch((error) => console.error(error));
     
         alert("정상적으로 가입되었습니다");
         history("/");      // 이동(link)

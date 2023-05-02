@@ -28,9 +28,6 @@ function Changeme(){
     let local = localStorage.getItem("login");
     let login = JSON.parse(local);
 
-
-    
-    
     const [id, setId] = useState("");
     const [idc, setIdc] = useState("");
     const [password, setPassword] = useState(login.password);
@@ -44,7 +41,7 @@ function Changeme(){
     const [phone, setPhone] = useState("");
     const [phone_public, setPhone_public] = useState("");
     const [jointype, setJointype] = useState("");
-    const [auth, setAuth] = useState('student');
+    const [auth, setAuth] = useState(login.auth);
 
     const [passwordcheck, setPasswordcheck] = useState("");
 
