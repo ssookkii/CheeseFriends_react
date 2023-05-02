@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
 import axios from 'axios';
+import './asset/css/ServiceWrite.css'
 
 export default function ServiceWrite() {
-
 
     const [topic, setTopic] = useState('');
     const [title, setTitle] = useState('');
@@ -53,7 +53,8 @@ export default function ServiceWrite() {
         .catch(function(error){
             alert('게시물 등록에 실패했습니다');
          });
-
+    
+    }
     return (
         <div style={{margin:"30px 150px 50px 150px", textAlign:"left", padding:"15px", fontSize:"17px"}}>
             <h2>고객센터 문의하기</h2>
@@ -90,4 +91,5 @@ export default function ServiceWrite() {
             </form>
         </div>
     )
-}   }
+  }
+

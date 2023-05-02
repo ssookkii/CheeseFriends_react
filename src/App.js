@@ -88,14 +88,12 @@ function App() {
             <Route path="/playgame1" element={<PlayGame1 />} />
             <Route path="/playgame2" element={<PlayGame2 />} />
 
-
             <Route path='/service/papago' element={<PapagoController />} />
             <Route path='/service/papago2' element={<PapagoVer2 />} />
             <Route path='/service/ServiceList' element={<ServiceList />} />
             <Route path='/service/ServiceWrite' element={<ServiceWrite />} />
             <Route path='/service/ServiceDetail/:seq' element={<ServiceDetail />} />
             <Route path='/service/ServiceAnswer' element={<ServiceAnswer />} />
-
 
             <Route path="/lecture" element={<LectureList />} />
             <Route path="/lecture/AbLectureList" element={<AbLectureList />} />

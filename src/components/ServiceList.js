@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMedal, faDisplay, faUser, faCirclePlay, faDownload, faMobileScreen, faCheese } from "@fortawesome/free-solid-svg-icons";
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import Modal from 'react-modal';
 import './asset/css/ServiceList.css';
 
 export default function ServiceList() {
@@ -42,17 +43,20 @@ export default function ServiceList() {
         })
 
     }
-
-
     useEffect(function(){
-        getServiceList();
+        getServiceList(0);
     },[]);
 
     const [subList, setSubList] = useState([]);
- 
+    const [choice, setChoice] = useState('');
+    const [search, setSearch] = useState('');
 
+    //paging
+    const [page, setPage] = useState(1);
+    const [totalCnt, setTotalCnt] = useState(0);
+ 
     function getSubList(){
-        axios.get("http://localhost:3000/serviceList")
+        axios.get("http://localhost:3000/categorysearch/1")
         .then(function(resp) {
             // 데이터가 있을 경우에만 subList 상태를 업데이트
             if (resp.data.list) {
@@ -68,14 +72,56 @@ export default function ServiceList() {
         getSubList("", "", 0);
     }, []);
 
-    return (
+    const [bbs, setBbs] = useState();
+    let params = useParams();
+    
+    const bbsData = async(seq) => {
+        const response = await axios.get('http://localhost:3000/getService', { params:{"seq":seq} });
 
+        setBbs(response.data);
+    }
+
+    useEffect(() => {
+        async function fetchData() {
+          const response = await bbsData();
+        }
+        fetchData();
+      }, []);
+
+    const [selectedItem, setSelectedItem] = useState(null);
+    const [modalIsOpen, setModalIsOpen] = useState(false);
+
+    function handleItemClick(item) {
+        setSelectedItem(item);
+        setModalIsOpen(true);
+    }
+
+    function closeModal() {
+        setSelectedItem(null);
+        setModalIsOpen(false);
+    }
+
+    function ModalComponent(props) {
+        const { selectedItem, closeModal } = props;
+
+        if (!selectedItem) {
+            return <div></div>;
+        }
+        return (
+          <Modal isOpen={selectedItem !== null} onRequestClose={closeModal} className='modalcss'>
+            <p>{selectedItem.content}</p>
+          </Modal>
+        );
+    }
+
+    
+    return (
         <div style={{display:"flex", marginTop:"116px", marginLeft:"100px"}} className='eduinfolist'>
             <div style={{width:"280px", height:"630px", borderRadius:"16px"}}>
                 <a href="/" style={{color:"black", textDecoration:"none"}}>
                     <h1 className='eduinfotitle'>고객센터</h1>
                 </a>
-                
+     
                 <div className="dropdown">
                     <button type="button" className="eduwritebtn" onClick={serviceWrite} style={{width:"248px"}}>
                         작성하기
@@ -95,13 +141,13 @@ export default function ServiceList() {
                 <div className='contentwrapper'>
                     <div className='fontWrapper'>
                         <div>
-                            <FontAwesomeIcon icon={faMedal} className='ser'  />
+                            <FontAwesomeIcon icon={faMedal} className='ser' />
                         </div>
                         <div>
                             <FontAwesomeIcon icon={faUser} className='ser' />
                         </div>
                         <div>
-                            <FontAwesomeIcon icon={faDisplay} className='ser' />
+                            <FontAwesomeIcon icon={faDisplay} className='ser'/>
                         </div>
                         <div>
                             <FontAwesomeIcon icon={faCirclePlay}className='ser'  />
@@ -118,22 +164,24 @@ export default function ServiceList() {
                 <hr className='servhr'/>            
             
                 <div className='contentwrapper'>
-                {
-                    subList && subList.map(function(list, i){
+                {subList && subList.map(function(list, i){
                 return (
-                    <div key={i} className='serlist'>
-                        <p>
-                            <FontAwesomeIcon icon={faCheese} />&nbsp;&nbsp;  
-                            <Link style={{textDecoration:"none"}} to={`/service/ServiceDetail/${list.seq}`}>{list.title}</Link>
-                        </p>
-                    </div>
+                    <ul>
+                    <li key={list.i} className='serlist'>
+                        <div className='ptag'>
+                        <FontAwesomeIcon icon={faCheese} />
+                        <p onClick={() => handleItemClick(list)}>{list.title}</p>
+                        </div>
+                    </li>
+                    </ul>
                 )
-            })
-            }
-
+                })}
+            </div>
+                <ModalComponent selectedItem={selectedItem} closeModal={closeModal} />
             </div>
         </div>               
          
-    </div>
-        )
-    };
+
+        );
+    }
+
