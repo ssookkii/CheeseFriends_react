@@ -1,0 +1,43 @@
+.keyVisual {
+    position:relative;
+    width:100%;
+    height:600px;
+    background: url(../../../../public/img/Asset\ 2.png) no-repeat;
+    background-size: cover;
+}
+.mypageBox {
+    position:absolute;
+    left:15%;
+    top:200px;
+    background-color:#fff;
+    width:320px;
+    height:300px;
+    border-radius: 30px;
+}
+.mypageBox > p {
+    font-size:2em;
+    padding:30px 50px;
+    line-height:1.3;
+}
+.mypageBox > p > span {
+    font-weight: 700;
+}
+.mypageBox .cboxWrap {
+    display:flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.mypageBox .cboxWrap .cbox {
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+}
+.mypageBox .cboxWrap .cbox span:first-child {
+    width:50px;
+    height:50px;
+    display:inline-block;
+    background: url(../../../../public/img/Asset\ 4.png) no-repeat;
+}
+.mypageBox .cboxWrap .cbox:nth-child(2) span:first-child {
+    background-position: 30% 0;
+}

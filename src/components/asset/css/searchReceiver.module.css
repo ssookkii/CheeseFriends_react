@@ -1,0 +1,104 @@
+.btnWarp > button {
+    width:50%;
+    height:40px;
+    border:1px solid #fac463;
+    margin-bottom:30px;
+    background:none;
+    color:#555;
+    
+}
+.searchTitle {
+    border:1px solid #434343;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.searchTitle > select {
+    width:100px;
+    height:40px;
+    padding:0 10px;
+    border:none;
+    font-size:0.9em;
+    color:#fff;
+    background: url(../../../../public/img/searchMenuW.png) no-repeat 86% 50% #434343;
+    background-size:10px;
+    -webkit-appearance: none; 
+    -moz-appearance: none;
+    appearance: none;
+}
+.searchTitle > input {
+    height:40px;
+    width:60%;
+    font-size:0.9em;
+    padding:0 15px;
+}
+.searchTitle .searchBtn {
+    color:#fff;
+    background: url(../../../../public/img/searchBtnIcon.png) no-repeat 50% 50% #434343;
+    text-indent: -9999px;
+    width:40px;
+    height:40px;
+    background-size:15px;
+}
+.datalist {
+    table-layout: fixed;
+    margin-top:10px;
+}
+.datalist > thead > tr > th {
+    height:40px;
+    text-align: center;
+    font-weight: 600;
+}
+
+
+.datalist > tbody > tr > td {
+    text-align: center;
+    height:40px;
+}
+
+.datalist > tbody > tr > td > button {
+    background:none;
+    font-size:0.8em;
+}
+.datalist > tbody > tr > td > button:hover {
+    border-bottom:1px solid #555;
+}
+
+.btnActive {
+    background-color: #FAC463 !important;
+    color:#fff !important;
+}
+.idAddBtn {
+    background-color: #FAC463;
+    color:#fff;
+    padding:10px 20px;
+    border-radius: 10px;
+    display: block;
+    margin:30px auto 10px;
+
+}
+/* 학원코드검색 */
+.edulist > tbody > tr > td:nth-child(3) {
+    text-align: left;
+    padding:0 0 0 10px;
+}
+.edulist > thead > tr > th:nth-child(1) {width:50px;}
+.edulist > thead > tr > th:nth-child(2) {width:120px;}
+.edulist > thead > tr > th:nth-child(3) {width:170px;}
+.edulist > thead > tr > th:nth-child(4) {width:30px;}
+
+/* 아이디검색 */
+.h2title {
+    margin:20px 0;
+    font-size:1.2em;
+    font-weight: 600;
+    text-align: center;
+    background-color: #434343;
+    color:#fff;
+    padding:20px 0;
+}
+.idlist > thead > tr > th:nth-child(1) {width:50px;}
+.idlist > thead > tr > th:nth-child(2) {width:90px;}
+.idlist > thead > tr > th:nth-child(3) {width:70px;}
+.idlist > thead > tr > th:nth-child(4) {width:120px;}
+.idlist > thead > tr > th:nth-child(5) {width:30px;}

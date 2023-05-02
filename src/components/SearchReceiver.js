@@ -1,10 +1,23 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import ReactModal from 'react-modal';
 import axios from 'axios';
+import Pagination from "react-js-pagination";
 
-const SearchReceiver = ({isOpen, onClose, setEduCode, setReceiver}) => {
+import { faAngleRight } from "@fortawesome/free-solid-svg-icons";
+import { faAngleLeft } from "@fortawesome/free-solid-svg-icons";
+import { faAnglesLeft } from "@fortawesome/free-solid-svg-icons";
+import { faAnglesRight } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+
+import styles from './asset/css/searchReceiver.module.css'
+
+const SearchReceiver = ({isOpen, onClose, setReceiver}) => {
     const [choice, setChoice] = useState('');
     const [search, setSearch] = useState('');
+
+    const [page, setPage] = useState(1);
+    const [totalCnt, setTotalCnt] = useState(0);
 
     const [openTitle, setOpenTitle] = useState(true);
 
@@ -14,11 +27,12 @@ const SearchReceiver = ({isOpen, onClose, setEduCode, setReceiver}) => {
     const [selectedId, setSelectedId] = useState("");
 
     // 학원코드, 학원명 선택해서 검색하면 데이터 넘겨받기
-    function handleEduCodeSearch() {
-        axios.get("http://localhost:3000/getEduMailList", {params: {"choice":choice, "search":search}})
+    function handleEduCodeSearch(ch, se, p) {
+        axios.get("http://localhost:3000/getEduMailList", {params: {"choice":ch, "search":se, "pageNumber":p}})
         .then(function(resp){
             console.log(resp.data);
-            setEdulist(resp.data);
+            setEdulist(resp.data.list);
+            setTotalCnt(resp.data.cnt);
         })
         .catch(function(err){
             alert(err);
@@ -32,19 +46,33 @@ const SearchReceiver = ({isOpen, onClose, setEduCode, setReceiver}) => {
             console.log(resp.data);
             // alert(JSON.stringify(resp.data));
             setReceiver(resp.data);
+            
         })
         .catch(function(err){
             alert(err);
         })
         onClose()
     }
+    // 학원코드검색 페이지 변경
+    function pageChange(page){
+        setPage(page);
+        handleEduCodeSearch(choice, search, page);
+    }
+    // 아이디검색 페이지 변경
+    function idpageChange(page){
+        setPage(page);
+        hadleIdSearch(choice, selectedId, page);
+    }
     // 학원코드로 검색
     function clickEdu(){
         setOpenTitle(true);
         const element = document.getElementById("element");
 
-        while (element.hasChildNodes()) {
-            element.removeChild(element.lastChild);
+        if(element) {
+            while (element.hasChildNodes()) {
+                element.removeChild(element.lastChild);
+            }
+
         }
     }
     // 아이디로 검색
@@ -52,11 +80,12 @@ const SearchReceiver = ({isOpen, onClose, setEduCode, setReceiver}) => {
         setOpenTitle(false);
     }
     
-    function IdSearch() {
-        axios.get("http://localhost:3000/getIdMailList", {params: {"id":selectedId}})
+    function hadleIdSearch(ch, se, p) {
+        axios.get("http://localhost:3000/getIdMailList", {params: {"choice":ch, "search":se, "pageNumber":p}})
         .then(function(resp){
-            console.log(resp.data);
-            setIdlist(resp.data);
+            console.log(resp.data.list);
+            setIdlist(resp.data.list);
+            setTotalCnt(resp.data.cnt);
 
             const element = document.getElementById("element");
             const fragment = document.createDocumentFragment();
@@ -65,8 +94,8 @@ const SearchReceiver = ({isOpen, onClose, setEduCode, setReceiver}) => {
                 element.removeChild(element.lastChild);
             }
 
-            for(let i=0; i< resp.data.length; i++){
-                const itemEl = displayIdList(i, resp.data[i])
+            for(let i=0; i< resp.data.list.length; i++){
+                const itemEl = displayIdList(i, resp.data.list[i])
                 fragment.appendChild(itemEl);
             }
             element.appendChild(fragment);
@@ -91,21 +120,19 @@ const SearchReceiver = ({isOpen, onClose, setEduCode, setReceiver}) => {
         td1.innerHTML = [index+1];
         td2.innerHTML = id.id;
         td3.innerHTML = id.name;
-        td4.innerHTML = id.eduCode;
-        td5.innerHTML = id.eduName;
+        td4.innerHTML = `${id.eduCode}<br/>(${id.eduName})`;
         button.innerHTML = "추가";
 
         button.addEventListener("click", () => {
             setConfirmId(prevState => [...prevState, id]);
         });
 
-        td6.appendChild(button);
+        td5.appendChild(button);
         tr.appendChild(td1);
         tr.appendChild(td2);
         tr.appendChild(td3);
         tr.appendChild(td4);
         tr.appendChild(td5);
-        tr.appendChild(td6);
 
         return tr;
     }
@@ -118,37 +145,36 @@ const SearchReceiver = ({isOpen, onClose, setEduCode, setReceiver}) => {
         setReceiver(confirmId);
         onClose();
     }
+    console.log(page);
+    console.log(totalCnt);
 
     return (
         <ReactModal isOpen={isOpen} onRequestClose={() => onClose()}>
             <div>
-                <div>
-                    <button onClick={clickEdu}>학원코드</button>
-                    <button onClick={clickId}>아이디</button>
+                <div className={styles.btnWarp}>
+                    <button className={openTitle ? `${styles.btnActive}`  : ""} onClick={clickEdu}>학원코드로 검색</button>
+                    <button className={!openTitle ? `${styles.btnActive}`  : ""} onClick={clickId}>아이디로 검색</button>
                 </div>
                 <div>
                 {openTitle ?
                     (<Fragment>
-                        <div>
+                    <div className={styles.searchTitle}>
                         <select value={choice} onChange={(e)=>setChoice(e.target.value)}>
                             <option value="">검색</option>
                             <option value="eduCode">학원코드</option>
                             <option value="eduName">학원명</option>
-                            <option value="eduName">확인</option>
                         </select>
                         <input defaultValue={search} onInput={(e) =>setSearch(e.target.value)} />
-                        <button onClick={handleEduCodeSearch}>검색</button>
+                        <button className={styles.searchBtn} onClick={()=>handleEduCodeSearch(choice, search, page)}>검색</button>
                     </div>
                 
-                <table border="1" align="center">
-                    <colgroup>
-                        <col width="50" /><col width="50" /><col width="200" /><col width="150" />
-                    </colgroup>
+                <table className={`${styles.datalist} ${styles.edulist}`} border="1" align="center">
                     <thead>
                         <tr>
                             <th>번호</th>
                             <th>학원코드</th>
                             <th>학원명</th>
+                            <th>확인</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -167,25 +193,35 @@ const SearchReceiver = ({isOpen, onClose, setEduCode, setReceiver}) => {
                     }    
                     </tbody>     
                 </table>
+                <Pagination
+                activePage={page}
+                itemsCountPerPage={10}
+                totalItemsCount={totalCnt}
+                pageRangeDisplayed={10}
+                firstPageText={<FontAwesomeIcon icon={faAnglesLeft} />}
+                lastPageText={<FontAwesomeIcon icon={faAnglesRight} />}
+                prevPageText={<FontAwesomeIcon icon={faAngleLeft} />}
+                nextPageText={<FontAwesomeIcon icon={faAngleRight} />}
+                onChange={pageChange} /> 
                 </Fragment>)
                 : (
                 <Fragment>
-                    <div>
-                        <span>아이디</span>
+                    <div className={styles.searchTitle}>
+                        <select value={choice} onChange={(e)=>setChoice(e.target.value)}>
+                            <option value="">검색</option>
+                            <option value="userId">아이디</option>
+                            <option value="userName">이름</option>
+                        </select>
                         <input defaultValue={selectedId} onInput={(e) =>setSelectedId(e.target.value)} />
-                        <button onClick={IdSearch}>검색</button>
+                        <button className={styles.searchBtn} onClick={()=>hadleIdSearch(choice, selectedId, page)}>검색</button>
                     </div>
-                    <table border="1" align="center">
-                    <colgroup>
-                        <col width="50" /><col width="50" /><col width="200" /><col width="150" />
-                    </colgroup>
+                    <table className={`${styles.datalist} ${styles.idlist}`} border="1" align="center">
                     <thead>
                         <tr>
                             <th>번호</th>
                             <th>아이디</th>
                             <th>이름</th>
-                            <th>학원코드</th>
-                            <th>학원명</th>
+                            <th>학원코드(학원명)</th>
                             <th>선택</th>
                         </tr>
                     </thead>
@@ -193,18 +229,24 @@ const SearchReceiver = ({isOpen, onClose, setEduCode, setReceiver}) => {
 
                     </tbody>     
                 </table>
-                <h2>추가된 아이디</h2>
-                <table border="1" align="center">
-                    <colgroup>
-                        <col width="50" /><col width="50" /><col width="200" /><col width="150" />
-                    </colgroup>
+                <Pagination
+                activePage={page}
+                itemsCountPerPage={10}
+                totalItemsCount={totalCnt}
+                pageRangeDisplayed={10}
+                firstPageText={<FontAwesomeIcon icon={faAnglesLeft} />}
+                lastPageText={<FontAwesomeIcon icon={faAnglesRight} />}
+                prevPageText={<FontAwesomeIcon icon={faAngleLeft} />}
+                nextPageText={<FontAwesomeIcon icon={faAngleRight} />}
+                onChange={idpageChange} /> 
+                <h2 className={styles.h2title}>추가된 아이디</h2>
+                <table className={`${styles.datalist} ${styles.idlist}`} border="1" align="center">
                     <thead>
                         <tr>
                             <th>번호</th>
                             <th>아이디</th>
                             <th>이름</th>
-                            <th>학원코드</th>
-                            <th>학원명</th>
+                            <th>학원코드(학원명)</th>
                             <th>선택</th>
                         </tr>
                     </thead>
@@ -216,8 +258,7 @@ const SearchReceiver = ({isOpen, onClose, setEduCode, setReceiver}) => {
                                     <td>{i+1}</td>
                                     <td>{data.id}</td>
                                     <td>{data.name}</td>
-                                    <td>{data.eduCode}</td>
-                                    <td>{data.eduName}</td>
+                                    <td>{data.eduCode}<br/>({data.eduName})</td>
                                     <td><button onClick={()=>idDelete(data.id)}>삭제</button></td>
                                 </tr>
                             )
@@ -226,12 +267,12 @@ const SearchReceiver = ({isOpen, onClose, setEduCode, setReceiver}) => {
                     }    
                     </tbody>     
                 </table>
-                <button onClick={addId}>확인</button>
+                <button className={styles.idAddBtn} onClick={addId}>확인</button>
             </Fragment>
                     )
                 }
                 </div>
-            </div>      
+            </div>
         </ReactModal>
     );
 };

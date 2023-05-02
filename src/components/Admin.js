@@ -63,7 +63,7 @@ function Admin(){
 
     return(
         <div className={styles.loginWrap}>
-            <h1 className={styles.h1}>Administrator</h1>
+            <h1 className={styles.h1Title}>Administrator</h1>
             <div className={styles.loginContent}>
             <input
                 type="text"

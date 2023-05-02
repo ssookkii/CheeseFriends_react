@@ -1,0 +1,118 @@
+html, body {
+    height:100vh;
+}
+.homeWrap {
+    display:flex;
+    flex-direction: column;
+    min-height:100vh;
+}
+/* 공통사이즈 */
+.homeWrap header .headerTopBg .headerTop,
+.homeWrap header .headerBottom {
+    width:1200px;
+    margin:0 auto;
+}
+/* header */
+.homeWrap header {
+    display:flex;
+    flex-flow:column;
+}
+.homeWrap header .headerTopBg {
+    background-color: #eee;
+}
+.homeWrap header .headerTop {
+    display:flex;
+    justify-content: end;
+    align-items: center;
+    height:30px;
+}
+.homeWrap header .search > select {
+    width:210px;
+    padding:0 20px 0 0;
+    border:none;
+    font-size:0.8em;
+    text-align: right;
+    color:#434343;
+    font-weight: 500;
+    background: url(../../../../public/img/searchArrow.png) no-repeat 100% 50% ;
+    background-size:10px;
+    -webkit-appearance: none; 
+    -moz-appearance: none;
+    appearance: none;
+}
+.homeWrap header .search > select::-ms-expand {
+    display: none;
+}
+.homeWrap header .headerTop > a {
+    margin : 0 30px;
+    font-size: 0.9em;
+    position:relative;
+    color:#434343;
+    font-weight: 500;
+}
+.homeWrap header .headerTop > a::before {
+    content:'';
+    position:absolute;
+    display: inline-block;
+    background-color: #434343;
+    width:1px;
+    height:13px;
+    left:-13px;
+    top:0;
+}
+.homeWrap header .headerTop > a::after {
+    content:'';
+    position:absolute;
+    display: inline-block;
+    background-color: #434343;
+    width:1px;
+    height:13px;
+    right:-16px;
+    top:0;
+}
+.homeWrap header .headerTop > button {
+    font-size: 0.9em;
+    color:#434343;
+    font-weight: 500;
+    background:none;
+}
+.homeWrap header .headerBottom {
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    height:70px;
+    
+}
+.homeWrap .mainMenu > ul > li {
+    width: 150px;
+    padding: 0;
+    text-align: center;
+}
+.homeWrap .mainMenu > ul > li:last-child {
+}
+.homeWrap .mainMenu > ul > li > a {
+    font-weight:500;
+}
+.homeWrap .mainMenu > ul > li > a:hover {
+    color:#fac463;
+    font-weight:600;
+}
+/* main(컴포넌트영역) */
+.homeWrap > main {
+    flex: 1;
+    min-width:1200px;
+}
+
+/* footer   */
+.homeWrap footer {
+	height:130px;
+	background:#eee;
+	display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-flow: column;
+}
+.homeWrap footer .copyright {
+	font-size:0.8em;
+	color:#777;
+}

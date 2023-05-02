@@ -86,7 +86,7 @@
 }
 .contentBox {
     display: flex;
-    justify-content: start;
+    justify-content: space-between;
     align-items: start;
 }
 .contentBox > span {
@@ -96,34 +96,61 @@
     margin-right:20px;
     padding : 5px 0 0;
 }
-.contentBox > div,
+.contentBox .cBox {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    width:100%;
+}
+.contentBox > div > div,
 .contentBox > input {
     width:100%;
     height:40px;
-    border: 1px solid #eee;
+    border: 1px solid #dddddd;
     margin-bottom:10px;
     border-radius: 5px;
-    padding:0 20px;
+    padding:10px 20px;
 }
-.contentBox > div {
-    width:80%;
-    margin-right:10px;
-}
-.contentBox:nth-child(3) > input {
-    border:none;
-}
+
 .contentBox textarea {
-    border: 1px solid #eee;
+    border: 1px solid #dddddd;
     border-radius: 5px;
     height:400px;
     width:100%;
     padding:20px;
+    font-family: 'Noto Sans KR';
+    font-size:1em;
+}
+.contentBox textarea::placeholder {
+    font-size:1em;
 }
 .btnCenter {
     display: block;
     margin:30px auto 0;
 }
 
+.contentBox .uploadName {
+    display: inline-block;
+    height: 40px;
+    padding: 0 20px;
+    vertical-align: middle;
+    border: 1px solid #dddddd;
+    width: 100%;
+    color: #555;
+    border-radius: 5px;
+    margin-bottom:10px;
+}
+.contentBox .btn {
+    display: inline-block;
+    width:100px;
+    color: #fff;
+    vertical-align: middle;
+    background-color: #fac463;
+    cursor: pointer;
+    height: 40px;
+    margin-left: 10px;
+    border-radius: 10px;
+}
 .contentBox input[type="file"] {
     position: absolute;
     width: 0;

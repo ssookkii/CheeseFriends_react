@@ -9,17 +9,18 @@ function AdminPage() {
     const navigate = useNavigate();
 
     let [btnActive, setBtnActive] = useState(
-        localStorage.getItem("btnActive") || "edumanage"
+        sessionStorage.getItem("btnActive") || "edumanage"
     );
 
     function logout(){
         localStorage.removeItem("login");
+        sessionStorage.clear();
         alert("로그아웃되었습니다");
         navigate("/admin");
     }
 
     useEffect(() => {
-        localStorage.setItem("btnActive", btnActive);
+        sessionStorage.setItem("btnActive", btnActive);
     }, [btnActive]);
 
     return (   
