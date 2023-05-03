@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useState, useRef, useEffect } from "react";
-import { faMicrophone, faVolumeUp, faCheese } from "@fortawesome/free-solid-svg-icons";
+import { faMicrophone, faVolumeUp, faCheese, faGlobe } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ReactDOM from "react-dom";
 
@@ -10,6 +10,18 @@ import "./asset/css/Chatbot.css";
 function Chatbot() {
     const [umessage, setUmessage] = useState('');
     const scrollRef = useRef();
+
+    function Papago() {
+      
+        axios.post("http://localhost:3000/papago", null, {params:{ "msg":umessage }} )
+        .then((resp) => {
+        alert(JSON.stringify(resp.data));
+        })
+        .catch((error) => {
+        console.log(error);
+        });
+      
+    }  
 
     function sendBtnClick() {
         let elementUser = document.createElement('div');
@@ -144,6 +156,7 @@ function Chatbot() {
             <div className="myform">
                 <input type="text" className="usermsgwrite"
                     value={umessage} onChange={(e) => setUmessage(e.target.value)} placeholder="메시지 기입" />
+                <button onClick={Papago} className="translate"><FontAwesomeIcon icon={faGlobe} /></button>
 
                 <input type="button" className="submitmsg" onClick={sendBtnClick} value="↑" />
                 <button className="voiceInput" onClick={handleVoiceInput}>
