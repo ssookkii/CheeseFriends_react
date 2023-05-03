@@ -28,13 +28,13 @@ function Test() {
       <p>Educode: {eduCode}</p>
       <p>Subcode: {subCode}</p>
       <p>Auth : {auth}</p>
-      <Link to={`/attendance?eduCode=${eduCode}&subCode=${subCode}`}>
+      <Link to={`/cheesefriends/attendance?eduCode=${eduCode}&subCode=${subCode}`}>
         출석하기
       </Link>{" "}
       <br />
-      <Link to={"/AttendanceManage"}> 출석 관리_학생 </Link>
+      <Link to={"/cheesefriends/AttendanceManage"}> 출석 관리_학생 </Link>
       <br />
-      <Link to={"/AttendanceManageTeacher"}> 출석 관리_선생님 </Link>
+      <Link to={"/cheesefriends/AttendanceManageTeacher"}> 출석 관리_선생님 </Link>
 
       <div
         style={{ position: "fixed", bottom: "20px", right: "20px" }}

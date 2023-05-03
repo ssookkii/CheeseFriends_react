@@ -103,8 +103,8 @@
 
 .attendance-system {
   width: 530px;
-  padding: 100px 0;
-  margin: 200px auto;
+  padding: 95px 0;
+  margin: 150px auto;
   display: flex;
   flex-flow: column;
   height: 530px;
@@ -120,7 +120,12 @@
   font-size: 1.0em;
   font-weight: 600;
   color: #555;
+  text-align: center;
+  font-size: 1.0em;
+  font-weight: 600;
+  color: #555;
   margin-left: 20px;
+  margin-top: 5px;
 }
 
 .subject_nav {
@@ -561,4 +566,8 @@ li {
   50% {
     border-color: transparent
   }
+}
+
+.attlogo-container {
+  text-align: center;
 }

@@ -224,7 +224,7 @@ function AttendanceManage() {
 
   return (
     <div className="attendance-manage-container" >
-      <nav className="edu_nav" style={{ width: '50%', opacity: '0.7', margin: '15px' }}>
+      <nav className="edu_nav" style={{ width: '40%', opacity: '0.7', margin: '15px' }}>
         <ul>
           {eduCode.map((edu) => (
             <li
@@ -233,7 +233,7 @@ function AttendanceManage() {
               onClick={() => setSelectedEdu(edu.eduCode)}
               style={{ fontSize: '20px' }}
             >
-              <img src="./img/cheese.png" alt="Attendance statistics" width="20px" />  {edu.eduName}
+              <img src="/img/cheese.png" alt="Attendance statistics" width="20px" />  {edu.eduName}
             </li>
           ))}
         </ul>

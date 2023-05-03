@@ -286,9 +286,9 @@ const DataAnalysisTeacher = () => {
                                 key={subject.subCode}
                                 className={selectedSubject === subject.subCode ? 'active' : ''}
                                 onClick={() => setSelectedSubject(subject.subCode)}
-
+                                style={{ opacity: "0.8" }}
                             >
-                                {subject.subName}
+                                <img src="/img/cheese.png" alt="Attendance statistics" width="20px" /> {subject.subName}
                             </li>
                         ))}
                     </ul>
@@ -320,7 +320,7 @@ const DataAnalysisTeacher = () => {
             <div className="DataContainer">
                 <div className="chart-section">
                     <div className='AttendanceDate' >
-                        <h2 style={{ fontSize: '18px', width: '32%' }} className="attendance-month">
+                        <h2 style={{ fontSize: '18px', width: '20%' }} className="attendance-month">
                             과목별 평균 점수
                         </h2>
                     </div>
@@ -360,7 +360,7 @@ const DataAnalysisTeacher = () => {
                             <YAxis allowDecimals={false} />
                             <Tooltip />
                             <Legend />
-                            <Bar dataKey="value" name="학생 출결 현황" fill="#e7bd6d">
+                            <Bar dataKey="value" name="학생 출결 현황" fill="#aa9a89">
                                 <Cell fill="#a2b0f6" name="출석" />
                                 <Cell fill="#ffc658" name="결석" />
                                 <Cell fill="#f44336" name="지각" />

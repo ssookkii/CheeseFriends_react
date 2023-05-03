@@ -305,7 +305,7 @@ const DataAnalysis = () => {
                             onClick={() => setSelectedEdu(edu.eduCode)}
                             style={{ fontSize: '20px' }}
                         >
-                            <img src="./img/cheese.png" alt="Attendance statistics" width="20px" />  {edu.eduName}
+                            <img src="/img/cheese.png" alt="Attendance statistics" width="20px" />  {edu.eduName}
                         </li>
                     ))}
                 </ul>

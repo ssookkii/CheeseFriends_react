@@ -179,8 +179,11 @@ function Attendance() {
   }
 
   return (
-    <div className="attendance-system" style={{ backgroundImage: "url(./img/attendanceimg.png)", backgroundSize: "cover" }}>
+    <div className="attendance-system" style={{ backgroundImage: "url(/img/attendanceimg.png)", backgroundSize: "cover" }}>
       <div>
+        <div className="attlogo-container">
+          <img src="/img/logo100h.png" alt="Cheese Friends Logo" />
+        </div>
         <h1 className="AttendanceH1">Attendance System</h1>
         {weatherData.length > 0 ? (
           <div className="weather">
