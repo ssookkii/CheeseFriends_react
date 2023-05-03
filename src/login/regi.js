@@ -7,6 +7,7 @@ import Post from "./Post";
 
 function Regi() {
 
+
     function regiselect() {
         window.location.href = "/regiselect";
     }
@@ -15,14 +16,13 @@ function Regi() {
     const [idc, setIdc] = useState("");
     const [password, setPassword] = useState('');
     const [name, setName] = useState('');
-    const [gender, setGender] = useState("man");
+    const [gender, setGender] = useState('');
     const [email, setEmail] = useState('');
     const [birth, setBirth] = useState("");
     const [address, setAddress] = useState("");
     const [facename, setFacename] = useState("");
     const [phone, setPhone] = useState("");
     const [phone_public, setPhone_public] = useState("");
-    const [jointype, setJointype] = useState("");
     const [auth, setAuth] = useState('student');
 
     const [edu_code, setEdu_code] = useState("");
@@ -31,6 +31,44 @@ function Regi() {
     const [educheck, setEducheck] = useState(false);
 
     const [passwordcheck, setPasswordcheck] = useState("");
+
+
+    // 계정 연동
+    const [joinid, setJoinid] = useState("");
+    const [jointype, setJointype] = useState("");
+
+    useEffect (()=>{
+        
+
+            let soc = localStorage.getItem("social");
+            let social = JSON.parse(soc)
+            console.log("social.id : " + social.id)
+
+            localStorage.setItem("socialtype", "kakao");
+            let socialtype = localStorage.getItem("socialtype");
+            console.log("socialtype : " + socialtype)
+            console.log("social.email : " + social.email);
+
+        if(social !== undefined){
+
+            setJoinid(social.id);
+            setJointype(socialtype);
+
+            if(social.gender === "female"){
+                setGender("woman");
+            }else{
+                setGender("man");
+            }
+
+            if(social.email !== null && social.email !== "" && social.email !== undefined){
+                console.log("if 작동");
+                setEmail(social.email);
+            }
+        }
+
+    },[]);
+
+
 
     // 주소 api
     const [enroll_company, setEnroll_company] = useState({ address: '', });
@@ -520,7 +558,9 @@ function Regi() {
                     "address": address,
                     "facename": id + ".jpg",
                     "phone": phone,
-                    "auth": auth
+                    "auth": auth,
+                    "jointype":jointype,
+                    "joinid":joinid
                 }
             })
             .then(function (resp) {
@@ -701,8 +741,8 @@ function Regi() {
                         <td align="left">비밀번호</td>
                         <td align="left">
                             {passworda === true
-                                ? <input style={{ width: "230px" }} value={password} onChange={(e) => setPassword(e.target.value)} placeholder="숫자,영문자,특수문자 포함 8자 이상" />
-                                : <input style={{ borderColor: "red", width: "230px" }} value={password} onChange={(e) => setPassword(e.target.value)} placeholder="숫자,영문자,특수문자 포함 8자 이상" />}
+                                ? <input type="password" style={{ width: "230px" }} value={password} onChange={(e) => setPassword(e.target.value)} placeholder="숫자,영문자,특수문자 포함 8자 이상" />
+                                : <input type="password" style={{ borderColor: "red", width: "230px" }} value={password} onChange={(e) => setPassword(e.target.value)} placeholder="숫자,영문자,특수문자 포함 8자 이상" />}
                         </td>
                         <td>
                             {passwordc === "안전한 비밀번호 입니다"
@@ -714,8 +754,8 @@ function Regi() {
                         <td align="left">비밀번호 확인</td>
                         <td align="left">
                             {passwordChecka === true
-                                ? <input style={{ width: "230px" }} value={passwordcheck} onChange={(e) => setPasswordcheck(e.target.value)} placeholder="위와 동일한 비밀번호 입력" />
-                                : <input style={{ borderColor: "red", width: "230px" }} value={passwordcheck} onChange={(e) => setPasswordcheck(e.target.value)} placeholder="위와 동일한 비밀번호 입력" />}
+                                ? <input type="password" style={{ width: "230px" }} value={passwordcheck} onChange={(e) => setPasswordcheck(e.target.value)} placeholder="위와 동일한 비밀번호 입력" />
+                                : <input type="password" style={{ borderColor: "red", width: "230px" }} value={passwordcheck} onChange={(e) => setPasswordcheck(e.target.value)} placeholder="위와 동일한 비밀번호 입력" />}
                         </td>
                         <td>
                             {passwordcheckc === "비밀번호가 동일합니다"

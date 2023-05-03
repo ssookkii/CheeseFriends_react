@@ -75,8 +75,6 @@ import PlayGame from './components/PlayGame';
 import PlayGame1 from './components/PlayGame1';
 import PlayGame2 from './components/PlayGame2';
 
-import PapagoController from './components/PapagoController';
-import PapagoVer2 from './components/PapagoVer2';
 import ServiceList from './components/ServiceList';
 import ServiceWrite from './components/ServiceWrite';
 import ServiceDetail from './components/ServiceDetail';
@@ -121,8 +119,6 @@ function App() {
               <Route path="playgame1" element={<PlayGame1 />} />
               <Route path="playgame2" element={<PlayGame2 />} />
 
-              <Route path='service/papago' element={<PapagoController />} />
-              <Route path='service/papago2' element={<PapagoVer2 />} />
               <Route path='service/ServiceList' element={<ServiceList />} />
               <Route path='service/ServiceWrite' element={<ServiceWrite />} />
               <Route path='service/ServiceDetail/:seq' element={<ServiceDetail />} />
