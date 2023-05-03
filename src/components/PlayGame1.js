@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 
+import './asset/css/ShelterPage.css'
+
 function PlayGame1() {
   const [showIframe, setShowIframe] = useState(false);
 
@@ -14,7 +16,7 @@ function PlayGame1() {
             <h1>Hang Man</h1>
        </div>
        <button type="button" onClick={handlePlayGame}>Play Game</button>
-        {showIframe && <div><iframe src="../WebGLTest/index.html" width="520" height="1090"></iframe></div>}
+        {showIframe && <div><iframe src="../hangmanGame/index.html" width="800" height="800"></iframe></div>}
 
     </div>
   );

@@ -58,5 +58,8 @@
     background-position: -110px 0;
 }
 .adminContentWrap {
-    width:80%;
+    display: flex;
+    justify-content: center;
 }
+
+
