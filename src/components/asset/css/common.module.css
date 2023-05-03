@@ -25,6 +25,7 @@ html, body {
     justify-content: end;
     align-items: center;
     height:30px;
+    padding-right: 20px;
 }
 .homeWrap header .search > select {
     width:210px;
@@ -45,10 +46,9 @@ html, body {
 }
 .homeWrap header .headerTop > a {
     margin : 0 30px;
-    font-size: 0.9em;
+    font-size: 0.85em;
     position:relative;
     color:#434343;
-    font-weight: 500;
 }
 .homeWrap header .headerTop > a::before {
     content:'';
@@ -71,27 +71,25 @@ html, body {
     top:0;
 }
 .homeWrap header .headerTop > button {
-    font-size: 0.9em;
+    font-size: 0.85em;
     color:#434343;
-    font-weight: 500;
     background:none;
 }
 .homeWrap header .headerBottom {
     display:flex;
     justify-content: space-between;
     align-items: center;
-    height:70px;
+    height:100px;
     
 }
 .homeWrap .mainMenu > ul > li {
-    width: 150px;
+    width: 120px;
     padding: 0;
-    text-align: center;
+    text-align: right;
 }
 .homeWrap .mainMenu > ul > li:last-child {
 }
 .homeWrap .mainMenu > ul > li > a {
-    font-weight:500;
 }
 .homeWrap .mainMenu > ul > li > a:hover {
     color:#fac463;

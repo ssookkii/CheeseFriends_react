@@ -8,6 +8,12 @@ function TimeTable(){
     const login = JSON.parse(localStorage.getItem("login"));
     const id = login.id
 
+    // 과목별 색상지정
+    const colors = ['#6399fa', '#fcd794', '#fa7963', '#CDE990', '#94B9FC'];
+    const colorMap = {};
+    let count = 0;
+    
+
     // 시간표 넣을 빈 테이블 준비
     const timeSlots = ["", "", "", "", "", "", "", "", "", "", "", "", ""];
     const days = ["", "", "", "", "", "", "", ""];
@@ -60,12 +66,7 @@ function TimeTable(){
                     const timeNum = timeCheck(start, end);
         
                     // rowspan으로 합쳐주기 위해 첫 칸만 입력
-                    // newEmptyTable[timeNum[0]][dayNum] = timelist[i].subName;
-                    
-                    for (let j = 0; j < timeNum.length; j++) {
-                            console.log(timeNum[j]);
-                            newEmptyTable[timeNum[j]][dayNum] = timelist[i].subName;
-                    }
+                    newEmptyTable[timeNum[0]][dayNum] = timelist[i].subName;
                     
                     // rowspan 저장해두기
                     newRowspansave.push({
@@ -158,8 +159,8 @@ function TimeTable(){
     return (
         <div className={styles.wrap}>
             <div className={styles.btnWrap}>
-                <Link to="/subjectadd">과목추가</Link>
-                <Link to="/subtimemanage">강의시간추가</Link>
+                <Link to="/cheesefriends/testmain/subjectadd">과목추가</Link>
+                <Link to="/cheesefriends/testmain/subtimemanage">강의시간추가</Link>
             </div>
         <table className={styles.timeTable}>
             <thead>
@@ -176,23 +177,33 @@ function TimeTable(){
             </thead>
             <tbody>
                 {emptyTable.map(function (days, i) {
+
                     return (
                     <tr key={i}>
                         {days.map(function (time, j) {
                         for (let k = 0; k < rowspansave.length; k++) {
-
-                            console.log("여기리턴안");console.log(rowspansave);console.log(i);console.log(k);
-
-                            if (i === rowspansave[k].day && j === rowspansave[k].startEnd) {
+                            if (i === rowspansave[k].startEnd && j === rowspansave[k].day  ) {
+                                // 순서대로 색상들어가지만 과목이 같으면 같은 색상이 들어감
+                                if (!colorMap[time]) {
+                                    colorMap[time] = colors[count];
+                                    count++;
+                                    console.log(count);
+                                    if(count > colors.length){
+                                        count = 0;
+                                    }
+                                }
                                 return (
-                                    <td key={j} rowSpan={rowspansave[k].length}>{time}</td>
+                                    <td key={j}
+                                        rowSpan={rowspansave[k].length}
+                                        style={{ backgroundColor: colorMap[time] }}
+                                        >{time}</td>
                                     );
-                                } else {
-                                    return (
-                                    <td key={j}>{time}</td>
-                                    );
-                            }
+                            } 
                         }
+                            return (
+                            <td key={j}>{time}</td>
+                            );
+                            
                         })}
                     </tr>
                     );

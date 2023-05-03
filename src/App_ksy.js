@@ -44,6 +44,10 @@ import Testmain from './mypage/testmain';
 import Maildetail from './mypage/maildetail';
 import Sendemaillist from './mypage/sendemaillist';
 import Sendmaildetail from './mypage/sendmaildetail';
+import Grademypage from './mypage/grademypage';
+import Learningmypage from './mypage/learningmypage';
+import Breakaway from './mypage/breakaway';
+import Studentlist from './mypage/studentlist';
 
 import Attendance from "./components/Attendance";
 import AttendanceQR from "./components/AttendanceQR";
@@ -53,34 +57,34 @@ import DataAnalysis from "./components/DataAnalysis";
 import DataAnalysisTeacher from "./components/DataAnalysisTeacher";
 import Test from "./components/Test";
 
-import LectureList from './components/LectureList'
-import AbLectureList from './components/AbLectureList'
-import LectureWrite from './components/LectureWrite'
-import LectureDetail from './components/LectureDetail';
-import LearningList from './components/LearningList'
-import LearningDetail from './components/LearningDetail'
-import LearningWrite from './components/LearningWrite'
-import TaskList from './components/TaskList';
-import TaskDetail from './components/TaskDetail';
-import TaskWrite from './components/TaskWrite';
-import QnALearningList from './components/QnaLearningList';
-import QnaLearningDetail from './components/QnaLearningDetail';
-import QnaLearningWrite from './components/QnaLearningWrite';
-import QnaLearningAnswer from './components/QnaLearningAnswer';
-import EduInfoList from './components/EduInfoList';
-import EduInfoDetail from './components/EduInfoDetail';
-import EduInfoWrite from './components/EduInfoWrite';
+// import LectureList from './components/LectureList'
+// import AbLectureList from './components/AbLectureList'
+// import LectureWrite from './components/LectureWrite'
+// import LectureDetail from './components/LectureDetail';
+// import LearningList from './components/LearningList'
+// import LearningDetail from './components/LearningDetail'
+// import LearningWrite from './components/LearningWrite'
+// import TaskList from './components/TaskList';
+// import TaskDetail from './components/TaskDetail';
+// import TaskWrite from './components/TaskWrite';
+// import QnALearningList from './components/QnaLearningList';
+// import QnaLearningDetail from './components/QnaLearningDetail';
+// import QnaLearningWrite from './components/QnaLearningWrite';
+// import QnaLearningAnswer from './components/QnaLearningAnswer';
+// import EduInfoList from './components/EduInfoList';
+// import EduInfoDetail from './components/EduInfoDetail';
+// import EduInfoWrite from './components/EduInfoWrite';
 
 import PlayGame from './components/PlayGame';
 import PlayGame1 from './components/PlayGame1';
 import PlayGame2 from './components/PlayGame2';
 
-import PapagoController from './components/PapagoController';
-import PapagoVer2 from './components/PapagoVer2';
-import ServiceList from './components/ServiceList';
-import ServiceWrite from './components/ServiceWrite';
-import ServiceDetail from './components/ServiceDetail';
-import ServiceAnswer from './components/ServiceAnswer';
+// import PapagoController from './components/PapagoController';
+// import PapagoVer2 from './components/PapagoVer2';
+// import ServiceList from './components/ServiceList';
+// import ServiceWrite from './components/ServiceWrite';
+// import ServiceDetail from './components/ServiceDetail';
+// import ServiceAnswer from './components/ServiceAnswer';
 
 
 function App_ksy() {
@@ -109,6 +113,17 @@ function App_ksy() {
                         <Route path="sendemaillist" element={<Sendemaillist />} />
                         <Route path="sendemaillist/:choice/:search" element={<Sendemaillist />} />
                         <Route path="sendmaildetail/:seq" element={<Sendmaildetail />} />
+                        <Route path="grademypage" element={<Grademypage />} />
+                        <Route path="grademypage/:choice/:search" element={<Grademypage />} />
+                        <Route path="learningmypage" element={<Learningmypage />} />
+                        <Route path="learningmypage/:choice/:search" element={<Learningmypage />} />
+                        <Route path="breakaway" element={<Breakaway />} />
+                        <Route path="studentlist" element={<Studentlist />} />
+                        <Route path="studentlist/:choice/:search" element={<Studentlist />} />
+                        <Route path="AttendanceManageTeacher" element={<AttendanceManageTeacher />} />
+                        <Route path="DataAnalysisTeacher" element={<DataAnalysisTeacher />} />
+                        <Route path="DataAnalysis" element={<DataAnalysis />} />
+                        <Route path="AttendanceManage" element={<AttendanceManage />} />
                         <Route path="timetable" element={<TimeTable />} />
                         <Route path="subjectadd" element={<SubjectAdd />} />
                         <Route path="subtimemanage" element={<SubTimeManage />} />
@@ -119,7 +134,7 @@ function App_ksy() {
                     <Route path="playgame1" element={<PlayGame1 />} />
                     <Route path="playgame2" element={<PlayGame2 />} />
 
-                    <Route path='service/papago' element={<PapagoController />} />
+                    {/* <Route path='service/papago' element={<PapagoController />} />
                     <Route path='service/papago2' element={<PapagoVer2 />} />
                     <Route path='service/ServiceList' element={<ServiceList />} />
                     <Route path='service/ServiceWrite' element={<ServiceWrite />} />
@@ -142,7 +157,7 @@ function App_ksy() {
                     <Route path="learning/QnaLearningAnswer/:seq" element={<QnaLearningAnswer />} />
                     <Route path="learning/EduInfoList" element={<EduInfoList />} />
                     <Route path="learning/EduInfoWrite" element={<EduInfoWrite />} />
-                    <Route path="learning/EduInfoDetail/:seq" element={<EduInfoDetail />} />
+                    <Route path="learning/EduInfoDetail/:seq" element={<EduInfoDetail />} /> */}
 
 
                     <Route path="attendance" element={<Attendance />} />
