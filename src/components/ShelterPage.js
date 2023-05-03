@@ -21,7 +21,7 @@ function ShelterPage() {
         </ul>
       </nav>
       <main className="shelterContentWrap">
-        <Outlet />
+          <Outlet />
       </main>
     </div>
   );
