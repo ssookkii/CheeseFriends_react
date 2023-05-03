@@ -1,5 +1,5 @@
 .wrap {
-    margin:50px 5% 0;
+    margin:50px 5% 50px;
 }
 .btnWrap {
     display:flex;
@@ -49,4 +49,5 @@
 }
 .timeTable > tbody > tr > td {
     height:50px;
+    font-size:0.9em;
 }
