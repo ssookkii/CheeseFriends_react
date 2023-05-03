@@ -2,11 +2,18 @@ import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
+import student from './img/student.jpg';
+import parents from './img/parents.jpg';
+import teacher from './img/teacher.jpg';
 import './sociallogin.css';
-import Google from "./google";
+import GoogleLoginButton from "./google";
 
-function Loginselect(){
+function Socialloginselect(){
+    // const REST_API_KEY = "f3613163848bb3a96a1dd490a0855f2c";
+    // const REDIRECT_URI =  "http://localhost:9100/kakaologin";
 
+    // const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
+    
     function goNaver(){
 
     }
@@ -27,7 +34,7 @@ function Loginselect(){
         window.location.href = "/"
     }
 
-    // 카카오 계정연동
+    
     const CLIENT_ID = "f3613163848bb3a96a1dd490a0855f2c";
     const REDIRECT_URI =  "http://localhost:9100/kakaologin";
 
@@ -35,9 +42,11 @@ function Loginselect(){
 
 
 
+   
+
     return(
         <div>
-            <h1>로그인</h1>
+            <h1>회원가입</h1>
             <br/><br/><br/>
             <table align="center">
                 <tr>
@@ -46,10 +55,7 @@ function Loginselect(){
                     </td>
                 </tr>
                 <tr>
-                    <td>
-                        <button onClick={goGoogle}>google연동</button>
-                        <GoogleLoginButton/>
-                    </td>
+                    <GoogleLoginButton />
                 </tr>
                 <tr>
                     <a href={KAKAO_AUTH_URL}>
@@ -70,5 +76,5 @@ function Loginselect(){
     )
 }
 
-export default Loginselect;
+export default Socialloginselect;
 

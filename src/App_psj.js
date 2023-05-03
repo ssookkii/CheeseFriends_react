@@ -47,9 +47,9 @@ import Grademypage from './mypage/grademypage';
 import Learningmypage from './mypage/learningmypage';
 import Breakaway from './mypage/breakaway';
 import Studentlist from './mypage/studentlist';
-import Socialloginselect from './login/socialloginselect';
+import Socialloginselect from './login/socialregiselect';
 import Kakao from './login/kakao';
-import KakaoRedirectHandler from './mypage/KakaoRedirectHandeler';
+
 
 // import LectureList from './components/LectureList'
 // import AbLectureList from './components/AbLectureList'
@@ -110,9 +110,7 @@ function App() {
 
             <Route path="/" element={<Login />} />
             <Route path="/socialloginselect" element={<Socialloginselect />} />
-            {/* <Route path="/kakaologin" element={<KakaoRedirectHandler/>} /> */}
             <Route path="/kakaologin" element={<Kakao/>} />
-            {/* <Route path="/kakaologin/:code" element={<Kakao/>} /> */}
 
             <Route path="/regiselect" element={<Regiselect />} />
             <Route path="/regi" element={<Regi />} />

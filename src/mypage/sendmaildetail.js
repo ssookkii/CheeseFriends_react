@@ -85,7 +85,7 @@ function Sendmaildetail(){
     // console.log("seq : " + params.seq);
 
     const mailData = async(seq) => {
-        const response = await axios.get('http://localhost:3000/getmail', { params:{"seq":seq} });
+        const response = await axios.get('http://localhost:3000/getsendmail', { params:{"seq":seq} });
 
         // console.log("mail:" + JSON.stringify(response.data));
         setMail(response.data);

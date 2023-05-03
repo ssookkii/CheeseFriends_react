@@ -23,18 +23,44 @@ function Kakao(){
             url: `http://localhost:3000/kakaoLogin?code=${code}`,
           })
         .then(function(resp){
-            console.log(resp.data);
-            alert(resp.data.name + "님 환영합니다");
-                Session.set("login", resp.data);
-                localStorage.setItem("login", JSON.stringify(resp.data));
+                // 해당 social로 가입된 아이디가 있는지 체크해서 있으면 로그인 없으면 회원가입
+            // alert(resp.data.nickname + "님 환영합니다");
+            // Session.set("login", resp.data);
+            localStorage.setItem("social", JSON.stringify(resp.data));
+            let soc = localStorage.getItem("social");
+            let social = JSON.parse(soc)
+            console.log("social.id : " + social.id)
 
-                let login = localStorage.getItem("login");
-                console.log(login);
-                history("/testmain");
+            localStorage.setItem("socialtype", "kakao");
+            let socialtype = localStorage.getItem("socialtype");
+            console.log("socialtype : " + socialtype)
+
+            axios.post("http://localhost:3000/socialLogincheck", null, { params: {"joinid": social.id}})
+            .then(function(resp){
+                console.log("joinid : " + resp.data)
+                if(resp.data === null || resp.data === ""){
+                    alert("해당 카카오 계정으로 가입된 계정이 없습니다.\n회원가입 페이지로 이동합니다")
+                    history("/regiselect");
+                }else{
+                    alert(resp.data.name + "님 환영합니다");
+                    Session.set("login", resp.data);
+                    localStorage.setItem("login", JSON.stringify(resp.data));
+
+                    let login = localStorage.getItem("login");
+                    console.log(login);
+                    history("/testmain");
+                }
+            })
+            .catch(function(err){
+                alert(err);
+            })          
+
+            //     history("/testmain");
         })
         .catch(function(err){
             alert(err);
         })
+
     },[])
 
 

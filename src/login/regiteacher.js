@@ -22,13 +22,47 @@ function Regiteacher(){
     const [facename, setFacename] = useState("");
     const [phone, setPhone] = useState("");
     const [phone_public, setPhone_public] = useState("");
-    const [jointype, setJointype] = useState("");
     const [auth, setAuth] = useState('teacher');
 
     const [edu_name, setEdu_name] = useState("");
     const [educheck, setEducheck] = useState(false);
 
     const [passwordcheck, setPasswordcheck] = useState("");
+
+     // 계정 연동
+     const [joinid, setJoinid] = useState("");
+     const [jointype, setJointype] = useState("");
+ 
+     useEffect (()=>{
+         
+ 
+             let soc = localStorage.getItem("social");
+             let social = JSON.parse(soc)
+             console.log("social.id : " + social.id)
+ 
+             localStorage.setItem("socialtype", "kakao");
+             let socialtype = localStorage.getItem("socialtype");
+             console.log("socialtype : " + socialtype)
+             console.log("social.email : " + social.email);
+ 
+         if(social !== undefined){
+ 
+             setJoinid(social.id);
+             setJointype(socialtype);
+ 
+             if(social.gender === "female"){
+                 setGender("woman");
+             }else{
+                 setGender("man");
+             }
+ 
+             if(social.email !== null && social.email !== "" && social.email !== undefined){
+                 console.log("if 작동");
+                 setEmail(social.email);
+             }
+         }
+ 
+     },[]);
 
     // 주소 api
     const [enroll_company, setEnroll_company] = useState({ address:'', });
