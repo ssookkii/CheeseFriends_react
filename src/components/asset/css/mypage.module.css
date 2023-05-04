@@ -69,13 +69,13 @@
 
 /* 검색 */
 .topContent {
-    margin:50px 0 50px;
+    margin:0 0 35px;
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
 .search {
-    border:1px solid #434343;
+    border:1px solid #80735e;
     border-radius: 10px;
     margin-left:5%;
 }
@@ -88,7 +88,7 @@
     border:none;
     font-size:0.9em;
     color:#fff;
-    background: url(../../../../public/img/searchMenuW.png) no-repeat 86% 50% #434343;
+    background: url(../../../../public/img/searchMenuW.png) no-repeat 86% 50% #80735e;
     background-size:10px;
     -webkit-appearance: none; 
     -moz-appearance: none;
@@ -105,7 +105,7 @@
 }
 .search .searchBtn {
     color:#fff;
-    background: url(../../../../public/img/searchBtnIcon.png) no-repeat 50% 50% #434343;
+    background: url(../../../../public/img/searchBtnIcon.png) no-repeat 50% 50% #80735e;
     text-indent: -9999px;
     width:40px;
     height:40px;
@@ -113,25 +113,33 @@
     border-top-right-radius: 8px;
     border-bottom-right-radius: 8px;
 }
-.mypageTitle {
-    font-size:2em;
-    font-weight: 600;
+.topContent .mailTitle {
+    width:50%;
+}
+.topContent .mailTitle a:first-child {
+    border-left:1px solid #80735e;
+    border-right:1px solid #80735e;
 }
 .mypageBtn {
     background-color: #fac463;
-    padding:10px;
+    color:#fff; 
     border-radius: 5px;
-    color:#fff;
+    padding:10px;
     font-weight: 500;
     font-size:0.9em;
 }
 .delBtn {
-    background-color: #e80000;
+    background-color: #d71818;
+}
+.btnRight {
+    text-align: right;
+    padding-right:15px;
 }
 /* 테이블공통 css */
 .tableList {
     table-layout: fixed;
     width: 100%;
+    margin-bottom:20px;
 }
 .tableList > thead > tr {position:relative; height:80px;}
 .tableList > thead > tr::after {
@@ -155,12 +163,12 @@
 .tableList > tbody > tr {
     height:50px;
 }
+
 /* 받은쪽지함 */
-.topContent .mailTitle {
-    width:50%;
-}
 .topContent .sendTitle a:first-child {
-    background-color:#434343;
+    background-color:#80735e;
+    border-left:1px solid #80735e;
+    border-right:1px solid #80735e;
     color:#fff;
     font-weight: 500;
 }
@@ -168,7 +176,9 @@
     display: inline-block;
     width: 33%;
     height:40px;
-    border:1px solid #434343;
+    border-top:1px solid #80735e;
+    border-bottom:1px solid #80735e;
+    border-right:1px solid #80735e;
     line-height:39px;
     text-align: center;
 }
@@ -185,8 +195,30 @@
 }
 /* 보낸쪽지함 */
 .topContent .recieveTitle a:nth-child(2) {
-    background-color:#434343;
+    background-color:#80735e;
     color:#fff;
     font-weight: 500;
 }
 /* 쪽지보내기 */
+.topContent .sendMail a:nth-child(3) {
+    background-color:#80735e;
+    color:#fff;
+    font-weight: 500;
+}
+.senderBtnWrap {
+    display: flex;
+    margin-left:10px;
+}
+.receiverTable {
+    border:1px solid #ddd;
+}
+.responsiveInput {
+    width:100%;
+    border: 1px solid #dddddd;
+    margin-bottom:10px;
+    border-radius: 5px;
+    padding:10px 20px;
+}
+.rowTr {
+    display:flex;
+}

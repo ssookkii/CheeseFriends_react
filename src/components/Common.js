@@ -38,6 +38,7 @@ function Common(){
     }
     function logout(){
         localStorage.removeItem("login");
+        localStorage.removeItem("mypageBtnActive");
         alert("로그아웃되었습니다");
         navigate("/");
     }
@@ -61,7 +62,7 @@ function Common(){
                                 )
                             })}
                         </select>
-                        <Link to="/cheesefriends/testmain">마이페이지</Link>
+                        <Link to="/cheesefriends/testmain/changeme" onClick={()=>localStorage.setItem("mypageBtnActive", "changeme")}>마이페이지</Link>
                         <button onClick={logout}>로그아웃</button>
                     </div>
                 </div>

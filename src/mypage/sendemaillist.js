@@ -201,7 +201,7 @@ function Sendemaillist(){
         }
         return(
             <td>
-                <button onClick={maildetailgo}>상세보기</button>
+                <button onClick={maildetailgo} className={styles.mypageBtn}>상세보기</button>
                 {/* <Link to={`/testmain/maildetail/${props.mail.seq}`}>보기</Link>   */}
             </td> 
         )
@@ -211,7 +211,6 @@ function Sendemaillist(){
 
     return(
         <>
-            <h2 className={styles.mypageTitle}>보낸 쪽지함</h2>
                 <div className={styles.topContent}>
                     <div className={`${styles.mailTitle} ${styles.recieveTitle}`}>
                     <Link to="/cheesefriends/testmain/email">받은 쪽지함</Link>
@@ -229,7 +228,14 @@ function Sendemaillist(){
                         <button onClick={searchBtn} className={styles.searchBtn}>검색</button>
                     </div>
                 </div>
-
+                <div className={styles.btnRight}>
+                    <button onClick={openModal} className={`${styles.mypageBtn} ${styles.delBtn}`}>발송취소</button>
+                    <Deletemodal open={modalOpen} close={closeModal} yesclose={yescloseModal} header="발송취소">
+                    <main>  
+                        발송취소 하시겠습니까?
+                    </main>        
+                    </Deletemodal>
+                </div>
                 <table className={`${styles.tableList} ${styles.receiveMail}`}>
                     <thead>
                         <tr>
@@ -249,14 +255,7 @@ function Sendemaillist(){
                         }                
                     </tbody>
                 </table>
-                <>
-                    <button onClick={openModal} className={`${styles.mypageBtn} ${styles.delBtn}`}>발송취소</button>
-                    <Deletemodal open={modalOpen} close={closeModal} yesclose={yescloseModal} header="발송취소">
-                    <main>  
-                        발송취소 하시겠습니까?
-                    </main>        
-                    </Deletemodal>
-                </>
+
 
                 <Pagination
                     activePage={page}

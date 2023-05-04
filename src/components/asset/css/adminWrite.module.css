@@ -102,7 +102,7 @@
     align-items: start;
     width:100%;
 }
-.contentBox > div > div,
+.contentBox .senderList,
 .contentBox > input {
     width:100%;
     height:40px;
@@ -110,6 +110,9 @@
     margin-bottom:10px;
     border-radius: 5px;
     padding:10px 20px;
+}
+.contentBox .senderListWidth {
+    width:76%;
 }
 
 .contentBox textarea {

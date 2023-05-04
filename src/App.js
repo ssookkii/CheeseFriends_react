@@ -52,6 +52,14 @@ import Testmain from './mypage/testmain';
 import Maildetail from './mypage/maildetail';
 import Sendemaillist from './mypage/sendemaillist';
 import Sendmaildetail from './mypage/sendmaildetail';
+import Grademypage from './mypage/grademypage';
+import Learningmypage from './mypage/learningmypage';
+import Breakaway from './mypage/breakaway';
+import Studentlist from './mypage/studentlist';
+import Socialloginselect from './login/socialregiselect';
+import Kakao from './login/kakao';
+import NaverLogin from './login/naverlogin';
+import Socialregiselect from './login/socialregiselect';
 
 import LectureList from './components/LectureList'
 import AbLectureList from './components/AbLectureList'
@@ -89,14 +97,16 @@ function App() {
         <main>
           <Routes>
 
-            <Route path="/" element={<Login />} />
+            <Route path="/" element={<Login />} />.
+            <Route path="/socialregiselect" element={<Socialregiselect />} />
+            <Route path="/kakaologin" element={<Kakao />} />
+            <Route path="/naverlogin" element={<NaverLogin />} />
             <Route path="/regiselect" element={<Regiselect />} />
             <Route path="/regi" element={<Regi />} />
             <Route path="/regiparents" element={<RegiParents />} />
             <Route path="/regiteacher" element={<Regiteacher />} />
             <Route path="/idsearch" element={<Idsearch />} />
             <Route path="/passwordsearch" element={<Passwordsearch />} />
-
             <Route path="/cheesefriends/*" element={<Common />}>
               <Route path="home" element={<Home />} />
               <Route path="testmain" element={<Testmain />}>
@@ -109,6 +119,17 @@ function App() {
                 <Route path="sendemaillist" element={<Sendemaillist />} />
                 <Route path="sendemaillist/:choice/:search" element={<Sendemaillist />} />
                 <Route path="sendmaildetail/:seq" element={<Sendmaildetail />} />
+                <Route path="grademypage" element={<Grademypage />} />
+                <Route path="grademypage/:choice/:search" element={<Grademypage />} />
+                <Route path="learningmypage" element={<Learningmypage />} />
+                <Route path="learningmypage/:choice/:search" element={<Learningmypage />} />
+                <Route path="breakaway" element={<Breakaway />} />
+                <Route path="studentlist" element={<Studentlist />} />
+                <Route path="studentlist/:choice/:search" element={<Studentlist />} />
+                <Route path="AttendanceManageTeacher" element={<AttendanceManageTeacher />} />
+                <Route path="DataAnalysisTeacher" element={<DataAnalysisTeacher />} />
+                <Route path="DataAnalysis" element={<DataAnalysis />} />
+                <Route path="AttendanceManage" element={<AttendanceManage />} />
                 <Route path="timetable" element={<TimeTable />} />
                 <Route path="subjectadd" element={<SubjectAdd />} />
                 <Route path="subtimemanage" element={<SubTimeManage />} />
