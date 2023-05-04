@@ -38,35 +38,70 @@ function Regi() {
     const [jointype, setJointype] = useState("");
 
     useEffect (()=>{
-        
+       
 
-            let soc = localStorage.getItem("social");
-            let social = JSON.parse(soc)
-            console.log("social.id : " + social.id)
+       let soc = localStorage.getItem("social");
+       let social = JSON.parse(soc)
 
-            localStorage.setItem("socialtype", "kakao");
-            let socialtype = localStorage.getItem("socialtype");
-            console.log("socialtype : " + socialtype)
-            console.log("social.email : " + social.email);
+       let socialtype = localStorage.getItem("socialtype");
 
-        if(social !== undefined){
+       if(socialtype === "kakao"){
+           if(social !== undefined){
 
-            setJoinid(social.id);
-            setJointype(socialtype);
+               setJoinid(social.id);
+               setJointype(socialtype);
 
-            if(social.gender === "female"){
-                setGender("woman");
-            }else{
-                setGender("man");
-            }
+               if(social.gender === "female"){
+                   setGender("woman");
+               }else{
+                   setGender("man");
+               }
 
-            if(social.email !== null && social.email !== "" && social.email !== undefined){
-                console.log("if 작동");
-                setEmail(social.email);
-            }
-        }
+               if(social.email !== null && social.email !== "" && social.email !== undefined){
+                   setEmail(social.email);
+               }
+           }
+       }else if(socialtype === "google"){
+           if(social !== undefined){
 
-    },[]);
+               setJoinid(social.sub);
+               setJointype(socialtype);
+
+               if(social.gender === "female"){
+                   setGender("woman");
+               }else{
+                   setGender("man");
+               }
+
+               if(social.email !== null && social.email !== "" && social.email !== undefined){
+                   setEmail(social.email);
+               }
+           }
+       }else if(socialtype === "naver"){
+           if(social !== undefined){
+
+               setJoinid(social.id);
+               setJointype(socialtype);
+
+               if(social.gender !== "M"){
+                   setGender("woman");
+               }else{
+                   setGender("man");
+               }
+
+               if(social.name !== null && social.name !== "" && social.name !== undefined ){
+                   setName(social.name);
+               }
+
+               if(social.email !== null && social.email !== "" && social.email !== undefined){
+                   setEmail(social.email);
+               }
+           }
+       }else if(socialtype === "cheesefriends"){
+           setJointype(socialtype);
+       }
+
+   },[]);
 
 
 

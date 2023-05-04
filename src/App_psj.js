@@ -49,6 +49,8 @@ import Breakaway from './mypage/breakaway';
 import Studentlist from './mypage/studentlist';
 import Socialloginselect from './login/socialregiselect';
 import Kakao from './login/kakao';
+import NaverLogin from './login/naverlogin';
+import Socialregiselect from './login/socialregiselect';
 
 
 // import LectureList from './components/LectureList'
@@ -109,9 +111,9 @@ function App() {
 
 
             <Route path="/" element={<Login />} />
-            <Route path="/socialloginselect" element={<Socialloginselect />} />
+            <Route path="/socialregiselect" element={<Socialregiselect />} />
             <Route path="/kakaologin" element={<Kakao/>} />
-
+            <Route path="/naverlogin" element={<NaverLogin/>} />
             <Route path="/regiselect" element={<Regiselect />} />
             <Route path="/regi" element={<Regi />} />
             <Route path="/regiparents" element={<RegiParents />} />
