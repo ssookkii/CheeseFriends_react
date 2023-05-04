@@ -12,14 +12,20 @@ function Chatbot() {
     const scrollRef = useRef();
 
     function Papago() {
-      
+        let alignleft = document.createElement('div');
+        alignleft.setAttribute('align', 'right');
+
+
+
         axios.post("http://localhost:3000/papago", null, {params:{ "msg":umessage }} )
         .then((resp) => {
-        alert(JSON.stringify(resp.data));
-        })
-        .catch((error) => {
-        console.log(error);
-        });
+            const botMsgContainer = document.querySelector('.botmsgContainer');
+            const newMsgElem = document.createElement('div');
+            newMsgElem.setAttribute('align', 'right');
+            newMsgElem.className = 'botmsg';
+            newMsgElem.textContent = JSON.stringify(resp.data);
+            botMsgContainer.appendChild(newMsgElem);
+          });
       
     }  
 

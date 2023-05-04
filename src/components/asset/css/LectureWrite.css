@@ -1,3 +1,11 @@
+.lecwritemain {
+    width: 1200px;
+    height: 500px;
+    margin: -10px auto 0;
+    align-items: center;
+    font-size: 18px;
+}
+
 .title, .subject {
     margin-left: 60px;
     font-size: 17px;
@@ -23,16 +31,27 @@ input:hover {
     border: 1px solid lightgray;
     margin-top: 10px;
     margin-left: 91px;
-    width: 922px;
-    height: 400px;
+    width: 1093px;
+    height: 314px;
 }
 
-.writer, .regdate {
+.regdate {
     margin-left: 42px;
     font-size: 17px;
     border: none;
     border-bottom: 2px solid lightgray;
 }
+
+.writer {
+    margin-left: 42px;
+    font-size: 17px;
+    border: none;
+}
+
+.writer:hover {
+    border:none;
+}
+
 .ck-blurred {
     height: 200px;
 }
@@ -43,7 +62,7 @@ input:hover {
 
 .btnwrapper {
     text-align: right;
-    margin-top: 15px;
+    margin-top: 26px;
     margin-right: 15px;
 
 }
@@ -58,6 +77,12 @@ button {
 }
 
 button[type="submit"] {
-    background-color: dodgerblue;
+    background-color: #fac463;
     color: white;
+}
+
+button[type="submit"]:hover {
+    border: 2px solid #fac463;
+    background-color: white;
+    color: #444;
 }
