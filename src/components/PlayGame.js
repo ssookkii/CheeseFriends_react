@@ -19,7 +19,7 @@ function PlayGame() {
       {showIframe && <div><iframe src="../WebGLTest/index.html" width="520" height="1090"></iframe></div>}<br/><br/>
 
       <h1>게임 설명</h1><br/>
-      <h2>1. 게임 시작 화면</h2>
+      <h2>1. 게임 시작!</h2>
       <img src="/img/GameStartImg.png" alt="게임 설명 이미지" width="200" height="auto" />
       <p>'Start' 버튼을 누르면 게임이 시작되며 캐릭터가 비행을시작합니다.</p>
       <video muted autoPlay loop width="200" height="auto">
@@ -27,7 +27,7 @@ function PlayGame() {
       </video>
       <p>마우스를 클릭하여 비행 방향을 '좌','우'로 바꿀 수 있습니다.</p><br/><br/>
 
-      <h2>2. 장애물을 피하세요!</h2>
+      <h2>2. 장애물을 통과하여 점수를 획득하세요!</h2>
       <video muted autoPlay loop width="200" height="auto">
         <source src="/img/game_1.mp4" type="video/mp4"/>
       </video>
@@ -42,7 +42,7 @@ function PlayGame() {
         <source src="/img/game_3.mp4" type="video/mp4"/>
       </video>
       <p>프로펠러 헬멧의 에너지가 모두 소모되면 캐릭터가 추락합니다.</p>
-      <p>배터리를 챙겨 에너지를 충전해주세요.</p><br/><br/>
+      <p>화면 상단의 에너지를 확인하고 배터리를 챙겨주세요.</p><br/><br/>
     </div>
   );
 }
