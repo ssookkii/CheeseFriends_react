@@ -61,32 +61,32 @@ import Kakao from './login/kakao';
 import NaverLogin from './login/naverlogin';
 import Socialregiselect from './login/socialregiselect';
 
-// import LectureList from './components/LectureList'
-// import AbLectureList from './components/AbLectureList'
-// import LectureWrite from './components/LectureWrite'
-// import LectureDetail from './components/LectureDetail';
-// import LearningList from './components/LearningList'
-// import LearningDetail from './components/LearningDetail'
-// import LearningWrite from './components/LearningWrite'
-// import TaskList from './components/TaskList';
-// import TaskDetail from './components/TaskDetail';
-// import TaskWrite from './components/TaskWrite';
-// import QnALearningList from './components/QnaLearningList';
-// import QnaLearningDetail from './components/QnaLearningDetail';
-// import QnaLearningWrite from './components/QnaLearningWrite';
-// import QnaLearningAnswer from './components/QnaLearningAnswer';
-// import EduInfoList from './components/EduInfoList';
-// import EduInfoDetail from './components/EduInfoDetail';
-// import EduInfoWrite from './components/EduInfoWrite';
+import LectureList from './components/LectureList'
+import AbLectureList from './components/AbLectureList'
+import LectureWrite from './components/LectureWrite'
+import LectureDetail from './components/LectureDetail';
+import LearningList from './components/LearningList'
+import LearningDetail from './components/LearningDetail'
+import LearningWrite from './components/LearningWrite'
+import TaskList from './components/TaskList';
+import TaskDetail from './components/TaskDetail';
+import TaskWrite from './components/TaskWrite';
+import QnALearningList from './components/QnaLearningList';
+import QnaLearningDetail from './components/QnaLearningDetail';
+import QnaLearningWrite from './components/QnaLearningWrite';
+import QnaLearningAnswer from './components/QnaLearningAnswer';
+import EduInfoList from './components/EduInfoList';
+import EduInfoDetail from './components/EduInfoDetail';
+import EduInfoWrite from './components/EduInfoWrite';
 
 import PlayGame from './components/PlayGame';
 import PlayGame1 from './components/PlayGame1';
 import PlayGame2 from './components/PlayGame2';
 
-// import ServiceList from './components/ServiceList';
-// import ServiceWrite from './components/ServiceWrite';
-// import ServiceDetail from './components/ServiceDetail';
-// import ServiceAnswer from './components/ServiceAnswer';
+import ServiceList from './components/ServiceList';
+import ServiceWrite from './components/ServiceWrite';
+import ServiceDetail from './components/ServiceDetail';
+import ServiceAnswer from './components/ServiceAnswer';
 
 function App() {
 
@@ -139,7 +139,7 @@ function App() {
               <Route path="playgame" element={<PlayGame />} />
               <Route path="playgame1" element={<PlayGame1 />} />
               <Route path="playgame2" element={<PlayGame2 />} />
-              {/* 
+
               <Route path='service/ServiceList' element={<ServiceList />} />
               <Route path='service/ServiceWrite' element={<ServiceWrite />} />
               <Route path='service/ServiceDetail/:seq' element={<ServiceDetail />} />
@@ -162,7 +162,7 @@ function App() {
               <Route path="learning/EduInfoList" element={<EduInfoList />} />
               <Route path="learning/EduInfoWrite" element={<EduInfoWrite />} />
               <Route path="learning/EduInfoDetail/:seq" element={<EduInfoDetail />} />
- */}
+
 
               <Route path="attendance" element={<Attendance />} />
               <Route path="attendance/attendanceQR" element={<AttendanceQR />} />
