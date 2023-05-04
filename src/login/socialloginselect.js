@@ -50,12 +50,13 @@ function Loginselect(){
                         <button onClick={goGoogle}>google연동</button>
                         <GoogleLoginButton/>
                     </td>
-                </tr>
-                <tr>
+                
+                    <td>
                     <a href={KAKAO_AUTH_URL}>
                         <div className="kakao_btn">
                         </div>
                     </a>
+                    </td>
                 </tr>
                 <tr>
                     <td>

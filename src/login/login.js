@@ -97,7 +97,7 @@ function Login(){
             </table>
 
             <br/>
-            처음이신가요?&nbsp;<a href="/socialloginselect">회원가입</a>
+            처음이신가요?&nbsp;<a href="/socialregiselect">회원가입</a>
             <br/>
             <a href="/idsearch">ID/비밀번호 찾기</a>
         </div>

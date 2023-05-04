@@ -33,40 +33,75 @@ function RegiParents(){
 
     const [passwordcheck, setPasswordcheck] = useState("");
 
-     // 계정 연동
-     const [joinid, setJoinid] = useState("");
-     const [jointype, setJointype] = useState("");
- 
-     useEffect (()=>{
-         
- 
-             let soc = localStorage.getItem("social");
-             let social = JSON.parse(soc)
-             console.log("social.id : " + social.id)
- 
-             localStorage.setItem("socialtype", "kakao");
-             let socialtype = localStorage.getItem("socialtype");
-             console.log("socialtype : " + socialtype)
-             console.log("social.email : " + social.email);
- 
-         if(social !== undefined){
- 
-             setJoinid(social.id);
-             setJointype(socialtype);
- 
-             if(social.gender === "female"){
-                 setGender("woman");
-             }else{
-                 setGender("man");
-             }
- 
-             if(social.email !== null && social.email !== "" && social.email !== undefined){
-                 console.log("if 작동");
-                 setEmail(social.email);
-             }
-         }
- 
-     },[]);
+    // 계정 연동
+    const [joinid, setJoinid] = useState("");
+    const [jointype, setJointype] = useState("");
+
+    useEffect (()=>{
+       
+
+       let soc = localStorage.getItem("social");
+       let social = JSON.parse(soc)
+
+       let socialtype = localStorage.getItem("socialtype");
+
+       if(socialtype === "kakao"){
+           if(social !== undefined){
+
+               setJoinid(social.id);
+               setJointype(socialtype);
+
+               if(social.gender === "female"){
+                   setGender("woman");
+               }else{
+                   setGender("man");
+               }
+
+               if(social.email !== null && social.email !== "" && social.email !== undefined){
+                   setEmail(social.email);
+               }
+           }
+       }else if(socialtype === "google"){
+           if(social !== undefined){
+
+               setJoinid(social.sub);
+               setJointype(socialtype);
+
+               if(social.gender === "female"){
+                   setGender("woman");
+               }else{
+                   setGender("man");
+               }
+
+               if(social.email !== null && social.email !== "" && social.email !== undefined){
+                   setEmail(social.email);
+               }
+           }
+       }else if(socialtype === "naver"){
+           if(social !== undefined){
+
+               setJoinid(social.id);
+               setJointype(socialtype);
+
+               if(social.gender !== "M"){
+                   setGender("woman");
+               }else{
+                   setGender("man");
+               }
+
+               if(social.name !== null && social.name !== "" && social.name !== undefined ){
+                   setName(social.name);
+               }
+
+               if(social.email !== null && social.email !== "" && social.email !== undefined){
+                   setEmail(social.email);
+               }
+           }
+       }else if(socialtype === "cheesefriends"){
+           setJointype(socialtype);
+       }
+
+   },[]);
 
     // 주소 api
     const [enroll_company, setEnroll_company] = useState({ address:'', });
@@ -540,7 +575,9 @@ function RegiParents(){
                     "address":address,
                     "facename": id + ".jpg",
                     "phone": phone,
-                    "auth":auth
+                    "auth":auth,
+                    "jointype":jointype,
+                    "joinid":joinid
                 }})
         .then(function(resp){
             for (let i = 0; i < studentidcheckbox.length; i++) {
@@ -681,8 +718,8 @@ function RegiParents(){
                 <td align="left">비밀번호</td> 
                 <td align="left">
                     {passworda === true 
-                        ? <input style={{ width:"230px"}} value={password} onChange={(e)=>setPassword(e.target.value)} placeholder="숫자,영문자,특수문자 포함 8자 이상" />
-                        : <input style={{ borderColor:"red", width:"230px"}} value={password} onChange={(e)=>setPassword(e.target.value)} placeholder="숫자,영문자,특수문자 포함 8자 이상" />}
+                        ? <input type="password" style={{ width:"230px"}} value={password} onChange={(e)=>setPassword(e.target.value)} placeholder="숫자,영문자,특수문자 포함 8자 이상" />
+                        : <input type="password" style={{ borderColor:"red", width:"230px"}} value={password} onChange={(e)=>setPassword(e.target.value)} placeholder="숫자,영문자,특수문자 포함 8자 이상" />}
                 </td>
                 <td>
                     { passwordc === "안전한 비밀번호 입니다" 
@@ -694,8 +731,8 @@ function RegiParents(){
                 <td align="left">비밀번호 확인</td> 
                 <td align="left">
                     {passwordChecka === true 
-                        ?  <input style={{ width:"230px"}} value={passwordcheck} onChange={(e)=>setPasswordcheck(e.target.value)} placeholder="위와 동일한 비밀번호 입력" />
-                        :  <input style={{ borderColor:"red", width:"230px"}} value={passwordcheck} onChange={(e)=>setPasswordcheck(e.target.value)} placeholder="위와 동일한 비밀번호 입력" />}
+                        ?  <input type="password" style={{ width:"230px"}} value={passwordcheck} onChange={(e)=>setPasswordcheck(e.target.value)} placeholder="위와 동일한 비밀번호 입력" />
+                        :  <input type="password" style={{ borderColor:"red", width:"230px"}} value={passwordcheck} onChange={(e)=>setPasswordcheck(e.target.value)} placeholder="위와 동일한 비밀번호 입력" />}
                 </td>
                 <td>
                     { passwordcheckc === "비밀번호가 동일합니다" 

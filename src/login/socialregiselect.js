@@ -2,13 +2,13 @@ import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-import student from './img/student.jpg';
-import parents from './img/parents.jpg';
-import teacher from './img/teacher.jpg';
+
 import './sociallogin.css';
 import GoogleLoginButton from "./google";
 
-function Socialloginselect(){
+import Naver from "./naver";
+
+function Socialregiselect(){
     // const REST_API_KEY = "f3613163848bb3a96a1dd490a0855f2c";
     // const REDIRECT_URI =  "http://localhost:9100/kakaologin";
 
@@ -28,6 +28,8 @@ function Socialloginselect(){
 
     function goRegiselect(){
         window.location.href = "/regiselect"
+        localStorage.setItem("socialtype", "cheesefriends");
+        
     }
 
     function login(){
@@ -48,27 +50,47 @@ function Socialloginselect(){
         <div>
             <h1>회원가입</h1>
             <br/><br/><br/>
+            <button style={{width:"300px", height:"40px"}}onClick={goRegiselect}>Cheesefriends 회원가입</button>
+            <br/><br/><br/>
+
             <table align="center">
+                <tr align="left">
+                    <h3>SNS 회원가입</h3>
+                </tr>
+                <tr>
+                    <div>기존의 계정으로 Cheesefriends에 가입하세요</div>
+                </tr>
+            </table>
+            <br/>
+            <table align="center">
+                <tr>
+                    <td>
+                        <GoogleLoginButton />
+                    </td>
+                    <td style={{paddingTop:"7px", paddingLeft:"5px"}}>
+                        <Naver />
+                    </td>
+                    <td style={{paddingTop:"4px"}}>
+                        <a href={KAKAO_AUTH_URL}>
+                            <div className="kakao_btn">
+                            </div>
+                        </a>
+                    </td>
+                </tr>
+            </table>
+            {/* <table align="center">
                 <tr>
                     <td>
                         <button onClick={goNaver}>naver연동</button>
                     </td>
                 </tr>
-                <tr>
-                    <GoogleLoginButton />
-                </tr>
-                <tr>
-                    <a href={KAKAO_AUTH_URL}>
-                        <div className="kakao_btn">
-                        </div>
-                    </a>
-                </tr>
+            
                 <tr>
                     <td>
-                        <button onClick={goRegiselect}>새로만들기</button>
+                       
                     </td>
                 </tr>
-            </table>
+            </table> */}
             <br/><br/><br/>
 
             <button onClick={login}>로그인 화면으로</button>
@@ -76,5 +98,5 @@ function Socialloginselect(){
     )
 }
 
-export default Socialloginselect;
+export default Socialregiselect;
 

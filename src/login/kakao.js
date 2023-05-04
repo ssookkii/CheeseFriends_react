@@ -28,6 +28,7 @@ function Kakao(){
             // Session.set("login", resp.data);
             localStorage.setItem("social", JSON.stringify(resp.data));
             let soc = localStorage.getItem("social");
+            console.log("soc : " + soc)
             let social = JSON.parse(soc)
             console.log("social.id : " + social.id)
 
@@ -35,7 +36,7 @@ function Kakao(){
             let socialtype = localStorage.getItem("socialtype");
             console.log("socialtype : " + socialtype)
 
-            axios.post("http://localhost:3000/socialLogincheck", null, { params: {"joinid": social.id}})
+            axios.post("http://localhost:3000/socialLogincheck", null, { params: {"joinid": social.id, "jointype": socialtype}})
             .then(function(resp){
                 console.log("joinid : " + resp.data)
                 if(resp.data === null || resp.data === ""){
@@ -67,7 +68,6 @@ function Kakao(){
     return(
         <div>
             <div>
-                <h1>카카오</h1>
             </div>
         </div>
     )
