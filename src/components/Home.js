@@ -60,27 +60,27 @@ function Home(){
                     <div className={styles.cboxWrap}>
                         {
                             login.auth === "teacher" || login.auth === "main" ?
-                            <Link to="/cheesefriends/attendance" className={styles.cbox}>
+                            <Link to="/cheesefriends/attendance" className={styles.cbox} onClick={()=>localStorage.setItem("mypageBtnActive", "attendance")}>
                                 <span></span>
                                 <span>출석체크</span>
                             </Link>
-                        : <Link to="/cheesefriends/DataAnalysis" className={styles.cbox}>
+                        : <Link to="/cheesefriends/testmain/DataAnalysis" className={styles.cbox}  onClick={()=>localStorage.setItem("mypageBtnActive", "DataAnalysisTeacher")}>
                             <span></span>
                             <span>출결분석</span>
                         </Link>
                         }
                         {
                             login.auth === "teacher" || login.auth === "main" ?
-                            <Link to="/cheesefriends/testmain/grademanage" className={styles.cbox}>
+                            <Link to="/cheesefriends/testmain/grademanage" className={styles.cbox} onClick={()=>localStorage.setItem("mypageBtnActive", "grademanage")}>
                                 <span></span>
                                 <span>성적관리</span>
                             </Link> :
-                            <Link to="/cheesefriends/testmain/grademypage" className={styles.cbox}>
+                            <Link to="/cheesefriends/testmain/grademypage" className={styles.cbox} onClick={()=>localStorage.setItem("mypageBtnActive", "grademanage")}>
                                 <span></span>
                                 <span>성적관리</span>
                             </Link>
                         }
-                        <Link to="/cheesefriends/testmain/email" className={styles.cbox}>
+                        <Link to="/cheesefriends/testmain/email" className={styles.cbox} onClick={()=>localStorage.setItem("mypageBtnActive", "email")}>
                             <span></span>
                             <span>쪽지</span>
                             <span>{unreducedMail}</span>

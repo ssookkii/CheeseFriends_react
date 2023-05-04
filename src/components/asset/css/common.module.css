@@ -25,7 +25,6 @@ html, body {
     justify-content: end;
     align-items: center;
     height:30px;
-    padding-right: 20px;
 }
 .homeWrap header .search > select {
     width:210px;
@@ -81,6 +80,9 @@ html, body {
     align-items: center;
     height:100px;
     
+}
+.homeWrap .mainMenu > ul {
+    display:flex;
 }
 .homeWrap .mainMenu > ul > li {
     width: 120px;

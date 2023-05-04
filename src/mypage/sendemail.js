@@ -353,9 +353,9 @@ function Sendemail(){
             const tr = document.createElement("tr");
     
             // 번호
-            let element = document.createElement("td");
-            element.innerText = count2++;
-            tr.appendChild(element);
+            // let element = document.createElement("td");
+            // element.innerText = count2++;
+            // tr.appendChild(element);
     
             // 아이디
             let element2 = document.createElement("td");
@@ -375,6 +375,7 @@ function Sendemail(){
             button.innerText = "삭제";
             button.setAttribute("value", resp.data.id);
             button.setAttribute("id", resp.data.id);
+            button.setAttribute("style", "background-color:#e80000; padding:5px; color:#fff; border-radius:3px; margin:0 5px; font-size:0.7em;");
             button.onclick = deletereceiver;
     
             element4.appendChild(button);
@@ -519,22 +520,32 @@ function Sendemail(){
     return(
         <div>
             <div>
-                <h2 className={styles.mypageTitle}>쪽지보내기</h2>
                 <div className={styles.topContent}>
-                    <div className={`${styles.mailTitle} ${styles.sendTitle}`}>
+                    <div className={`${styles.mailTitle} ${styles.sendMail}`}>
                         <Link to="/cheesefriends/testmain/email">받은 쪽지함</Link>
                         <Link to="/cheesefriends/testmain/sendemaillist">보낸 쪽지함</Link>
                         <Link>쪽지 보내기</Link>
                     </div>
                 </div>
-                <div className={write.wrap}>
+                <div>
                     <div className={write.contentBox}>
-                        <span>받는사람</span>
-                        <table border="1" className="receiverplus" id="receiverplus">
-                        </table>
+                        <span>수신자</span>
+                        {useraddlist.length > 0 ?
+                        <div className={`${styles.responsiveInput} ${write.senderListWidth}`}>
+                            <table className={styles.rowTr} id="receiverplus">
+                            </table>
+                        </div>
+                        :
+                        <div className={`${write.senderList} ${write.senderListWidth}`}>
+                            <table className="receiverplus" id="receiverplus">
+                            </table>
+                        </div>
+                        }
+
+                        <div className={styles.senderBtnWrap}>
                         <div>
                         <React.Fragment>
-                        <button onClick={openModal2}>받는사람 검색</button>
+                        <button onClick={openModal2} className={write.answerBtn}>받는사람 검색</button>
                         <Searchmodal open2={modalOpen2} close2={closeModal2} yesclose2={yescloseModal2} header2="받는사람 검색">
                         <div>
                             <table border="1" align="center">
@@ -576,7 +587,7 @@ function Sendemail(){
                         </div>
                         <div>
                         <React.Fragment>
-                        <button onClick={openModal}>단체인원 추가</button>
+                        <button onClick={openModal} className={write.answerBtn}>단체인원 추가</button>
                         <Addmodal open={modalOpen} close={closeModal} yesclose={yescloseModal} header="단체인원 추가">
                         <div>
                             <table border="1" align="center">
@@ -629,6 +640,7 @@ function Sendemail(){
                         </Addmodal>
                         </React.Fragment>
                         </div>
+                        </div>
                     </div>
                     <div className={write.contentBox}>
                         <span>제목</span>
@@ -643,19 +655,19 @@ function Sendemail(){
                             <label for="file" className={`${write.btn} ${write.linkBtn}`}>파일찾기</label>
                             <input type="file" id="file" name="uploadFile" multiple="multiple" onChange={imageLoad} ref={imgRef}/>
                         </div>
-                        {/* <td >
-                            <input style={{ width:"230px"}} type="file" name="uploadFile"  multiple="multiple" onChange={imageLoad} ref={imgRef}></input>
-                        </td>
-                        <td>
-                            <button>첨부</button>
-                        </td> */}
                     </div>
 
                     <div className={write.contentBox}>
                         <span>미리보기</span>
-                        <div>
+                    {imgFile !== null || imgFile !== "" ?
+                        <div className={styles.responsiveInput}>
                             <img style={{ width:"230px"}} src={imgFile} alt=""/>
                         </div>
+                    :   
+                        <div className={write.senderList} >
+                            <img style={{ width:"230px"}} src={imgFile} alt=""/>
+                        </div>
+                    }
                     </div>
 
                     <div className={write.contentBox}>
@@ -664,10 +676,8 @@ function Sendemail(){
                             ? <textarea value={content} onChange={(e)=>setContent(e.target.value)} ></textarea>
                             : <textarea style={{ borderColor:"red"}} value={content} onChange={(e)=>setContent(e.target.value)} ></textarea>}
                     </div>
-
-                    <button  className={`${write.answerBtn} ${styles.btnCenter}`} onClick={mailsend}>보내기</button>
+                    <button  className={`${write.answerBtn} ${write.btnCenter}`} onClick={mailsend}>보내기</button>
                 </div>
-
             </div>
         </div>
     )
