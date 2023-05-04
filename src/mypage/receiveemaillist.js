@@ -212,7 +212,6 @@ function Email(){
 
     return(
             <>
-                <h2 className={styles.mypageTitle}>받은 쪽지함</h2>
                 <div className={styles.topContent}>
                     <div className={`${styles.mailTitle} ${styles.sendTitle}`}>
                         <Link>받은 쪽지함</Link>
@@ -230,14 +229,14 @@ function Email(){
                         <button onClick={searchBtn} className={styles.searchBtn}>검색</button>
                     </div>
                 </div>
-                <>
-                    <button onClick={openModal} className={`${styles.mypageBtn} ${styles.delBtn}`}>쪽지삭제</button>
+                <div className={styles.btnRight}>
+                    <button onClick={openModal} className={`${styles.mypageBtn} ${styles.btnRight} ${styles.delBtn}`}>쪽지삭제</button>
                     <Deletemodal open={modalOpen} close={closeModal} yesclose={yescloseModal} header="쪽지삭제">
                     <div>  
                         쪽지를 삭제하시겠습니까?
                     </div>        
                     </Deletemodal>
-                </>
+                </div>
                 <table className={`${styles.tableList} ${styles.receiveMail}`}>
                     <thead>
                         <tr>
@@ -257,9 +256,6 @@ function Email(){
                         }  
                     </tbody>              
                 </table>
-
-
-
 
                 <Pagination
                     activePage={page}
