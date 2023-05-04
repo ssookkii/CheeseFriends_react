@@ -10,6 +10,9 @@ function LectureWrite() {
     const [writer, setWriter] = useState('');
     const [content, setContent] = useState('');
 
+    const login = JSON.parse(localStorage.getItem("login"));
+    const userName = login.name;
+
     const navigate = useNavigate();
 
     const onSubmit = (e) => {
@@ -43,7 +46,7 @@ function LectureWrite() {
         }})
             .then( resp => {
             console.log(resp);
-            navigate('/lecture');
+            navigate('/cheesefriends/lecture');
             })
             .catch(err => console.log(err));
   }
@@ -68,7 +71,7 @@ function LectureWrite() {
   }
 
     const resetBtn = () => {
-        navigate('/lecture');
+        navigate('/cheesefriends/lecture');
     }
 
     const SelectBox = () => {
@@ -88,7 +91,7 @@ function LectureWrite() {
     };
 
         return (
-            <div style={{margin:"30px 150px 50px 150px", padding:"15px", fontSize:"17px"}}>
+            <div className='lecwritemain'>
                 <h2>강의 업로드</h2>
                 <hr/>
                 <form name='frm' onSubmit={onSubmit} encType='multipart/form-data' style={{textAlign:"left"}}>
@@ -101,13 +104,12 @@ function LectureWrite() {
                     <>
                     과목
                     <SelectBox />
-                
                     </>
                     <hr/>
                     <>
                     작성자
                     <input type="text" id='writer' className='writer' name='writer'
-                        value={writer} onChange={(e) => setWriter(e.target.value)} />
+                        value={userName} onChange={(e) => setWriter(e.target.value)} readOnly/>
                     </>
                     <hr/>
                     <>
@@ -116,19 +118,15 @@ function LectureWrite() {
                     <input type="file" name='uploadFile' className='file' accept='*' />
                     <br />
                     <textarea id='content' className='content' name='content'
-                        value={content} onChange={(e) => setContent(e.target.value)} />
-                    <hr/>
-                   
+                        value={content} onChange={(e) => setContent(e.target.value)} />                  
                     <div className='btnwrapper'>
                         <button type='button' onClick={resetBtn}>취소</button>
                         <button type='submit' value='file upload'>등록</button>
                     </div>
                 </form>
             </div>
-
         );
     }
-
 
 
 export default LectureWrite;

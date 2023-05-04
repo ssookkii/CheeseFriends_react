@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import 'bootstrap/dist/css/bootstrap.css';
+import './asset/css/LectureList.css';
 import axios from "axios";
 import Pagination from 'react-js-pagination';
-import styled from "styled-components";
 
 import { faAngleRight } from "@fortawesome/free-solid-svg-icons";
 import { faAngleLeft } from "@fortawesome/free-solid-svg-icons";
@@ -15,43 +14,14 @@ export default function LectureList() {
 
     const [lecturelist, setLecturelist] = useState([]);
 
-    const [userId, setUserId] = useState('');
-    const [showButton, setShowButton] = useState(false);
-  
-     // 아이디 입력 폼의 값이 변경될 때마다 상태를 업데이트
-    const handleUserIdChange = (event) => {
-        setUserId(event.target.value);
-    }
-
-    // 버튼 클릭 시 저장된 아이디와 입력된 아이디를 비교하여 버튼을 보여주거나 숨김
-    const handleButtonClick = () => {
-    if (userId === 'admin') {
-      setShowButton(true);
-    } else {
-      setShowButton(false);
-    }
-  }
-
-
+    const loginInfo = JSON.parse(localStorage.getItem("login"));
+    const userId = loginInfo?.id;
+    const userAuth = loginInfo?.auth;
 
     const movePage = useNavigate();
 
-    function lectwrite() {
-        movePage('/lecture/LectureWrite');
-    }
-
-    function AbLink() {
-        movePage('/lecture/AbLectureList');
-
-    }
-    function moveleclist() {
-        movePage('/lecture')
-    }
-    function movelearnlist() {
-        movePage('/learning');
-    }
-    function movetasklist() {
-        movePage('/learning/TaskList');
+    function writelink() {
+        movePage('/cheesefriends/lecture/LectureWrite')
     }
 
     function getLecList() {
@@ -66,16 +36,6 @@ export default function LectureList() {
         })
 
     }
-
-    const Btn = styled.button`
-        border:none;
-        cursor:pointer;
-        background:none;
-        font-size:18px;
-        &:hover {
-        color: #0d6efd;
-      }
-    `;
 
     useEffect(function(){
         getLecList(0);
@@ -118,46 +78,26 @@ export default function LectureList() {
         getSubList("", "", 0);
     }, []);
 
+
      
     return(
 
-        <div style={{display:"flex", marginTop:"116px"}}>
-
-            <div className="d-flex flex-column flex-shrink-0 p-3 text-bg-dark" style={{width:"280px", height:"630px", borderRadius:"16px"}}>
-                <a href="/" className="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-                    <svg className="bi pe-none me-2" style={{width:"40", height:"32" }} ><use xlinkHref="#bootstrap"></use></svg>
-                    <span className="fs-4">인강 학습실</span>
-                </a>
-                <hr />
-                <ul className="nav nav-pills flex-column mb-auto">
-
-                    <li className="nav-item">
-                        <a href="#" className="nav-link active" aria-current="page" >                                        
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;외부강의 
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" className="nav-link text-white" onClick={AbLink} >
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;결석 학생용
-                        </a>
-                    </li>
-                </ul>
-                <hr/>
-                <div className="dropdown">
-                    <button type="button" className="btn btn-secondary" style={{width:"248px"}} onClick={lectwrite}>
-                        글쓰기
-                    </button>
+        <div className="lecmain">
+            <div style={{marginTop:"-627PX"}}>
+                <h2 style={{marginLeft:"15px", color:"#434343", marginTop:"-50px"}}>인강학습실</h2>
+                <div>
+                    {userAuth === 'admin' && (
+                        <button type="button" className="lecBtn" style={{width:"221px"}} onClick={writelink}>
+                              글쓰기
+                      </button>
+                    )}
                 </div>
             </div>
 
 
         {/* 목록 */}
         <div style={{display:"block", width:"1000px", marginTop:"25px", marginLeft:"20px"}}>
-            <div style={{display:"flex", marginTop:"-100px"}}>
-            <div style={{width:"310px", marginRight:"16px", cursor:"pointer", paddingTop:"19px", borderRadius:"14px", backgroundColor:"#0d6efd", color:"white", textAlign:"center"}} onClick={moveleclist}><h3>인강학습실</h3></div>
-            <div style={{width:"310px", marginRight:"16px", cursor:"pointer", paddingTop:"19px", borderRadius:"14px", backgroundColor:"white", textAlign:"center"}} onClick={movelearnlist}><h3>학습용자료실</h3></div>
-            <div style={{width:"310px", marginRight:"16px",cursor:"pointer", paddingTop:"19px", borderRadius:"14px", backgroundColor:"white", textAlign:"center"}} onClick={movetasklist}><h3>과제 제출실</h3></div>
-            
+            <div style={{display:"flex", marginTop:"-208px", justifyContent:"flex-end"}}>           
             <select vlaue={choice} onChange={(e)=>setChoice(e.target.value)}
             style={{border:"none", borderBottom:"1px solid lightgray", height:"31px", marginTop:"14px", marginRight:"6px" }}>
                 <option value="">검색</option>
@@ -190,7 +130,7 @@ export default function LectureList() {
                             </td>
                             <td>{list.regdate}</td>
                             <td>
-                                <Link style={{textDecoration:"none"}} to={`/lecture/LectureDetail/${list.seq}`}>▶</Link>
+                                <Link style={{textDecoration:"none"}} to={`/cheesefriends/lecture/LectureDetail/${list.seq}`}>▶</Link>
                             </td>
                         </tr>
                     )
@@ -215,58 +155,5 @@ export default function LectureList() {
 
     )
 }
-
-
-
-
-// function TableRow(props){
-//     return (
-//         <tr>
-//             <td>{props.cnt}</td>
-
-//             {/* <td style={{ textAlign:"left" }}>{getArrow(props.bbs.depth)}{props.bbs.title}</td> */}
-//             {BbsTitleProc(props)}
-
-//             <td>{props.bbs.readcount}</td>
-//             <td>{props.bbs.id}</td>
-//         </tr>
-//     );
-// }
-
-
-
-// // 제목에 대한 링크 및 삭제된 글의 처리
-// function BbsTitleProc(props){
-//     if(props.bbs.del === 0){
-//         return (
-//             <td style={{ textAlign:"left" }}>
-//                 {getArrow(props.bbs.depth)}                
-//                 <Link to={`/bbsdetail/${props.bbs.seq}`}>{props.bbs.title}</Link>                
-//             </td>
-//         );
-//     }else{
-//         return (
-//             <td>*** 이 글은 작성자에 의해서 삭제되었습니다 ***</td>
-//         );
-//     }
-// }
-
-// function getArrow( depth ) {
-// 	let nbsp = "&nbsp;&nbsp;&nbsp;&nbsp;";
-	
-// 	let ts = "";
-// 	for(var i = 0;i < depth; i++){
-// 		ts += nbsp;
-// 	}
-
-//     // String -> Html
-//     let space = <span dangerouslySetInnerHTML={{ __html: ts }}></span>    
-//     if(depth === 0){
-//         return "";
-//     }
-
-// 	// return (<>{space}<img src={arrow} alt="arrow.png" width='20px' height='20px'/>&nbsp;</>);
-// }
-
 
 

@@ -1,0 +1,21 @@
+.lecdeMain {
+    width: 1200px;
+    height: 500px;
+    margin: -10px auto 0;
+    align-items: center;
+    font-size: 19px;
+}
+
+.leclistBtn {
+    width: 75px;
+    height: 32px;
+    color: #fff;
+    background: #fbca73;
+    font-weight: 500;
+    border-radius: 7px;
+}
+.leclistBtn:hover {
+    border: 2px solid #fbca73;
+    color: #444444;
+    background-color: white;
+}

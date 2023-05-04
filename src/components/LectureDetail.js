@@ -1,14 +1,17 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from 'axios';
-
-
-// import "./LectureDetail.css";
+import './asset/css/LectureDetail.css';
 
 function LectureDetail(){
     let history = useNavigate();
 
     const [bbs, setBbs] = useState();
+
+    const loginInfo = JSON.parse(localStorage.getItem("login"));
+    const userId = loginInfo?.id;
+    const userAuth = loginInfo?.auth;
+
 
     // 데이터를 모두 읽어 들일 때까지 rendering을 조절하는 변수
     const [loading, setLoading] = useState(false);
@@ -35,7 +38,7 @@ function LectureDetail(){
     }
     
     const leclist = () => {        
-        history('/lecture');
+        history('/cheesefriends/lecture');
     }
 
     const updateBbs = () => {
@@ -43,42 +46,38 @@ function LectureDetail(){
     }
 
 
-    // const handleDelete = (seq) => {
-    //     // 게시물 삭제 로직
-    //     // 삭제할 게시물의 postId를 받아와서 삭제 로직을 구현합니다.
-    //     const updatedPosts = bbs.filter(post => post.seq !== seq);
-    //     setBbs(updatedPosts);
-    //   }
+    const handleDelete = (seq) => {
+        // 게시물 삭제 로직
+        // 삭제할 게시물의 postId를 받아와서 삭제 로직을 구현합니다.
+        const updatedPosts = bbs.filter(post => post.seq !== seq);
+        setBbs(updatedPosts);
+      }
 
-    // // login한 id와 작성자 id와 같을 시에는 버튼을 보여준다
-    // function UpdateButtonLoad(){
-    //     let str = localStorage.getItem('login');
-    //     let login = JSON.parse(str);
+    // login한 id와 작성자 id와 같을 시에는 버튼을 보여준다
+    function UpdateButtonLoad(){
+        let str = localStorage.getItem('login');
+        let login = JSON.parse(str);
 
-    //     if(login.writer !== bbs.writer){
-    //         return ""
-    //     }
-    //     return (
-    //         <span>
-    //             &nbsp;<button type="button" onClick={() => handleDelete(bbs.seq)} className="btn btn-primary">삭제하기</button>
-    //             &nbsp;<button type="button" onClick={updateBbs} className="btn btn-primary">글 수정</button>
-    //         </span>
+        if(login.writer !== bbs.writer){
+            return ""
+        }
+        return (
+            <span>
+                &nbsp;<button type="button" onClick={() => handleDelete(bbs.seq)} className="btn btn-primary">삭제하기</button>
+                &nbsp;<button type="button" onClick={updateBbs} className="btn btn-primary">글 수정</button>
+            </span>
                         
-    //     )
-    // }
+        )
+    }
 
     return (
-        <div style={{margin:"30px 150px 50px 150px", textAlign:"left", padding:"15px", fontSize:"17px"}}>
-            <h2>강의 보기</h2>
-            <hr/>
-            <table className="table table-striped table-sm">
-            <colgroup>
-                <col style={{width: '150px'}}/>
-                <col style={{width: '500px'}}/>
-            </colgroup>
+        <div className="lecdeMain">
+            <h2 style={{marginLeft:"140px"}}>강의 보기</h2>
+            <table>
             <tbody>
+            <div style={{marginLeft:"140px"}}>
             <tr>
-                <th>제목</th>
+                <th style={{paddingRight:"103px"}}>제목</th>
                 <td style={{ textAlign:"left" }}>{bbs.title}</td>
             </tr>
             <tr>
@@ -86,18 +85,15 @@ function LectureDetail(){
                 <td style={{ textAlign:"left" }}>{bbs.subject}</td>
             </tr>
             <tr>
-                <th>작성자</th>
-                <td style={{ textAlign:"left" }}>{bbs.writer}</td>
-            </tr>
-            <tr>
                 <th>작성일</th>
                 <td style={{ textAlign:"left" }}>{bbs.regdate}</td>
             </tr>
+            </div>
             <tr>	
                 <td colSpan="2" style={{ backgroundColor:'white' }}>
-                    <pre id="content" style={{ fontSize:'20px', fontFamily:'고딕, arial', backgroundColor:'white', textAlign:"left" }}>{bbs.content}</pre>
+                    <pre id="content" style={{ fontSize:'20px', fontFamily:'고딕, arial', backgroundColor:'white', textAlign:"left", marginLeft:"138px" }}>{bbs.content}</pre>
                     
-                    <video style={{width:"865px", marginLeft:"124px"}} controls >
+                    <video style={{width:"865px", marginLeft:"124px", border:"3px solid #eeeeee"}} controls >
                         <source src={require('./asset/css/sample2.mp4')} type="video/mp4" /> 
                     </video>
                 </td>
@@ -105,10 +101,10 @@ function LectureDetail(){
             </tbody>
             </table>
             <div style={{textAlign:"center"}}>
-                <button style={{width:"100px", height:"42px"}} type="button" onClick={leclist} className="btn btn-primary">목록으로</button>
+                <button className="leclistBtn" style={{width:"100px", height:"42px"}} type="button" onClick={leclist}>목록으로</button>
             </div>
             
-            {/* <UpdateButtonLoad /> */}
+            <UpdateButtonLoad />
         
         </div>
     )
