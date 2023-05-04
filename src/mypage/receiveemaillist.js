@@ -6,7 +6,7 @@ import Pagination from "react-js-pagination";
 import Deletemodal from "./deletemodal";
 
 import axios from "axios";
-
+import styles from "../components/asset/css/mypage.module.css"
 
 
 function Email(){
@@ -179,7 +179,7 @@ function Email(){
                 <td>
                     {/* <input type="checkbox" value={props.mail.seq} onChange={deletecheck}></input>                     */}
                     <input type="checkbox" id={props.mail.seq} onChange={(e)=>deletecheck(e.currentTarget.checked, props.mail.seq)} 
-                           checked={deletecheckboxlist.includes(props.mail.seq)?true:false || ischeck?true:false}></input>                    
+                        checked={deletecheckboxlist.includes(props.mail.seq)?true:false || ischeck?true:false}></input>                    
                 </td>
     
                 {/* <td style={{ textAlign:"left" }}>{getArrow(props.bbs.depth)}{props.bbs.title}</td> */}
@@ -193,8 +193,7 @@ function Email(){
             </tr>
         );
     }
-       
-  
+
     // 메일 상세보기로 가기
     function Maildetail(props){
         function maildetailgo(){
@@ -202,92 +201,65 @@ function Email(){
         }
         return(
             <td>
-                <button onClick={maildetailgo}>보기</button>
+                <button onClick={maildetailgo} className={styles.mypageBtn}>상세보기</button>
                 {/* <Link to={`/testmain/maildetail/${props.mail.seq}`}>보기</Link>   */}
             </td> 
         )
     }
 
-   
+
 
 
     return(
-        <div>
-            <div>
-                <h1>받은 쪽지함</h1>
-                <br/>
-                <table border="1" align="center">
-                    <colgroup>
-                        <col width="150"/><col width="150"/><col width="150"/>
-                    </colgroup>
-                    <tr>
-                        <td style={{backgroundColor:"grey"}}>받은 쪽지함</td>
-                        <td>
-                            <Link to="/testmain/sendemaillist">보낸 쪽지함</Link>
-                        </td>
-                        <td>
-                            <Link to="/testmain/sendemail">쪽지 보내기</Link>
-                        </td>
-                    </tr>
-                </table>
-            
-
-                <br/>
-                <table align="center">
-                    <colgroup>
-                        <col width="100" /><col width="100" /><col width="100" />
-                    </colgroup>
-                    <tr>
-                        <td>
-                            <select value={choice} onChange={choiceChange}>
-                                <option value=''>검색</option>
-                                <option value="title">제목</option>
-                                <option value="content">내용</option>
-                                <option value="sender">보낸사람</option>
-                            </select>
-                        </td>
-                        <td>
-                            <input value={search} onChange={searchChange} ></input>
-                        </td>
-                        <td>
-                            <button onClick={searchBtn}>검색</button>
-                        </td>
-                    </tr>
-                </table>
-
-                <br/><br/>
-
-                <table border="1" align="center">
-                    <colgroup>
-                        <col width="50" /><col width="50" /><col width="100" /><col width="100" /><col width="100" /><col width="100" />
-                    </colgroup>
-                    <tr>
-                        <th>
-                            <input type="checkbox" onChange={allcheck} checked={ischeck?true:false}></input>
-                        </th>
-                        <th>번호</th><th>제목</th><th>보낸사람</th><th>날짜</th><th>보기</th>
-                    </tr>
-                    
+            <>
+                <h2 className={styles.mypageTitle}>받은 쪽지함</h2>
+                <div className={styles.topContent}>
+                    <div className={`${styles.mailTitle} ${styles.sendTitle}`}>
+                        <Link>받은 쪽지함</Link>
+                        <Link to="/cheesefriends/testmain/sendemaillist">보낸 쪽지함</Link>
+                        <Link to="/cheesefriends/testmain/sendemail">쪽지 보내기</Link>
+                    </div>
+                    <div className={styles.search}>      
+                        <select value={choice} onChange={choiceChange}>
+                            <option value="">검색</option>
+                            <option value="title">제목</option>
+                                    <option value="content">내용</option>
+                                    <option value="sender">보낸사람</option>
+                        </select>
+                        <input value={search} onChange={searchChange} placeholder="검색어를 입력하세요"/>
+                        <button onClick={searchBtn} className={styles.searchBtn}>검색</button>
+                    </div>
+                </div>
+                <>
+                    <button onClick={openModal} className={`${styles.mypageBtn} ${styles.delBtn}`}>쪽지삭제</button>
+                    <Deletemodal open={modalOpen} close={closeModal} yesclose={yescloseModal} header="쪽지삭제">
+                    <div>  
+                        쪽지를 삭제하시겠습니까?
+                    </div>        
+                    </Deletemodal>
+                </>
+                <table className={`${styles.tableList} ${styles.receiveMail}`}>
+                    <thead>
+                        <tr>
+                            <th>
+                                <input type="checkbox" onChange={allcheck} checked={ischeck?true:false}></input>
+                            </th>
+                            <th>번호</th><th>제목</th><th>보낸사람</th><th>날짜</th><th>보기</th>
+                        </tr>
+                    </thead>
+                    <tbody>
                         {
                             maillist.map(function(dto, i){
                                 return (
                                     <TableRow mail={dto} cnt={(page-1)*10+(i+1)} key={i} />
                                 )
                             })
-                        }                
-           
+                        }  
+                    </tbody>              
                 </table>
-                <br/><br/>
-                <div>
-                    <React.Fragment>
-                    <button onClick={openModal}>삭제</button>
-                    <Deletemodal open={modalOpen} close={closeModal} yesclose={yescloseModal} header="쪽지삭제">
-                    <main>  
-                        쪽지를 삭제하시겠습니까?
-                    </main>        
-                    </Deletemodal>
-                    </React.Fragment>
-                </div>
+
+
+
 
                 <Pagination
                     activePage={page}
@@ -297,9 +269,7 @@ function Email(){
                     prevPageText={"‹"}
                     nextPageText={"›"}
                     onChange={handlePageChange} />
-
-            </div>
-        </div>
+            </>
     )
 
 }

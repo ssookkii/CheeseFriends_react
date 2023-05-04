@@ -1,0 +1,192 @@
+.mypageWrap {
+    display:flex;
+    width:1200px;
+    margin:50px auto;
+}
+/* 공통 */
+/* sideMenu */
+.mypageSideMenu {
+    position:relative;
+    width:200px;
+}
+.mypageSideMenu > .sideMenu {
+    display: flex;
+    flex-flow: column;
+    margin-bottom:50px;
+}
+.mypageSideMenu > a {
+    font-size:0.8em;
+    letter-spacing: -1px;
+    padding-left:20px;
+}
+.mypageSideMenu > .sideMenu > a {
+    position:relative;
+    font-size:1.1em;
+    font-weight: 600;
+    height:50px;
+    text-align: left;
+    line-height:49px;
+    padding-left:20px;
+}
+.sideMenu > span::before {
+    content:'';
+    width:30px;
+    height:30px;
+    background: url(../../../../public/img/User\ Male@2x.png);
+    display:inline-block;
+    background-size: 30px;
+}
+.sideMenu > span {
+    display : flex;
+    align-items: center;
+    padding-left:20px;
+    margin-bottom:50px;
+}
+.sideMenu > span > em {
+    font-size:1.2em;
+    font-weight:500;
+    padding-left:10px;
+}
+
+.mypageBtnActive {
+    background-color:#fac56357;
+    position:relative;
+}
+.mypageBtnActive::after {
+    position:absolute;
+    right:0;
+    top:0;
+    content:'';
+    width:4px;
+    height:49px;
+    display: inline-block;
+    background-color:#fac463;
+}
+.mypageWrap .mypageContent {
+    margin-left:50px;
+    width:80%;
+}
+
+/* 검색 */
+.topContent {
+    margin:50px 0 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.search {
+    border:1px solid #434343;
+    border-radius: 10px;
+    margin-left:5%;
+}
+.search > select {
+    width:100px;
+    height:40px;
+    padding:0 10px;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+    border:none;
+    font-size:0.9em;
+    color:#fff;
+    background: url(../../../../public/img/searchMenuW.png) no-repeat 86% 50% #434343;
+    background-size:10px;
+    -webkit-appearance: none; 
+    -moz-appearance: none;
+    appearance: none;
+}
+.search > select::-ms-expand {
+    display: none;
+}
+.search > input {
+    height:40px;
+    width:250px;
+    font-size:0.9em;
+    padding:0 15px;
+}
+.search .searchBtn {
+    color:#fff;
+    background: url(../../../../public/img/searchBtnIcon.png) no-repeat 50% 50% #434343;
+    text-indent: -9999px;
+    width:40px;
+    height:40px;
+    background-size:15px;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+.mypageTitle {
+    font-size:2em;
+    font-weight: 600;
+}
+.mypageBtn {
+    background-color: #fac463;
+    padding:10px;
+    border-radius: 5px;
+    color:#fff;
+    font-weight: 500;
+    font-size:0.9em;
+}
+.delBtn {
+    background-color: #e80000;
+}
+/* 테이블공통 css */
+.tableList {
+    table-layout: fixed;
+    width: 100%;
+}
+.tableList > thead > tr {position:relative; height:80px;}
+.tableList > thead > tr::after {
+    content: "";
+    width:100%;
+    height:1px;
+    position:absolute;
+    left:0;
+    top:70px;
+    background-color: #a0a0a0;
+}
+.tableList > thead > tr > th,
+.tableList > tbody > tr > td  {
+    text-align: center;
+    font-size:0.9em;
+}
+.tableList > thead > tr > th {
+    font-weight: 500;
+    font-size:0.9em;
+}
+.tableList > tbody > tr {
+    height:50px;
+}
+/* 받은쪽지함 */
+.topContent .mailTitle {
+    width:50%;
+}
+.topContent .sendTitle a:first-child {
+    background-color:#434343;
+    color:#fff;
+    font-weight: 500;
+}
+.topContent .mailTitle a {
+    display: inline-block;
+    width: 33%;
+    height:40px;
+    border:1px solid #434343;
+    line-height:39px;
+    text-align: center;
+}
+.receiveMail > thead > tr > th:nth-child(1) {width:5%;}
+.receiveMail > thead > tr > th:nth-child(2) {width:5%;}
+.receiveMail > thead > tr > th:nth-child(3) {width:55%;}
+.receiveMail > thead > tr > th:nth-child(4) {width:10%;}
+.receiveMail > thead > tr > th:nth-child(5) {width:15%;}
+.receiveMail > thead > tr > th:nth-child(6) {width:10%;}
+
+.receiveMail > tbody > tr > td:nth-child(3) {
+    text-align: left;
+    padding-left:20px;
+}
+/* 보낸쪽지함 */
+.topContent .recieveTitle a:nth-child(2) {
+    background-color:#434343;
+    color:#fff;
+    font-weight: 500;
+}
+/* 쪽지보내기 */

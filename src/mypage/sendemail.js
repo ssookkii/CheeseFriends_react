@@ -8,6 +8,9 @@ import axios from "axios";
 import Addmodal from "./addmodal";
 import Searchmodal from "./searchmodal";
 
+import styles from "../components/asset/css/mypage.module.css"
+import write from '../components/asset/css/adminWrite.module.css'
+
 function Sendemail(){
 
     let history = useNavigate();
@@ -516,184 +519,154 @@ function Sendemail(){
     return(
         <div>
             <div>
-                <h1>쪽지 보내기</h1>
-                <br/>
-                <table border="1" align="center">
-                    <colgroup>
-                        <col width="150"/><col width="150"/><col width="150"/>
-                    </colgroup>
-                    <tr>
-                        <td>
-                            <Link to="/testmain/email">받은 쪽지함</Link>
-                        </td>
-                        <td>
-                            <Link to="/testmain/sendemaillist">보낸 쪽지함</Link>
-                        </td>
-                        <td style={{backgroundColor:"grey"}}>쪽지 보내기</td>
-                    </tr>
-                </table>
-            
-
-                <br/>
-                <table>
-                    <tr>
-                        <td>
-                            <div>
-                            <React.Fragment>
-                            <button onClick={openModal2}>받는사람 검색</button>
-                            <Searchmodal open2={modalOpen2} close2={closeModal2} yesclose2={yescloseModal2} header2="받는사람 검색">
-                            <main>
-                                <table border="1" align="center">
-                                    <colgroup>
-                                        <col width="150" /><col width="100" />
-                                    </colgroup>
-                                    <tr>
-                                        <th>받는사람 검색</th><th>이름</th>
-                                    </tr>
-                                    <tr>
-                                        <td>받는사람 검색</td>
-                                        <td>
-                                            <div>
-                                                <input style={{ width:"150px"}} value={receiver} onChange={(e) => setReceiver(e.target.value)} ></input>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </table>
-                                <br/>
-                                <table border="1" align="center" className="subplus" id="subplus">
-                                    <colgroup>
-                                        <col width="50" /><col width="50" /><col width="200" /><col width="150" />
-                                    </colgroup>
-                                    <tr>
-                                        <th></th><th>번호</th><th>아이디</th><th>이름</th>
-                                    </tr>
-                                    {useraddlist !== null
-                                        ?useraddlist.map(function(dto, i){
-                                            return (
-                                                <TableRow user={dto} cnt={i+1} key={i} />
-                                            )
-                                        })
-                                        :<td></td>
-                                    }         
-                                </table>
-                            </main>        
-                            </Searchmodal>
-                            </React.Fragment>
-                            </div>
-                        </td>
-                        <td>
+                <h2 className={styles.mypageTitle}>쪽지보내기</h2>
+                <div className={styles.topContent}>
+                    <div className={`${styles.mailTitle} ${styles.sendTitle}`}>
+                        <Link to="/cheesefriends/testmain/email">받은 쪽지함</Link>
+                        <Link to="/cheesefriends/testmain/sendemaillist">보낸 쪽지함</Link>
+                        <Link>쪽지 보내기</Link>
+                    </div>
+                </div>
+                <div className={write.wrap}>
+                    <div className={write.contentBox}>
+                        <span>받는사람</span>
+                        <table border="1" className="receiverplus" id="receiverplus">
+                        </table>
                         <div>
-                            <React.Fragment>
-                            <button onClick={openModal}>단체인원 추가</button>
-                            <Addmodal open={modalOpen} close={closeModal} yesclose={yescloseModal} header="단체인원 추가">
-                            <main>
-                                <table border="1" align="center">
-                                    <colgroup>
-                                        <col width="100" /><col width="200" /><col width="100" />
-                                    </colgroup>
-                                    <tr>
-                                        <th>교육기관 선택</th><th>과목 선택</th><th>수강생</th>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <select className="edu" id="edu" onChange={(e) => setEdu_code(e.target.value)} >
-                                            
-                                            </select>
-                                        </td>
-                                        <td>
-                                            {edu_code === ""
-                                            ?<select className="sub" id="sub" style={{display:"none"}} onChange={(e) => setSub_code(e.target.value)}></select>
-                                            :<select className="sub" id="sub" onChange={(e) => setSub_code(e.target.value)}></select>
-                                            } 
-                                        </td>
-                                        <td>
-                                            <button onClick={userlist}>확인</button>
-                                        </td>
-                                    </tr>
-                                </table>
-
-                                <br/>
-                                <table border="1" align="center" className="userlist" id="userlist">
-                                    <colgroup>
-                                        <col width="50" /><col width="50" /><col width="200" /><col width="150" />
-                                    </colgroup>
-                                    <tr>
-                                        <th>
-                                            <input type="checkbox" onChange={allcheck} checked={ischeck?true:false}></input>
-                                        </th>
-                                        <th>번호</th><th>아이디</th><th>이름</th>
-                                    </tr>
-                                    {useraddlist !== null
-                                        ?useraddlist.map(function(dto, i){
-                                            return (
-                                                <TableRow user={dto} cnt={i+1} key={i} />
-                                            )
-                                        })
-                                        :<td></td>
-                                    }  
-                                </table>
-                                 
-                            
-                            </main>        
-                            </Addmodal>
-                            </React.Fragment>
-                        </div>
-                        </td>
-                    </tr>
-                    </table>
-                    <br/>
-
-                    <table border="1" align="center"> 
-                    <colgroup>
-                        <col width="100" /><col width="200" /><col width="100" />
-                    </colgroup>
-                    <tr>
-                        <td>받는사람</td>
-                        <td align="left" colSpan="2">
-                            <table border="1" className="receiverplus" id="receiverplus">
+                        <React.Fragment>
+                        <button onClick={openModal2}>받는사람 검색</button>
+                        <Searchmodal open2={modalOpen2} close2={closeModal2} yesclose2={yescloseModal2} header2="받는사람 검색">
+                        <div>
+                            <table border="1" align="center">
+                                <colgroup>
+                                    <col width="150" /><col width="100" />
+                                </colgroup>
+                                <tr>
+                                    <th>받는사람 검색</th><th>이름</th>
+                                </tr>
+                                <tr>
+                                    <td>받는사람 검색</td>
+                                    <td>
+                                        <div>
+                                            <input style={{ width:"150px"}} value={receiver} onChange={(e) => setReceiver(e.target.value)} ></input>
+                                        </div>
+                                    </td>
+                                </tr>
                             </table>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>제목</td>
-                        <td align="left" colSpan="2">
-                            
-                            {titlea === true 
-                                ? <input style={{ width:"230px"}} value={title} onChange={(e)=>setTitle(e.target.value)}></input>
-                                : <input style={{ borderColor:"red", width:"230px"}} value={title} onChange={(e)=>setTitle(e.target.value)}></input>}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>파일</td>
-                        <td >
+                            <br/>
+                            <table border="1" align="center" className="subplus" id="subplus">
+                                <colgroup>
+                                    <col width="50" /><col width="50" /><col width="200" /><col width="150" />
+                                </colgroup>
+                                <tr>
+                                    <th></th><th>번호</th><th>아이디</th><th>이름</th>
+                                </tr>
+                                {useraddlist !== null
+                                    ?useraddlist.map(function(dto, i){
+                                        return (
+                                            <TableRow user={dto} cnt={i+1} key={i} />
+                                        )
+                                    })
+                                    :<td></td>
+                                }         
+                            </table>
+                        </div>
+                        </Searchmodal>
+                        </React.Fragment>
+                        </div>
+                        <div>
+                        <React.Fragment>
+                        <button onClick={openModal}>단체인원 추가</button>
+                        <Addmodal open={modalOpen} close={closeModal} yesclose={yescloseModal} header="단체인원 추가">
+                        <div>
+                            <table border="1" align="center">
+                                <colgroup>
+                                    <col width="100" /><col width="200" /><col width="100" />
+                                </colgroup>
+                                <tr>
+                                    <th>교육기관 선택</th><th>과목 선택</th><th>수강생</th>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <select className="edu" id="edu" onChange={(e) => setEdu_code(e.target.value)} >
+                                        
+                                        </select>
+                                    </td>
+                                    <td>
+                                        {edu_code === ""
+                                        ?<select className="sub" id="sub" style={{display:"none"}} onChange={(e) => setSub_code(e.target.value)}></select>
+                                        :<select className="sub" id="sub" onChange={(e) => setSub_code(e.target.value)}></select>
+                                        } 
+                                    </td>
+                                    <td>
+                                        <button onClick={userlist}>확인</button>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <br/>
+                            <table border="1" align="center" className="userlist" id="userlist">
+                                <colgroup>
+                                    <col width="50" /><col width="50" /><col width="200" /><col width="150" />
+                                </colgroup>
+                                <tr>
+                                    <th>
+                                        <input type="checkbox" onChange={allcheck} checked={ischeck?true:false}></input>
+                                    </th>
+                                    <th>번호</th><th>아이디</th><th>이름</th>
+                                </tr>
+                                {useraddlist !== null
+                                    ?useraddlist.map(function(dto, i){
+                                        return (
+                                            <TableRow user={dto} cnt={i+1} key={i} />
+                                        )
+                                    })
+                                    :<td></td>
+                                }  
+                            </table>
+                        
+                        </div>        
+                        </Addmodal>
+                        </React.Fragment>
+                        </div>
+                    </div>
+                    <div className={write.contentBox}>
+                        <span>제목</span>
+                        {titlea === true 
+                            ? <input value={title} onChange={(e)=>setTitle(e.target.value)}></input>
+                            : <input style={{ borderColor:"red", width:"230px"}} value={title} onChange={(e)=>setTitle(e.target.value)}></input>}
+                    </div>
+                    <div className={write.contentBox}>
+                        <span>파일</span>
+                        <div className={write.cBox}>
+                            <input class={write.uploadName} value={filename} placeholder="첨부파일"></input>
+                            <label for="file" className={`${write.btn} ${write.linkBtn}`}>파일찾기</label>
+                            <input type="file" id="file" name="uploadFile" multiple="multiple" onChange={imageLoad} ref={imgRef}/>
+                        </div>
+                        {/* <td >
                             <input style={{ width:"230px"}} type="file" name="uploadFile"  multiple="multiple" onChange={imageLoad} ref={imgRef}></input>
                         </td>
                         <td>
                             <button>첨부</button>
-                        </td>
-                    </tr>
+                        </td> */}
+                    </div>
 
-                    <tr>
-                        <td>미리보기</td>
-                        <td colSpan="2">
+                    <div className={write.contentBox}>
+                        <span>미리보기</span>
+                        <div>
                             <img style={{ width:"230px"}} src={imgFile} alt=""/>
-                        </td>
-                    </tr>
+                        </div>
+                    </div>
 
-                    <tr>
-                        <td>내용</td>
-                        <td align="left" colSpan="2">
+                    <div className={write.contentBox}>
+                        <span>내용</span>
                         {contenta === true 
-                                ? <textarea style={{ width:"230px", height:"200px"}} value={content} onChange={(e)=>setContent(e.target.value)} ></textarea>
-                                : <textarea style={{ borderColor:"red", width:"230px", height:"200px"}} value={content} onChange={(e)=>setContent(e.target.value)} ></textarea>}
-                           
-                        </td>
-                    </tr>
+                            ? <textarea value={content} onChange={(e)=>setContent(e.target.value)} ></textarea>
+                            : <textarea style={{ borderColor:"red"}} value={content} onChange={(e)=>setContent(e.target.value)} ></textarea>}
+                    </div>
 
-                </table>
-
-                <br/><br/>
-                <button onClick={mailsend}>보내기</button>
+                    <button  className={`${write.answerBtn} ${styles.btnCenter}`} onClick={mailsend}>보내기</button>
+                </div>
 
             </div>
         </div>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, Outlet, useNavigate  } from "react-router-dom";
 import axios from 'axios';
+import Chatbot from "./Chatbot";
 
 import styles from "./asset/css/common.module.css"
 
@@ -14,6 +15,11 @@ function Common(){
     const [userEdu, setUserEdu] = useState(
         localStorage.getItem("userEdu")
     );
+    const [isChatbotVisible, setIsChatbotVisible] = useState(false);
+
+    const handleClick = () => {
+        setIsChatbotVisible(!isChatbotVisible);
+    };
 
     function getEduCode(){
         axios.get("http://localhost:3000/homeEduCode", { params:{ "id":id }})
@@ -88,6 +94,16 @@ function Common(){
             <main>
                 <Outlet/>
             </main>
+            <div
+                style={{ position: "fixed", bottom: "20px", right: "20px" }}
+                onClick={handleClick}
+            >
+                <button className="chat-button">
+                <img src="/img/chatbot-icon.png" alt="채팅 버튼" />
+                </button>
+            </div>
+
+            {isChatbotVisible && <Chatbot />}
             <footer>
                 <p className={styles.copyright}>Copyright 2023. cheeseFriends All rights reserved.</p>
             </footer>
