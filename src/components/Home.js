@@ -14,6 +14,8 @@ function Home(){
 
     const [unreducedMail, setUnreducedMail] = useState("");
 
+
+
     function getUnreducedMail(){
         axios.get("http://localhost:3000/unreducedMail", { params:{ "id":login.id }})
         .then(function(resp){
@@ -104,18 +106,17 @@ function Home(){
                     <div><Link className={styles.slideContent}><img src={`${process.env.PUBLIC_URL}/img/thumbEx.jpg`}  style={{width:'100%'}} alt="애기"/></Link></div>
             </Slider>
         </div>
-        <div className={styles.container}>
-            <div className={styles.TitleBox}>
-                <h2>쉼터</h2>
-                <p>열심히 공부한 당신! 옹달샘에서 잠시 쉬어가요~</p>
-            </div>
-            <div>
-                <Slider {...playSettings}>
-                    <div><Link className={`${styles.slideContent} ${styles.centerSlide}`}><img src={`${process.env.PUBLIC_URL}/img/gameThumb1.jpg`}  style={{width:'100%'}} alt="testimg"/></Link></div>
-                    <div><Link className={`${styles.slideContent} ${styles.centerSlide}`}><img src={`${process.env.PUBLIC_URL}/img/testimg.jpg`}  style={{width:'100%'}} alt="testimg"/></Link></div>
-                    <div><Link className={`${styles.slideContent} ${styles.centerSlide}`}><img src={`${process.env.PUBLIC_URL}/img/gameThumb1.jpg`}  style={{width:'100%'}} alt="testimg"/></Link></div>
-                    <div><Link className={`${styles.slideContent} ${styles.centerSlide}`}><img src={`${process.env.PUBLIC_URL}/img/testimg.jpg`}  style={{width:'100%'}} alt="testimg"/></Link></div>
-                </Slider>
+        <div className={styles.containerBg}>
+            <div className={styles.container}>
+                <div className={styles.TitleBox}>
+                    <h2>쉼터</h2>
+                    <p>열심히 공부한 당신! 옹달샘에서 잠시 쉬어가요~</p>
+                </div>
+                <div className={styles.playBox}>
+                    <Link to="/cheesefriends/playgame"><img src={`${process.env.PUBLIC_URL}/img/game1.jpg`}  style={{width:'100%'}} alt="playgame1"/></Link>
+                    <Link to="/cheesefriends/playgame1"><img src={`${process.env.PUBLIC_URL}/img/game2.jpg`}  style={{width:'100%'}} alt="playgame2"/></Link>
+                    <Link to="/cheesefriends/playgame2"><img src={`${process.env.PUBLIC_URL}/img/game3.jpg`}  style={{width:'100%'}} alt="playgame3"/></Link>
+                </div>
             </div>
         </div>
         </>

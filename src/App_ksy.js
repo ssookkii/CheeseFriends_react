@@ -11,7 +11,6 @@ import Home from './components/Home';
 import PrivateRoutes from './components/PrivateRoutes';
 import Admin from './components/Admin';
 import AdminPage from './components/AdminPage';
-import MapSearch from './components/MapSearch';
 import EduAdd from './components/EduAdd';
 import EduManage from './components/EduManage'
 import EduUpdate from './components/EduUpdate';
@@ -55,7 +54,11 @@ import AttendanceManage from "./components/AttendanceManage";
 import AttendanceManageTeacher from "./components/AttendanceManageTeacher";
 import DataAnalysis from "./components/DataAnalysis";
 import DataAnalysisTeacher from "./components/DataAnalysisTeacher";
-import Test from "./components/Test";
+// import Test from "./components/Test";
+
+import PlayGame from './components/PlayGame';
+import PlayGame1 from './components/PlayGame1';
+import PlayGame2 from './components/PlayGame2';
 
 // import LectureList from './components/LectureList'
 // import AbLectureList from './components/AbLectureList'
@@ -75,12 +78,8 @@ import Test from "./components/Test";
 // import EduInfoDetail from './components/EduInfoDetail';
 // import EduInfoWrite from './components/EduInfoWrite';
 
-import PlayGame from './components/PlayGame';
-import PlayGame1 from './components/PlayGame1';
-import PlayGame2 from './components/PlayGame2';
 
-// import PapagoController from './components/PapagoController';
-// import PapagoVer2 from './components/PapagoVer2';
+
 // import ServiceList from './components/ServiceList';
 // import ServiceWrite from './components/ServiceWrite';
 // import ServiceDetail from './components/ServiceDetail';
@@ -134,9 +133,7 @@ function App_ksy() {
                     <Route path="playgame1" element={<PlayGame1 />} />
                     <Route path="playgame2" element={<PlayGame2 />} />
 
-                    {/* <Route path='service/papago' element={<PapagoController />} />
-                    <Route path='service/papago2' element={<PapagoVer2 />} />
-                    <Route path='service/ServiceList' element={<ServiceList />} />
+                    {/* <Route path='service/ServiceList' element={<ServiceList />} />
                     <Route path='service/ServiceWrite' element={<ServiceWrite />} />
                     <Route path='service/ServiceDetail/:seq' element={<ServiceDetail />} />
                     <Route path='service/ServiceAnswer' element={<ServiceAnswer />} />
@@ -166,7 +163,7 @@ function App_ksy() {
                     <Route path="AttendanceManageTeacher" element={<AttendanceManageTeacher />} />
                     <Route path="DataAnalysis" element={<DataAnalysis />} />
                     <Route path="DataAnalysisTeacher" element={<DataAnalysisTeacher />} />
-                    <Route path="test" element={<Test />} />
+                    {/* <Route path="test" element={<Test />} /> */}
                 </Route>
                 
                 
