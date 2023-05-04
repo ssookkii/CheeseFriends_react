@@ -61,25 +61,47 @@ const DataAnalysisTeacher = () => {
         ));
         const wsChartData = XLSX.utils.json_to_sheet(chartDataRows);
 
-        const allStudentsRows = gradesData.map((gradeData) => {
-            // 학생 이름을 기반으로 학생의 출석 데이터를 찾습니다.
-            const studentAttendanceData = students.filter(student => student.name === gradeData.studentName);
+        // 월별로 데이터를 필터링합니다.
+        const monthlyStudents = students.filter((student) => {
+            const studentDate = new Date(student.attendanceTime);
+            return studentDate.getMonth() + 1 === currentMonth;
+        });
 
-            // 학생의 출석 현황을 계산합니다.
-            const attendanceCount = studentAttendanceData.filter(data => data.status === '출석').length;
-            const absenceCount = studentAttendanceData.filter(data => data.status === '결석').length;
-            const tardinessCount = studentAttendanceData.filter(data => data.status === '지각').length;
+        // 중복되지 않은 학생 이름 목록을 생성합니다.
+        const uniqueStudentNames = Array.from(new Set(monthlyStudents.map((student) => student.name)));
+
+        // 학생 이름별로 데이터를 그룹화합니다.
+        const groupedStudents = uniqueStudentNames.map((name) => {
+            const studentsByName = monthlyStudents.filter((student) => student.name === name);
+
+            // 출석 현황을 계산합니다.
+            const attendanceCount = studentsByName.filter((student) => student.status === '출석').length;
+            const absenceCount = studentsByName.filter((student) => student.status === '결석').length;
+            const tardinessCount = studentsByName.filter((student) => student.status === '지각').length;
+
+            // 학생의 성적 데이터를 찾습니다.
+            const studentGradeData = gradesData.find((grade) => grade.studentName === name);
 
             return {
-                과목: reportData.subject,
-                월: reportData.month,
-                학생이름: gradeData.studentName,
-                점수: gradeData.studentGrade,
-                출석: attendanceCount,
-                결석: absenceCount,
-                지각: tardinessCount,
+                name,
+                attendanceCount,
+                absenceCount,
+                tardinessCount,
+                studentGrade: studentGradeData ? studentGradeData.studentGrade : '미입력',
             };
         });
+
+        // 그룹화된 데이터를 바탕으로 allStudentsRows를 생성합니다.
+        const allStudentsRows = groupedStudents.map((student) => ({
+            과목: reportData.subject,
+            월: reportData.month,
+            학생이름: student.name,
+            점수: student.studentGrade,
+            출석: student.attendanceCount,
+            결석: student.absenceCount,
+            지각: student.tardinessCount,
+        }));
+
 
 
         const wsAllStudents = XLSX.utils.json_to_sheet(allStudentsRows);
@@ -87,7 +109,7 @@ const DataAnalysisTeacher = () => {
         const wb = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(wb, wsAttendance, "출결 데이터");
         XLSX.utils.book_append_sheet(wb, wsChartData, "평균 점수 차트");
-        XLSX.utils.book_append_sheet(wb, wsAllStudents, "전체 학생 데이터");
+        XLSX.utils.book_append_sheet(wb, wsAllStudents, "(" + currentMonth + "월) 전체 학생 데이터");
 
         XLSX.writeFile(wb, "치즈프렌드 리포트.xlsx");
     };

@@ -360,8 +360,8 @@ function AttendanceManageTeacher() {
                 <td style={{ textAlign: 'center' }}>
                   <input
                     type="text"
-                    value={student.comment}
-                    onChange={(e) => handleCommentChange(student.attendanceID, e.target.value)}
+                    defaultValue={student.comment}
+                    onBlur={(e) => handleCommentChange(student.attendanceID, e.target.value)}
                     style={{ textAlign: 'center' }}
                   />
                 </td>

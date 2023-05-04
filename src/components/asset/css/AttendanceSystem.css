@@ -147,19 +147,6 @@
   color: #555;
 }
 
-ul {
-  display: flex;
-  list-style: none;
-  padding: 0;
-}
-
-li {
-  margin-right: 1rem;
-  padding: 0.5rem;
-  cursor: pointer;
-  border-radius: 0.5rem;
-  font-weight: bold;
-}
 
 .subject_nav {
   display: flex;

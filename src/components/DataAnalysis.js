@@ -295,24 +295,38 @@ const DataAnalysis = () => {
 
     return (
         <div>
-            <h2>성적 및 출결 데이터</h2>
-            <nav className="edu_nav" style={{ width: '50%', opacity: '0.7' }}>
-                <ul>
-                    {eduCode.map((edu) => (
-                        <li
-                            key={edu.eduCode}
-                            className={selectedEdu === edu.eduCode ? 'active' : ''}
-                            onClick={() => setSelectedEdu(edu.eduCode)}
-                            style={{ fontSize: '20px' }}
+            <div className='"edu_nav'>
+                <nav className="edu_nav" style={{ opacity: '0.7' }}>
+                    <ul>
+                        {eduCode.map((edu) => (
+                            <li
+                                key={edu.eduCode}
+                                className={selectedEdu === edu.eduCode ? 'active' : ''}
+                                onClick={() => setSelectedEdu(edu.eduCode)}
+                                style={{ fontSize: '20px' }}
+                            >
+                                <img src="/img/cheese.png" alt="Attendance statistics" width="20px" />  {edu.eduName}
+                            </li>
+                        ))}
+                        <a
+                            href="#"
+                            className="DAreportButton"
+                            onClick={exportToExcel}
+
                         >
-                            <img src="/img/cheese.png" alt="Attendance statistics" width="20px" />  {edu.eduName}
-                        </li>
-                    ))}
-                </ul>
-            </nav>
+                            <div>
+                                <span style={{ alignItems: 'center' }}>리포트 출력</span>
+                            </div>
+                        </a>
+                    </ul>
+
+                </nav>
+            </div>
             <div className="charts-container">
-                <div className="chart">
-                    <h3>성적 데이터</h3>
+                <div className="chart-section">
+                    <div className='AttendanceDate' >
+                        <h2 style={{ fontSize: '18px', width: '25%', marginBottom: '20px' }} className="attendance-month">성적 데이터</h2>
+                    </div>
                     <ResponsiveContainer width="100%" height={300}>
                         <BarChart data={getChartData(gradeData)}>
                             <CartesianGrid strokeDasharray="3 3" />
@@ -340,10 +354,14 @@ const DataAnalysis = () => {
 
 
                 </div>
-                <div className="chart">
-                    <h3>출결 데이터 ({currentMonth}월)</h3>
-                    <button onClick={decrementMonth}>이전</button>
-                    <button onClick={incrementMonth}>다음</button>
+                <div className="chart-section">
+                    <div className='AttendanceDate' >
+                        <h2 style={{ fontSize: '18px', width: '25%', marginBottom: '20px' }} className="attendance-month">출결 데이터 ({currentMonth}월)</h2>
+                    </div>
+                    <div className="month-controls">
+                        <button onClick={decrementMonth}>이전</button>
+                        <button onClick={incrementMonth}>다음</button>
+                    </div>
                     <ResponsiveContainer width="100%" height={300}>
                         <BarChart data={getAttendanceChartDataForMonth(currentMonth)}>
                             <CartesianGrid strokeDasharray="3 3" />
@@ -357,26 +375,45 @@ const DataAnalysis = () => {
                         </BarChart>
                     </ResponsiveContainer>
                     <div>
-                        <h3>과목별 {selectedRate}</h3>
+                        <div className='AttendanceDate' >
+                            <h2 style={{ fontSize: '18px', width: '25%', marginBottom: '25px' }} className="attendance-month">과목별 {selectedRate}</h2>
+                        </div>
                         <div className="rate-tabs">
-                            <button
-                                className={selectedRate === '출석률' ? 'active' : ''}
-                                onClick={() => handleRateChange('출석률')}
-                            >
-                                출석률
-                            </button>
-                            <button
-                                className={selectedRate === '결석률' ? 'active' : ''}
-                                onClick={() => handleRateChange('결석률')}
-                            >
-                                결석률
-                            </button>
-                            <button
-                                className={selectedRate === '지각률' ? 'active' : ''}
-                                onClick={() => handleRateChange('지각률')}
-                            >
-                                지각률
-                            </button>
+                            <div className="selectedRate-controls">
+                                <div className="attendance-buttons" style={{ marginBottom: '20px' }}>
+                                    <a
+                                        href="#"
+                                        className={`Dabutton attend ${selectedRate === '출석률' ? 'active' : ''}`}
+                                        onClick={() => handleRateChange('출석률')}
+                                        style={{ backgroundColor: selectedRate === '출석률' ? '#80735e' : '#aaa191' }}
+                                    >
+                                        <div>
+                                            <span>출석률</span>
+                                        </div>
+                                    </a>
+
+                                    <a
+                                        href="#"
+                                        className={`Dabutton attend ${selectedRate === '결석률' ? 'active' : ''}`}
+                                        onClick={() => handleRateChange('결석률')}
+                                        style={{ backgroundColor: selectedRate === '결석률' ? '#80735e' : '#aaa191' }}
+                                    >
+                                        <div>
+                                            <span>결석률</span>
+                                        </div>
+                                    </a>
+                                    <a
+                                        href="#"
+                                        className={`Dabutton attend ${selectedRate === '지각률' ? 'active' : ''}`}
+                                        onClick={() => handleRateChange('지각률')}
+                                        style={{ backgroundColor: selectedRate === '지각률' ? '#80735e' : '#aaa191' }}
+                                    >
+                                        <div>
+                                            <span>지각률</span>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
                         </div>
                         <div className="attendance-rate-charts">
                             {totalAttendanceChartData.map((data) =>
@@ -388,7 +425,6 @@ const DataAnalysis = () => {
 
             </div>
 
-            <button onClick={exportToExcel}>리포트 출력 (엑셀)</button>
         </div>
 
     );

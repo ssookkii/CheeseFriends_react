@@ -31,7 +31,7 @@ function Attendance() {
 
   useEffect(() => {
     setTypingAnimationKey((prevKey) => prevKey + 1);
-  }, [userName, attendanceStatus]);
+  }, [userName, attendanceStatus, typingAnimationClassName]);
 
 
   const apiKey = "2ea8b6684971e20330bd9d5078317e7d";
@@ -194,6 +194,7 @@ function Attendance() {
               height="50"
 
             />
+
 
 
           </div>
