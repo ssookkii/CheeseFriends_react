@@ -38,7 +38,7 @@ function Login(){
 
                 let login = localStorage.getItem("login");
                 console.log(login);
-                history("/testmain");
+                history("cheesefriends/home");
             }else{
                 alert("id나 password를 확인하십시오");
             }
