@@ -2,34 +2,20 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-
-}
-
-.teachernav {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 1rem;
-  width: 800px;
-
-}
-
-.attcheck {
-  padding: 10px;
 }
 
 .attendanceNav {
   display: flex;
   justify-content: space-between;
   align-items: center;
-
+  max-width: 900px;
+  width: 100%;
+  margin: auto;
 }
 
 .attendanceNav ul {
   display: flex;
   list-style: none;
-  margin: 0;
-  padding: 0;
-
 }
 
 .attendanceNav li {
@@ -40,80 +26,80 @@
   font-weight: bold;
   background-color: transparent;
   transition: background-color 0.2s ease;
-
 }
 
-.attendanceNav li.active {
-  background-color: #80735e;
-  color: white;
-}
-
+.attendanceNav li.active,
 .attendanceNav li:hover {
   background-color: #80735e;
   color: white;
 }
 
-.attendanceNav .date-picker-container {
-  margin-left: 40px;
-}
+.table-container {
+  max-width: 900px;
+  width: 100%;
+  margin: auto;
+  text-align: center;
+  color: #555;
+  overflow: auto;
+  height: 550px;
 
-.attendanceNav .search-container input[type="text"] {
-  width: 150px;
-}
-
-
-
-.attendance-manage-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }
 
 
-.present {
-  background-color: red !important;
-  color: white;
+.table-container table td,
+.table-container table th {
+  padding: 4px;
+  vertical-align: middle;
 }
+
 
 .attendanceTeacherTh {
   height: 50px;
   color: #555;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 2px solid #ccc;
 }
-
-
-.skip {
-  display: none;
-}
-
-.subject_nav {
-  font-size: 1.7em;
-
-}
-
-.table-container {
-  width: 900px;
-  margin: auto;
-  text-align: center;
-  color: #555;
-}
-
-
-
-.search-container {
-  margin-top: 20px;
-
-}
-
-.date-picker-container {
-  margin-top: 20px;
-  margin-left: 40px;
-}
-
 
 .attendance-buttons {
   display: flex;
   justify-content: center;
+}
+
+.Attbutton {
+  width: 58px;
+  padding: 10px 15px;
+  border-radius: 10px;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  background: #80735e;
+  color: #fff;
+  box-shadow: 0 2px 8px -1px rgba(21, 25, 36, 0.32);
+  transition: transform 0.44s ease, box-shadow 0.44s ease;
+  margin: 1px;
+  margin-top: 5px;
+}
+
+.Attbutton.active {
+  background-color: #80735e;
+}
+
+.Attbutton:not(.active) {
+  background-color: #aaa191;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  margin: 1rem 0;
+}
+
+.pagination li {
+  cursor: pointer;
+}
+
+.pagination li.active a,
+.pagination li:hover a {
+  color: #80735e;
 }
 
 .Attbutton {

@@ -236,61 +236,64 @@ function AttendanceManageTeacher() {
   return (
     <div className="attendance-manage-teacher-container">
       <br />
-      <nav style={{ backgroundColor: 'white' }}
+      <nav style={{ backgroundColor: 'white', display: "flex", justifyContent: "space-between", width: '70%', marginBottom: '15px' }}
         className="attendanceNav">
-        <ul style={{ fontSize: '24px' }}>
-          {subjects.map((subject) => (
-            <li
-              key={subject.subCode}
-              className={selectedSubject === subject.subCode ? 'active' : ''}
-              onClick={() => setSelectedSubject(subject.subCode)}
-
-            >
-              {subject.subName}
-            </li>
-          ))}
-        </ul>
+        <nav className='att_manage' style={{}}>
+          <ul style={{ display: "flex", alignItems: "center" }} >
+            {subjects.map((subject) => (
+              <li
+                key={subject.subCode}
+                className={selectedSubject === subject.subCode ? 'active' : ''}
+                onClick={() => setSelectedSubject(subject.subCode)}
+                style={{ minWidth: '100px', textAlign: 'center' }}
+              >
+                {subject.subName}
+              </li>
+            ))}
+          </ul>
+        </nav>
 
         <ul style={{}}>
           <li
             className={searchMethod === 'date' ? 'active' : ''}
             onClick={() => setSearchMethod('date')}
-            style={{ fontSize: '14px' }}
+            style={{ fontSize: '14px', marginLeft: '100px', marginBottom: '10px', marginTop: '5px' }} // margin 추가
           >
             날짜별
           </li>
           <li
             className={searchMethod === 'name' ? 'active' : ''}
             onClick={() => setSearchMethod('name')}
-            style={{ fontSize: '14px' }}
+            style={{ fontSize: '14px', marginBottom: '10px', marginTop: '5px' }} // margin 추가
           >
             이름별
           </li>
         </ul>
+        <div className="input-container" style={{ display: "flex", alignItems: "center" }}>
+          {searchMethod === 'date' && (
 
-        {searchMethod === 'date' && (
-          <div className="date-picker-container">
-            <input
-              type="date"
-              value={selectedDate.toISOString().substr(0, 10)}
-              onChange={(e) => setSelectedDate(new Date(e.target.value))}
-              style={{ width: '100px', marginLeft: '110px', marginBottom: '15px' }}
-            />
-          </div>
-        )}
+            <div className="date-picker-container" style={{ position: 'absolute' }}>
+              <input
+                type="date"
+                value={selectedDate.toISOString().substr(0, 10)}
+                onChange={(e) => setSelectedDate(new Date(e.target.value))}
+                style={{ width: '100px', marginBottom: '10px', marginTop: '5px' }}
+              />
+            </div>
+          )}
 
-        {searchMethod === 'name' && (
-          <div className="search-container">
-            <input
-              type="text"
-              placeholder="학생 이름 입력"
-              value={searchText}
-              onChange={(e) => setSearchText(e.target.value)}
-              style={{ width: '150px', marginLeft: '100px', marginBottom: '15px' }}
-            />
-          </div>
-        )}
-
+          {searchMethod === 'name' && (
+            <div className="search-container" style={{ position: 'absolute' }}>
+              <input
+                type="text"
+                placeholder="학생 이름 입력"
+                value={searchText}
+                onChange={(e) => setSearchText(e.target.value)}
+                style={{ width: '100px', marginBottom: '10px', marginTop: '5px' }}
+              />
+            </div>
+          )}
+        </div>
       </nav>
       <div className='attcheck' style={{ display: 'flex', justifyContent: 'space-between' }}>
         <p style={{ color: '#677bde', fontWeight: 'bold' }} >출석: {attendanceStats.attendanceCount}회 </p>
@@ -427,7 +430,7 @@ function AttendanceManageTeacher() {
         </table>
       </div>
       <div className="pagination">
-        <ul>
+        <ul className='pagination'>
           <li>
             <a onClick={prevPageGroup}>&laquo;</a>
           </li>
