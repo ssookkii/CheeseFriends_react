@@ -59,6 +59,7 @@ import DataAnalysisTeacher from "./components/DataAnalysisTeacher";
 import PlayGame from './components/PlayGame';
 import PlayGame1 from './components/PlayGame1';
 import PlayGame2 from './components/PlayGame2';
+import ShelterPage from './components/ShelterPage';
 
 import LectureList from './components/LectureList'
 import AbLectureList from './components/AbLectureList'
@@ -129,9 +130,11 @@ function App() {
             <Route path="grademanage" element={<GradeManage />} />
           </Route>
 
-          <Route path="playgame" element={<PlayGame />} />
-          <Route path="playgame1" element={<PlayGame1 />} />
-          <Route path="playgame2" element={<PlayGame2 />} />
+          <Route path="shelterpage" element={<ShelterPage />}>
+            <Route path="shelterpage/playgame" element={<PlayGame />} />
+            <Route path="shelterpage/playgame1" element={<PlayGame1 />} />
+            <Route path="shelterpage/playgame2" element={<PlayGame2 />} />
+          </Route>
 
           <Route path='service/ServiceList' element={<ServiceList />} />
           <Route path='service/ServiceWrite' element={<ServiceWrite />} />
