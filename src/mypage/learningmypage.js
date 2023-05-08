@@ -12,6 +12,8 @@ import * as XLSX from 'xlsx';
 import * as FileSaver from 'file-saver';
 import Cancelmodal from "./cancelmodal";
 
+import styles from "../components/asset/css/mypage.module.css"
+
 function Learningmypage(){
     const [id, setId] = useState("");
     const [modalOpen, setModalOpen] = useState(false);
@@ -221,18 +223,18 @@ function Learningmypage(){
                 <td>{props.subjectlist.educatorname}</td>
                 {props.subjectlist.state === "approving"
                 ?<td>수강중인 수업이 아닙니다</td>
-                :<td>{props.subjectlist.startdate} ~ {props.subjectlist.enddate}</td>
+                :<td>{props.subjectlist.startdate.substr(0, 11)} ~ {props.subjectlist.enddate.substr(0, 11)}</td>
                 }
                 {props.subjectlist.state === "approving"
                 ?<td>수강 승인중</td>
                 :<td>
                     {props.subjectlist.state === "quiting"
-                    ?<div>{Quitcancel(props)}</div>
-                    :<div>
+                    ?<span>{Quitcancel(props)}</span>
+                    :<>
                         {props.subjectlist.state === "quited"
-                        ?<div>탈퇴 완료</div>
-                        :<div>{Quitsubject(props)}</div>}
-                    </div>}
+                        ?<span>탈퇴 완료</span>
+                        :<span>{Quitsubject(props)}</span>}
+                    </>}
                 </td>}
                 
             </tr>
@@ -273,18 +275,14 @@ function Learningmypage(){
 
 
         return(
-            <div>
-            <td>
-                <React.Fragment>
-                    <button onClick={openModal}>탈퇴 신청</button>
-                    <Deletemodal open={modalOpen} close={closeModal} yesclose={yescloseModal} header="탈퇴 신청">
-                    <main>  
-                        탈퇴신청 하시겠습니까?
-                    </main>        
-                    </Deletemodal>
-                </React.Fragment>
-            </td> 
-            </div>
+            <React.Fragment>
+                <button onClick={openModal} className={`${styles.confirmBtn} ${styles.delBtn}`}>탈퇴 신청</button>
+                <Deletemodal open={modalOpen} close={closeModal} yesclose={yescloseModal} header="탈퇴 신청">
+                <main>  
+                    탈퇴신청 하시겠습니까?
+                </main>        
+                </Deletemodal>
+            </React.Fragment>
         )
     }
 
@@ -321,18 +319,14 @@ function Learningmypage(){
         };
 
         return(
-            <div>
-            <td>
-                <React.Fragment>
-                    <button onClick={openModal3}>탈퇴 신청 취소하기</button>
-                    <Cancelmodal open3={modalOpen3} close3={closeModal3} yesclose3={yescloseModal3} header="탈퇴 신청 취소하기">
-                    <main>  
-                        탈퇴신청 취소하기 하시겠습니까?
-                    </main>        
-                    </Cancelmodal>
-                </React.Fragment>
-            </td> 
-            </div>
+            <React.Fragment>
+                <button onClick={openModal3} className={`${styles.confirmBtn} ${styles.delBtn}`}>탈퇴 신청 취소하기</button>
+                <Cancelmodal open3={modalOpen3} close3={closeModal3} yesclose3={yescloseModal3} header="탈퇴 신청 취소하기">
+                <main>  
+                    탈퇴신청 취소하기 하시겠습니까?
+                </main>        
+                </Cancelmodal>
+            </React.Fragment>
         )
     }
 
@@ -515,43 +509,84 @@ function Learningmypage(){
 
     return(
         <div>
-            <div>
-                <h1>수강중인 학습</h1>
+            <div className={styles.topContent}>
+                {login.auth === 'parents' ?
+                <div className={styles.subject}>
+                    <select value={student} onChange={studentChange} className="studentplus" id="studentplus">
+                        <option value=''>자녀선택</option>
+                    </select>
+                </div>
+                :
+                <div></div>
+                }
 
-                <table align="center">
-                    <colgroup>
-                        <col width="100" /><col width="100" /><col width="100" />
-                    </colgroup>
-                    <tr>
-                        {login.auth === 'parents'
-                        ?<td>
-                            <select value={student} onChange={studentChange} className="studentplus" id="studentplus">
-                                <option value=''>자녀선택</option>
-                            </select>
-                        </td>
-                        : <td></td>}
-                        <td>
-                            <select value={choice} onChange={choiceChange}>
-                                <option value=''>검색</option>
-                                <option value="eduname">교육기관</option>
-                                <option value="subject">과목</option>
-                            </select>
-                        </td>
-                        <td>
-                            <input value={search} onChange={searchChange} ></input>
-                        </td>
-                        <td>
-                            <button onClick={searchBtn}>검색</button>
-                        </td>
-                    </tr>
-                </table>
+                <div className={styles.search}>      
+                    <select value={choice} onChange={choiceChange}>
+                        <option value="">검색</option>
+                        <option value="eduname">교육기관</option>
+                        <option value="subject">과목</option>
+                    </select>
+                    <input value={search} onChange={searchChange} placeholder="검색어를 입력하세요"/>
+                    <button onClick={searchBtn} className={styles.searchBtn}>검색</button>
+                </div>
+            </div>
+            <React.Fragment>
+                <div className={styles.btnRight}>
+                    <button onClick={openModal2} className={`${styles.mypageBtn}`}>학습 추가 신청</button>
+                </div>
+                <Searchmodal open2={modalOpen2} close2={closeModal2} yesclose2={yescloseModal2} header2="학습 추가 신청">
+                <main>
+                    <table border="1" align="center">
+                        <colgroup>
+                            <col width="100" /><col width="200" /><col width="50" />
+                        </colgroup>
+                        <tr>
+                            <th>코드</th>
+                            <td align="left" colSpan="2">
+                                <div>
+                                    <input style={{ width:"150px"}} value={edu_code} onChange={(e) => setEdu_code(e.target.value)} placeholder="코드를 입력해주세요" ></input>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th align="left">
+                                <div >교육기관명</div>
+                            </th>
+                            <td align="left" colSpan="2">
+                                {edu_name === ""
+                                    ? <div style={{ fontSize: "10px" }}>올바른 코드를 입력해주세요</div>
+                                    : <div style={{ fontSize: "10px", color: 'blue' }}>{edu_name}</div>}
 
-                <br/><br/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>과목</th>
+                            <td align="left">
+                                <select className="subplus" id="subplus" onChange={subcodecheck}>
 
-                <table className="table" border="1" align="center">
-                    <colgroup>
-                        <col width="50" /><col width="100" /><col width="100" /><col width="100" /><col width="200" /><col width="100" />
-                    </colgroup>
+                                </select>&nbsp;&nbsp;
+                                <button onClick={subjectadd}>추가</button>
+                            </td>   
+                        </tr>
+                    </table>
+                    <br/>
+
+                    <table border="1" className="subplus2" id="subplus2">
+                        <colgroup>
+                            <col width="50" /><col width="50" /><col width="200" /><col width="100" />
+                        </colgroup>
+                        <thead>
+                            <tr>
+                                <th>선택</th><th>번호</th><th>교육기관</th><th>과목</th>
+                            </tr>
+                        </thead>
+                    </table>
+                    
+                </main>        
+                </Searchmodal>
+            </React.Fragment>
+            <table className={`${styles.tableList} ${styles.studentSub}`}>
+                <thead>
                     <tr>
                         <th>번호</th>
                         <th>교육기관</th>
@@ -559,85 +594,32 @@ function Learningmypage(){
                         <th>선생님</th>
                         <th>수강기간</th>
                         <th>상태</th>
-                       
+                        
                     </tr>
-                        {
-                            mysubjectlist.map(function(dto, i){
-                                return (
-                                    <TableRow subjectlist={dto} cnt={(page-1)*10+(i+1)} key={i} />
-                                )
-                            })
-                        }            
-                </table>
-
-                <br/><br/>
-
-                <React.Fragment>
-                    <button onClick={openModal2}>학습 추가 신청하기</button>
-                    <Searchmodal open2={modalOpen2} close2={closeModal2} yesclose2={yescloseModal2} header2="학습 추가 신청하기">
-                    <main>
-                        <table border="1" align="center">
-                            <colgroup>
-                                <col width="100" /><col width="200" /><col width="50" />
-                            </colgroup>
-                            <tr>
-                                <th>코드</th>
-                                <td align="left" colSpan="2">
-                                    <div>
-                                        <input style={{ width:"150px"}} value={edu_code} onChange={(e) => setEdu_code(e.target.value)} placeholder="코드를 입력해주세요" ></input>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th align="left">
-                                    <div >교육기관명</div>
-                                </th>
-                                <td align="left" colSpan="2">
-                                    {edu_name === ""
-                                        ? <div style={{ fontSize: "10px" }}>올바른 코드를 입력해주세요</div>
-                                        : <div style={{ fontSize: "10px", color: 'blue' }}>{edu_name}</div>}
-
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>과목</th>
-                                <td align="left">
-                                    <select className="subplus" id="subplus" onChange={subcodecheck}>
-
-                                    </select>&nbsp;&nbsp;
-                                    <button onClick={subjectadd}>추가</button>
-                                </td>   
-                            </tr>
-                        </table>
-                        <br/>
-
-                        <table border="1" className="subplus2" id="subplus2">
-                            <colgroup>
-                                <col width="50" /><col width="50" /><col width="200" /><col width="100" />
-                            </colgroup>
-                            <thead>
-                                <tr>
-                                    <th>선택</th><th>번호</th><th>교육기관</th><th>과목</th>
-                                </tr>
-                            </thead>
-                        </table>
-                     
-                    </main>        
-                    </Searchmodal>
-                    </React.Fragment>
+                </thead>
+                <tbody>
+                    {
+                        mysubjectlist.map(function(dto, i){
+                            return (
+                                <TableRow subjectlist={dto} cnt={(page-1)*10+(i+1)} key={i} />
+                            )
+                        })
+                    }
+                </tbody>
+            </table>
+                
 
                 
 
-                <Pagination
-                    activePage={page}
-                    itemsCountPerPage={10}
-                    totalItemsCount={totalCnt}
-                    pageRangeDisplayed={5}
-                    prevPageText={"‹"}
-                    nextPageText={"›"}
-                    onChange={handlePageChange} /> 
+            <Pagination
+                activePage={page}
+                itemsCountPerPage={10}
+                totalItemsCount={totalCnt}
+                pageRangeDisplayed={5}
+                prevPageText={"‹"}
+                nextPageText={"›"}
+                onChange={handlePageChange} /> 
 
-            </div>
         </div>
     )
 }

@@ -129,7 +129,7 @@
     font-size:0.9em;
 }
 .delBtn {
-    background-color: #d71818;
+    background-color: #d71818 !important;
 }
 .btnRight {
     text-align: right;
@@ -222,3 +222,96 @@
 .rowTr {
     display:flex;
 }
+/* 쪽지디테일 */
+.maildetail {
+    display:flex;
+    align-items: start;
+}
+.mailDetailWrap .back {
+    border-bottom:1px solid #ddd;
+    display:block;
+    width:100%;
+    background:none;
+    text-align: left;
+    padding:10px 4px 20px;
+    margin:0 0 20px;
+    font-weight: 600;
+}
+.mailDetailWrap > .back > em {
+    font-size:1.4em;
+    font-weight: 600;
+    margin-right:10px;
+}
+.maildetailTitle {
+    margin-top:30px;
+}
+.maildetail > span > button {
+    margin-left:5px;
+    background:#434343;
+    font-size:0.7em;
+    color:#fff;
+    padding:3px 5px;
+    border-radius: 5px;
+}
+.maildetail .mailTitle {
+    font-size:1.5em;
+    font-weight: 600;
+    margin-bottom:20px;
+    padding-left:8px;
+}
+.mailcontent {
+    padding-left:8px;
+    padding-top:30px;
+    margin-top:30px;
+    border-top:1px solid #ddd;
+}
+/* 과목별 수강생 확인 */
+.subject > select {
+    border:none;
+    /* border-bottom:1px solid #555; */
+    height:40px;
+    width:180px;
+    color:#fff;
+    font-weight: 600;
+    border-radius: 5px;
+    padding:0 20px;
+    background: url(../../../../public/img/searchMenuW.png) no-repeat 86% 50% #80735e;
+    background-size:10px;
+    -webkit-appearance: none; 
+    -moz-appearance: none;
+    appearance: none;
+}
+.subject > select::-ms-expand {
+    display: none;
+}
+.studentlist > thead > tr > th:nth-child(1) {width:5%;}
+.studentlist > thead > tr > th:nth-child(2) {width:5%;}
+.studentlist > thead > tr > th:nth-child(3) {width:10%;}
+.studentlist > thead > tr > th:nth-child(4) {width:10%;}
+.studentlist > thead > tr > th:nth-child(5) {width:20%;}
+.studentlist > thead > tr > th:nth-child(6) {width:20%;}
+.studentlist > thead > tr > th:nth-child(7) {width:15%;}
+.studentlist > thead > tr > th:nth-child(8) {width:15%;}
+
+.confirmBtn {
+    font-size:0.9em;
+    padding:3px 5px;
+    border-radius: 5px;
+    background-color: #fac463;
+    color:#fff;
+    margin:5px 0;
+}
+/* 학생성적표 */
+.studentGrade thead tr th:nth-child(1) {width:5%;}
+.studentGrade thead tr th:nth-child(2) {width:25%;}
+.studentGrade thead tr th:nth-child(3) {width:25%;}
+.studentGrade thead tr th:nth-child(4) {width:25%;}
+.studentGrade thead tr th:nth-child(5) {width:20%;}
+
+/* 학생 수강중인 학습 */
+.studentSub thead tr th:nth-child(1) {width:5%;}
+.studentSub thead tr th:nth-child(2) {width:20%;}
+.studentSub thead tr th:nth-child(3) {width:20%;}
+.studentSub thead tr th:nth-child(4) {width:10%;}
+.studentSub thead tr th:nth-child(5) {width:25%;}
+.studentSub thead tr th:nth-child(6) {width:20%;}

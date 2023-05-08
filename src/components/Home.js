@@ -75,7 +75,7 @@ function Home(){
                                 <span></span>
                                 <span>성적관리</span>
                             </Link> :
-                            <Link to="/cheesefriends/testmain/grademypage" className={styles.cbox} onClick={()=>localStorage.setItem("mypageBtnActive", "grademanage")}>
+                            <Link to="/cheesefriends/testmain/grademypage" className={styles.cbox} onClick={()=>localStorage.setItem("mypageBtnActive", "grademypage")}>
                                 <span></span>
                                 <span>성적관리</span>
                             </Link>
