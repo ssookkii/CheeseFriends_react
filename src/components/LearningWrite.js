@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './asset/css/LectureWrite.css'
 
 import axios from "axios";
-import { navigate, useNavigate } from 'react-router';
+import { useNavigate } from 'react-router';
 
 
 function LearningWrite() {
@@ -11,6 +11,9 @@ function LearningWrite() {
     const [title, setTitle] = useState('');
     const [writer, setWriter] = useState('');
     const [content, setContent] = useState('');
+
+    const login = JSON.parse(localStorage.getItem("login"));
+    const userName = login.name;
 
     const navigate = useNavigate();
 
@@ -32,7 +35,7 @@ function LearningWrite() {
     .then(res=>{
        console.log(res.data);
        alert('자료 업로드에 성공했습니다');
-       navigate('/learning');
+       navigate('/cheesefriends/learning');
     })
     .catch(function(error){
        alert('자료 업로드에 실패했습니다');
@@ -41,12 +44,12 @@ function LearningWrite() {
     axios.post('http://localhost:3000/writeLearning', null, { params: {
                 subject,
                 title,
-                writer,
+                writer:userName,
                 content
         }})
             .then( resp => {
             console.log(resp);
-            navigate('/learning');
+            navigate('/cheesefriends/learning');
             })
             .catch(err => console.log(err));
 
@@ -72,7 +75,7 @@ function LearningWrite() {
   }
 
     const resetBtn = () => {
-        navigate('/learning/LearningList');
+        navigate('/cheesefriends/learning');
     }
     
     const SelectBox = () => {
@@ -93,7 +96,7 @@ function LearningWrite() {
 
    
         return (
-            <div style={{margin:"30px 150px 50px 150px", padding:"15px", fontSize:"17px"}}>
+            <div style={{margin:"-8px 370px 0px", fontSize:"17px"}}>
                 <h2>수업자료 등록</h2>
                 <hr/>
                 <form name="frm" onSubmit={onSubmit} encType="multipart/form-data" style={{textAlign:"left"}}>
@@ -111,7 +114,7 @@ function LearningWrite() {
                     <>
                     작성자
                     <input type="text" id='writer' className='writer' name='writer'
-                        value={writer}  onChange={(e) => setWriter(e.target.value)} />
+                        value={userName}  onChange={(e) => setWriter(e.target.value)} readOnly />
                     </>
                     <hr/>
                     <>
@@ -121,11 +124,10 @@ function LearningWrite() {
                     <br/>
                     <textarea id='content' className='content' name='content'
                         value={content} onChange={(e) => setContent(e.target.value)} />
-                    <hr/>
 
                     <div className='btnwrapper'>
-                        <button type='button' onClick={resetBtn}>취소</button>
-                        <button type='submit' value='file upload'>등록</button>
+                        <button type='button' style={{borderRadius:"4px"}} onClick={resetBtn}>취소</button>
+                        <button type='submit' style={{marginLeft:"15px"}} value='file upload'>등록</button>
                     </div>
                 </form>
             </div>

@@ -3,11 +3,7 @@ import axios from "axios";
 import Pagination from 'react-js-pagination';
 import './asset/css/LearningList.css';
 import { useNavigate, Link } from 'react-router-dom';
-
-import { faAngleRight } from "@fortawesome/free-solid-svg-icons";
-import { faAngleLeft } from "@fortawesome/free-solid-svg-icons";
-import { faAnglesLeft } from "@fortawesome/free-solid-svg-icons";
-import { faAnglesRight } from "@fortawesome/free-solid-svg-icons";
+import { faAngleRight, faAngleLeft, faAnglesLeft, faAnglesRight  } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function LearningList() {
@@ -23,7 +19,9 @@ export default function LearningList() {
     function writelink() {
         movePage('/cheesefriends/learning/LearningWrite')
     }
-
+    function tasklink(){
+        movePage('/cheesefriends/learning/TaskList');
+    }
 
     function getLearnList() {
         axios.get("http://localhost:3000/learninglist")
@@ -84,13 +82,18 @@ export default function LearningList() {
 
         <div className="learninglist">
             <div style={{marginTop:"-627PX"}}>
-                <h2 style={{marginLeft:"15px", color:"#434343", marginTop:"-50px"}}>인강학습실</h2>
-                <div>
-                    {userAuth === 'admin' && (
-                        <button type="button" className="learnBtn" style={{width:"221px"}} onClick={writelink}>
+                <h2 style={{marginLeft:"34px", color:"#434343", marginTop:"-15px"}}>학습자료실</h2>
+                <div style={{width:"250px"}}>
+                    {/* {userAuth === 'teacher' && ( */}
+                        <button type="button" className="learnBtn"  onClick={writelink}>
                             글쓰기
-                    </button>
-                    )}
+                        </button>
+                    {/* )} */}
+                    {/* {userAuth === 'student' && ( */}
+                        <button type="button" className="taskBtn"  onClick={tasklink}>
+                            과제제출하기
+                        </button>
+                    {/* )} */}
                 </div>
             </div>
 
@@ -107,11 +110,11 @@ export default function LearningList() {
                 <option value="content">내용</option>
             </select>
             <input value={search} onChange={(e)=>setSearch(e.target.value)} style={{marginTop:"14px", height:"31px"}} placeholder="검색어를 입력하세요"/>
-            <button onClick={searchBtn} style={{marginTop:"14px"}}>검색</button>
+            <button onClick={searchBtn} style={{marginTop:"14px"}} className='searchbtn'>검색</button>
         </div>
         <table className="table" style={{marginTop:"28px"}}>
             <thead>
-                <tr>
+                <tr style={{backgroundColor:"#FFEBB4"}}>
                     <th scope="col">번호</th>
                     <th scope="col">과목</th>
                     <th scope="col">제목</th>
@@ -127,7 +130,7 @@ export default function LearningList() {
                             <td>{list.seq}</td>
                             <td>{list.subject}</td>
                             <td>
-                                <Link style={{textDecoration:"none"}} to={`/cheesefriends/learning/LearningDetail/${list.seq}`}>{list.title}</Link>
+                                <Link style={{textDecoration:"none", fontWeight:"bold"}} to={`/cheesefriends/learning/LearningDetail/${list.seq}`}>{list.title}</Link>
                             </td>
                             <td>{list.regdate}</td>
                             <td>{list.writer}</td>

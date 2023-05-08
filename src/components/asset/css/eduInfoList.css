@@ -1,26 +1,35 @@
+.eduinfolist {
+    width: 1200px;
+    height: 500px;
+    margin: 100px auto 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .item-0 {
-    margin-left: -1100px;
     box-shadow: inset 0px 5px 10px 0 rgba(121, 121, 121, 0.08);
     background-color: #f9f9f9;
     border-radius: 10px;
     cursor: pointer;
-
+}
+.eduwrapper:hover {
+    border: 3px solid #fbca73;
 }
 
-.item-1 {
+.item-1, .item-2 {
     margin-left: 50px;
     box-shadow: inset 0px 5px 10px 0 rgba(121, 121, 121, 0.08);
     background-color: #f9f9f9;
     border-radius: 10px;
     cursor: pointer;
 }
+.isAnotherSpecialItem:hover {
+    border: 2px solid #fbca73;
+}
 
-.item-2 {
-    margin-left: 50px;
-    box-shadow: inset 0px 5px 10px 0 rgba(121, 121, 121, 0.08);
-    background-color: #f9f9f9;
-    border-radius: 10px;
-    cursor: pointer;
+.isYetAnotherSpecialItem:hover {
+    border: 2px solid #fbca73;
 }
 
 .item-3 {
@@ -31,6 +40,9 @@
     border-radius: 10px;
     cursor: pointer;
 }
+.item-3:hover {
+    border: 2px solid #fbca73;
+}
 
 .item-4 {
     margin-top: 250px;
@@ -40,13 +52,24 @@
     border-radius: 10px;
     cursor: pointer;
 }
+.item-4:hover {
+    border: 2px solid #fbca73;
+}
+
 
 .item-5 {
-    margin-left: 60px;
+    margin-top: 247px;
+    margin-left: 50px;
     box-shadow: inset 0px 5px 10px 0 rgba(121, 121, 121, 0.08);
     background-color: #f9f9f9;
     border-radius: 10px;
     cursor: pointer;
+}
+.item-5:hover {
+    border: 2px solid #fbca73;
+}
+.item-5>.edubtn {
+    margin-top: -17px;
 }
 
 .eduwritebtn {
@@ -71,73 +94,34 @@
     font-weight: 500;
 }
 
-.eduinfonav-1 {
-    width: 305px;
-    height: 50px;
-    margin-right: 20px;
-    cursor: pointer;
-    padding-top: 19px;
-    text-align: center;
-    transition: all 0.6s ease-out;
-}
-
-.eduinfonav-1:active {
-    border: 2px solid #434343;
-}
-
-
-.eduinfonav-1>h3 {
-    margin-top: -13px;
-}
-
-.eduinfonav-1:hover {
-    transform: translateY(-15px);
-}
-
-.eduinfonav-2 {
-    width: 210px;
-    height: 50px;
-    margin-left: 20px;
-    margin-right: 20px;
-    cursor: pointer;
-    padding-top: 19px;
-    text-align: center;
-    transition: all 0.6s ease-out;
-}
-.eduinfonav-2>h3 {
-    margin-top: -13px;
-}
-
-.eduinfonav-2:hover {
-    transform: translateY(-15px);
-}
-
-.eduinfonav-3 {
-    width: 210px;
-    height: 50px;
-    margin-left: 20px;
-    margin-right: 20px;
-    cursor: pointer;
-    padding-top: 19px;
-    text-align: center;
-    transition: all 0.6s ease-out;
-}
-
-.eduinfonav-3>h3 {
-    margin-top: -13px;
-}
-
-.eduinfonav-3:hover{
-    transform: translateY(-15px);
-}
-
 .navwrapper {
     display: flex;
     margin-top: -100px;
     margin-left: 85px;
 }
-.contentwrapper{
+.educontentwrapper{
     display: flex;
     margin-top: 50px;
-    margin-left: 100px;
+
+}
+
+.edubtn {
+    width: 214px;
+    height: 45px;
+    margin-left: -5px;
+    background-color: #fbca73;
+    border-radius: 4px;
+}
+.edubtn:hover {
+    border: 2px solid #f9f9f9;
+    color: #434343;
+}
+
+.edubtn>a{
+    color: #fff;
+    font-weight: bold;
+}
+
+.edubtn>a:hover {
+    color: lightgray;
 }

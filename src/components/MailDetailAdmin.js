@@ -51,13 +51,13 @@ function MailDetailAdmin(){
                     <span>작성시간</span>
                     <span>{mailDetail.wdate}</span>
                 </div>
-                <div className={styles.InputBox}>
-                    <span>첨부파일</span>
-                    {mailDetail.filename === null || mailDetail.filename === ""
-                        ?<span>{mailDetail.filename}</span>
-                        :<span>{mailDetail.filename}<button onClick={download}>다운로드</button></span>
-                    }
-                </div>
+                {mailDetail.filename === null || mailDetail.filename === ""
+                    ?<></>
+                    :<div className={styles.InputBox}>
+                        <span>첨부파일</span>
+                        <span>{mailDetail.filename}<button onClick={download} className={styles.downBtn}>다운로드</button></span>
+                    </div>
+                }
                 <div className={`${styles.InputBox} ${styles.bottmline}`}>
                     <span>제목</span>
                     <span>{mailDetail.title}</span>

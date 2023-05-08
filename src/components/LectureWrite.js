@@ -41,7 +41,7 @@ function LectureWrite() {
     axios.post('http://localhost:3000/writeLecture', null, { params: {
                 subject,
                 title,
-                writer,
+                writer:userName,
                 content
         }})
             .then( resp => {

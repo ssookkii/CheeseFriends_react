@@ -138,9 +138,9 @@ export default function AbLectureList() {
             <br/>
             <Pagination
                     activePage={page}
-                    itemsCountPerPage={8}
+                    itemsCountPerPage={10}
                     totalItemsCount={totalCnt}
-                    pageRangeDisplayed={8}
+                    pageRangeDisplayed={10}
                     firstPageText={<FontAwesomeIcon icon={faAnglesLeft} />}
                     lastPageText={<FontAwesomeIcon icon={faAnglesRight} />}
                     prevPageText={<FontAwesomeIcon icon={faAngleLeft} />}

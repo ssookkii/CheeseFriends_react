@@ -9,6 +9,8 @@ import axios from "axios";
 import * as XLSX from 'xlsx'; 
 import * as FileSaver from 'file-saver';
 
+import styles from "../components/asset/css/mypage.module.css"
+
 function Grademypage(){
    
     let history = useNavigate();
@@ -168,50 +170,38 @@ function Grademypage(){
         const data = new Blob([excelBuffer], { type: excelFileType });
         FileSaver.saveAs(data, `file${excelFileExtension}`, { autoBOM: true });
     }
-  
+
 
 
     return(
         <div>
-            <div>
-                <h1>성적표</h1>
+            <div className={styles.topContent}>
+                {login.auth === 'parents' ?
+                <div className={styles.subject}>
+                    <select value={student} onChange={studentChange} className="studentplus" id="studentplus">
+                        <option value=''>자녀선택</option>
+                    </select>
+                </div>
+                :
+                <div></div>
+                }
 
-                <table align="center">
-                    <colgroup>
-                        <col width="100" /><col width="100" /><col width="100" />
-                    </colgroup>
-                    <tr>
-                        {login.auth === 'parents'
-                        ?<td>
-                            <select value={student} onChange={studentChange} className="studentplus" id="studentplus">
-                                <option value=''>자녀선택</option>
-                            </select>
-                        </td>
-                        : <td></td>}
-                        <td>
-                            <select value={choice} onChange={choiceChange}>
-                                <option value=''>검색</option>
-                                <option value="eduname">교육기관</option>
-                                <option value="subject">과목</option>
-                            </select>
-                        </td>
-                        <td>
-                            <input value={search} onChange={searchChange} ></input>
-                        </td>
-                        <td>
-                            <button onClick={searchBtn}>검색</button>
-                        </td>
-                    </tr>
-                </table>
+                <div className={styles.search}>      
+                    <select value={choice} onChange={choiceChange}>
+                        <option value="">검색</option>
+                        <option value="eduname">교육기관</option>
+                        <option value="subject">과목</option>
+                    </select>
+                    <input value={search} onChange={searchChange} placeholder="검색어를 입력하세요"/>
+                    <button onClick={searchBtn} className={styles.searchBtn}>검색</button>
+                </div>
+            </div>
+            <div className={styles.btnRight}>
+                <button onClick={ExcelDownload} className={`${styles.mypageBtn}`}>엑셀 다운로드</button>
+            </div>
 
-                <br/>
-                <button onClick={ExcelDownload}>엑셀 다운로드</button>
-                <br/><br/>
-
-                <table className="table" border="1" align="center">
-                    <colgroup>
-                        <col width="50" /><col width="100" /><col width="100" /><col width="100" /><col width="100" />
-                    </colgroup>
+            <table className={`${styles.tableList} ${styles.studentGrade}`}>
+                <thead>
                     <tr>
                         <th>번호</th>
                         <th>교육기관</th>
@@ -219,27 +209,29 @@ function Grademypage(){
                         <th>성적</th>
                         <th>석차</th>
                     </tr>
-                        {
-                            gradelist.map(function(dto, i){
-                                return (
-                                    <TableRow grade={dto} cnt={(page-1)*10+(i+1)} key={i} />
-                                )
-                            })
-                        }            
-                </table>
+                </thead>
+                <tbody>
+                {
+                    gradelist.map(function(dto, i){
+                        return (
+                            <TableRow grade={dto} cnt={(page-1)*10+(i+1)} key={i} />
+                        )
+                    })
+                }            
+                </tbody>
+            </table>
 
-                
+            
 
-                <Pagination
-                    activePage={page}
-                    itemsCountPerPage={10}
-                    totalItemsCount={totalCnt}
-                    pageRangeDisplayed={5}
-                    prevPageText={"‹"}
-                    nextPageText={"›"}
-                    onChange={handlePageChange} />
+            <Pagination
+                activePage={page}
+                itemsCountPerPage={10}
+                totalItemsCount={totalCnt}
+                pageRangeDisplayed={5}
+                prevPageText={"‹"}
+                nextPageText={"›"}
+                onChange={handlePageChange} />
 
-            </div>
         </div>
     )
 }

@@ -4,23 +4,28 @@ import { useNavigate } from "react-router-dom";
 import { BrowserRouter, Route, Link, useParams } from 'react-router-dom'
 
 import axios from "axios";
+import { faAngleLeft } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
+import styles from "../components/asset/css/adminWrite.module.css"
+import detail from "../components/asset/css/mypage.module.css"
 
 function Maildetail(){
     const [mail, setMail] = useState();
     // 파일 미리보기
     const [filereceive, setFilereceive] = useState("");
+    const [extension, setExtension] = useState("");
 
     const navigate = useNavigate();
         
     function receivemaillist(){
-        window.location.href = "/testmain/email";
+        window.location.href = "/cheesefriends/testmain/email";
     }
 
     // 답장하기
     function answer(){
         // navigate("/testmain/sendemail", { state: { value: mail.sender } });
-        window.location.href = `/testmain/sendemail/${mail.sender}`;
+        window.location.href = `/cheesefriends/testmain/sendemail/${mail.sender}`;
     }
 
 
@@ -36,6 +41,7 @@ function Maildetail(){
 
         // console.log("mail:" + JSON.stringify(response.data));
         setMail(response.data);
+        setExtension(response.data.filename);
 
         // console.log("filename : " + response.data.filename);
         setFilereceive("http://localhost:3000/mailfile/" + response.data.filename);
@@ -51,7 +57,7 @@ function Maildetail(){
         return <div>Loading...</div>
     }
 
-
+    // console.log(mail.filename.substr(extension));
 
     // 파일 다운로드
     const download = async() => {
@@ -78,50 +84,49 @@ function Maildetail(){
 
 
     return (
-        <div>
-            <h1>쪽지 상세보기</h1>
-            <table className="table table-striped table-sm">
-            <colgroup>
-                <col style={{width: '150px'}}/>
-                <col style={{width: '500px'}}/>
-            </colgroup>
-            <tbody>
-            <tr>
-                <th>보낸사람</th>
-                <td style={{ textAlign:"left" }}>{mail.sender}</td>
-            </tr>
+        <div className={detail.mailDetailWrap}>
+            <button onClick={receivemaillist} className={detail.back}><em><FontAwesomeIcon icon={faAngleLeft} /></em>받은쪽지함</button>
+            <div>
+                <div className={`${styles.InputBox} ${detail.maildetail} ${detail.maildetailTitle}`}>
+                    <p className={detail.mailTitle}>{mail.title}</p>
+                </div>
+                <div className={`${styles.InputBox} ${detail.maildetail}`}>
+                    <span>보낸사람</span>
+                    <span>{mail.sender}</span>
+                </div>
 
-            <tr>
-                <th>받은시간</th>
-                <td style={{ textAlign:"left" }}>{mail.wdate}</td>
-            </tr>
-            <tr>
-                <th>파일</th>
-                {mail.filename === null || mail.filename === ""
-                ?<td style={{ textAlign:"left" }}>{mail.filename}</td>
-                :<td style={{ textAlign:"left" }}>{mail.filename}<button onClick={download}>다운로드</button></td>
-                }
-            </tr>
-            <tr>
-                <th>파일미리보기</th>
-                {mail.filename === null || mail.filename === ""
-                ?<td></td>
-                :<td align="left"><img src={filereceive} width="100" height="100"/></td>}
-            </tr>
-            <tr>	
-                <td colSpan="2" style={{ fontSize:'22px', fontWeight: 'bold', textAlign:"left" }}>{mail.title}</td>
-            </tr>
-            <tr>	
-                <td colSpan="2" style={{ backgroundColor:'white' }}>
-                    <pre id="content" style={{ fontSize:'20px', fontFamily:'고딕, arial', backgroundColor:'white', textAlign:"left" }}>{mail.content}</pre>
-                </td>
+                <div className={`${styles.InputBox} ${detail.maildetail}`}>
+                    <span>수신일자</span>
+                    <span>{mail.wdate}</span>
+                </div>
+            {mail.filename === null || mail.filename === "" ?
+                <></>
+                :
+                <div className={`${styles.InputBox} ${detail.maildetail}`}>
+                    <span>첨부파일</span>
+                    {mail.filename === null || mail.filename === ""
+                    ?<span>{mail.filename}</span>
+                    :<span>{mail.filename}<button onClick={download}>다운로드</button></span>
+                    }
+                </div>
+            }
+            {mail.filename.substr(extension.indexOf('.')+1) === "jpg" || mail.filename.substr(extension.indexOf('.')+1) === "png" || mail.filename.substr(extension.indexOf('.')+1) === "jpeg"
+            ? 
+                <div className={`${styles.InputBox} ${detail.maildetail}`}>
+                    <span>미리보기</span>
+                    <span><img src={filereceive} width="100" height="100"/></span>
+                </div>
+                :
+                <></>
+            }
 
-            </tr>
-            </tbody>
-            </table>
+                <div className={`${styles.InputBox} ${styles.flex} ${detail.maildetail} ${detail.mailcontent}`}>
+                    {/* <span>내용</span> */}
+                    <p id="content">{mail.content}</p>
+                </div>
+            </div>
 
-            <button onClick={receivemaillist}>이전으로</button>
-            <button onClick={answer}>답장하기</button>
+            <button onClick={answer} className={styles.answerBtn}>답장하기</button>
 
         </div>
     )

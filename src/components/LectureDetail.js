@@ -93,7 +93,7 @@ function LectureDetail(){
                 <td colSpan="2" style={{ backgroundColor:'white' }}>
                     <pre id="content" style={{ fontSize:'20px', fontFamily:'고딕, arial', backgroundColor:'white', textAlign:"left", marginLeft:"138px" }}>{bbs.content}</pre>
                     
-                    <video style={{width:"865px", marginLeft:"124px", border:"3px solid #eeeeee"}} controls >
+                    <video style={{width:"700px", marginLeft:"234px", border:"3px solid #eeeeee"}} controls >
                         <source src={require('./asset/css/sample2.mp4')} type="video/mp4" /> 
                     </video>
                 </td>

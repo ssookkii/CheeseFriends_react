@@ -39,6 +39,7 @@ function Admin(){
                 localStorage.setItem("login", JSON.stringify(resp.data));
                 console.log(JSON.stringify(resp.data));
                 console.log(resp.data);
+                localStorage.setItem("btnActive", "edumanage");
                 history('/adminpage/edumanage')
             }else{
                 alert("id나 password를 확인하십시오")

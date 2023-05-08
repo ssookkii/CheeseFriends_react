@@ -302,25 +302,27 @@ const DataAnalysisTeacher = () => {
         <div>
             <div className='datanav' >
                 <nav style={{ backgroundColor: 'white' }}>
-                    <ul style={{ fontSize: '22px' }}>
-                        {subjects.map((subject) => (
-                            <li
-                                key={subject.subCode}
-                                className={selectedSubject === subject.subCode ? 'active' : ''}
-                                onClick={() => setSelectedSubject(subject.subCode)}
-                                style={{ opacity: "0.8" }}
-                            >
-                                <img src="/img/cheese.png" alt="Attendance statistics" width="20px" /> {subject.subName}
-                            </li>
-                        ))}
-                    </ul>
+                    <nav className='att_manage'>
+                        <ul>
+                            {subjects.map((subject) => (
+                                <li
+                                    key={subject.subCode}
+                                    className={selectedSubject === subject.subCode ? 'active' : ''}
+                                    onClick={() => setSelectedSubject(subject.subCode)}
+                                    style={{ minWidth: '80px', textAlign: 'center' }}
+                                >
+                                    {subject.subName}
+                                </li>
+                            ))}
+                        </ul>
+                    </nav>
                     <div className="search-container">
                         <input
                             type="text"
                             placeholder="학생 이름 입력"
                             value={searchText}
                             onChange={(e) => setSearchText(e.target.value)}
-                            style={{ width: '100px' }}
+                            style={{ marginLeft: '300px', width: '100px' }}
                         />
                         <a
                             href="#"
@@ -342,7 +344,7 @@ const DataAnalysisTeacher = () => {
             <div className="DataContainer">
                 <div className="chart-section">
                     <div className='AttendanceDate' >
-                        <h2 style={{ fontSize: '18px', width: '20%' }} className="attendance-month">
+                        <h2 style={{ fontSize: '16px', width: '33%' }} className="attendance-month">
                             과목별 평균 점수
                         </h2>
                     </div>
@@ -364,16 +366,16 @@ const DataAnalysisTeacher = () => {
 
                 <div className="chart-section">
                     <div className='AttendanceDate' >
-                        <h2 style={{ fontSize: '18px' }} className="attendance-month">
-                            {chartTitle}<span style={{ fontSize: '14px' }}> ( {currentMonth}월 )</span>
+                        <h2 style={{ fontSize: '16px' }} className="attendance-month">
+                            {chartTitle}<span style={{ fontSize: '12px' }}> ( {currentMonth}월 )</span>
                         </h2>
                     </div>
 
 
                     <div className="month-controls">
-                        <button onClick={() => changeMonth(-1)}>이전</button>
+                        <button onClick={() => changeMonth(-1)} style={{ width: '50px', fontSize: '11px', padding: '7px' }}>이전</button>
 
-                        <button onClick={() => changeMonth(1)}>다음</button>
+                        <button onClick={() => changeMonth(1)} style={{ width: '50px', fontSize: '11px', padding: '7px' }}>다음</button>
                     </div>
                     <ResponsiveContainer width="100%" height={400}>
                         <BarChart data={chartData} margin={{ top: 20, right: 20, left: 20, bottom: 5 }}>
@@ -389,6 +391,7 @@ const DataAnalysisTeacher = () => {
                             </Bar>
                         </BarChart>
                     </ResponsiveContainer>
+                    <br></br>
                     <div style={{ display: 'flex', justifyContent: 'space-around' }}>
                         <div style={{ width: '20%', textAlign: 'center' }}>
 
@@ -399,7 +402,7 @@ const DataAnalysisTeacher = () => {
                                     textColor: '#a2b0f6',
                                     pathColor: '#a2b0f6',
                                 })}
-                            />  <p>출석률</p>
+                            />  <h2 className='subName-title'>출석률</h2>
                         </div>
                         <div style={{ width: '20%', textAlign: 'center' }}>
                             <CircularProgressbar
@@ -409,7 +412,7 @@ const DataAnalysisTeacher = () => {
                                     textColor: '#ffc658',
                                     pathColor: '#ffc658',
                                 })}
-                            /> <p>결석률</p>
+                            /> <h2 className='subName-title'>결석률</h2>
                         </div>
                         <div style={{ width: '20%', textAlign: 'center' }}>
                             <CircularProgressbar
@@ -420,7 +423,7 @@ const DataAnalysisTeacher = () => {
                                     pathColor: '#f44336',
                                 })}
                             />
-                            <p>지각률</p>
+                            <h2 className='subName-title'>지각률</h2>
                         </div>
                     </div>
                 </div>
