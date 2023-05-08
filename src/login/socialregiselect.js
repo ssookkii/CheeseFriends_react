@@ -60,7 +60,7 @@ function Socialregiselect(){
                         <img src={logo} style={{width:"300px", height:"100px", marginLeft:"auto", marginRight:"auto"}}/>
        
                         <br/><br/><br/>
-                        <button class="btn" onClick={goRegiselect}>Cheesefriends 회원가입</button>
+                        <button class="loginbtn" onClick={goRegiselect}>Cheesefriends 회원가입</button>
                         <br/><br/><br/>
 
                         {/* SNS 로그인 구역 */}

@@ -12,7 +12,7 @@ import logo from './img/cheesefriendslogo.png';
 
 
 function Regi() {
-
+    
 
     function regiselect() {
         window.location.href = "/regiselect";
@@ -710,7 +710,10 @@ function Regi() {
 
 
     return (
+        
         <div>
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous" />
+    
         {/* // Login css 세트 1 */}
         <div style={{textAlign:"center", alignItems:"center"}}>
     
@@ -797,8 +800,40 @@ function Regi() {
                         
                         {/* 비밀번호 입력칸 */}
                         <h5 class="regitag">비밀번호</h5>
-                    
+                        {passworda === true
+                                ? <input type="password" class="regiinput" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="숫자,영문자,특수문자 포함 8자 이상" />
+                                : <input type="password" class="regiinput" style={{ borderColor: "red"}} value={password} onChange={(e) => setPassword(e.target.value)} placeholder="숫자,영문자,특수문자 포함 8자 이상" />}
+                        {password.length > 0
+                        ?<div> 
+                            {passwordc === "안전한 비밀번호 입니다"
+                            ? <div style={{ fontSize: "5px", color: 'blue' }}>{passwordc}</div>
+                            : <div style={{ fontSize: "5px", color: 'red' }}>{passwordc}</div>}</div>
+                        :<div></div>}
+                         <br/>
+                        
+                        {/* 비밀번호 확인 입력칸 */}
+                        <h5 class="regitag">비밀번호 확인</h5>
+                        {passwordChecka === true
+                            ? <input type="password" class="regiinput" value={passwordcheck} onChange={(e) => setPasswordcheck(e.target.value)} placeholder="위와 동일한 비밀번호 입력" />
+                            : <input type="password" class="regiinput" style={{ borderColor: "red"}} value={passwordcheck} onChange={(e) => setPasswordcheck(e.target.value)} placeholder="위와 동일한 비밀번호 입력" />}
+                        {passwordcheck.length > 0
+                        ?<div> 
+                             {passwordcheckc === "비밀번호가 동일합니다"
+                            ? <div style={{ fontSize: "5px", color: 'blue' }}>{passwordcheckc}</div>
+                            : <div style={{ fontSize: "5px", color: 'red' }}>{passwordcheckc}</div>}</div>
+                        :<div></div>}
+                         <br/>
 
+                        {/* 비밀번호 확인 입력칸 */}
+                        <h5 class="regitag">이메일 주소</h5>
+                        {emaila === true
+                            ? <input style={{ width: "230px" }} value={email} onChange={(e) => setEmail(e.target.value)} placeholder="이메일 주소를 입력해주세요" />
+                            : <input style={{ borderColor: "red", width: "230px" }} value={email} onChange={(e) => setEmail(e.target.value)} placeholder="이메일 주소를 입력해주세요" />}
+                    
+                        {emailc === "형식에 맞는 이메일입니다"
+                            ? <div style={{ fontSize: "5px", color: 'blue' }}>{emailc}</div>
+                            : <div style={{ fontSize: "5px", color: 'red' }}>{emailc}</div>}
+                      
                     </div>
                 </div>
         </div>

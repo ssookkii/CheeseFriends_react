@@ -284,13 +284,13 @@ function Idsearch(){
                                 ? <div>
                                      { findida === true
                                         ?<div></div>
-                                        :<div><button  class="btn" onClick={sendPhone}>인증번호 발송</button></div>} </div>
+                                        :<div><button  class="loginbtn" onClick={sendPhone}>인증번호 발송</button></div>} </div>
                                 : <div><button  class="btnfalse" disabled="false" onClick={sendPhone}>휴대폰 번호를 입력해주세요</button></div>}</div>
                             :<div><button  class="btnfalse" disabled="false" onClick={sendPhone}>이름을 입력해주세요</button></div>}
                            
   
                             {phone_publicch === true
-                            ?<div><button class="btn" onClick={sendphonecheck} >인증하기</button></div>
+                            ?<div><button class="loginbtn" onClick={sendphonecheck} >인증하기</button></div>
                             :<div></div>}
                             </div>}
                          
