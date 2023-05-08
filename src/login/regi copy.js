@@ -5,11 +5,8 @@ import { useNavigate } from "react-router-dom";
 import Modal from "./modal";
 import Post from "./Post";
 import "./css/regi.css";
-import "./css/login.css";
-import "./css/login2.css";
 
 import logo from './img/cheesefriendslogo.png';
-
 
 function Regi() {
 
@@ -261,7 +258,6 @@ function Regi() {
                 setSub_codecheck([...sub_codecheck, newItem]);
 
                 const table = document.getElementById("subplus2");
-                // const tbody = document.createElement("tbody");
                 const subplus = document.createElement("tr");
 
                 // 체크박스
@@ -277,7 +273,6 @@ function Regi() {
 
                 td.append(element0)
                 subplus.appendChild(td);
-                
 
                 setSub_codechecked((sub_codechecked) => [...sub_codechecked, sub_code])
 
@@ -304,7 +299,6 @@ function Regi() {
                         alert('err')
                     })
 
-                // tbody.appendChild(subplus);
                 table.appendChild(subplus);
             })
             .catch(function (err) {
@@ -686,122 +680,144 @@ function Regi() {
         history("/");      // 이동(link)
     }
 
-    // Login 세트 1
-    const inputs = document.querySelectorAll(".input");
 
-    function addcl(){
-    let parent = this.parentNode.parentNode;
-    parent.classList.add("focus");
-    console.log("addcl 작동");
-    }
-
-    function remcl(){
-    let parent = this.parentNode.parentNode;
-    if(this.value == ""){
-        parent.classList.remove("focus");
-    }
-    console.log("remcl 작동");
-    }
-
-    inputs.forEach(input => {
-        input.addEventListener("focus", addcl);
-        input.addEventListener("blur", remcl);
-    });
 
 
     return (
         <div>
-        {/* // Login css 세트 1 */}
-        <div style={{textAlign:"center", alignItems:"center"}}>
-    
-                <div class="container2">
-                 
-                    <div class="login-content2">
-                    
-                        <img src={logo} style={{width:"300px", height:"100px", marginLeft:"auto", marginRight:"auto"}}/>
-                        <br/><br/><br/>
-                      
-                        {/* 이름 입력칸 */}
-                        <h5 class="regitag">이름</h5>
-                        {namea === true
-                                ? <input class="regiinput" value={name} onChange={(e) => setName(e.target.value)} placeholder="이름을 입력해주세요" />
-                                : <input class="regiinput" style={{ borderColor: "red" }} value={name} onChange={(e) => setName(e.target.value)} placeholder="이름을 입력해주세요" />}
-                        {namea === true 
-                            ?<div></div>
-                            :<div>{ namec === "입력되었습니다" 
-                                ? <div><div class="inputtrue" >{namec}</div></div>
-                                : <div><div class="inputfalse" >{namec}</div></div>} 
-                        </div>}
-                        <br/>
+            
 
-                        {/* 성별 선택 */}
-                        <h5 class="regitag">성별</h5>
-                        <div>
-                            <select class="regiinput" onChange={genderChange}>
-                                <option value="man">남자</option>
-                                <option value="woman">여자</option>
-                            </select>
+            <img src={logo} style={{width:"300px", height:"100px"}}/>
+
+      
+            <div id="wrapper">
+                <div id="content">
+
+                <div>
+                    <h3 class="join_title">
+                        <label for="id">아이디</label>
+                    </h3>
+                    <span class="box int_id">
+                        <input type="text" id="id" class="int" maxlength="20" />
+                        <span class="step_url">@naver.com</span>
+                    </span>
+                    <span class="error_next_box"></span>
+                </div>
+
+        
+                <div>
+                    <h3 class="join_title"><label for="pswd1">비밀번호</label></h3>
+                    <span class="box int_pass" >
+                        <input type="text" id="pswd1" class="int" maxlength="20"/>
+                        <span id="alertTxt">사용불가</span>
+                        <img src="m_icon_pass.png" id="pswd1_img1" class="pswdImg"/>
+                    </span>
+                    <span class="error_next_box"></span>
+                </div>
+
+             
+                <div>
+                    <h3 class="join_title"><label for="pswd2">비밀번호 재확인</label></h3>
+                    <span class="box int_pass_check">
+                        <input type="text" id="pswd2" class="int" maxlength="20" />
+                        <img src="m_icon_check_disable.png" id="pswd2_img1" class="pswdImg" />
+                    </span>
+                    <span class="error_next_box"></span>
+                </div>
+
+             
+                <div>
+                    <h3 class="join_title"><label for="name">이름</label></h3>
+                    <span class="box int_name">
+                        <input type="text" id="name" class="int" maxlength="20"/>
+                    </span>
+                    <span class="error_next_box"></span>
+                </div>
+
+             
+                <div>
+                    <h3 class="join_title"><label for="yy">생년월일</label></h3>
+
+                    <div id="bir_wrap">
+                    
+                        <div id="bir_yy">
+                            <span class="box">
+                                <input type="text" id="yy" class="int" maxlength="4" placeholder="년(4자)" />
+                            </span>
                         </div>
-                        <br/>
 
-                        {/* 교육기관 코드 선택 */}
-                        <h5 class="regitag">교육기관 코드</h5>
-                        {codea === true
-                            ? <input class="regiinput" value={edu_code} onChange={(e) => setEdu_code(e.target.value)} placeholder="코드를 입력해주세요" />
-                            : <input class="regiinput" style={{ borderColor: "red"}} value={edu_code} onChange={(e) => setEdu_code(e.target.value)} placeholder="코드를 입력해주세요" />}
-                        <br/>
-                        
-                        {/* 교육기관 명 */}
-                        <h5 class="regitag">교육기관 명</h5>
-                        {edu_name === ""
-                            ? <div><input class="regiinput" value={edu_name} placeholder='올바른 코드를 입력해주세요' readOnly="readOnly"/></div>
-                            : <div><input class="regiinput" style={{color: 'blue' }} value={edu_name}  readOnly="readOnly"/></div>}
-                        <br/>
-                        
-                     
-                        {/* 과목 select */}
-                        <h5 class="regitag">과목</h5>
-                        <select className="regiinput subplus" id="subplus" onChange={subcodecheck}>
+                      
+                        <div id="bir_mm">
+                            <span class="box">
+                                <select id="mm" class="sel">
+                                    <option>월</option>
+                                    <option value="01">1</option>
+                                    <option value="02">2</option>
+                                    <option value="03">3</option>
+                                    <option value="04">4</option>
+                                    <option value="05">5</option>
+                                    <option value="06">6</option>
+                                    <option value="07">7</option>
+                                    <option value="08">8</option>
+                                    <option value="09">9</option>                                    
+                                    <option value="10">10</option>
+                                    <option value="11">11</option>
+                                    <option value="12">12</option>
+                                </select>
+                            </span>
+                        </div>
 
-                        </select>&nbsp;&nbsp;
-                        <button class="regibtn" onClick={subjectadd}>추가</button>
-                        <br/>
                         
-                        {/* 과목 선택 */}
-                        <table border="1" className="table table-hover"  >
-                            <colgroup>
-                                <col width="50" /><col width="50" /><col width="200" /><col width="100" />
-                            </colgroup>
-                            <thead>
-                                <tr>
-                                    <th>선택</th><th>번호</th><th>교육기관</th><th>과목</th>
-                                </tr>
-                            </thead>
-                            <tbody className="subplus2" id="subplus2">
-                            </tbody>
-                        </table>
-                        <br/>
-                        
-                        {/* 아이디 입력칸 */}
-                        <h5 class="regitag">아이디</h5>
-                        {ida === true
-                                ? <input class="regiinput"  value={id} onChange={idChange} placeholder="영문자와 숫자로 6자 이상" />
-                                : <input class="regiinput"  style={{ borderColor: "red" }} value={id} onChange={idChange} placeholder="영문자와 숫자로 6자 이상" />}
-                        {id.length > 0
-                        ?<div> 
-                            {idc === "이 아이디는 사용할 수 있습니다" 
-                            ? <div style={{ fontSize: "5px", color: 'blue' }}>{idc}</div>
-                            : <div style={{ fontSize: "5px", color: 'red' }}>{idc}</div>}</div>
-                        :<div></div>}
-                        <br/>
-                        
-                        {/* 비밀번호 입력칸 */}
-                        <h5 class="regitag">비밀번호</h5>
-                    
+                        <div id="bir_dd">
+                            <span class="box">
+                                <input type="text" id="dd" class="int" maxlength="2" placeholder="일" />
+                            </span>
+                        </div>
 
                     </div>
+                    <span class="error_next_box"></span>    
                 </div>
-        </div>
+
+                
+                <div>
+                    <h3 class="join_title"><label for="gender">성별</label></h3>
+                    <span class="box gender_code">
+                        <select id="gender" class="sel">
+                            <option>성별</option>
+                            <option value="M">남자</option>
+                            <option value="F">여자</option>
+                        </select>                            
+                    </span>
+                    <span class="error_next_box">필수 정보입니다.</span>
+                </div>
+
+                
+                <div>
+                    <h3 class="join_title"><label for="email">본인확인 이메일<span class="optional">(선택)</span></label></h3>
+                    <span class="box int_email">
+                        <input type="text" id="email" class="int" maxlength="100" placeholder="선택입력" />
+                    </span>
+                    <span class="error_next_box">이메일 주소를 다시 확인해주세요.</span>    
+                </div>
+
+              
+                <div>
+                    <h3 class="join_title"><label for="phoneNo">휴대전화</label></h3>
+                    <span class="box int_mobile">
+                        <input type="tel" id="mobile" class="int" maxlength="16" placeholder="전화번호 입력" />
+                    </span>
+                    <span class="error_next_box"></span>    
+                </div>
+              
+                <div class="btn_area">
+                    <button type="button" id="btnJoin">
+                        <span>가입하기</span>
+                    </button>
+                </div>
+
+            </div> 
+           </div>
+
      
             <h3>회원가입</h3>
 

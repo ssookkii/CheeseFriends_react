@@ -6,6 +6,11 @@ import student from './img/student.jpg';
 import parents from './img/parents.jpg';
 import teacher from './img/teacher.jpg';
 
+import "./css/login.css";
+import "./css/login2.css";
+
+import logo from './img/cheesefriendslogo.png';
+
 function Regiselect(){
 
     function gostudentregi(){
@@ -25,41 +30,50 @@ function Regiselect(){
     }
 
     return(
-        <div>
-            <h1>회원가입</h1>
-            <h2>가입 유형을 선택해주세요</h2>
-            <br/><br/><br/>
-            <table align="center">
-                <colgroup>
-                    <col width="300" /><col width="300" /><col width="300" />
-                </colgroup>
-                <tr>
-                    <td>
-                        <img src={student} width="100" height="100"/>
-                    </td>
-                    <td>
-                        <img src={parents} width="100" height="100"/>
-                    </td>
-                    <td>
-                        <img src={teacher} width="100" height="100"/>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <button onClick={gostudentregi}>학생</button>
-                    </td>
-                    <td>
-                        <button onClick={goparentregi}>학부모</button>
-                    </td>
-                    <td>
-                        <button onClick={goteacherregi}>교사</button>
-                    </td>
+        <div>  
+            {/*  Login css 세트 1 */}
+                <div style={{textAlign:"center", alignItems:"center"}}>
+                    
+                    <div class="container2">
 
-                </tr>
-            </table>
-            <br/><br/><br/>
+                        <div class="login-content3">
+                    
+                            <img src={logo} style={{width:"300px", height:"100px", marginLeft:"auto", marginRight:"auto"}}/>
+                            <br/><br/><br/>
+                            <div className="snsdiv">
+                                가입 유형을 선택해주세요
+                            </div>
+                            <br/><br/><br/>
+                            <table align="center">
+                                <colgroup>
+                                    <col width="300" /><col width="300" /><col width="300" />
+                                </colgroup>
+                                
+                                <tr>
+                                    <td>
+                                        <div className="snsdiv">학생</div>
+                                        <button class="student" onClick={gostudentregi} ></button>
+                                    </td>
+                                    <td>
+                                        <div className="snsdiv">학부모</div>
+                                        <button class="parents" onClick={goparentregi} ></button>
+                                    </td>
+                                    <td>
+                                        <div className="snsdiv">교사</div>
+                                        <button class="teacher" onClick={goteacherregi} ></button>
+                                    </td>
 
-            <button onClick={login}>로그인 화면으로</button>
+                                </tr>
+                            </table>
+                            <br/><br/><br/>
+                        
+                            <div>
+                            <button class="btn2" onClick={login}>로그인 화면으로</button>
+                            </div>
+                            </div>
+                    </div>
+                </div>
+
         </div>
     )
 }
