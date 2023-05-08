@@ -15,16 +15,22 @@ function PlayGame2() {
   return (
 
     <div>
-       <div>
+       <div className="divCenter">
             <h1>Speed Typing</h1>
-       </div>
-       <button type="button" onClick={handlePlayGame}>Play Game</button>
-        {showIframe && <div><iframe src="../typingGame/index.html" width="800" height="800"></iframe></div>}
+       </div><br/><br/>
 
-      {showGameexp && <div>
+       <div className="divCenter">
+       {showGameexp && <button className="btn" type="button" onClick={handlePlayGame}>Play Game</button>}
+       </div>
+       <div className="divCenter">
+        {showIframe && <button className="btn" type="button" onClick={handlePlayGame}>게임 설명</button>}<br/><br/>
+       </div>
+        {showIframe && <div><iframe src="../typingGame/index.html" width="800" height="800"></iframe></div>}<br/><br/>
+
+      {showGameexp && <div className="divCenter">
         <h1>게임 설명</h1><br/>
-        <h2>1. 게임 시작!</h2>
-        <p>Speed Typing Game은 말 그대로 제시어를 제한시간 안에 빠르게 입력하는 게임입니다.</p><br/>
+        <h2>1. 게임 시작!</h2><br/>
+        <p><b>Speed Typing</b> 은 제시어를 제한시간 안에 빠르게 입력하는 게임입니다.</p><br/>
         <img src="/img/SpeedTypingImg1.png" alt="게임 설명 이미지" width="500" height="auto" />
         <p>게임이 시작되면 제시어와 함께 좌측에는 제한시간, 우측에는 점수가 보여집니다.</p><br/><br/>
 
