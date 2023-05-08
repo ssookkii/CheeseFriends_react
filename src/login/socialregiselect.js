@@ -1,12 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
-
-import './sociallogin.css';
 import GoogleLoginButton from "./google";
-
 import Naver from "./naver";
+
+import './css/sociallogin.css';
+import "./css/login.css";
+import "./css/login2.css";
+
+import logo from './img/cheesefriendslogo.png';
 
 function Socialregiselect(){
     // const REST_API_KEY = "f3613163848bb3a96a1dd490a0855f2c";
@@ -48,6 +50,54 @@ function Socialregiselect(){
 
     return(
         <div>
+            {/*  Login css 세트 1 */}
+            <div style={{textAlign:"center", alignItems:"center"}}>
+                    
+                <div class="container2">
+
+                    <div class="login-content2">
+                
+                        <img src={logo} style={{width:"300px", height:"100px", marginLeft:"auto", marginRight:"auto"}}/>
+       
+                        <br/><br/><br/>
+                        <button class="btn" onClick={goRegiselect}>Cheesefriends 회원가입</button>
+                        <br/><br/><br/>
+
+                        {/* SNS 로그인 구역 */}
+                        <div className="snsdiv">
+                            기존의 계정으로 Cheesefriends에 가입 해봐요
+                        </div>
+
+                        <br/>
+                        
+                        <table align="center" className="snstable">
+                            <tr>
+                                <td>
+                                    <GoogleLoginButton />
+                                </td>
+                                <td style={{paddingTop:"2px", paddingLeft:"10px"}}>
+                                    <Naver />
+                                </td>
+                                <td style={{paddingTop:"4px", paddingLeft:"8px"}}>
+                                    <a href={KAKAO_AUTH_URL}>
+                                        <div className="kakao_btn">
+                                        </div>
+                                    </a>
+                                </td>
+                            </tr>
+                        </table>
+                    
+                        <br/><br/><br/>
+                        <div className="snsdiv">이미 cheesefriends의 회원이신가요?</div>
+                        <br/>
+                        <div>
+                            <button class="btn2" onClick={login}>로그인 화면으로</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
             <h1>회원가입</h1>
             <br/><br/><br/>
             <button style={{width:"300px", height:"40px"}}onClick={goRegiselect}>Cheesefriends 회원가입</button>
@@ -67,10 +117,10 @@ function Socialregiselect(){
                     <td>
                         <GoogleLoginButton />
                     </td>
-                    <td style={{paddingTop:"7px", paddingLeft:"5px"}}>
+                    <td style={{paddingTop:"2px", paddingLeft:"10px"}}>
                         <Naver />
                     </td>
-                    <td style={{paddingTop:"4px"}}>
+                    <td style={{paddingTop:"4px", paddingLeft:"8px"}}>
                         <a href={KAKAO_AUTH_URL}>
                             <div className="kakao_btn">
                             </div>
