@@ -8,7 +8,7 @@ import Pagination from "react-js-pagination";
 import Deletemodal from "./deletemodal";
 import Okmodal from "./okmodal";
 import Quitmodal from "./quitmodal";
-
+import styles from "../components/asset/css/mypage.module.css"
 
 function Studentlist(){
     const [modalOpen, setModalOpen] = useState(false);
@@ -153,84 +153,82 @@ function Studentlist(){
 
 
      // paging
-     const [page, setPage] = useState(1);
-     const [totalCnt, setTotalCnt] = useState(0);
-     
-      
+    const [page, setPage] = useState(1);
+    const [totalCnt, setTotalCnt] = useState(0);
+
      // 검색
-     let navigate = useNavigate();
- 
-     function searchBtn(){
-         // choice, search 검사
-         console.log("search작동")
- 
-         if(choice.toString().trim() !== "" && search.toString().trim() !== ""){
-             navigate('/testmain/studentlist/' + choice + "/" + search);
-         }
-         else{
-             navigate('/testmain/studentlist/');
-         }
-         // 데이터를 다시 한번 갖고 온다
-         setPage(1)
-         fetchData(sub_code, choice, search, 0);
-     }
- 
+    let navigate = useNavigate();
+
+    function searchBtn(){
+        // choice, search 검사
+        console.log("search작동")
+
+        if(choice.toString().trim() !== "" && search.toString().trim() !== ""){
+            navigate('/cheesefriends/testmain/studentlist/' + choice + "/" + search);
+        }
+        else{
+            navigate('/cheesefriends/testmain/studentlist/');
+        }
+        // 데이터를 다시 한번 갖고 온다
+        setPage(1)
+        fetchData(sub_code, choice, search, 0);
+    }
+
      // 페이지 설정
-     function handlePageChange(page){
-         setPage(page);
-         fetchData(sub_code, choice, search, page-1);
-     }
-  
- 
- 
-     const fetchData = async (subcode, c, s, p) => {
-         await axios.get('http://localhost:3000/studentlist', { params:{ "subcode":subcode, "choice":c, "search":s, "pageNumber":p} })
-         .then(function(res){
-            setStudentlist(res.data.list);
-            setTotalCnt(res.data.cnt);  // 글의 총수
- 
-         })
-         .catch(function(err){
-             console.log(err);    
-         })
-     }
- 
-   
- 
-     function TableRow(props){
-         return (
-             <tr>
-                 <td>{props.cnt}</td>
-                 <td>{props.student.name}</td>
-                 <td>{props.student.id}</td>
-                 <td>{props.student.parentsid}</td>
-                 <td>{props.student.subname}</td>
-                 <td>{props.student.startdate} ~ {props.student.enddate}</td>
-                 {props.student.state === "approving"
-                    ?<td><div>수강승인필요</div><div>{approved(props)}</div></td>
-                    :<td>
-                        {props.student.state === "quiting"
-                        ?<div><div>탈퇴승인필요</div><div>{quited(props)}</div></div>
-                        :<div>
-                            {props.student.state === "quited"
-                            ?<div>탈퇴완료</div>
-                            :<div>수강중</div>}
-                        </div>}
-                </td>}
-                {props.student.state === "approving"
-                    ?<td></td>
-                    :<td>
-                        {props.student.state === "quiting"
-                        ?<div>{quitedtwo(props)}</div>
-                        :<div>
-                            {props.student.state === "quited"
-                            ?<div>탈퇴 완료</div>
-                            :<div>{quitedtwo(props)}</div>}
-                        </div>}
-                </td>}
-             </tr>
-         );
-     }
+    function handlePageChange(page){
+        setPage(page);
+        fetchData(sub_code, choice, search, page-1);
+    }
+
+
+
+    const fetchData = async (subcode, c, s, p) => {
+        await axios.get('http://localhost:3000/studentlist', { params:{ "subcode":subcode, "choice":c, "search":s, "pageNumber":p} })
+        .then(function(res){
+        setStudentlist(res.data.list);
+        setTotalCnt(res.data.cnt);  // 글의 총수
+
+        })
+        .catch(function(err){
+            console.log(err);    
+        })
+    }
+
+
+    function TableRow(props){
+        return (
+            <tr>
+            <td>{props.cnt}</td>
+            <td>{props.student.name}</td>
+            <td>{props.student.id}</td>
+            <td>{props.student.parentsid}</td>
+            <td>{props.student.subname}</td>
+            <td>{props.student.startdate.substr(0, 11)} ~ {props.student.enddate.substr(0, 11)}</td>
+            {props.student.state === "approving"
+            ?<td><span>수강승인필요</span><span>{approved(props)}</span></td>
+            :<td>
+                {props.student.state === "quiting"
+                ?<><span>탈퇴승인필요</span><span>{quited(props)}</span></>
+                :<>
+                    {props.student.state === "quited"
+                    ?<span>탈퇴완료</span>
+                    :<span>수강중</span>}
+                </>}
+        </td>}
+        {props.student.state === "approving"
+            ?<></>
+            :<td>
+                {props.student.state === "quiting"
+                ?<span>{quitedtwo(props)}</span>
+                :<>
+                    {props.student.state === "quited"
+                    ?<span>탈퇴 완료</span>
+                    :<span>{quitedtwo(props)}</span>}
+                </>}
+        </td>}
+        </tr>
+        );
+    }
 
     // 학습 신청 승인해주기
     function approved(props){
@@ -271,18 +269,14 @@ function Studentlist(){
 
 
         return(
-            <div>
-            <td>
-                <React.Fragment>
-                    <button onClick={openModal}>수강 승인하기</button>
-                    <Deletemodal open={modalOpen} close={closeModal} yesclose={yescloseModal} header="수강 승인하기">
-                    <main>  
-                        수강신청을 승인 하시겠습니까?
-                    </main>        
-                    </Deletemodal>
-                </React.Fragment>
-            </td> 
-            </div>
+            <React.Fragment>
+                <button onClick={openModal} className={styles.confirmBtn}>수강 승인하기</button>
+                <Deletemodal open={modalOpen} close={closeModal} yesclose={yescloseModal} header="수강 승인하기">
+                <main>  
+                    수강신청을 승인 하시겠습니까?
+                </main>        
+                </Deletemodal>
+            </React.Fragment>
         )
     }
 
@@ -323,18 +317,14 @@ function Studentlist(){
         };
 
         return(
-            <div>
-            <td>
-                <React.Fragment>
-                    <button onClick={openModal3}>탈퇴 승인하기</button>
-                    <Okmodal open3={modalOpen3} close3={closeModal3} yesclose3={yescloseModal3} header="탈퇴 승인하기">
-                    <main>  
-                        탈퇴 신청을 승인 하시겠습니까?
-                    </main>        
-                    </Okmodal>
-                </React.Fragment>
-            </td> 
-            </div>
+            <React.Fragment>
+                <button onClick={openModal3} className={styles.confirmBtn}>탈퇴 승인하기</button>
+                <Okmodal open3={modalOpen3} close3={closeModal3} yesclose3={yescloseModal3} header="탈퇴 승인하기">
+                <main>  
+                    탈퇴 신청을 승인 하시겠습니까?
+                </main>        
+                </Okmodal>
+            </React.Fragment>
         )
     }
 
@@ -375,59 +365,39 @@ function Studentlist(){
         };
 
         return(
-            <div>
-            <td>
-                <React.Fragment>
-                    <button onClick={openModal2}>탈퇴시키기</button>
-                    <Quitmodal open2={modalOpen2} close2={closeModal2} yesclose2={yescloseModal2} header="탈퇴시키기">
-                    <main>  
-                        해당유저의 수강을 탈퇴 시키겠습니까?
-                    </main>        
-                    </Quitmodal>
-                </React.Fragment>
-            </td> 
-            </div>
+            <React.Fragment>
+                <button onClick={openModal2} className={`${styles.confirmBtn} ${styles.delBtn}`}>탈퇴시키기</button>
+                <Quitmodal open2={modalOpen2} close2={closeModal2} yesclose2={yescloseModal2} header="탈퇴시키기">
+                <main>  
+                    해당유저의 수강을 탈퇴 시키겠습니까?
+                </main>        
+                </Quitmodal>
+            </React.Fragment>
         )
     }
-   
 
     return(
         <div>
-            <div>
-                <h1>과목별 수강생 확인</h1>
+            <div className={styles.topContent}>
+                <div className={styles.subject}>
+                    <select className="subselect" id="subselect" value={sub_code} onChange={subcodechange}>
+                        
+                    </select>
+                </div>
 
-                <table align="center">
-                    <colgroup>
-                        <col width="100" /><col width="100" /><col width="100" />
-                    </colgroup>
-                    <tr>
-                        <td>
-                            <select className="subselect" id="subselect" value={sub_code} onChange={subcodechange}>
-                                
-                            </select>
-                        </td>
-                        <td>
-                            <select value={choice} onChange={choiceChange}>
-                                <option value=''>검색</option>
-                                <option value="name">이름</option>
-                                <option value="id">아이디</option>
-                            </select>
-                        </td>
-                        <td>
-                            <input value={search} onChange={searchChange} ></input>
-                        </td>
-                        <td>
-                            <button onClick={searchBtn}>검색</button>
-                        </td>
-                    </tr>
-                </table>
+                <div className={styles.search}>      
+                    <select value={choice} onChange={choiceChange}>
+                        <option value="">검색</option>
+                        <option value="name">이름</option>
+                        <option value="id">아이디</option>
+                    </select>
+                    <input value={search} onChange={searchChange} placeholder="검색어를 입력하세요"/>
+                    <button onClick={searchBtn} className={styles.searchBtn}>검색</button>
+                </div>
 
-                <br/><br/>
-
-                <table className="table" border="1" align="center">
-                    <colgroup>
-                        <col width="50" /><col width="100" /><col width="100" /><col width="100" /><col width="100" /><col width="200" /><col width="120" /><col width="100" />
-                    </colgroup>
+            </div>
+            <table className={`${styles.tableList} ${styles.studentlist}`}>
+                <thead>
                     <tr>
                         <th>번호</th>
                         <th>이름</th>
@@ -438,25 +408,27 @@ function Studentlist(){
                         <th>상태</th>
                         <th>탈퇴처리</th>
                     </tr>
-                        {
-                            studentlist.map(function(dto, i){
-                                return (
-                                    <TableRow student={dto} cnt={(page-1)*10+(i+1)} key={i} />
-                                )
-                            })
-                        }            
-                </table>
+                </thead>
+                <tbody>
+                {
+                    studentlist.map(function(dto, i){
+                        return (
+                            <TableRow student={dto} cnt={(page-1)*10+(i+1)} key={i} />
+                        )
+                    })
+                }   
+                </tbody>         
+            </table>
 
-                <Pagination
-                    activePage={page}
-                    itemsCountPerPage={10}
-                    totalItemsCount={totalCnt}
-                    pageRangeDisplayed={5}
-                    prevPageText={"‹"}
-                    nextPageText={"›"}
-                    onChange={handlePageChange} />
+            <Pagination
+                activePage={page}
+                itemsCountPerPage={10}
+                totalItemsCount={totalCnt}
+                pageRangeDisplayed={5}
+                prevPageText={"‹"}
+                nextPageText={"›"}
+                onChange={handlePageChange} />
 
-            </div>
         </div>
         
     )

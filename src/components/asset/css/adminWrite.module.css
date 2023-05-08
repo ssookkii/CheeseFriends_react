@@ -6,7 +6,7 @@
     font-size:1.3em;
     font-weight: 600;
     background: #fac463;
-    padding: 20px 20px;
+    padding: 15px 20px;
     margin-bottom: 20px;
     color: #fff;
 }
@@ -70,7 +70,8 @@
     background-color: #fac463;
     color:#fff;
     margin-right:5px;
-    font-weight:600;
+    font-weight:500;
+    font-size:0.9em;
 }
 .linkBtn {
     display:inline-block;
@@ -130,6 +131,8 @@
 .btnCenter {
     display: block;
     margin:30px auto 0;
+    font-weight: 600;
+    font-size:1em;
 }
 
 .contentBox .uploadName {
@@ -153,6 +156,8 @@
     height: 40px;
     margin-left: 10px;
     border-radius: 10px;
+    font-size:0.9em;
+    font-weight: 500;
 }
 .contentBox input[type="file"] {
     position: absolute;
@@ -161,4 +166,12 @@
     padding: 0;
     overflow: hidden;
     border: 0;
+}
+.downBtn {
+    padding:3px 5px;
+    font-size:0.9em;
+    color:#fff;
+    background-color: #434343;
+    border-radius: 5px;;
+    margin-left:5px;
 }

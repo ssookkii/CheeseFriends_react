@@ -9,7 +9,7 @@ function TimeTable(){
     const id = login.id
 
     // 과목별 색상지정
-    const colors = ['#6399fa', '#fcd794', '#fa7963', '#CDE990', '#94B9FC'];
+    const colors = ['#6399fa', '#3FB6DC', '#fa7963', '#CDE990', '#25265E'];
     const colorMap = {};
     let count = 0;
     
@@ -44,10 +44,12 @@ function TimeTable(){
             console.log(response.data);
             setTimelist(response.data);
             // TimeTable(response.data);
+            
     }
      // 과목데이터 저장
     const [timelist, setTimelist] = useState([]);
-    
+
+
     useEffect(()=>{
         getTimeList(id);
     }, [id]);
@@ -66,7 +68,7 @@ function TimeTable(){
                     const timeNum = timeCheck(start, end);
         
                     // rowspan으로 합쳐주기 위해 첫 칸만 입력
-                    newEmptyTable[timeNum[0]][dayNum] = timelist[i].subName;
+                    newEmptyTable[timeNum[0]][dayNum] = `${timelist[i].subName}/${timelist[i].subStartTime}-${timelist[i].subEndTime}`;
                     
                     // rowspan 저장해두기
                     newRowspansave.push({
@@ -151,7 +153,8 @@ function TimeTable(){
                         }
                     }
             }
-        
+            console.log("여기탐리");
+            console.log(timelist);
     
     }, [timelist]);
 
@@ -166,13 +169,13 @@ function TimeTable(){
             <thead>
             <tr>
                 <th></th>
-                <th>월</th>
-                <th>화</th>
-                <th>수</th>
-                <th>목</th>
-                <th>금</th>
-                <th>토</th>
-                <th>일</th>
+                <th>Mon</th>
+                <th>Tue</th>
+                <th>Wed</th>
+                <th>Thu</th>
+                <th>Fri</th>
+                <th>Sat</th>
+                <th>Sun</th>
             </tr>
             </thead>
             <tbody>
@@ -192,11 +195,14 @@ function TimeTable(){
                                         count = 0;
                                     }
                                 }
+                                // 시간 표시하기 위해 자르기
+                                const index = time.indexOf('/');
+                                
                                 return (
                                     <td key={j}
                                         rowSpan={rowspansave[k].length}
-                                        style={{ backgroundColor: colorMap[time] }}
-                                        >{time}</td>
+                                        style={{ backgroundColor: `${colorMap[time]}30`, color:"#555", borderRadius:"5px", fontWeight:"600", borderLeft:`4px solid ${colorMap[time]}`}}
+                                        >{time.substr(0, index)}<br/><span>{time.substr(index+1)}</span></td>
                                     );
                             } 
                         }

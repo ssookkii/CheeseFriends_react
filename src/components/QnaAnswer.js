@@ -78,7 +78,7 @@ function QnaAnswer(){
                 getQnaSeq :params.seq, 
                 topic :qna.topic, 
                 title :answer.title, 
-                content :encodeURIComponent(answer.content),
+                content :answer.content,
                 writer: login.id,
             }
         }
