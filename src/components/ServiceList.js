@@ -9,68 +9,12 @@ import './asset/css/ServiceList.css';
 export default function ServiceList() {
     
     const [serviceList, setServiceList] = useState([]);
-
+    const [seq, setSeq] = useState('');
     const movePage = useNavigate();
 
-    function leclist() {
-        movePage('/lecture');
+    function writelink() {
+        movePage('/cheesefriends/service/ServiceWrite')
     }
-    function learnlist() {
-        movePage('/learning');
-    }
-
-    function infolist() {
-        movePage('/learning/EduInfoList');
-    }
-
-    function serviceWrite() {
-        movePage('/service/ServiceWrite');
-    }
-
-    function service(){
-        movePage('/service/ServiceList');
-    }
-
-    function getServiceList() {
-        axios.get("http://localhost:3000/serviceList")
-        .then(function(resp){
-            setServiceList(resp.data);
-            console.log(resp.data);
-            
-        })
-        .catch(function(err){
-            // alert(err);
-        })
-
-    }
-    useEffect(function(){
-        getServiceList(0);
-    },[]);
-
-    const [subList, setSubList] = useState([]);
-    const [choice, setChoice] = useState('');
-    const [search, setSearch] = useState('');
-
-    //paging
-    const [page, setPage] = useState(1);
-    const [totalCnt, setTotalCnt] = useState(0);
- 
-    function getSubList(){
-        axios.get("http://localhost:3000/categorysearch/1")
-        .then(function(resp) {
-            // 데이터가 있을 경우에만 subList 상태를 업데이트
-            if (resp.data.list) {
-                setSubList(resp.data.list);
-            }
-        })
-        .catch(function(err){
-            alert(err);
-        })
-    }
-
-    useEffect(function(){
-        getSubList("", "", 0);
-    }, []);
 
     const [bbs, setBbs] = useState();
     let params = useParams();
@@ -100,6 +44,9 @@ export default function ServiceList() {
         setSelectedItem(null);
         setModalIsOpen(false);
     }
+    function answerbtn() {
+        movePage(`/cheesefriends/service/ServiceAnswer/${seq}`);
+    }
 
     function ModalComponent(props) {
         const { selectedItem, closeModal } = props;
@@ -110,53 +57,133 @@ export default function ServiceList() {
         return (
           <Modal isOpen={selectedItem !== null} onRequestClose={closeModal} className='modalcss'>
             <p>{selectedItem.content}</p>
+            <div>
+                <button type="button" onClick={answerbtn}>답글달기</button>
+            </div>
           </Modal>
+
         );
     }
 
+        const [frelist, setFreList] = useState([]);
+
+        function getFreBtn() {
+            // 백엔드 API 호출
+            axios.get(`http://localhost:3000/categorysearch`, {params:{ category:"frequently"}}) // 카테고리에 따른 API 경로 지정
+            .then(response => {
+                //setBbsList(response.data.bbslist); // 백엔드에서 받은 데이터 설정
+                setFreList(response.data);
+                console.log(response.data);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+        }
+
+        useEffect(function(){
+            getFreBtn("","", 0);
+        }, []);
+
+
+        const [infolist, setInfoList] = useState([]);
+        function getInfoBtn() {
+            axios.get(`http://localhost:3000/categorysearch`, {params:{ category:"userInfo"}}) // 카테고리에 따른 API 경로 지정
+            .then(response => {
+                setInfoList(response.data);
+                console.log(response.data);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+        }
+        useEffect(function(){
+            getInfoBtn("","", 0);
+        }, []);
+
+        const [useLectList, setUseLectList] = useState([]);
+        function getLecBtn() {
+            axios.get(`http://localhost:3000/categorysearch`, {params:{ category:"useLect"}}) // 카테고리에 따른 API 경로 지정
+            .then(response => {
+                console.log(response.data);
+                setUseLectList(response.data);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+        }
+        
+        useEffect(function(){
+            getLecBtn("","", 0);
+        }, []);
     
+
+
+        const [playlist, setPlayList] = useState([]);
+        function getPlayBtn() {
+            axios.get(`http://localhost:3000/categorysearch`, {params:{ category:"player"}}) // 카테고리에 따른 API 경로 지정
+            .then(response => {
+                setPlayList(response.data);
+                console.log(response.data);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+        }
+
+        useEffect(function(){
+            getPlayBtn("","", 0);
+        }, []);
+
+        const [mobileli, setMobileLi] = useState([]);
+        function mobileBtn() {
+            axios.get(`http://localhost:3000/categorysearch`, {params:{ category:"mobile"}}) // 카테고리에 따른 API 경로 지정
+            .then(response => {
+                setMobileLi(response.data);
+                console.log(response.data);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+        }
+
+        useEffect(function(){
+            mobileBtn("","", 0);
+        }, []);
+
+
     return (
-        <div style={{display:"flex", marginTop:"116px", marginLeft:"100px"}} className='eduinfolist'>
-            <div style={{width:"280px", height:"630px", borderRadius:"16px"}}>
-                <a href="/" style={{color:"black", textDecoration:"none"}}>
-                    <h1 className='eduinfotitle'>고객센터</h1>
-                </a>
-     
-                <div className="dropdown">
-                    <button type="button" className="eduwritebtn" onClick={serviceWrite} style={{width:"248px"}}>
-                        작성하기
-                    </button>
+        <div className="servicelist">
+            <div style={{marginTop:"-627PX"}}>
+                <h2 style={{marginLeft:"34px", color:"#434343", marginTop:"-15px"}}>고객센터</h2>
+                <div style={{width:"250px"}}>
+                    {/* {userAuth === 'teacher' && ( */}
+                        <button type="button" className="learnBtn"  onClick={writelink}>
+                            글쓰기
+                        </button>
+                    {/* )} */}
                 </div>
             </div>
         
     
             {/* 목록 */}
-            <div style={{display:"block", width:"1000px", marginTop:"25px"}}>
-                <div className='navwrapper'>
-                <div className='eduinfonav-1' onClick={leclist} ><h3>인강 학습실</h3></div>
-                    <div className='eduinfonav-1' onClick={learnlist} ><h3>학습용 자료실</h3></div>
-                    <div className='eduinfonav-2' onClick={infolist} ><h3>교육 정보</h3></div>
-                    <div className='eduinfonav-3' onClick={service}><h3>고객센터</h3></div>
-                </div>
+            <div style={{display:"block", width:"1000px", marginTop:"-230px"}}>
+    
                 <div className='contentwrapper'>
                     <div className='fontWrapper'>
                         <div>
-                            <FontAwesomeIcon icon={faMedal} className='ser' />
+                            <FontAwesomeIcon icon={faMedal} className='ser' onClick={getFreBtn}/>
                         </div>
                         <div>
-                            <FontAwesomeIcon icon={faUser} className='ser' />
+                            <FontAwesomeIcon icon={faUser} className='ser' onClick={getInfoBtn} />
                         </div>
                         <div>
-                            <FontAwesomeIcon icon={faDisplay} className='ser'/>
+                            <FontAwesomeIcon icon={faDisplay} className='ser' onClick={getLecBtn}/>
                         </div>
                         <div>
-                            <FontAwesomeIcon icon={faCirclePlay}className='ser'  />
+                            <FontAwesomeIcon icon={faCirclePlay}className='ser' onClick={getPlayBtn} />
                         </div>
                         <div>
-                            <FontAwesomeIcon icon={faDownload} className='ser' />
-                        </div>
-                        <div>
-                            <FontAwesomeIcon icon={faMobileScreen}className='ser' />
+                            <FontAwesomeIcon icon={faMobileScreen}className='ser' onClick={mobileBtn} />
                         </div>
                     </div>
                 </div>
@@ -164,11 +191,12 @@ export default function ServiceList() {
                 <hr className='servhr'/>            
             
                 <div className='contentwrapper'>
-                {subList && subList.map(function(list, i){
+                    
+                {frelist && frelist.map(function(list){
                 return (
                     <ul>
                     <li key={list.i} className='serlist'>
-                        <div className='ptag'>
+                        <div className='ptag' style={{cursor:"pointer"}}>
                         <FontAwesomeIcon icon={faCheese} />
                         <p onClick={() => handleItemClick(list)}>{list.title}</p>
                         </div>
@@ -176,9 +204,64 @@ export default function ServiceList() {
                     </ul>
                 )
                 })}
+
+                {infolist && infolist.map(function(list){
+                return (
+                    <ul>
+                    <li key={list.i} className='serlist'>
+                        <div className='ptag' style={{cursor:"pointer"}}>
+                        <FontAwesomeIcon icon={faCheese} />
+                        <p onClick={() => handleItemClick(list)}>{list.title}</p>
+                        </div>
+                    </li>
+                    </ul>
+                )
+                })}
+
+                {useLectList && useLectList.map(function(list){
+                return (
+                    <ul>
+                    <li key={list.i} className='serlist'>
+                        <div className='ptag' style={{cursor:"pointer"}}>
+                        <FontAwesomeIcon icon={faCheese} />
+                        <p onClick={() => handleItemClick(list)}>{list.title}</p>
+                        </div>
+                    </li>
+                    </ul>
+                )
+
+                })}
+
+                {playlist && playlist.map(function(list){
+                return (
+                    <ul>
+                    <li key={list.i} className='serlist'>
+                        <div className='ptag' style={{cursor:"pointer"}}>
+                        <FontAwesomeIcon icon={faCheese} />
+                        <p onClick={() => handleItemClick(list)}>{list.title}</p>
+                        </div>
+                    </li>
+                    </ul>
+                )
+                })}
+                    {mobileli && mobileli.map(function(list){
+                return (
+                    <ul>
+                    <li key={list.i} className='serlist'>
+                        <div className='ptag' style={{cursor:"pointer"}}>
+                        <FontAwesomeIcon icon={faCheese} />
+                        <p onClick={() => handleItemClick(list)}>{list.title}</p>
+                        </div>
+                    </li>
+                    </ul>
+                )
+                })}
+                    
             </div>
                 <ModalComponent selectedItem={selectedItem} closeModal={closeModal} />
+                
             </div>
+
         </div>               
          
 

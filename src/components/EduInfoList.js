@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import 'bootstrap/dist/css/bootstrap.css';
+import { faAngleRight, faAngleLeft, faAnglesLeft, faAnglesRight  } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Pagination from 'react-js-pagination';
 import axios from "axios";
-import { createRoot } from "react-dom/client";
 import { useNavigate, Link } from 'react-router-dom';
 import './asset/css/eduInfoList.css';
 
@@ -11,16 +12,8 @@ export default function EduInfoList() {
 
     const movePage = useNavigate();
 
-    function learnlist() {
-        movePage('/learning');
-    }
-
-    function infolist() {
-        movePage('/learning/EduInfoList');
-    }
-
     function eduwrite() {
-        movePage('/learning/EduInfoWrite');
+        movePage('/cheesefriends/learning/EduInfoWrite');
     }
 
     function getEduInfoList() {
@@ -36,16 +29,20 @@ export default function EduInfoList() {
 
     }
 
-
     useEffect(function(){
         getEduInfoList();
     },[]);
 
     const [subList, setSubList] = useState([]);
- 
+    const [choice, setChoice] = useState('');
+    const [search, setSearch] = useState('');
 
-    function getSubList(){
-        axios.get("http://localhost:3000/eduInfoList")
+        //paging
+        const [page, setPage] = useState(1);
+        const [totalCnt, setTotalCnt] = useState(10);
+ 
+    function getSubList(choice, search, page){
+        axios.get("http://localhost:3000/eduInfoList", { params:{"choice":choice, "search":search, "pageNumber":page } })
         .then(function(resp) {
             // 데이터가 있을 경우에만 subList 상태를 업데이트
             if (resp.data.list) {
@@ -57,56 +54,85 @@ export default function EduInfoList() {
         })
     }
 
+    function searchBtn(){
+        // if(choice.toString().trim() === "" || search.toString().trim() === "") return;
+        getSubList(choice, search, 0);
+    }
+
+    function pageChange(page) {
+        setPage(page);
+        getSubList(choice, search, page-1);
+    }
+
     useEffect(function(){
-        getSubList("", "", 0);
+        getSubList("","", 0);
     }, []);
 
     
- 
-
-
     return (
 
-    <div style={{display:"flex", marginTop:"116px", marginLeft:"100px"}} className='eduinfolist'>
-        <div style={{width:"280px", height:"630px", borderRadius:"16px"}}>
-            <a href="/" style={{color:"black", textDecoration:"none"}}>
-                <h1 className='eduinfotitle'>교육 정보</h1>
-                <p>최신 교육 정보를 제공하고 있습니다.</p>
-            </a>
-            
-            <div className="dropdown">
-                <button type="button" className="eduwritebtn" onClick={eduwrite} style={{width:"248px"}}>
-                    작성하기
-                </button>
-            </div>
-        </div>
-    
+    <div className='eduinfolist'>
+        <div style={{marginTop:"-627PX"}}>
+                <h2 style={{marginLeft:"34px", color:"#434343", marginTop:"-15px"}}>교육정보</h2>
+                <p>최신 교육 정보를 제공합니다.</p>
+                <div style={{width:"250px"}}>
+                     {userAuth === 'admin' && ( 
+                        <button type="button" className="learnBtn"  onClick={eduwrite}>
+                            글쓰기
+                        </button>
+                    )} 
+                </div>
+            </div>  
 
         {/* 목록 */}
         <div style={{display:"block", width:"1000px", marginTop:"25px", marginLeft:"100px"}}>
-            <div className='navwrapper'>
-                <div className='eduinfonav-1' onClick={learnlist} ><h3>학습용 자료실</h3></div>
-                <div className='eduinfonav-2' onClick={infolist} ><h3>교육 정보</h3></div>
-                <div className='eduinfonav-3' ><h3>고객센터</h3></div>
+            <div style={{display:"flex", marginTop:"-140px", justifyContent:"flex-end"}}>
+                    
+                    <select vlaue={choice} onChange={(e)=>setChoice(e.target.value)}
+                    style={{border:"none", borderBottom:"1px solid lightgray", height:"31px", marginTop:"14px", marginRight:"6px" }}>
+                        <option value="">검색</option>
+                        <option value="subject">과목</option>
+                        <option value="title">제목</option>
+                        <option value="content">내용</option>
+                    </select>
+                    <input value={search} onChange={(e)=>setSearch(e.target.value)} style={{marginTop:"14px", height:"31px"}} placeholder="검색어를 입력하세요"/>
+                    <button onClick={searchBtn} style={{marginTop:"14px"}} className='searchbtn'>검색</button>
             </div>
-        </div>
 
-            <div className='contentwrapper'>
+            <div className='educontentwrapper'>
                 {
                     subList && subList.map(function(list, i){
-                return (
-                    <div key={i}  className={`item-${i}`}
-                        style={{display:"inline-block", border:"1px solid lightgray", textAlign:"left", width:"218px", height:"218px"}}>
-                        <p>교육 제목 : {list.title}</p>
-                        <p>교육 과목 : {list.subject}</p>
-                        <p>작성일 : {list.regdate}</p>
-                        <button type="button"><Link style={{textDecoration:"none"}} to={`/learning/EduInfoDetail/${list.seq}`}>확인하기</Link></button>
+                        const isSpecialItem = i % 3 === 0;
+                        const isAnotherSpecialItem = i % 3 === 1;
+                        const isYetAnotherSpecialItem = i % 3 === 2;
+                        const itemClassName = `item-${i} eduwrapper ${isSpecialItem ? 'specialItem' : ''} ${isAnotherSpecialItem ? 'anotherSpecialItem' : ''} ${isYetAnotherSpecialItem ? 'yetAnotherSpecialItem' : ''}`;
+
+                    return (
+
+                    <div key={i}  className={itemClassName}
+                        style={{display:"inline-block", padding:"6px", border:"1px solid lightgray", textAlign:"left", width:"218px", height:"150px"}}>
+                        <p style={{fontWeight:"bold"}}>{list.title}</p>
+                        <p>{list.subject}</p>
+                        <p> {list.regdate}</p>
+                        <button type="button" className='edubtn'>
+                            <Link style={{textDecoration:"none"}} to={`/cheesefriends/learning/EduInfoDetail/${list.seq}`}>확인하기</Link></button>
                     </div>
                 )
             })
-            }
-            </div>
+        }
+        </div>
+        <Pagination
+            activePage={page}
+            itemsCountPerPage={6}
+            totalItemsCount={totalCnt}
+            pageRangeDisplayed={6}
+            firstPageText={<FontAwesomeIcon icon={faAnglesLeft} />}
+            lastPageText={<FontAwesomeIcon icon={faAnglesRight} />}
+            prevPageText={<FontAwesomeIcon icon={faAngleLeft} />}
+            nextPageText={<FontAwesomeIcon icon={faAngleRight} />}
+            onChange={pageChange} />
      
+       </div>
        </div>
     )
 };
