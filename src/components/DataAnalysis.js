@@ -91,7 +91,7 @@ const DataAnalysis = () => {
         const rateValue = calculateRate(subName, selectedRate);
         return (
             <div className="attendance-rate-chart">
-                <h4>{subName}</h4>
+                <h2 className='subName-title'>{subName}</h2>
                 <div style={{ width: '100%', height: '100%' }}>
                     <CircularProgressbar
                         value={rateValue}
@@ -99,8 +99,8 @@ const DataAnalysis = () => {
                         strokeWidth={5}
                         styles={buildStyles({
                             strokeLinecap: 'butt',
-                            pathColor: '#82ca9d',
-                            textColor: '#8884d8',
+                            pathColor: '#fac463',
+                            textColor: '#8c816e',
                         })}
                     />
                 </div>
@@ -295,19 +295,21 @@ const DataAnalysis = () => {
 
     return (
         <div>
-            <div className='"edu_nav'>
-                <nav className="edu_nav" style={{ opacity: '0.7' }}>
+            <div style={{ width: '80%', margin: '0 auto' }}>
+                <nav className="edu_navstu" style={{ opacity: '0.9', margin: '0px', maxWidth: '100%' }}>
                     <ul>
                         {eduCode.map((edu) => (
                             <li
                                 key={edu.eduCode}
                                 className={selectedEdu === edu.eduCode ? 'active' : ''}
                                 onClick={() => setSelectedEdu(edu.eduCode)}
-                                style={{ fontSize: '20px' }}
+                                style={{ fontSize: '15px', minWidth: '100px', textAlign: 'center' }}
                             >
-                                <img src="/img/cheese.png" alt="Attendance statistics" width="20px" />  {edu.eduName}
+                                <img src="/img/cheese.png" alt="Attendance statistics" width="15px" />  {edu.eduName}
                             </li>
                         ))}
+                    </ul>
+                    <nav className='att_manage' style={{}}>
                         <a
                             href="#"
                             className="DAreportButton"
@@ -318,14 +320,17 @@ const DataAnalysis = () => {
                                 <span style={{ alignItems: 'center' }}>리포트 출력</span>
                             </div>
                         </a>
-                    </ul>
-
+                    </nav>
                 </nav>
             </div>
+
+
+
+
             <div className="charts-container">
                 <div className="chart-section">
                     <div className='AttendanceDate' >
-                        <h2 style={{ fontSize: '18px', width: '25%', marginBottom: '20px' }} className="attendance-month">성적 데이터</h2>
+                        <h2 style={{ fontSize: '17px', width: '30%', marginBottom: '20px' }} className="attendance-month">성적 데이터</h2>
                     </div>
                     <ResponsiveContainer width="100%" height={300}>
                         <BarChart data={getChartData(gradeData)}>
@@ -335,8 +340,8 @@ const DataAnalysis = () => {
                             <YAxis yAxisId="right" orientation="right" domain={[0, 100]} />
                             <Tooltip />
                             <Legend />
-                            <Bar yAxisId="left" dataKey="studentGrade" name="점수" fill="#8884d8" />
-                            <Bar yAxisId="right" dataKey="rankRate" name="석차율" fill="#82ca9d" />
+                            <Bar yAxisId="left" dataKey="studentGrade" name="점수" fill="#b89555" />
+                            <Bar yAxisId="right" dataKey="rankRate" name="석차율" fill="#f1bb58" />
                         </BarChart>
                     </ResponsiveContainer>
                     <ResponsiveContainer width="100%" height={300}>
@@ -346,8 +351,8 @@ const DataAnalysis = () => {
                             <YAxis />
                             <Tooltip />
                             <Legend />
-                            <Bar dataKey="subTotal" name="전체인원" fill="#8884d8" />
-                            <Line type="monotone" dataKey="studentRanks" name="등수" stroke="#82ca9d" />
+                            <Bar dataKey="subTotal" name="전체인원" fill="#e4b668" />
+                            <Line type="monotone" dataKey="studentRanks" name="등수" stroke="#e9760b" />
                         </ComposedChart>
                     </ResponsiveContainer>
 
@@ -356,11 +361,11 @@ const DataAnalysis = () => {
                 </div>
                 <div className="chart-section">
                     <div className='AttendanceDate' >
-                        <h2 style={{ fontSize: '18px', width: '25%', marginBottom: '20px' }} className="attendance-month">출결 데이터 ({currentMonth}월)</h2>
+                        <h2 style={{ fontSize: '17px', width: '35%', marginBottom: '20px' }} className="attendance-month">출결 데이터 ({currentMonth}월)</h2>
                     </div>
                     <div className="month-controls">
-                        <button onClick={decrementMonth}>이전</button>
-                        <button onClick={incrementMonth}>다음</button>
+                        <button onClick={decrementMonth} style={{ width: '50px', fontSize: '11px', padding: '7px' }}>이전</button>
+                        <button onClick={incrementMonth} style={{ width: '50px', fontSize: '11px', padding: '7px' }}>다음</button>
                     </div>
                     <ResponsiveContainer width="100%" height={300}>
                         <BarChart data={getAttendanceChartDataForMonth(currentMonth)}>
@@ -369,14 +374,15 @@ const DataAnalysis = () => {
                             <YAxis />
                             <Tooltip />
                             <Legend />
-                            <Bar dataKey="출석" name="출석 횟수" fill="#8884d8" />
-                            <Bar dataKey="결석" name="결석 횟수" fill="#82ca9d" />
-                            <Bar dataKey="지각" name="지각 횟수" fill="#ffc658" />
+                            <Bar dataKey="출석" name="출석" fill="#a2b0f6" />
+                            <Bar dataKey="결석" name="결석" fill="#f44336" />
+                            <Bar dataKey="지각" name="지각" fill="#ffc658" />
                         </BarChart>
                     </ResponsiveContainer>
+                    <br></br>
                     <div>
                         <div className='AttendanceDate' >
-                            <h2 style={{ fontSize: '18px', width: '25%', marginBottom: '25px' }} className="attendance-month">과목별 {selectedRate}</h2>
+                            <h2 style={{ fontSize: '17px', width: '35%', marginBottom: '25px' }} className="attendance-month">과목별 {selectedRate}</h2>
                         </div>
                         <div className="rate-tabs">
                             <div className="selectedRate-controls">

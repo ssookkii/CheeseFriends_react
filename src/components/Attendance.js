@@ -39,7 +39,7 @@ function Attendance() {
   const loginInfo = JSON.parse(localStorage.getItem("login"));
   const teacherId = loginInfo?.id;
 
-  const [eduCode, setEduCode] = useState(sessionStorage.getItem("eduCode"));
+  const [eduCode, setEduCode] = useState(localStorage.getItem("userEdu"));
   const fetchWeatherData = async () => {
     const today = new Date();
     const response = await axios.get(

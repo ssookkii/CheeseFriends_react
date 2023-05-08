@@ -5,19 +5,23 @@
  .checkbox-wrapper {
    display: flex;
    flex-direction: column;
-   margin-right: 1rem;
-
+   align-items: center;
+   justify-content: center;
+   text-align: center;
+   margin-bottom: 50px;
  }
 
  .react-calendar {
-   width: 500px;
-   height: 500px;
+   width: 450px;
+   height: 450px;
+   border-color: #898472;
+   border: dotted 0.5px;
  }
 
  .react-calendar__month-view__days__day {
    display: table-cell;
    font-size: 11px;
-   height: 80px;
+   height: 73px;
    vertical-align: top;
    position: relative;
  }
@@ -31,11 +35,11 @@
  }
 
  .attend {
-   background-color: #a2b0f6;
+   background-color: #b1bbef;
  }
 
  .out {
-   background-color: #868686;
+   background-color: #b7b3b3;
  }
 
  .early {
@@ -48,22 +52,17 @@
  }
 
  .attendance-manage-container {
-   align-items: center;
+   justify-content: center;
+
  }
+
 
  .attcheck p {
    margin-right: 20px;
  }
 
- .weather-description {
-   font-size: 10px;
-   color: #888;
-   text-align: center;
- }
-
  .eduNav {
    align-items: center;
-   display: flex;
 
  }
 
@@ -76,10 +75,10 @@
    background-color: white;
    position: relative;
    display: inline-block;
-   padding: 0 10px;
+   padding: 0 7px;
    color: #555;
-   padding-top: 5px;
-   padding-bottom: 5px;
+   padding-top: 3px;
+   padding-bottom: 3px;
    vertical-align: middle;
  }
 
@@ -137,7 +136,6 @@
    color: #555;
    display: flex;
    align-items: center;
-   margin-bottom: 10px;
  }
 
  [Att-tooltip],
@@ -217,4 +215,72 @@
    visibility: visible;
    opacity: 1;
    top: -8px
+ }
+
+ .edu_navstu {
+   width: 100%;
+   display: flex;
+   justify-content: space-between;
+ }
+
+ .edu_navstu ul {
+   display: flex;
+   padding: 0;
+   list-style-type: none;
+   margin: 0;
+ }
+
+ .edu_navstu li {
+   cursor: pointer;
+   padding: 10px 20px;
+   border-radius: 4px;
+   border: solid 1px;
+   border-color: #80735e;
+   margin-right: 10px;
+   margin-bottom: 10px;
+ }
+
+ .edu_navstu li.active {
+   background-color: #80735e;
+   color: white;
+ }
+
+ .att_manage ul {
+   display: flex;
+   padding: 0;
+   list-style-type: none;
+   margin: 0;
+ }
+
+ .att_manage li {
+   cursor: pointer;
+   padding: 10px 20px;
+   border-radius: 4px;
+   border: solid 1px;
+   border-color: #80735e;
+   background-color: white;
+   margin-right: 10px;
+ }
+
+ .att_manage li.active {
+   background-color: #80735e;
+   color: white;
+ }
+
+ @keyframes swing {
+   0% {
+     transform: rotate(5deg);
+   }
+
+   50% {
+     transform: rotate(-5deg);
+   }
+
+   100% {
+     transform: rotate(5deg);
+   }
+ }
+
+ .swing-animation {
+   animation: swing 1.5s ease-in-out infinite;
  }

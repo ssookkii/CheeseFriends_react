@@ -223,17 +223,18 @@ function AttendanceManage() {
   const attendanceStats = getAttendanceStats(attendanceData, selectedDate);
 
   return (
-    <div className="attendance-manage-container" >
-      <nav className="edu_nav" style={{ width: '40%', opacity: '0.7', margin: '15px' }}>
+    <div className="attendance-manage-container" style={{ width: '80%', margin: '0 auto' }}>
+
+      <nav className="edu_navstu" style={{ opacity: '0.9', margin: '0px', maxWidth: '100%' }}>
         <ul>
           {eduCode.map((edu) => (
             <li
               key={edu.eduCode}
               className={selectedEdu === edu.eduCode ? 'active' : ''}
               onClick={() => setSelectedEdu(edu.eduCode)}
-              style={{ fontSize: '20px' }}
+              style={{ fontSize: '15px', minWidth: '100px', textAlign: 'center' }}
             >
-              <img src="/img/cheese.png" alt="Attendance statistics" width="20px" />  {edu.eduName}
+              <img src="/img/cheese.png" alt="Attendance statistics" width="15px" />  {edu.eduName}
             </li>
           ))}
         </ul>
@@ -244,7 +245,7 @@ function AttendanceManage() {
                 key={subject.subCode}
                 className={selectedSubject === subject.subCode ? 'active' : ''}
                 onClick={() => setSelectedSubject(subject.subCode)}
-
+                style={{ minWidth: '100px', textAlign: 'center' }}
               >
                 {subject.subName}
               </li>
@@ -253,29 +254,35 @@ function AttendanceManage() {
         </nav>
       </nav>
 
-
       <div className="attendance-stats">
 
         <div className='AttendanceDate' >
-          <h2 style={{ fontSize: '18px', width: "60%" }} className="attendance-month">
+          <h2 style={{ fontSize: '18px', width: "35%" }} className="attendance-month">
             {selectedDate.getFullYear()}년 {selectedDate.getMonth() + 1}월 출결 통계
           </h2>
         </div>
         <br />
-        <div className='attcheck' style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <div className='attcheck' style={{ display: 'flex', justifyContent: 'center' }}>
           <p style={{ color: '#677bde', fontWeight: 'bold' }} > 출석: {attendanceStats.attend}회  </p>
           <p style={{ color: '#face5e', fontWeight: 'bold' }}> 지각: {attendanceStats.late}회 </p>
           <p style={{ color: '#f19c9c', fontWeight: 'bold' }}>결석: {attendanceStats.absent}회 </p>
           <p style={{ color: '#868686', fontWeight: 'bold' }}>외출: {attendanceStats.out}회 </p>
           <p style={{ color: '#b6d7b4', fontWeight: 'bold' }}>조퇴: {attendanceStats.early}회 </p>
         </div>
-
+        <br></br>
       </div>
 
       <div className="calendar-wrapper">
         <div className="checkbox-wrapper">
           <br /><br /><br /><br />
-          <img src="/img/alarm.png" alt="알림 이미지" width="150px" height="auto" />
+          <img
+            src="/img/alarm.png"
+            alt="알림 이미지"
+            width="100px"
+            height="auto"
+            className="swing-animation"
+          />
+
           <br /><br />
           <div className="Attcheckboxes">
             <label className='AttLabel'>

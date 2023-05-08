@@ -253,3 +253,13 @@
     --m: calc(var(--font-size));
 
 }
+
+
+.attendanceRate-title p {
+    font-weight: bold;
+    font-size: 12px;
+    color: #4a4a4a;
+    text-align: center;
+    margin-bottom: 5px;
+    letter-spacing: 1px;
+}
