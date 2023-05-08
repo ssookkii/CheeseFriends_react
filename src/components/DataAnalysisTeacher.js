@@ -11,7 +11,10 @@ const API_URL = 'http://localhost:3000/da';
 
 const DataAnalysisTeacher = () => {
 
-    const userId = sessionStorage.getItem('userId');
+    const loginInfo = JSON.parse(localStorage.getItem("login"));
+    const userId = loginInfo?.id;
+    const userAuth = loginInfo?.auth;
+
     const [gradesData, setGradesData] = useState([]);
     const [averageScoreChartData, setAverageScoreChartData] = useState([]);
     const [filteredAverageScoreChartData, setFilteredAverageScoreChartData] = useState([]);
@@ -20,8 +23,8 @@ const DataAnalysisTeacher = () => {
     const [students, setStudents] = useState([]);
     const [searchText, setSearchText] = useState('');
     const [filteredStudents, setFilteredStudents] = useState([]);
-    const [chartTitle, setChartTitle] = useState('전체 학생 출결 데이터');
-    const [gradechartTitle, setgradeChartTitle] = useState('전체 학생 과목 평균 점수');
+    const [chartTitle, setChartTitle] = useState('학생 출결 현황');
+    const [gradechartTitle, setgradeChartTitle] = useState('학생 과목 평균 점수');
     const [currentMonth, setCurrentMonth] = useState(new Date().getMonth() + 1);
     const [chartData, setChartData] = useState([
         { name: '출석', value: 0 },
@@ -46,7 +49,6 @@ const DataAnalysisTeacher = () => {
             출결상태: row.name,
             출석현황: row.value,
         }));
-        console.log(attendanceRows);
         const wsAttendance = XLSX.utils.json_to_sheet(attendanceRows);
 
         const chartDataRows = reportData.chartData.map((row) => ({
@@ -59,31 +61,57 @@ const DataAnalysisTeacher = () => {
         ));
         const wsChartData = XLSX.utils.json_to_sheet(chartDataRows);
 
-        const allStudentsRows = reportData.gradesData.map((gradeData) => {
-            const attendanceData = reportData.attendanceData.reduce((result, row) => {
-                result[row.name] = row.value;
-                return result;
-            }, {});
+        // 월별로 데이터를 필터링합니다.
+        const monthlyStudents = students.filter((student) => {
+            const studentDate = new Date(student.attendanceTime);
+            return studentDate.getMonth() + 1 === currentMonth;
+        });
+
+        // 중복되지 않은 학생 이름 목록을 생성합니다.
+        const uniqueStudentNames = Array.from(new Set(monthlyStudents.map((student) => student.name)));
+
+        // 학생 이름별로 데이터를 그룹화합니다.
+        const groupedStudents = uniqueStudentNames.map((name) => {
+            const studentsByName = monthlyStudents.filter((student) => student.name === name);
+
+            // 출석 현황을 계산합니다.
+            const attendanceCount = studentsByName.filter((student) => student.status === '출석').length;
+            const absenceCount = studentsByName.filter((student) => student.status === '결석').length;
+            const tardinessCount = studentsByName.filter((student) => student.status === '지각').length;
+
+            // 학생의 성적 데이터를 찾습니다.
+            const studentGradeData = gradesData.find((grade) => grade.studentName === name);
 
             return {
-                과목: reportData.subject,
-                월: reportData.month,
-                학생이름: gradeData.studentName,
-                점수: gradeData.studentGrade,
-                출석: attendanceData['출석'] || 0,
-                결석: attendanceData['결석'] || 0,
-                지각: attendanceData['지각'] || 0,
+                name,
+                attendanceCount,
+                absenceCount,
+                tardinessCount,
+                studentGrade: studentGradeData ? studentGradeData.studentGrade : '미입력',
             };
         });
+
+        // 그룹화된 데이터를 바탕으로 allStudentsRows를 생성합니다.
+        const allStudentsRows = groupedStudents.map((student) => ({
+            과목: reportData.subject,
+            월: reportData.month,
+            학생이름: student.name,
+            점수: student.studentGrade,
+            출석: student.attendanceCount,
+            결석: student.absenceCount,
+            지각: student.tardinessCount,
+        }));
+
+
 
         const wsAllStudents = XLSX.utils.json_to_sheet(allStudentsRows);
 
         const wb = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(wb, wsAttendance, "출결 데이터");
         XLSX.utils.book_append_sheet(wb, wsChartData, "평균 점수 차트");
-        XLSX.utils.book_append_sheet(wb, wsAllStudents, "전체 학생 데이터");
+        XLSX.utils.book_append_sheet(wb, wsAllStudents, "(" + currentMonth + "월) 전체 학생 데이터");
 
-        XLSX.writeFile(wb, "report-data.xlsx");
+        XLSX.writeFile(wb, "치즈프렌드 리포트.xlsx");
     };
 
 
@@ -188,15 +216,15 @@ const DataAnalysisTeacher = () => {
         ]);
 
         // 차트 제목 설정
-        setChartTitle(searchText ? `"${searchText}"의 출결 데이터` : '전체 학생 출결 데이터');
+        setChartTitle(searchText ? `"${searchText}"의 출결 현황` : '학생 출결 현황');
     }, [selectedSubject, searchText, students]);
 
     useEffect(() => {
         // 백엔드에서 과목 데이터를 가져오는 API 호출
-        axios.get(`http://localhost:3000/attManage/subjects/${userId}`)
+        axios.get(`http://localhost:3000/attManage/teacher/subjects/${userId}`)
             .then((response) => {
                 setSubjects(response.data);
-                //console.log(response.data);
+                console.log(response.data);
 
                 // 첫번째 항목을 기본 선택으로 설정
                 if (response.data.length > 0) {
@@ -207,6 +235,7 @@ const DataAnalysisTeacher = () => {
                 console.error(error);
             });
     }, []);
+
     useEffect(() => {
         if (!selectedSubject) return; // 선택된 과목이 없으면 함수 실행을 중지합니다.
 
@@ -252,10 +281,10 @@ const DataAnalysisTeacher = () => {
 
         // 차트 제목 설정
         if (searchText && filtered.length > 0) {
-            setChartTitle(`"${searchText}"의 출결 데이터`);
+            setChartTitle(`"${searchText}"의 출결 현황`);
 
         } else {
-            setChartTitle('전체 학생 출결 데이터');
+            setChartTitle('학생 출결 현황');
         }
     }, [selectedSubject, searchText, students, currentMonth]
 
@@ -273,38 +302,52 @@ const DataAnalysisTeacher = () => {
         <div>
             <div className='datanav' >
                 <nav style={{ backgroundColor: 'white' }}>
-                    <ul style={{ fontSize: '22px' }}>
-                        {subjects.map((subject) => (
-                            <li
-                                key={subject.subCode}
-                                className={selectedSubject === subject.subCode ? 'active' : ''}
-                                onClick={() => setSelectedSubject(subject.subCode)}
-                                style={{ backgroundColor: selectedSubject === subject.subCode ? '#FFDC9D' : 'transparent' }}
-                            >
-                                {subject.subName}
-                            </li>
-                        ))}
-                    </ul>
-
-
+                    <nav className='att_manage'>
+                        <ul>
+                            {subjects.map((subject) => (
+                                <li
+                                    key={subject.subCode}
+                                    className={selectedSubject === subject.subCode ? 'active' : ''}
+                                    onClick={() => setSelectedSubject(subject.subCode)}
+                                    style={{ minWidth: '80px', textAlign: 'center' }}
+                                >
+                                    {subject.subName}
+                                </li>
+                            ))}
+                        </ul>
+                    </nav>
                     <div className="search-container">
                         <input
                             type="text"
                             placeholder="학생 이름 입력"
                             value={searchText}
                             onChange={(e) => setSearchText(e.target.value)}
-                            style={{ width: '100px' }}
+                            style={{ marginLeft: '300px', width: '100px' }}
                         />
-                        <button style={{ fontSize: '13px', backgroundColor: '#FFDC9D' }} onClick={searchMethod}>검색</button>
-                        <button onClick={exportToExcel}>리포트 출력</button>
+                        <a
+                            href="#"
+                            className="DAreportButton"
+                            onClick={exportToExcel}
+
+                        >
+                            <div>
+                                <span style={{ alignItems: 'center' }}>리포트 출력</span>
+                            </div>
+                        </a>
+
+
                     </div>
 
 
                 </nav>
             </div>
-            <div className="container">
+            <div className="DataContainer">
                 <div className="chart-section">
-                    <h3>과목별 평균 점수 차트</h3>
+                    <div className='AttendanceDate' >
+                        <h2 style={{ fontSize: '16px', width: '33%' }} className="attendance-month">
+                            과목별 평균 점수
+                        </h2>
+                    </div>
                     <ResponsiveContainer width="100%" height={400}>
                         <BarChart
                             data={searchText ? filteredAverageScoreChartData : averageScoreChartData}
@@ -315,19 +358,24 @@ const DataAnalysisTeacher = () => {
                             <YAxis allowDecimals={false} />
                             <Tooltip />
                             <Legend />
-                            <Bar dataKey="value" name="평균 점수" fill="#8884d8" />
+                            <Bar dataKey="value" name="평균 점수" fill="#e7bd6d" />
 
                         </BarChart>
                     </ResponsiveContainer>
                 </div>
 
                 <div className="chart-section">
+                    <div className='AttendanceDate' >
+                        <h2 style={{ fontSize: '16px' }} className="attendance-month">
+                            {chartTitle}<span style={{ fontSize: '12px' }}> ( {currentMonth}월 )</span>
+                        </h2>
+                    </div>
 
-                    <h3>{chartTitle}<span> ( {currentMonth}월 )</span></h3>
+
                     <div className="month-controls">
-                        <button onClick={() => changeMonth(-1)}>이전</button>
+                        <button onClick={() => changeMonth(-1)} style={{ width: '50px', fontSize: '11px', padding: '7px' }}>이전</button>
 
-                        <button onClick={() => changeMonth(1)}>다음</button>
+                        <button onClick={() => changeMonth(1)} style={{ width: '50px', fontSize: '11px', padding: '7px' }}>다음</button>
                     </div>
                     <ResponsiveContainer width="100%" height={400}>
                         <BarChart data={chartData} margin={{ top: 20, right: 20, left: 20, bottom: 5 }}>
@@ -336,13 +384,14 @@ const DataAnalysisTeacher = () => {
                             <YAxis allowDecimals={false} />
                             <Tooltip />
                             <Legend />
-                            <Bar dataKey="value" name="학생 출결 현황" fill="#8884d8">
-                                <Cell fill="#82ca9d" name="출석" />
+                            <Bar dataKey="value" name="학생 출결 현황" fill="#aa9a89">
+                                <Cell fill="#a2b0f6" name="출석" />
                                 <Cell fill="#ffc658" name="결석" />
                                 <Cell fill="#f44336" name="지각" />
                             </Bar>
                         </BarChart>
                     </ResponsiveContainer>
+                    <br></br>
                     <div style={{ display: 'flex', justifyContent: 'space-around' }}>
                         <div style={{ width: '20%', textAlign: 'center' }}>
 
@@ -350,10 +399,10 @@ const DataAnalysisTeacher = () => {
                                 value={attendanceRate}
                                 text={`${isNaN(attendanceRate) ? 0 : attendanceRate.toFixed(2)}%`}
                                 styles={buildStyles({
-                                    textColor: '#82ca9d',
-                                    pathColor: '#82ca9d',
+                                    textColor: '#a2b0f6',
+                                    pathColor: '#a2b0f6',
                                 })}
-                            />  <p>출석률</p>
+                            />  <h2 className='subName-title'>출석률</h2>
                         </div>
                         <div style={{ width: '20%', textAlign: 'center' }}>
                             <CircularProgressbar
@@ -363,7 +412,7 @@ const DataAnalysisTeacher = () => {
                                     textColor: '#ffc658',
                                     pathColor: '#ffc658',
                                 })}
-                            /> <p>결석률</p>
+                            /> <h2 className='subName-title'>결석률</h2>
                         </div>
                         <div style={{ width: '20%', textAlign: 'center' }}>
                             <CircularProgressbar
@@ -374,7 +423,7 @@ const DataAnalysisTeacher = () => {
                                     pathColor: '#f44336',
                                 })}
                             />
-                            <p>지각률</p>
+                            <h2 className='subName-title'>지각률</h2>
                         </div>
                     </div>
                 </div>

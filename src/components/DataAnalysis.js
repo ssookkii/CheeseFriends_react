@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { BarChart, Bar, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { ComposedChart, BarChart, Bar, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import { saveAs } from 'file-saver';
@@ -39,13 +39,50 @@ const countTotalAttendance = (attendanceData) => {
 
 
 const DataAnalysis = () => {
-    const userId = sessionStorage.getItem('userId');
-    const eduCode = sessionStorage.getItem('eduCode');
+    const loginInfo = JSON.parse(localStorage.getItem("login"));
+    const userId = loginInfo?.id;
+    const userAuth = loginInfo?.auth;
+
+
     const [gradeData, setGradeData] = useState([]);
     const [attendanceData, setAttendanceData] = useState([]);
     const [currentMonth, setCurrentMonth] = useState(new Date().getMonth() + 1);
     const totalAttendanceChartData = countTotalAttendance(attendanceData);
     const [selectedRate, setSelectedRate] = useState('출석률');
+    const [currentUserId, setCurrentUserId] = useState(null);
+    const [selectedEdu, setSelectedEdu] = useState('');
+    const [eduCode, seteduCode] = useState([]);
+
+    useEffect(() => {
+        if (userAuth === "student") {
+            setCurrentUserId(userId);
+        } else if (userAuth === "parents") {
+            // 백엔드에서 학생 아이디를 가져오는 API 호출
+            axios
+                .get(`http://localhost:3000/attManage/getStudentId/${userId}`)
+                .then((response) => {
+                    setCurrentUserId(response.data);
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+        }
+    }, [userAuth, userId]);
+
+    useEffect(() => {
+        if (!currentUserId) return;
+        axios.get(`http://localhost:3000/attManage/edu/${currentUserId}`)
+            .then((response) => {
+                seteduCode(response.data);
+                if (response.data.length > 0) {
+                    setSelectedEdu(response.data[0].eduCode);
+                }
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }, [currentUserId]);
+
     const handleRateChange = (newRate) => {
         setSelectedRate(newRate);
     }
@@ -54,7 +91,7 @@ const DataAnalysis = () => {
         const rateValue = calculateRate(subName, selectedRate);
         return (
             <div className="attendance-rate-chart">
-                <h4>{subName}</h4>
+                <h2 className='subName-title'>{subName}</h2>
                 <div style={{ width: '100%', height: '100%' }}>
                     <CircularProgressbar
                         value={rateValue}
@@ -62,8 +99,8 @@ const DataAnalysis = () => {
                         strokeWidth={5}
                         styles={buildStyles({
                             strokeLinecap: 'butt',
-                            pathColor: '#82ca9d',
-                            textColor: '#8884d8',
+                            pathColor: '#fac463',
+                            textColor: '#8c816e',
                         })}
                     />
                 </div>
@@ -213,7 +250,7 @@ const DataAnalysis = () => {
             return buf;
         };
 
-        saveAs(new Blob([s2ab(wbout)], { type: 'application/octet-stream' }), 'student_data_report.xlsx');
+        saveAs(new Blob([s2ab(wbout)], { type: 'application/octet-stream' }), '치즈프렌드 리포트.xlsx');
 
     };
 
@@ -222,12 +259,13 @@ const DataAnalysis = () => {
 
 
     useEffect(() => {
+        if (!selectedEdu) return;
         const fetchData = async () => {
             try {
-                const gradeResponse = await axios.get(`${API_URL}/${eduCode}/${userId}/grades`);
+                const gradeResponse = await axios.get(`${API_URL}/${selectedEdu}/${currentUserId}/grades`);
                 setGradeData(gradeResponse.data);
 
-                const attendanceResponse = await axios.get(`${API_URL}/${eduCode}/${userId}/attendance`);
+                const attendanceResponse = await axios.get(`${API_URL}/${selectedEdu}/${currentUserId}/attendance`);
                 setAttendanceData(attendanceResponse.data);
             } catch (error) {
                 console.error('Error fetching student data:', error);
@@ -235,7 +273,7 @@ const DataAnalysis = () => {
         };
 
         fetchData();
-    }, []);
+    }, [currentUserId, selectedEdu]);
 
     const getChartData = (data) => {
         return data.map((item) => {
@@ -253,12 +291,47 @@ const DataAnalysis = () => {
         return ((total - rank + 1) / total * 100).toFixed(2);
     }
 
+
+
     return (
         <div>
-            <h2>성적 및 출결 데이터</h2>
+            <div style={{ width: '80%', margin: '0 auto' }}>
+                <nav className="edu_navstu" style={{ opacity: '0.9', margin: '0px', maxWidth: '100%' }}>
+                    <ul>
+                        {eduCode.map((edu) => (
+                            <li
+                                key={edu.eduCode}
+                                className={selectedEdu === edu.eduCode ? 'active' : ''}
+                                onClick={() => setSelectedEdu(edu.eduCode)}
+                                style={{ fontSize: '15px', minWidth: '100px', textAlign: 'center' }}
+                            >
+                                <img src="/img/cheese.png" alt="Attendance statistics" width="15px" />  {edu.eduName}
+                            </li>
+                        ))}
+                    </ul>
+                    <nav className='att_manage' style={{}}>
+                        <a
+                            href="#"
+                            className="DAreportButton"
+                            onClick={exportToExcel}
+
+                        >
+                            <div>
+                                <span style={{ alignItems: 'center' }}>리포트 출력</span>
+                            </div>
+                        </a>
+                    </nav>
+                </nav>
+            </div>
+
+
+
+
             <div className="charts-container">
-                <div className="chart">
-                    <h3>성적 데이터</h3>
+                <div className="chart-section">
+                    <div className='AttendanceDate' >
+                        <h2 style={{ fontSize: '17px', width: '30%', marginBottom: '20px' }} className="attendance-month">성적 데이터</h2>
+                    </div>
                     <ResponsiveContainer width="100%" height={300}>
                         <BarChart data={getChartData(gradeData)}>
                             <CartesianGrid strokeDasharray="3 3" />
@@ -267,28 +340,33 @@ const DataAnalysis = () => {
                             <YAxis yAxisId="right" orientation="right" domain={[0, 100]} />
                             <Tooltip />
                             <Legend />
-                            <Bar yAxisId="left" dataKey="studentGrade" name="점수" fill="#8884d8" />
-                            <Bar yAxisId="right" dataKey="rankRate" name="석차율" fill="#82ca9d" />
+                            <Bar yAxisId="left" dataKey="studentGrade" name="점수" fill="#b89555" />
+                            <Bar yAxisId="right" dataKey="rankRate" name="석차율" fill="#f1bb58" />
                         </BarChart>
                     </ResponsiveContainer>
-
                     <ResponsiveContainer width="100%" height={300}>
-                        <BarChart data={gradeData}>
+                        <ComposedChart data={gradeData}>
                             <CartesianGrid strokeDasharray="3 3" />
                             <XAxis dataKey="subName" />
                             <YAxis />
                             <Tooltip />
                             <Legend />
-                            <Bar dataKey="subTotal" name="전체인원" fill="#8884d8" />
-                            <Line dataKey={(data) => calculateRankPercentage(data.studentRanks, data.subTotal)} name="등수율" stroke="#82ca9d" />
-                        </BarChart>
+                            <Bar dataKey="subTotal" name="전체인원" fill="#e4b668" />
+                            <Line type="monotone" dataKey="studentRanks" name="등수" stroke="#e9760b" />
+                        </ComposedChart>
                     </ResponsiveContainer>
 
+
+
                 </div>
-                <div className="chart">
-                    <h3>출결 데이터 ({currentMonth}월)</h3>
-                    <button onClick={decrementMonth}>이전</button>
-                    <button onClick={incrementMonth}>다음</button>
+                <div className="chart-section">
+                    <div className='AttendanceDate' >
+                        <h2 style={{ fontSize: '17px', width: '35%', marginBottom: '20px' }} className="attendance-month">출결 데이터 ({currentMonth}월)</h2>
+                    </div>
+                    <div className="month-controls">
+                        <button onClick={decrementMonth} style={{ width: '50px', fontSize: '11px', padding: '7px' }}>이전</button>
+                        <button onClick={incrementMonth} style={{ width: '50px', fontSize: '11px', padding: '7px' }}>다음</button>
+                    </div>
                     <ResponsiveContainer width="100%" height={300}>
                         <BarChart data={getAttendanceChartDataForMonth(currentMonth)}>
                             <CartesianGrid strokeDasharray="3 3" />
@@ -296,32 +374,52 @@ const DataAnalysis = () => {
                             <YAxis />
                             <Tooltip />
                             <Legend />
-                            <Bar dataKey="출석" name="출석 횟수" fill="#8884d8" />
-                            <Bar dataKey="결석" name="결석 횟수" fill="#82ca9d" />
-                            <Bar dataKey="지각" name="지각 횟수" fill="#ffc658" />
+                            <Bar dataKey="출석" name="출석" fill="#a2b0f6" />
+                            <Bar dataKey="결석" name="결석" fill="#f44336" />
+                            <Bar dataKey="지각" name="지각" fill="#ffc658" />
                         </BarChart>
                     </ResponsiveContainer>
+                    <br></br>
                     <div>
-                        <h3>과목별 {selectedRate}</h3>
+                        <div className='AttendanceDate' >
+                            <h2 style={{ fontSize: '17px', width: '35%', marginBottom: '25px' }} className="attendance-month">과목별 {selectedRate}</h2>
+                        </div>
                         <div className="rate-tabs">
-                            <button
-                                className={selectedRate === '출석률' ? 'active' : ''}
-                                onClick={() => handleRateChange('출석률')}
-                            >
-                                출석률
-                            </button>
-                            <button
-                                className={selectedRate === '결석률' ? 'active' : ''}
-                                onClick={() => handleRateChange('결석률')}
-                            >
-                                결석률
-                            </button>
-                            <button
-                                className={selectedRate === '지각률' ? 'active' : ''}
-                                onClick={() => handleRateChange('지각률')}
-                            >
-                                지각률
-                            </button>
+                            <div className="selectedRate-controls">
+                                <div className="attendance-buttons" style={{ marginBottom: '20px' }}>
+                                    <a
+                                        href="#"
+                                        className={`Dabutton attend ${selectedRate === '출석률' ? 'active' : ''}`}
+                                        onClick={() => handleRateChange('출석률')}
+                                        style={{ backgroundColor: selectedRate === '출석률' ? '#80735e' : '#aaa191' }}
+                                    >
+                                        <div>
+                                            <span>출석률</span>
+                                        </div>
+                                    </a>
+
+                                    <a
+                                        href="#"
+                                        className={`Dabutton attend ${selectedRate === '결석률' ? 'active' : ''}`}
+                                        onClick={() => handleRateChange('결석률')}
+                                        style={{ backgroundColor: selectedRate === '결석률' ? '#80735e' : '#aaa191' }}
+                                    >
+                                        <div>
+                                            <span>결석률</span>
+                                        </div>
+                                    </a>
+                                    <a
+                                        href="#"
+                                        className={`Dabutton attend ${selectedRate === '지각률' ? 'active' : ''}`}
+                                        onClick={() => handleRateChange('지각률')}
+                                        style={{ backgroundColor: selectedRate === '지각률' ? '#80735e' : '#aaa191' }}
+                                    >
+                                        <div>
+                                            <span>지각률</span>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
                         </div>
                         <div className="attendance-rate-charts">
                             {totalAttendanceChartData.map((data) =>
@@ -333,7 +431,6 @@ const DataAnalysis = () => {
 
             </div>
 
-            <button onClick={exportToExcel}>리포트 출력 (엑셀)</button>
         </div>
 
     );

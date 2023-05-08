@@ -3,7 +3,10 @@ import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 
 import axios from "axios";
+import "./css/login.css";
+import "./css/login2.css";
 
+import logo from './img/cheesefriendslogo.png';
 
 function Idsearch(){
     const [id, setId] = useState('');
@@ -65,24 +68,40 @@ function Idsearch(){
      // 휴대폰 인증번호 발송
      const [phone_publicc, setPhone_publicc] = useState("");
      const [phone_publicch, setPhone_publicch] = useState(false);
+
  
      function sendPhone(){
-         axios.post("http://localhost:3000/phoneAuth", null, { params:{ "phone":phone }})
-         .then(function(resp){
-             setPhone_publicc("");
-             setPhone_publiccheck("");
-             alert("인증번호를 보냈습니다");
-             setPhone_publicch(false);
-             if(resp.data !== null){
-                 setPhone_publicc(resp.data); 
-                 setPhone_publicch(true);
-             }else{
-                 alert("휴대폰 번호를 확인해주세요");
-             }
-         })
-         .catch(function(err){
-             alert("err");
-         })
+        setPhone_public("");
+        axios.post("http://localhost:3000/idsearch", null, { params:{ "name":name, "phone":phone }})
+        .then(function(resp){
+            console.log(resp.data);
+            
+            if(resp.data === null || resp.data === ""){
+                alert("이름과 본인명의의 휴대폰 번호인지 확인해주세요");
+            }else{
+                axios.post("http://localhost:3000/phoneAuth", null, { params:{ "phone":phone }})
+                .then(function(resp){
+                    setPhone_publicc("");
+                    setPhone_publiccheck("");
+                    alert("인증번호를 보냈습니다");
+                    setPhone_publicch(false);
+                    
+                    if(resp.data !== null){
+                        setPhone_publicc(resp.data); 
+                        setPhone_publicch(true);
+                    }else{
+                        alert("휴대폰 번호를 확인해주세요");
+                    }
+                })
+                .catch(function(err){
+                    alert("err");
+                })
+            }
+        })
+        .catch(function(err){
+            alert("이름과 본인명의의 휴대폰 번호인지 확인해주세요");
+        })
+         
      }
 
      // 휴대폰 인증번호 체크
@@ -90,12 +109,20 @@ function Idsearch(){
 
     function sendphonecheck(){
         if(phone_publicc.toString().trim() !== phone_public.toString().trim()){
+            alert("인증 번호를 확인해주세요")
             setPhone_publiccheck("인증 번호를 확인해주세요");
         }else{
+            alert("인증 완료되었습니다");
             setPhone_publiccheck("인증 완료되었습니다");
             setPhone_publicch(false);
+            idsearchbtn();
         }
     }
+
+    // 휴대폰 번호 변경시 재인증 필요
+    useEffect(()=>{
+        setPhone_publiccheck("");
+    },[phone])
 
     // 아이디 찾기 함수
     const [namea, setNamea] = useState(true);
@@ -122,17 +149,19 @@ function Idsearch(){
             setPhonea(false);
             alert("휴대폰 번호를 입력해주세요");
             return;
-        }else if(phone_publiccheck !== "인증 완료되었습니다" ){
-            setPhone_publica(false);
-            alert("인증번호를 입력해주세요");
-            return;
         }
+        // else if(phone_publiccheck !== "인증 완료되었습니다" ){
+        //     setPhone_publica(false);
+        //     alert("인증번호를 입력해주세요");
+        //     return;
+        // }
     
         axios.post("http://localhost:3000/idsearch", null, { params:{ "name":name, "phone":phone }})
         .then(function(resp){
+            console.log(resp.data);
             
-            if(resp.data === ""){
-                alert("본인 명의의 아이디와 휴대폰 번호인지 확인해주세요");
+            if(resp.data === null || resp.data === ""){
+                alert("이름과 본인명의의 휴대폰 번호인지 확인해주세요");
             }else{
                 console.log("id : " + resp.data);
                 setFindid(resp.data.id);
@@ -142,112 +171,155 @@ function Idsearch(){
             }
         })
         .catch(function(err){
-            alert("err");
+            alert("이름과 본인명의의 휴대폰 번호인지 확인해주세요");
         })
     }
 
+    // Login 세트 1
+    const inputs = document.querySelectorAll(".input");
+
+    function addcl(){
+      let parent = this.parentNode.parentNode;
+      parent.classList.add("focus");
+      console.log("addcl 작동");
+    }
+    
+    function remcl(){
+      let parent = this.parentNode.parentNode;
+      if(this.value == ""){
+        parent.classList.remove("focus");
+      }
+      console.log("remcl 작동");
+    }
+    
+    inputs.forEach(input => {
+        input.addEventListener("focus", addcl);
+        input.addEventListener("blur", remcl);
+    });
+
+   
+
     return(
         <div>
-
-            <h1>아이디찾기</h1>
-            <br/><br/><br/>
-            <table border="1" align="center">
-                <colgroup>
-                    <col width="150"/><col width="150"/>
-                </colgroup>
-                <tr>
-                    <td style={{backgroundColor:"grey"}}>
-                        아이디찾기
-                    </td>
-                    <td>
-                        <label for="passwordsearch">비밀번호찾기</label>
-                    </td>
-                </tr>
-            </table>
-            <br/><br/>
-            <table border="1" align="center">
-                <colgroup>
-                    <col width="100"/><col width="250"/><col width="150"/>
-                </colgroup>
-                <tr>
-                    <td align="left">이름</td> 
-                    <td align="left">
-                        {namea === true 
-                            ? <input style={{ width:"230px"}} value={name} onChange={(e)=>setName(e.target.value)} placeholder="이름을 입력해주세요" />
-                            : <input style={{ borderColor:"red", width:"230px"}} value={name} onChange={(e)=>setName(e.target.value)} placeholder="이름을 입력해주세요" />}
-                    
-                    </td>
-                    <td>
-                        { namec === "입력되었습니다" 
-                            ? <div style={{ fontSize:"5px", color:'blue' }}>{namec}</div>
-                            : <div style={{ fontSize:"5px", color:'red' }}>{namec}</div>}
-                    </td>
-                </tr>
-                <tr>
-                    <td align="left">핸드폰</td>
-                    <td align="left">
-                    {phonea === true 
-                            ?  <input style={{ width:"230px"}} value={phone} onChange={(e)=>setPhone(e.target.value)} placeholder="휴대폰 번호를 입력해주세요" />
-                            :  <input style={{ borderColor:"red", width:"230px"}} value={phone} onChange={(e)=>setPhone(e.target.value)} placeholder="휴대폰 번호를 입력해주세요" />}
+            {/*  Login css 세트 1 */}
+            <div style={{textAlign:"center", alignItems:"center"}}>
                 
-                    </td>
-                    <td>
-                    { phonec === "올바르게 입력되었습니다" 
-                        ? <div style={{ fontSize:"5px", color:'blue' }}>{phonec}<button onClick={sendPhone}>인증번호 발송</button></div>
-                        
-                        : <div style={{ fontSize:"5px", color:'red' }}>{phonec}<button disabled="false" onClick={sendPhone}>인증번호 발송</button></div>}
+                <div class="container2">
+
+                    <div class="login-content2">
+                  
+                        <img src={logo} style={{width:"300px", height:"100px", marginLeft:"auto", marginRight:"auto"}}/>
+                        <br/><br/><br/>
                     
-                    </td>
-                </tr>
-                <tr>
-                <td align="left">인증번호</td> 
-                <td align="left">
-                    {phone_publica === true 
-                            ?  <input style={{ width:"230px"}}  value={phone_public} onChange={(e)=>setPhone_public(e.target.value)} placeholder="인증번호를 입력해주세요" />
-                            :  <input style={{ borderColor:"red", width:"230px"}}  value={phone_public} onChange={(e)=>setPhone_public(e.target.value)} placeholder="인증번호를 입력해주세요" />}
-                </td>
-                <td>
-                    { phone_publiccheck === "인증 완료되었습니다" 
-                        ? <div style={{ fontSize:"5px", color:'blue' }}>{phone_publiccheck}</div>
+                        <div className="idsea">아이디찾기</div>
+                        <br/><br/><br/>
                         
-                        : <div style={{ fontSize:"5px", color:'red' }}>{phone_publiccheck}</div>}
-                    { phone_publicch === true 
-                        ? <div><button onClick={sendphonecheck}>인증하기</button></div>
+                              
+                          
+                            {findida === true
+                            ?<div></div>
+                            :<div>
+                            
+                            {/* 이름 입력칸 */}
+                            <div class="input-div one">
+                                <div class="i">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <div class="div">
+                                    <h5>이름</h5>
+                                    {namea === true 
+                                        ? <input  type="text" class="input" style={{ width:"230px"}} value={name} onChange={(e)=>setName(e.target.value)}  />
+                                        :  <input  type="text" class="input" style={{  width:"230px"}} value={name} onChange={(e)=>setName(e.target.value)} />}
+                                </div>
+                            </div>
+                            {namea === true 
+                                ?<div></div>
+                                :<div>{ namec === "입력되었습니다" 
+                                    ? <div><div class="inputtrue" >{namec}</div></div>
+                                    : <div><div class="inputfalse" >{namec}</div></div>} 
+                            </div>}
+
+
+                            {/* 휴대폰 번호 입력칸 */}
+                            <div class="input-div pass">
+                                <div class="i"> 
+                                    <i class="material-symbols-outlined">phone_iphone</i>
+                                </div>
+                                <div class="div">
+                                    <h5>휴대폰</h5>
+                                    {phonea === true 
+                                        ?  <input type="text" class="input" style={{ width:"230px"}} value={phone} onChange={(e)=>setPhone(e.target.value)}/>
+                                        :  <input type="text" class="input" style={{ borderColor:"red", width:"230px"}} value={phone} onChange={(e)=>setPhone(e.target.value)} />}
+                                </div>
+                            </div>
+                            {phonea === true 
+                                ?<div></div>
+                                :<div>{ phonec === "올바르게 입력되었습니다" 
+                                    ? <div><div class="inputtrue" >{phonec}</div></div>
+                                    : <div><div class="inputfalse" >{phonec}</div></div>} 
+                            </div>}
+
+                            {/* 인증번호 입력칸 */}
+                            <div>
+                                <div class="input-div pass">
+                                    <div class="i"> 
+                                        <i class="fas fa-lock"></i>
+                                    </div>
+                                    <div class="div">
+                                        <h5>인증번호</h5>
+                                        {phone_publica === true 
+                                            ?  <input type="text" class="input" style={{ width:"230px"}}  value={phone_public} onChange={(e)=>setPhone_public(e.target.value)} />
+                                            :  <input type="text" class="input" style={{ borderColor:"red", width:"230px"}}  value={phone_public} onChange={(e)=>setPhone_public(e.target.value)}  />}
+                                    </div>
+                                </div>
+                            </div>
+                            { phone_publiccheck === "인증 완료되었습니다" 
+                                ? <div></div>
+                                : <div><div class="inputfalse" >{phone_publiccheck}</div></div>} 
+                           
+                            {/* 버튼 칸 */}
+                            {namec === "입력되었습니다" 
+                            ?<div> 
+                                { phonec === "올바르게 입력되었습니다" 
+                                ? <div>
+                                     { findida === true
+                                        ?<div></div>
+                                        :<div><button  class="btn" onClick={sendPhone}>인증번호 발송</button></div>} </div>
+                                : <div><button  class="btnfalse" disabled="false" onClick={sendPhone}>휴대폰 번호를 입력해주세요</button></div>}</div>
+                            :<div><button  class="btnfalse" disabled="false" onClick={sendPhone}>이름을 입력해주세요</button></div>}
+                           
+  
+                            {phone_publicch === true
+                            ?<div><button class="btn" onClick={sendphonecheck} >인증하기</button></div>
+                            :<div></div>}
+                            </div>}
+                         
+                            {/* 인증 완료 후 아이디 찾은 결과값 출력 */}
+                            <br/>
+                            { findida === true
+                                ? <div>
+                                    <div class="idsea">
+                                        <input value= {findidtext}  style={{width:"400px", textAlign:"center"}}/>
+                                    </div>
+                                <br/><br/>
+                                <div class="idsea">{findid}</div> 
+                                <br/>
+                                가입일: {regidate}
+                                </div>
+                                :<div></div>
+                            }
                         
-                        : <div><button disabled="false" onClick={sendphonecheck}>인증하기</button></div>}
+                        <br/><br/>
+                     
                     
-                </td>
-                </tr>
-            </table>
-            <br/><br/><br/>
-            { findida === true
-                ? <div><input value= {findidtext} style={{ width:"230px"}}  />
-                <br/><br/>
-                <table border="1" align="center">
-                    <colgroup>
-                        <col width="120"/><col width="200"/>
-                    </colgroup>
-                    <tr>
-                        <td>id</td><td>가입일</td>
-                    </tr>
-                    <tr>
-                        <td>{findid}</td><td>{regidate}</td>
-                    </tr>
-                </table>
-                </div>
-                :<table>
-                <tr></tr>
-                </table>
-            }
-            
-            <br/><br/>
-            <button id="passwordsearch" onClick={passwordsearch} style={{display:"none"}}></button>
-            { findida === true
-                ?<button style={{display:"none"}} onClick={idsearchbtn}>아이디 찾기</button>
-                :<button onClick={idsearchbtn}>아이디 찾기</button>}
-                &nbsp;
-            <button onClick={login}>로그인 화면으로</button>
-            
+                        <div>
+                        <button class="btn2" onClick={login}>로그인 화면으로</button>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <button class="btn2" onClick={passwordsearch}>비밀번호찾기</button>
+                        </div>
+                        </div>
+                  </div>
+            </div>
         </div>
     )
 

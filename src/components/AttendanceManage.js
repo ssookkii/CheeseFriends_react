@@ -8,13 +8,50 @@ import './asset/css/AttendanceManage.css';
 function AttendanceManage() {
 
   // 세션 스토리지
-  const userId = sessionStorage.getItem("userId");
-  const eduCode = sessionStorage.getItem("eduCode");
-  const subCode = sessionStorage.getItem("subCode");
+  const loginInfo = JSON.parse(localStorage.getItem("login"));
+  const userId = loginInfo?.id;
+  const userAuth = loginInfo?.auth;
 
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [selectedSubject, setSelectedSubject] = useState('');
   const [attendanceData, setAttendanceData] = useState([]);
+  const [currentUserId, setCurrentUserId] = useState(null);
+  const [selectedEdu, setSelectedEdu] = useState('');
+  const [eduCode, seteduCode] = useState([]);
+
+  useEffect(() => {
+    if (userAuth === "student") {
+      setCurrentUserId(userId);
+      console.log(currentUserId);
+    } else if (userAuth === "parents") {
+      // 백엔드에서 학생 아이디를 가져오는 API 호출
+      axios
+        .get(`http://localhost:3000/attManage/getStudentId/${userId}`)
+        .then((response) => {
+          setCurrentUserId(response.data);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+  }, [userAuth, userId]);
+
+  useEffect(() => {
+    if (!currentUserId) return;
+    axios.get(`http://localhost:3000/attManage/edu/${currentUserId}`)
+      .then((response) => {
+        seteduCode(response.data);
+        if (response.data.length > 0) {
+          setSelectedEdu(response.data[0].eduCode);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, [currentUserId]);
+
+
+
 
 
 
@@ -28,31 +65,36 @@ function AttendanceManage() {
   const [subjects, setSubjects] = useState([]);
 
   useEffect(() => {
-    // 백엔드에서 과목 데이터를 가져오는 API 호출
-    axios.get(`http://localhost:3000/attManage/subjects/${userId}`)
+    if (!currentUserId) return;
+    // 백엔드에서 eduCode와 일치하는 과목 데이터를 가져오는 API 호출
+    axios.get(`http://localhost:3000/attManage/subjects/${currentUserId}`)
       .then((response) => {
-        setSubjects(response.data);
+        // 현재 eduCode와 일치하는 과목 데이터만 필터링하여 setSubjects에 저장
+        const filteredSubjects = response.data.filter(subject => subject.eduCode === selectedEdu);
+        setSubjects(filteredSubjects);
 
         // 첫번째 항목을 기본 선택으로 설정
-        if (response.data.length > 0) {
-          setSelectedSubject(response.data[0].subCode);
+        if (filteredSubjects.length > 0) {
+          setSelectedSubject(filteredSubjects[0].subCode);
         }
       })
       .catch((error) => {
         console.error(error);
       });
-  }, []);
+  }, [currentUserId, eduCode, selectedEdu]);
+
 
   useEffect(() => {
+    if (!currentUserId || !selectedSubject || !selectedEdu) return;
     // 선택한 과목에 대한 출결 데이터를 가져오는 API 호출 
-    axios.get(`http://localhost:3000/attManage/${userId}/${selectedSubject}/${eduCode}`)
+    axios.get(`http://localhost:3000/attManage/${currentUserId}/${selectedSubject}/${selectedEdu}`)
       .then(response => {
         setAttendanceData(response.data);
       })
       .catch(error => {
         console.error(error);
       });
-  }, [selectedSubject]);
+  }, [selectedSubject, currentUserId, selectedEdu]);
 
 
 
@@ -64,6 +106,8 @@ function AttendanceManage() {
       absent: 0,
       late: 0,
       attend: 0,
+      out: 0,
+      early: 0,
     };
 
     attendanceData.forEach((data) => {
@@ -73,8 +117,12 @@ function AttendanceManage() {
           stats.absent++;
         } else if (data.status === "지각") {
           stats.late++;
-        } else {
+        } else if (data.status === "출석") {
           stats.attend++;
+        } else if (data.status === "외출") {
+          stats.out++;
+        } else {
+          stats.early++;
         }
       }
     });
@@ -92,12 +140,12 @@ function AttendanceManage() {
   const handleBeforeClassAlertChange = (event) => {
     setminCheck(event.target.checked);
     const { checked } = event.target;
-    const url = `http://localhost:3000/attManage/${userId}/AlarmTrue`;
+    const url = `http://localhost:3000/attManage/${currentUserId}/AlarmTrue`;
     fetch(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        userId: userId,
+        userId: currentUserId,
         minCheck: checked // 체크되면 true, 체크해제하면 false
       }),
     })
@@ -115,8 +163,9 @@ function AttendanceManage() {
   const [minCheck, setminCheck] = useState([]);
 
   useEffect(() => {
+    if (!currentUserId) return;
     // DB에서 minCheck 값을 가져옴
-    axios.get(`http://localhost:3000/attManage/${userId}/GetAlarm`)
+    axios.get(`http://localhost:3000/attManage/${currentUserId}/GetAlarm`)
       .then((response) => {
         setminCheck(response.data[0].minCheck);
 
@@ -126,17 +175,17 @@ function AttendanceManage() {
         console.error('Error:', error);
         setminCheck(false);
       });
-  }, []);
+  }, [currentUserId]);
 
   const handleAbsentAlertChange = (e) => {
     setabsentAlarm(e.target.checked);
     const { checked } = e.target;
-    const url = `http://localhost:3000/attManage/${userId}/AbsentAlarmTrue`;
+    const url = `http://localhost:3000/attManage/${currentUserId}/AbsentAlarmTrue`;
     fetch(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        userId: userId,
+        userId: currentUserId,
         absentAlarm: checked // 체크되면 true, 체크해제하면 false
       }),
     })
@@ -153,15 +202,16 @@ function AttendanceManage() {
 
   const [absentAlarm, setabsentAlarm] = useState([]);
   useEffect(() => {
-    axios.get(`http://localhost:3000/attManage/${userId}/AbsentAlarm`)
+    if (!currentUserId) return;
+    axios.get(`http://localhost:3000/attManage/${currentUserId}/AbsentAlarm`)
       .then((response) => {
         setabsentAlarm(response.data[0].absentCheck);
       })
       .catch((error) => {
         console.error('Error:', error);
-        setminCheck(false);
+        setabsentAlarm(false);
       });
-  }, []);
+  }, [currentUserId]);
 
   const handleActiveDateChange = ({ activeStartDate }) => {
     setSelectedDate(activeStartDate);
@@ -173,42 +223,70 @@ function AttendanceManage() {
   const attendanceStats = getAttendanceStats(attendanceData, selectedDate);
 
   return (
-    <div className="attendance-manage-container">
-      <nav className='att_manage'>
+    <div className="attendance-manage-container" style={{ width: '80%', margin: '0 auto' }}>
+
+      <nav className="edu_navstu" style={{ opacity: '0.9', margin: '0px', maxWidth: '100%' }}>
         <ul>
-          {subjects.map((subject) => (
+          {eduCode.map((edu) => (
             <li
-              key={subject.subCode}
-              className={selectedSubject === subject.subCode ? 'active' : ''}
-              onClick={() => setSelectedSubject(subject.subCode)}
-              style={{ backgroundColor: selectedSubject === subject.subCode ? '#FFDC9D' : 'transparent' }}
+              key={edu.eduCode}
+              className={selectedEdu === edu.eduCode ? 'active' : ''}
+              onClick={() => setSelectedEdu(edu.eduCode)}
+              style={{ fontSize: '15px', minWidth: '100px', textAlign: 'center' }}
             >
-              {subject.subName}
+              <img src="/img/cheese.png" alt="Attendance statistics" width="15px" />  {edu.eduName}
             </li>
           ))}
         </ul>
+        <nav className='att_manage' style={{}}>
+          <ul>
+            {subjects.map((subject) => (
+              <li
+                key={subject.subCode}
+                className={selectedSubject === subject.subCode ? 'active' : ''}
+                onClick={() => setSelectedSubject(subject.subCode)}
+                style={{ minWidth: '100px', textAlign: 'center' }}
+              >
+                {subject.subName}
+              </li>
+            ))}
+          </ul>
+        </nav>
       </nav>
 
       <div className="attendance-stats">
-        <h2 style={{ fontSize: '20px' }} className="attendance-month">
-          {selectedDate.getFullYear()}년 {selectedDate.getMonth() + 1}월 출결 통계
-        </h2>
-        <br />
-        <div className='attcheck' style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <p style={{ color: '#A1c3B3', fontWeight: 'bold' }} > 출석: {attendanceStats.attend}회  </p>
-          <p style={{ color: '#FFDC9D', fontWeight: 'bold' }}> 지각: {attendanceStats.late}회 </p>
-          <p style={{ color: '#FFA1A1', fontWeight: 'bold' }}>결석: {attendanceStats.absent}회 </p>
-        </div>
 
+        <div className='AttendanceDate' >
+          <h2 style={{ fontSize: '18px', width: "35%" }} className="attendance-month">
+            {selectedDate.getFullYear()}년 {selectedDate.getMonth() + 1}월 출결 통계
+          </h2>
+        </div>
+        <br />
+        <div className='attcheck' style={{ display: 'flex', justifyContent: 'center' }}>
+          <p style={{ color: '#677bde', fontWeight: 'bold' }} > 출석: {attendanceStats.attend}회  </p>
+          <p style={{ color: '#face5e', fontWeight: 'bold' }}> 지각: {attendanceStats.late}회 </p>
+          <p style={{ color: '#f19c9c', fontWeight: 'bold' }}>결석: {attendanceStats.absent}회 </p>
+          <p style={{ color: '#868686', fontWeight: 'bold' }}>외출: {attendanceStats.out}회 </p>
+          <p style={{ color: '#b6d7b4', fontWeight: 'bold' }}>조퇴: {attendanceStats.early}회 </p>
+        </div>
+        <br></br>
       </div>
+
       <div className="calendar-wrapper">
         <div className="checkbox-wrapper">
           <br /><br /><br /><br />
-          <img src="/img/alarm.png" alt="알림 이미지" width="150px" height="auto" />
+          <img
+            src="/img/alarm.png"
+            alt="알림 이미지"
+            width="100px"
+            height="auto"
+            className="swing-animation"
+          />
+
           <br /><br />
-          <div className="checkboxes">
-            <label>
-              <span>수업 시작 30분 전 알림</span>
+          <div className="Attcheckboxes">
+            <label className='AttLabel'>
+              <span Att-tooltip="수업 시작 30분 전에 출석 알림을 문자로 받을 수 있습니다.">수업 시작 30분 전 알림</span>
               <input
                 type="checkbox"
                 checked={minCheck}
@@ -216,8 +294,8 @@ function AttendanceManage() {
               />
             </label>
             <br /><br />
-            <label>
-              <span>'결석' 처리 알림</span>
+            <label >
+              <span Abs-tooltip="결석 처리가 될 경우 알림을 문자로 받아볼 수 있습니다.">'결석' 처리 알림</span>
               <input
                 type="checkbox"
                 checked={absentAlarm}
@@ -226,11 +304,12 @@ function AttendanceManage() {
             </label>
           </div>
         </div>
-        <div className="calendar-container">
+        <div className="calendar-container" >
           <Calendar
             onChange={handleDateChange}
             onActiveDateChange={handleActiveDateChange}
             value={selectedDate}
+
             tileContent={({ date, view }) => {
               if (view !== "month") {
                 return null;
@@ -261,10 +340,15 @@ function AttendanceManage() {
                 return "absent";
               } else if (statusData.status === "지각") {
                 return "late";
+              } else if (statusData.status === "외출") {
+                return "out";
+              } else if (statusData.status === "조퇴") {
+                return "early";
               } else {
                 return "attend";
               }
             }}
+
           />
         </div>
       </div>

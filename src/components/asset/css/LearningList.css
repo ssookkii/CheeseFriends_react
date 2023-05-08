@@ -1,0 +1,38 @@
+* {
+    font-family: 고딕, arial;
+}
+.learninglist{
+    width: 1200px;
+    height: 500px;
+    margin: 100px auto 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.learnBtn, .taskBtn {
+    width: 200px;
+    background-color: #fbca73;
+    color: white;
+    border-radius: 6px;
+}
+.learnBtn:hover {
+    border: 2px solid #fbca73;
+    background-color: white;
+    color: #434343;
+}
+td>a{
+    color: #fbca73;
+}
+.learnBtn {
+    margin-bottom: 7px;
+}
+.searchbtn {
+    border-radius: 4px;
+}
+.searchbtn:hover {
+    border: 2px solid #fac463;
+    background: white;
+    color: #444;
+    
+}

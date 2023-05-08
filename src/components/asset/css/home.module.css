@@ -1,0 +1,131 @@
+.keyVisual {
+    width:100%;
+    height:500px;
+    background-color: #529dd7;
+    /* background: url(../../../../public/img/Asset\ 2.png) no-repeat;
+    background-size: cover; */
+}
+.mypageBoxBg {
+    width:1200px;
+    height:500px;
+    margin:100px auto 0;
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.mypageBox {
+    background-color:#fff;
+    width:320px;
+    height:300px;
+    border-radius: 30px;
+    margin-left:50px;
+}
+.mypageBox > p {
+    font-size:2em;
+    padding:30px 50px;
+    line-height:1.3;
+}
+.mypageBox > p > span {
+    font-weight: 700;
+}
+.mypageBox .cboxWrap {
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    padding : 15px 50px;
+}
+.mypageBox .cboxWrap .cbox {
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+}
+.mypageBox .cboxWrap .cbox span:first-child {
+    width:50px;
+    height:50px;
+    display:inline-block;
+    background: url(../../../../public/img/homeBoxIcon.png) no-repeat;
+    margin-bottom:10px;
+}
+.mypageBox .cboxWrap .cbox:nth-child(2) span:first-child {
+    background-position: 51% 0;
+}
+.mypageBox .cboxWrap .cbox:nth-child(3) span:first-child {
+    background-position: 100% 0;
+}
+.mypageBox .cboxWrap .cbox span:nth-child(2) {
+    font-size:0.9em;
+}
+.mypageBox .cboxWrap .cbox:nth-child(3) {
+    position:relative;
+}
+.mypageBox .cboxWrap .cbox:nth-child(3) span:last-child {
+    width:15px;
+    height:15px;
+    position:absolute;
+    right:0;
+    top:0;
+    background-color: #ff0000;
+    border-radius: 50%;
+    color:#fff;
+    font-weight: 600;
+    font-size:0.7em;
+    text-align: center;
+    line-height:13px;
+}
+.keyVisualIcon {
+    width:50%;
+    height:120%;
+    background:url("../../../../public/img/keyVisual.png") no-repeat;
+    animation:bounds 2s linear infinite alternate;
+    background-size: contain;
+}
+.container {
+    width:1200px;
+    margin:70px auto;
+}
+/* 교육정보 */
+.TitleBox {
+    display:flex;
+    justify-content: start;
+    align-items: end;
+    margin-bottom:30px;
+}
+.TitleBox > h2 {
+    font-size:3em;
+    font-weight: 600;
+    color:#323232;
+}
+.TitleBox > p {
+    padding:0 10px 10px 20px;
+    font-size:1.2em;
+    color:#323232;
+}
+.containerBg {
+    background:url(../../../../public/img/playBg.png) no-repeat;
+    background-size: cover;
+    padding:50px 0;
+}
+.container .slideContent {
+    display:inline-block;
+    padding: 1%;
+    width:100%;
+
+}
+.container .centerSlide {
+    width:100%;
+}
+.container .playBox {
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.container .playBox > a {
+    width:30%;
+}
+
+
+/* 애니메이션 */
+@keyframes bounds{
+    0% {transform:translateY(-50px)}
+    100% {transform:translateY(-20px)}
+}

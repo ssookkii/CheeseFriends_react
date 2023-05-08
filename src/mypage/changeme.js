@@ -28,7 +28,6 @@ function Changeme(){
     let local = localStorage.getItem("login");
     let login = JSON.parse(local);
 
-    
     const [id, setId] = useState("");
     const [idc, setIdc] = useState("");
     const [password, setPassword] = useState(login.password);
@@ -42,7 +41,7 @@ function Changeme(){
     const [phone, setPhone] = useState("");
     const [phone_public, setPhone_public] = useState("");
     const [jointype, setJointype] = useState("");
-    const [auth, setAuth] = useState('student');
+    const [auth, setAuth] = useState(login.auth);
 
     const [passwordcheck, setPasswordcheck] = useState("");
 
@@ -192,6 +191,11 @@ function Changeme(){
           if (phone.length === 13) {
             setPhone(phone.replace(/-/g, '').replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3'));
           }
+    },[phone])
+
+    // 휴대폰 번호 변경시 재인증 필요
+    useEffect(()=>{
+        setPhone_publiccheck("");
     },[phone])
 
     

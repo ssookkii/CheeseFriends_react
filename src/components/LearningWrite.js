@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-// import './asset/css/LectureWrite.css';
+import './asset/css/LectureWrite.css'
 
 import axios from "axios";
-import { navigate, useNavigate } from 'react-router';
+import { useNavigate } from 'react-router';
 
 
 function LearningWrite() {
@@ -11,6 +11,9 @@ function LearningWrite() {
     const [title, setTitle] = useState('');
     const [writer, setWriter] = useState('');
     const [content, setContent] = useState('');
+
+    const login = JSON.parse(localStorage.getItem("login"));
+    const userName = login.name;
 
     const navigate = useNavigate();
 
@@ -31,21 +34,22 @@ function LearningWrite() {
     axios.post("http://localhost:3000/fileUpload", formData)
     .then(res=>{
        console.log(res.data);
-       alert('file upload에 성공했습니다');
+       alert('자료 업로드에 성공했습니다');
+       navigate('/cheesefriends/learning');
     })
     .catch(function(error){
-       alert('file upload에 실패했습니다');
+       alert('자료 업로드에 실패했습니다');
     });
 
     axios.post('http://localhost:3000/writeLearning', null, { params: {
                 subject,
                 title,
-                writer,
+                writer:userName,
                 content
         }})
             .then( resp => {
             console.log(resp);
-            navigate('/learning/LearningList');
+            navigate('/cheesefriends/learning');
             })
             .catch(err => console.log(err));
 
@@ -71,12 +75,12 @@ function LearningWrite() {
   }
 
     const resetBtn = () => {
-        navigate('/learning/LearningList');
+        navigate('/cheesefriends/learning');
     }
     
     const SelectBox = () => {
         return (
-            <select onChange={changeSelectOptionHandler} value={subject} style={{marginLeft:"170px", width:"190px", border:"none", borderBottom:"2px solid lightgray"}}>
+            <select onChange={changeSelectOptionHandler} value={subject} style={{marginLeft:"60px", width:"190px", border:"none", borderBottom:"2px solid lightgray"}}>
                 <option key="kor" value="국어">국어</option>
                 <option key="math" value="수학">수학</option>
                 <option key="eng" value="영어">영어</option>
@@ -92,10 +96,10 @@ function LearningWrite() {
 
    
         return (
-            <div style={{margin:"30px 150px 50px 150px", padding:"15px", fontSize:"17px"}}>
+            <div style={{margin:"-8px 370px 0px", fontSize:"17px"}}>
                 <h2>수업자료 등록</h2>
                 <hr/>
-                <form name="frm" onSubmit={onSubmit} encType="multipart/form-data">
+                <form name="frm" onSubmit={onSubmit} encType="multipart/form-data" style={{textAlign:"left"}}>
                     <>
                     제목
                     <input type="text" id='title' className='title' name='title'
@@ -110,18 +114,20 @@ function LearningWrite() {
                     <>
                     작성자
                     <input type="text" id='writer' className='writer' name='writer'
-                        value={writer}  onChange={(e) => setWriter(e.target.value)} />
+                        value={userName}  onChange={(e) => setWriter(e.target.value)} readOnly />
                     </>
                     <hr/>
                     <>
                     내용
                     </>
-                    <input type="file" name="uploadFile" accept="*"  />
-                    <hr/>
+                    <input type="file" name="uploadFile" className='file' accept="*"  />
+                    <br/>
+                    <textarea id='content' className='content' name='content'
+                        value={content} onChange={(e) => setContent(e.target.value)} />
 
                     <div className='btnwrapper'>
-                        <button type='button' onClick={resetBtn}>취소</button>
-                        <button type='submit' value='file upload'>등록</button>
+                        <button type='button' style={{borderRadius:"4px"}} onClick={resetBtn}>취소</button>
+                        <button type='submit' style={{marginLeft:"15px"}} value='file upload'>등록</button>
                     </div>
                 </form>
             </div>

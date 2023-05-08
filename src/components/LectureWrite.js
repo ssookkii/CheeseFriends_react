@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import { CKEditor } from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import './asset/css/LectureWrite.css'
 import { navigate, useNavigate } from 'react-router';
 import axios from "axios";
@@ -11,6 +9,9 @@ function LectureWrite() {
     const [title, setTitle] = useState('');
     const [writer, setWriter] = useState('');
     const [content, setContent] = useState('');
+
+    const login = JSON.parse(localStorage.getItem("login"));
+    const userName = login.name;
 
     const navigate = useNavigate();
 
@@ -40,12 +41,12 @@ function LectureWrite() {
     axios.post('http://localhost:3000/writeLecture', null, { params: {
                 subject,
                 title,
-                writer,
+                writer:userName,
                 content
         }})
             .then( resp => {
             console.log(resp);
-            navigate('/lecture/LectureList');
+            navigate('/cheesefriends/lecture');
             })
             .catch(err => console.log(err));
   }
@@ -70,12 +71,12 @@ function LectureWrite() {
   }
 
     const resetBtn = () => {
-        navigate('/lecture/LectureList');
+        navigate('/cheesefriends/lecture');
     }
 
     const SelectBox = () => {
         return (
-            <select onChange={changeSelectOptionHandler} value={subject} style={{marginLeft:"170px", width:"190px", border:"none", borderBottom:"2px solid lightgray"}}>
+            <select onChange={changeSelectOptionHandler} value={subject} style={{marginLeft:"60px", width:"190px", border:"none", borderBottom:"2px solid lightgray"}}>
                 <option key="kor" value="국어">국어</option>
                 <option key="math" value="수학">수학</option>
                 <option key="eng" value="영어">영어</option>
@@ -90,10 +91,10 @@ function LectureWrite() {
     };
 
         return (
-            <div style={{margin:"30px 150px 50px 150px", padding:"15px", fontSize:"17px"}}>
+            <div className='lecwritemain'>
                 <h2>강의 업로드</h2>
                 <hr/>
-                <form name='frm' onSubmit={onSubmit} encType='multipart/form-data'>
+                <form name='frm' onSubmit={onSubmit} encType='multipart/form-data' style={{textAlign:"left"}}>
                     <>
                     제목
                     <input type="text" id='title' className='title' name='title'
@@ -103,31 +104,29 @@ function LectureWrite() {
                     <>
                     과목
                     <SelectBox />
-                
                     </>
                     <hr/>
                     <>
                     작성자
                     <input type="text" id='writer' className='writer' name='writer'
-                        value={writer} onChange={(e) => setWriter(e.target.value)} />
+                        value={userName} onChange={(e) => setWriter(e.target.value)} readOnly/>
                     </>
                     <hr/>
                     <>
                     내용
                     </>
-                    <input type="file" name='uploadFile' accept='*' />
-                    <hr/>
-                   
+                    <input type="file" name='uploadFile' className='file' accept='*' />
+                    <br />
+                    <textarea id='content' className='content' name='content'
+                        value={content} onChange={(e) => setContent(e.target.value)} />                  
                     <div className='btnwrapper'>
                         <button type='button' onClick={resetBtn}>취소</button>
                         <button type='submit' value='file upload'>등록</button>
                     </div>
                 </form>
             </div>
-
         );
     }
-
 
 
 export default LectureWrite;

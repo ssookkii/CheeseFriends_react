@@ -22,13 +22,83 @@ function Regiteacher(){
     const [facename, setFacename] = useState("");
     const [phone, setPhone] = useState("");
     const [phone_public, setPhone_public] = useState("");
-    const [jointype, setJointype] = useState("");
     const [auth, setAuth] = useState('teacher');
 
     const [edu_name, setEdu_name] = useState("");
     const [educheck, setEducheck] = useState(false);
 
     const [passwordcheck, setPasswordcheck] = useState("");
+
+     // 계정 연동
+     const [joinid, setJoinid] = useState("");
+     const [jointype, setJointype] = useState("");
+ 
+     useEffect (()=>{
+        
+
+        let soc = localStorage.getItem("social");
+        let social = JSON.parse(soc)
+
+        let socialtype = localStorage.getItem("socialtype");
+
+        if(socialtype === "kakao"){
+            if(social !== undefined){
+
+                setJoinid(social.id);
+                setJointype(socialtype);
+
+                if(social.gender === "female"){
+                    setGender("woman");
+                }else{
+                    setGender("man");
+                }
+
+                if(social.email !== null && social.email !== "" && social.email !== undefined){
+                    setEmail(social.email);
+                }
+            }
+        }else if(socialtype === "google"){
+            if(social !== undefined){
+
+                setJoinid(social.sub);
+                setJointype(socialtype);
+
+                if(social.gender === "female"){
+                    setGender("woman");
+                }else{
+                    setGender("man");
+                }
+
+                if(social.email !== null && social.email !== "" && social.email !== undefined){
+                    setEmail(social.email);
+                }
+            }
+        }else if(socialtype === "naver"){
+            if(social !== undefined){
+
+                setJoinid(social.id);
+                setJointype(socialtype);
+
+                if(social.gender !== "M"){
+                    setGender("woman");
+                }else{
+                    setGender("man");
+                }
+
+                if(social.name !== null && social.name !== "" && social.name !== undefined ){
+                    setName(social.name);
+                }
+
+                if(social.email !== null && social.email !== "" && social.email !== undefined){
+                    setEmail(social.email);
+                }
+            }
+        }else if(socialtype === "cheesefriends"){
+            setJointype(socialtype);
+        }
+
+    },[]);
+    
 
     // 주소 api
     const [enroll_company, setEnroll_company] = useState({ address:'', });
@@ -288,6 +358,11 @@ function Regiteacher(){
         }
     }
 
+    // 휴대폰 번호 변경시 재인증 필요
+    useEffect(()=>{
+        setPhone_publiccheck("");
+    },[phone])
+
     // 사진 캡쳐 api
     const videoRef = useRef(null);
     const [imageSrc, setImageSrc] = useState(null);
@@ -414,7 +489,9 @@ function Regiteacher(){
                     "address":address,
                     "facename": id + ".jpg",
                     "phone": phone,
-                    "auth":auth
+                    "auth":auth,
+                    "jointype":jointype,
+                    "joinid":joinid
                 }})
         .then(function(resp){
            
@@ -529,8 +606,8 @@ function Regiteacher(){
                 <td align="left">비밀번호</td> 
                 <td align="left">
                     {passworda === true 
-                        ? <input style={{ width:"230px"}} value={password} onChange={(e)=>setPassword(e.target.value)} placeholder="숫자,영문자,특수문자 포함 8자 이상" />
-                        : <input style={{ borderColor:"red", width:"230px"}} value={password} onChange={(e)=>setPassword(e.target.value)} placeholder="숫자,영문자,특수문자 포함 8자 이상" />}
+                        ? <input type="password" style={{ width:"230px"}} value={password} onChange={(e)=>setPassword(e.target.value)} placeholder="숫자,영문자,특수문자 포함 8자 이상" />
+                        : <input type="password" style={{ borderColor:"red", width:"230px"}} value={password} onChange={(e)=>setPassword(e.target.value)} placeholder="숫자,영문자,특수문자 포함 8자 이상" />}
                 </td>
                 <td>
                     { passwordc === "안전한 비밀번호 입니다" 
@@ -542,8 +619,8 @@ function Regiteacher(){
                 <td align="left">비밀번호 확인</td> 
                 <td align="left">
                     {passwordChecka === true 
-                        ?  <input style={{ width:"230px"}} value={passwordcheck} onChange={(e)=>setPasswordcheck(e.target.value)} placeholder="위와 동일한 비밀번호 입력" />
-                        :  <input style={{ borderColor:"red", width:"230px"}} value={passwordcheck} onChange={(e)=>setPasswordcheck(e.target.value)} placeholder="위와 동일한 비밀번호 입력" />}
+                        ?  <input type="password" style={{ width:"230px"}} value={passwordcheck} onChange={(e)=>setPasswordcheck(e.target.value)} placeholder="위와 동일한 비밀번호 입력" />
+                        :  <input type="password" style={{ borderColor:"red", width:"230px"}} value={passwordcheck} onChange={(e)=>setPasswordcheck(e.target.value)} placeholder="위와 동일한 비밀번호 입력" />}
                 </td>
                 <td>
                     { passwordcheckc === "비밀번호가 동일합니다" 
@@ -664,6 +741,7 @@ function Regiteacher(){
             <button onClick={regiselect}>가입유형선택</button>
                 &nbsp;
             <button onClick={account}>회원가입</button>
+  
 
         </div>
     )

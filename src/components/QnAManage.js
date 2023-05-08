@@ -9,7 +9,6 @@ import { faAnglesLeft } from "@fortawesome/free-solid-svg-icons";
 import { faAnglesRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import './asset/css/reset.css';
 import manage from './asset/css/manageCommon.module.css';
 
 function QnAManage(){
@@ -76,7 +75,7 @@ function QnAManage(){
         <div>
             <div className={manage.topContent}>
                 <div className={manage.search}>       
-                    <select vlaue={choice} onChange={(e)=>setChoice(e.target.value)}>
+                    <select value={choice} onChange={(e)=>setChoice(e.target.value)}>
                         <option value="">검색</option>
                         <option value="eduCode">학원코드</option>
                         <option value="eduName">학원이름</option>

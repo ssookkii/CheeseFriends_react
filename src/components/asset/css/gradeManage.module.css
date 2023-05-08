@@ -1,0 +1,120 @@
+.wrap {
+    margin: 0 5%;
+}
+.subject {
+    margin:0 0 30px;
+}
+.subject .sub {
+    width:160px;
+    height:40px;
+    background-color:#fff;
+    border:1px solid #80735e;
+}
+.subject .btnActive {
+    background-color: #80735e;
+    color:#fff;
+    font-weight:500; 
+}
+
+.options {
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.search {
+    border:1px solid #bdbdbd;
+    border-radius: 3px;
+    width:80px;
+    height:40px;
+    padding:0 10px;
+    font-size:0.9em;
+    background: url(../../../../public/img/sortIcon.png) no-repeat 86% 50% ;
+    background-size:10px;
+    -webkit-appearance: none; 
+    -moz-appearance: none;
+    appearance: none;
+}
+.search > select::-ms-expand {
+    display: none;
+}
+
+.excelBtn > button {
+    height:40px;
+    color:#fff;
+    background-color: #FAC463;
+    width:120px;
+    border-radius: 10px;
+    margin-left:10px;
+    font-weight: 500;
+    font-size: 0.9em;
+}
+.excelBtn > label {
+    position:relative;
+}
+.excelBtn > label > input {
+    display : none;
+}
+.excelBtn > label > div {
+    height: 40px;
+    color: #fff;
+    background-color: #FAC463;
+    width: 120px;
+    border-radius: 10px;
+    margin-left: 10px;
+    font-weight: 500;
+    font-size: 0.9em;
+    position: absolute;
+    left: -135px;
+    top: -10px;
+    line-height: 39px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.content {
+    margin:40px 0 ;
+    width:100%;
+}
+.content thead tr th {
+    text-align: center;
+    font-weight: 600;
+    height:40px;
+    background-color: #fff9e6;
+}
+
+.content thead tr th:nth-child(1) {width:5%;}
+.content thead tr th:nth-child(2) {width:15%;}
+.content thead tr th:nth-child(3) {width:20%;}
+.content thead tr th:nth-child(4) {width:20%;}
+.content thead tr th:nth-child(5) {width:20%;}
+.content thead tr th:nth-child(6) {width:20%;}
+.content tbody tr {
+    border-bottom:1px solid #eee;
+}
+.content tbody tr td {
+    text-align: center;
+    height:50px;
+}
+.content .gradeInput {
+    text-align: center;
+    height:40px;
+    border-radius: 10px;
+
+}
+.content .border {
+    border:1px solid #eee;
+}
+
+.updateBtn {
+    height:40px;
+    color:#fff;
+    background-color: #FAC463;
+    width:120px;
+    border-radius: 10px;
+    margin-left:10px;
+    font-weight: 600;
+    font-size: 0.9em;
+    display:block;
+    margin:0 auto;
+}

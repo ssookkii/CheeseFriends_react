@@ -1,0 +1,127 @@
+.eduinfolist {
+    width: 1200px;
+    height: 500px;
+    margin: 100px auto 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.item-0 {
+    box-shadow: inset 0px 5px 10px 0 rgba(121, 121, 121, 0.08);
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    cursor: pointer;
+}
+.eduwrapper:hover {
+    border: 3px solid #fbca73;
+}
+
+.item-1, .item-2 {
+    margin-left: 50px;
+    box-shadow: inset 0px 5px 10px 0 rgba(121, 121, 121, 0.08);
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    cursor: pointer;
+}
+.isAnotherSpecialItem:hover {
+    border: 2px solid #fbca73;
+}
+
+.isYetAnotherSpecialItem:hover {
+    border: 2px solid #fbca73;
+}
+
+.item-3 {
+    margin-top: 250px;
+    margin-left: -755px;
+    box-shadow: inset 0px 5px 10px 0 rgba(121, 121, 121, 0.08);
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    cursor: pointer;
+}
+.item-3:hover {
+    border: 2px solid #fbca73;
+}
+
+.item-4 {
+    margin-top: 250px;
+    margin-left: 50px;
+    box-shadow: inset 0px 5px 10px 0 rgba(121, 121, 121, 0.08);
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    cursor: pointer;
+}
+.item-4:hover {
+    border: 2px solid #fbca73;
+}
+
+
+.item-5 {
+    margin-top: 247px;
+    margin-left: 50px;
+    box-shadow: inset 0px 5px 10px 0 rgba(121, 121, 121, 0.08);
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    cursor: pointer;
+}
+.item-5:hover {
+    border: 2px solid #fbca73;
+}
+.item-5>.edubtn {
+    margin-top: -17px;
+}
+
+.eduwritebtn {
+    width: 300px;
+    height: 50px;
+    color: #fff;
+    background: #fbca73;
+    font-weight: 600;
+    border-radius: 10px;
+}
+
+.eduwritebtn:hover {
+    border: 2px solid #fbca73;
+    background: #fff;
+    color: #434343;
+}
+
+.eduinfotitle::before {
+    margin-left: -53px;
+}
+.eduinfotitle {
+    font-weight: 500;
+}
+
+.navwrapper {
+    display: flex;
+    margin-top: -100px;
+    margin-left: 85px;
+}
+.educontentwrapper{
+    display: flex;
+    margin-top: 50px;
+
+}
+
+.edubtn {
+    width: 214px;
+    height: 45px;
+    margin-left: -5px;
+    background-color: #fbca73;
+    border-radius: 4px;
+}
+.edubtn:hover {
+    border: 2px solid #f9f9f9;
+    color: #434343;
+}
+
+.edubtn>a{
+    color: #fff;
+    font-weight: bold;
+}
+
+.edubtn>a:hover {
+    color: lightgray;
+}

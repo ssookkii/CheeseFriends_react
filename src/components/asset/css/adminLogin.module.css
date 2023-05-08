@@ -6,7 +6,7 @@
     flex-flow: column;
     /* box-shadow: 12px 12px 2px 1px #fac463; */
 }
-h1::before {
+.h1Title::before {
     content:'';
     background:url(../../../../public/img/logo100h.png) no-repeat;
     position: absolute;
@@ -16,7 +16,7 @@ h1::before {
     height: 40px;
     background-size: 200px;
 }
-h1 {
+.h1Title {
     position:relative;
     text-align: center;
     font-size:1.0em;

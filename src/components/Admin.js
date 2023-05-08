@@ -39,6 +39,7 @@ function Admin(){
                 localStorage.setItem("login", JSON.stringify(resp.data));
                 console.log(JSON.stringify(resp.data));
                 console.log(resp.data);
+                localStorage.setItem("btnActive", "edumanage");
                 history('/adminpage/edumanage')
             }else{
                 alert("id나 password를 확인하십시오")
@@ -63,7 +64,7 @@ function Admin(){
 
     return(
         <div className={styles.loginWrap}>
-            <h1 className={styles.h1}>Administrator</h1>
+            <h1 className={styles.h1Title}>Administrator</h1>
             <div className={styles.loginContent}>
             <input
                 type="text"
