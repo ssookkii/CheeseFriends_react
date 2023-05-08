@@ -6,8 +6,11 @@ import './asset/css/ServiceAnswer.css';
 import axios from 'axios';
 
 export default function ServiceAnswer(){
-    let history = useNavigate();
+    const navigate = useNavigate();
 
+    const login = JSON.parse(localStorage.getItem("login"));
+    const userName = login.name;
+    
     const [bbs, setBbs] = useState();
     const [loading, setLoading] = useState(false);
 
@@ -23,23 +26,7 @@ export default function ServiceAnswer(){
     const titleChange = (e) => setTitle(e.target.value);
     const writerChange = (e) => setWriter(e.target.value);
     const contentChange = (e) => setContent(e.target.value);
-
-    const SelectBox = () => {
-        return (
-            <select onChange={changeSelectOptionHandler} value={topic} style={{marginLeft:"60px", width:"190px", border:"none", borderBottom:"2px solid lightgray"}}>
-                <option key="frequently" value="자주묻는질문">자주묻는질문</option>
-                <option key="userInfo" value="개인정보">개인정보</option>
-                <option key="useLect" value="강의이용">강의이용</option>
-                <option key="player" value="학습플레이어">학습플레이어</option>
-                <option key="mobile" value="모바일/기타">모바일/기타</option>
-            </select>
-        );
-    };
-
-    const changeSelectOptionHandler = (e) => {
-        setTopic(e.target.value);
-    };
-
+   
     const bbsData = async(seq) => {
         const response = await axios.get('http://localhost:3000/getService', { params:{"seq":seq} });
 
@@ -52,17 +39,7 @@ export default function ServiceAnswer(){
      useEffect(()=>{
          bbsData(params.seq); 
 
-    //     // setId(Session.get("login").id); 
-    //     let str = localStorage.getItem('login')        
-    //     if(str !== null){
-    //         let login = JSON.parse(str);
-    //         setWriter(login.id);
-    //     }else{
-    //         alert('login해 주십시오');
-    //         history('/');
-    //     }
-
-     }, [params.seq, history])
+     }, [params.seq, navigate])
 
 
     function answerBbs(){
@@ -73,18 +50,30 @@ export default function ServiceAnswer(){
                 console.log(res.data);
                 if(res.data === "YES"){
                     alert("답글이 성공적으로 등록되었습니다");
-                    history('/service/ServiceList');    // bbslist로 이동
+                    navigate('/cheesefriends/service/ServiceList');    // bbslist로 이동
                 }else{
                     alert("답글이 등록되지 않았습니다");
                 }
              })
              .catch(function(err){
                 alert(err);
-             })   
+             })
+
+             axios.post('http://localhost:3000/answerService', null, { params: {
+                topic,
+                title,
+                writer:userName,
+                content
+        }})
+            .then( resp => {
+            console.log(resp);
+            navigate('/cheesefriends/service/ServiceList');
+            })
+            .catch(err => console.log(err));   
     }
 
     function resetBtn() {
-        history('/service/ServiceList');
+        navigate('/cheesefriends/service/ServiceList');
     }
 
     if(loading === false){
@@ -92,18 +81,18 @@ export default function ServiceAnswer(){
     }
 
     return (
-        <div>
+        <div className="answer">
             <h2 className='ph2'>
                 <FontAwesomeIcon icon={faCheese} />&nbsp;&nbsp;고객센터 문의내용</h2>
             <div className="answertable">
-                <div style={{backgroundColor:"#f0f0f0", width:"727px", height:"90px", margin:"auto"}}>
+                <div style={{backgroundColor:"#f0f0f0", width:"727px", height:"55px", margin:"auto"}}>
                     <p style={{marginBottom:"8px"}}> [ {bbs.topic} ]</p>
                     <h3 style={{fontWeight:"bold", fontSize:"24px"}}>{bbs.title}</h3>
                     <div>
                         작성자 {bbs.writer} | {bbs.regdate}
                     </div>
                 </div>
-                <textarea style={{width:"630px", height:"200px", margin:"auto", marginTop:"30px", marginLeft:"84px"}} value={bbs.content} readOnly></textarea>
+                <textarea style={{width:"725px", height:"135px", margin:"auto", marginTop:"33px", marginLeft:"87px"}} value={bbs.content} readOnly></textarea>
             </div>
 
             <div className="tablewrapper">
@@ -125,7 +114,7 @@ export default function ServiceAnswer(){
                     <tr>
                         <th>작성자</th>
                         <td>
-                            <input type="text" className="servinput" size="50" value={writer} onChange={writerChange} />
+                            <input type="text" className="servinput" size="50" value={userName} onChange={writerChange} readOnly />
                         </td>
                     </tr>
                     <tr>
@@ -138,8 +127,8 @@ export default function ServiceAnswer(){
                 </table>            
             </div>
             <div className="btwrapper">
-            <button type="button" onClick={resetBtn}>취소</button>
-            <button type="button" onClick={answerBbs} style={{color:"black", background:"#fbca73"}} >작성완료</button>
+            <button type="button" onClick={resetBtn} className="resetbtn">취소</button>
+            <button type="submit" onClick={answerBbs} style={{color:"black", background:"#fbca73"}} >작성완료</button>
             </div>
         </div>
     );

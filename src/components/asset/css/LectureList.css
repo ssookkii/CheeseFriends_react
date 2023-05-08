@@ -104,3 +104,13 @@
     background: #fff;
     color: #434343;
 }
+
+.searchbtn {
+    border-radius: 4px;
+}
+.searchbtn:hover {
+    border: 2px solid #fac463;
+    background: white;
+    color: #444;
+    
+}

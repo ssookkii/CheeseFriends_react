@@ -4,10 +4,8 @@ import './asset/css/LectureList.css';
 import axios from "axios";
 import Pagination from 'react-js-pagination';
 
-import { faAngleRight } from "@fortawesome/free-solid-svg-icons";
-import { faAngleLeft } from "@fortawesome/free-solid-svg-icons";
-import { faAnglesLeft } from "@fortawesome/free-solid-svg-icons";
-import { faAnglesRight } from "@fortawesome/free-solid-svg-icons";
+import { faAngleRight, faAngleLeft, faCheese, faAnglesLeft, faAnglesRight } from "@fortawesome/free-solid-svg-icons";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function LectureList() {
@@ -48,16 +46,24 @@ export default function LectureList() {
 
     //paging
     const [page, setPage] = useState(1);
-    const [totalCnt, setTotalCnt] = useState(10);
+    const [totalCnt, setTotalCnt] = useState(0);
+
 
     function getSubList(choice, search, page){
-        axios.get("http://localhost:3000/lecturelist", { params:{"choice":choice, "search":search, "pageNumber":page } })
-        .then(function(resp) {
-          //  console.log(resp.data);
-          //  alert(JSON.stringify(resp.data[8]));
+        axios.get("http://localhost:3000/lecturelist", { 
+            params:{
+                "choice": choice, 
+                "search": search, 
+                "pageNumber": page,
 
-          setSubList(resp.data.list);
-          setTotalCnt(resp.data.cnt);
+            } 
+        })
+        .then(function(resp) {
+            console.log(resp.data);
+           
+            setSubList(resp.data.list);
+            setTotalCnt(resp.data.cnt);
+
         })
         .catch(function(err){
             alert(err);
@@ -84,9 +90,9 @@ export default function LectureList() {
 
         <div className="lecmain">
             <div style={{marginTop:"-627PX"}}>
-                <h2 style={{marginLeft:"15px", color:"#434343", marginTop:"-50px"}}>인강학습실</h2>
+                <h2 style={{marginLeft:"21px", color:"#434343", marginTop:"-63px"}}>인강학습실</h2>
                 <div>
-                    {userAuth === 'admin' && (
+                    {userAuth === 'teacher' && (
                         <button type="button" className="lecBtn" style={{width:"221px"}} onClick={writelink}>
                               글쓰기
                       </button>
@@ -106,11 +112,11 @@ export default function LectureList() {
                 <option value="content">내용</option>
             </select>
             <input value={search} onChange={(e)=>setSearch(e.target.value)} style={{marginTop:"14px", height:"31px"}} placeholder="검색어를 입력하세요"/>
-            <button onClick={searchBtn} style={{marginTop:"14px"}}>검색</button>
+            <button onClick={searchBtn} style={{marginTop:"14px"}} className='searchbtn'>검색</button>
         </div>
         <table className="table" style={{marginTop:"28px"}}>
             <thead>
-                <tr>
+                <tr style={{backgroundColor:"#FFEBB4"}}>
                     <th scope="col">번호</th>
                     <th scope="col">과목</th>
                     <th scope="col">강의제목</th>
@@ -129,8 +135,8 @@ export default function LectureList() {
                                  {list.title}
                             </td>
                             <td>{list.regdate}</td>
-                            <td>
-                                <Link style={{textDecoration:"none"}} to={`/cheesefriends/lecture/LectureDetail/${list.seq}`}>▶</Link>
+                            <td style={{paddingLeft:"34px"}}>
+                                <Link style={{textDecoration:"none"}} to={`/cheesefriends/lecture/LectureDetail/${list.seq}`}><FontAwesomeIcon icon={faCheese} /></Link>
                             </td>
                         </tr>
                     )
@@ -141,9 +147,9 @@ export default function LectureList() {
         <br/>
         <Pagination
                 activePage={page}
-                itemsCountPerPage={8}
+                itemsCountPerPage={10}
                 totalItemsCount={totalCnt}
-                pageRangeDisplayed={8}
+                pageRangeDisplayed={10}
                 firstPageText={<FontAwesomeIcon icon={faAnglesLeft} />}
                 lastPageText={<FontAwesomeIcon icon={faAnglesRight} />}
                 prevPageText={<FontAwesomeIcon icon={faAngleLeft} />}

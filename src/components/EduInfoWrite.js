@@ -11,28 +11,28 @@ export default function EduInfoWrite() {
     const [title, setTitle] = useState('');
     const [writer, setWriter] = useState('');
     const [content, setContent] = useState('');
+    const [selectedFile, setSelectedFile] = useState(null);
+
+    const login = JSON.parse(localStorage.getItem("login"));
+    const userName = login.name;
+
+    const handleFileSelect = (event) => {
+        const file = event.target.files[0];
+        setSelectedFile(URL.createObjectURL(file));
+      };
 
     const navigate = useNavigate();
 
    
     const resetBtn = () => {
-        navigate('/learning/EduInfoList');
+        navigate('/cheesefriends/learning/EduInfoList');
     }
 
       // download
-  const download = async () => {
+    const download = async () => {
     let filename = "zoom.txt";
 
     const url = "http://localhost:3000/fileDownload?filename=" + filename;
-
-    // a tag 를 생성 + 자동실행
-    /*
-    const download = document.createElement('a');   // <a href='' 
-    download.setAttribute('href', url);
-    download.setAttribute('download', filename);
-    download.setAttribute('type', 'application/json');
-    download.click();
-    */
 
     // react에서 window를 붙여줘야 한다
     window.location.href = url;
@@ -70,17 +70,30 @@ export default function EduInfoWrite() {
             console.log(resp);
             alert('성공적으로 등록되었습니다');
 
-            navigate('/learning/EduInfoList');
+            navigate('/cheesefriends/learning/EduInfoList');
+            })
+        .catch(err => console.log(err));
+        
+
+        axios.post('http://localhost:3000/writeEduInfo', null, { params: {
+                subject,
+                title,
+                writer:userName,
+                content
+        }})
+            .then( resp => {
+            console.log(resp);
+            navigate('/cheesefriends/learning/EduInfoList');
             })
             .catch(err => console.log(err));
-        }
+
+    }
     
 
    
     return (
-        <div style={{margin:"30px 150px 50px 150px", textAlign:"left", padding:"15px", fontSize:"17px"}}>
+        <div className='edumain'>
             <h2>교육 정보 작성</h2>
-            <hr/>
             <form name="frm" onSubmit={onSubmit} encType="multipart/form-data">
             <>
             제목
@@ -96,19 +109,21 @@ export default function EduInfoWrite() {
             <>
             작성자
             <input type="text" id='writer' className='writer' name='writer'
-                value={writer} onChange={(e) => setWriter(e.target.value)} />
+                value={userName} onChange={(e) => setWriter(e.target.value)} />
             </>
             <hr/>
             <>
             내용
             </>
-            <input type="file" name="uploadFile" className='file' accept="*"  />
+            <input type="file" name="uploadFile" className='file' accept="*" onChange={handleFileSelect} />
             <br />
-            <textarea id='content' className='content' name='content'
+            <div className='efile'>
+            {selectedFile && <img src={selectedFile} id="previewImage" alt="미리보기" style={{ maxWidth: "300px", marginTop:"13px" }} />}
+            <textarea id='content' className='educontent' name='content'
                 value={content} onChange={(e) => setContent(e.target.value)} />
-
+            </div>
             <div className='btnwrapper'>
-            <button type='button' onClick={resetBtn}>취소</button>
+            <button type='button' onClick={resetBtn} style={{marginRight:"17px"}}>취소</button>
             <button type='submit' value='file upload'>등록</button>
             </div>
             </form>
