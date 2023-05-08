@@ -76,11 +76,11 @@ export default function EduInfoList() {
                 <h2 style={{marginLeft:"34px", color:"#434343", marginTop:"-15px"}}>교육정보</h2>
                 <p>최신 교육 정보를 제공합니다.</p>
                 <div style={{width:"250px"}}>
-                     {userAuth === 'admin' && ( 
+                     {/* {userAuth === 'admin' && (  */}
                         <button type="button" className="learnBtn"  onClick={eduwrite}>
                             글쓰기
                         </button>
-                    )} 
+                    {/* )}  */}
                 </div>
             </div>  
 
