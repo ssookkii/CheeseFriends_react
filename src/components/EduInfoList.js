@@ -73,7 +73,7 @@ export default function EduInfoList() {
 
     <div className='eduinfolist'>
         <div style={{marginTop:"-627PX"}}>
-                <h2 style={{marginLeft:"34px", color:"#434343", marginTop:"-15px"}}>교육정보</h2>
+                <h2 style={{marginLeft:"34px", color:"#434343", marginTop:"-15px", fontSize:"2em", fontWeight:"bold"}}>교육정보</h2>
                 <p>최신 교육 정보를 제공합니다.</p>
                 <div style={{width:"250px"}}>
                      {/* {userAuth === 'admin' && (  */}
@@ -96,7 +96,7 @@ export default function EduInfoList() {
                         <option value="content">내용</option>
                     </select>
                     <input value={search} onChange={(e)=>setSearch(e.target.value)} style={{marginTop:"14px", height:"31px"}} placeholder="검색어를 입력하세요"/>
-                    <button onClick={searchBtn} style={{marginTop:"14px"}} className='searchbtn'>검색</button>
+                    <button onClick={searchBtn} style={{marginTop:"14px"}} className='lecsearchbtn'>검색</button>
             </div>
 
             <div className='educontentwrapper'>
@@ -111,9 +111,9 @@ export default function EduInfoList() {
 
                     <div key={i}  className={itemClassName}
                         style={{display:"inline-block", padding:"6px", border:"1px solid lightgray", textAlign:"left", width:"218px", height:"150px"}}>
-                        <p style={{fontWeight:"bold"}}>{list.title}</p>
-                        <p>{list.subject}</p>
-                        <p> {list.regdate}</p>
+                        <p style={{fontWeight:"bold", marginTop:"8px"}}>{list.title}</p>
+                        <p style={{marginTop:"8px"}}>{list.subject}</p>
+                        <p style={{marginTop:"8px"}}> {list.regdate}</p>
                         <button type="button" className='edubtn'>
                             <Link style={{textDecoration:"none"}} to={`/cheesefriends/learning/EduInfoDetail/${list.seq}`}>확인하기</Link></button>
                     </div>

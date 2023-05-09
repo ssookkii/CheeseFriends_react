@@ -1,20 +1,24 @@
 .lecwritemain {
     width: 1200px;
     height: 500px;
-    margin: -10px auto 0;
+    margin: -10px 224px 0 auto;
     align-items: center;
     font-size: 18px;
 }
-
-.title, .subject {
-    margin-left: 60px;
-    font-size: 17px;
-    border: none;
-    border-bottom: 2px solid lightgray;
+.lecmainh2 {
+    font-size: 2em;
+    color: #434343;
+    font-weight: bold;
 }
 
-input:hover {
-    border-bottom: 2px solid dodgerblue;
+.inputtitle, .inputsubject {
+    margin-left: 60px;
+    font-size: 18px;
+    height: 30px;
+    border: none;
+    border-bottom: 2px solid lightgray;
+    width: 260px;
+    margin-top: 8px;
 }
 
 .subjectCode {
@@ -27,7 +31,7 @@ input:hover {
     margin-left: 60px;
 }
 
-.content {
+.lecontent {
     border: 1px solid lightgray;
     margin-top: 10px;
     margin-left: 91px;
@@ -42,14 +46,11 @@ input:hover {
     border-bottom: 2px solid lightgray;
 }
 
-.writer {
+.inputwriter {
+    margin-top: 8px;
     margin-left: 42px;
     font-size: 17px;
     border: none;
-}
-
-.writer:hover {
-    border:none;
 }
 
 .ck-blurred {
@@ -63,31 +64,35 @@ input:hover {
 .btnwrapper {
     text-align: right;
     margin-top: 26px;
-    margin-right: 15px;
+    margin-right: 115px;
 
 }
-
-button {
-    width: 90px;
-    height: 32px;
+.inputfile {
+    margin-top: 5px;
+    margin-left: 59px;
+}
+.resetbtn, .submitbtn {
+    width: 100px;
+    height: 42px;
     margin-left: 10px;
     cursor: pointer;
     border: none;
+    font-weight: bold;
     border-radius: 4px;
 }
 
-button[type="submit"] {
+.submitbtn {
     background-color: #fac463;
     border-radius: 4px;
     color: white;
 }
 
-button[type="submit"]:hover {
+.submitbtn:hover {
     border: 2px solid #fac463;
     background-color: white;
     color: #444;
 }
-button[type="button"]:hover {
+.resetbtn:hover {
     border: 2px solid #f0f0f0;
     background-color: white;
     color: #444;

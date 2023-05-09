@@ -60,8 +60,8 @@ function EduInfoDetail(){
 
     return (
         <div className="lecdeMain">
-            <h2 style={{marginLeft:"140px", marginTop:"10px"}}>교육정보 상세보기</h2>
-            <table style={{marginBottom:"180px"}} >
+            <h2 className="lech2">교육정보 상세보기</h2>
+            <table className="lectable">
             <tbody>
             <div style={{marginLeft:"140px"}}>
             <tr style={{height:"32px"}}>

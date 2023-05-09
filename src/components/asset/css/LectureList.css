@@ -7,9 +7,14 @@
     align-items: center;
 }
 .lecBtn {
-    width: 221px;
+    width: 210px;
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-top: 9px;
+    border-radius: 4px;
     background-color: #fbca73;
     color: white;
+    height: 31px;
 }
 
 .lecBtn:hover {
@@ -17,7 +22,12 @@
     background-color: white;
     color: #434343;
 }
-
+.lectable {
+    margin-top: 28px;
+    width: 977px;
+    height: 400px;
+    font-size: 18px;
+}
 .fontWrapper {
     width: 980px;
     height: 100px;
@@ -105,12 +115,15 @@
     color: #434343;
 }
 
-.searchbtn {
+.lecsearchbtn {
     border-radius: 4px;
+    width: 94px;
 }
-.searchbtn:hover {
+
+.lecsearchbtn:hover {
     border: 2px solid #fac463;
     background: white;
     color: #444;
-    
 }
+
+

@@ -12,16 +12,18 @@ export default function QnaLearningWrite() {
     const [writer, setWriter] = useState('');
     const [content, setContent] = useState('');
 
-    const navigate = useNavigate();
+    const login = JSON.parse(localStorage.getItem("login"));
+    const userName = login.name;
 
+    const navigate = useNavigate();
    
     const resetBtn = () => {
-        navigate('/learning/QnaLearningList');
+        navigate('/cheesefriends/learning/QnaLearningList');
     }
 
     const SelectBox = () => {
         return (
-            <select onChange={changeSelectOptionHandler} value={subject} style={{marginLeft:"60px", width:"190px", border:"none", borderBottom:"2px solid lightgray"}}>
+            <select onChange={changeSelectOptionHandler} value={subject} className='inputsubject'>
                 <option key="kor" value="국어">국어</option>
                 <option key="math" value="수학">수학</option>
                 <option key="eng" value="영어">영어</option>
@@ -55,43 +57,54 @@ export default function QnaLearningWrite() {
             })
             .catch(err => console.log(err));
             alert('게시물 등록에 실패했습니다');
+        
+            axios.post('http://localhost:3000/writeQna', null, { params: {
+                subject,
+                title,
+                writer:userName,
+                content
+        }})
+            .then( resp => {
+            console.log(resp);
+            navigate('/cheesefriends/learning/QnaLearningList');
+            })
+            .catch(err => console.log(err));
+        
+        
+        
         }
     
 
    
     return (
-        <div style={{margin:"30px 150px 50px 150px", textAlign:"left", padding:"15px", fontSize:"17px"}}>
-            <h2>수업 질문 등록</h2>
-            <hr/>
+        <div className='lecwritemain'>
+            <h2 className='lecmainh2'>수업 질문 등록</h2>
             <form name="frm" onSubmit={onSubmit} encType="multipart/form-data">
-            <>
-            제목
-            <input type="text" id='title' className='title' name='title'
-                value={title} onChange={(e) => setTitle(e.target.value)} />
-            </>
-            <hr/>
-            <>
-            과목
-            <SelectBox />
-            </>
-            <hr/>
-            <>
-            작성자
-            <input type="text" id='writer' className='writer' name='writer'
-                value={writer} onChange={(e) => setWriter(e.target.value)} />
-            </>
-            <hr/>
-            <>
-            내용
-            </>
-            <br />
-            <textarea id='content' className='content' name='content'
-                value={content} onChange={(e) => setContent(e.target.value)} />
-
-            <div className='btnwrapper'>
-            <button type='button' onClick={resetBtn}>취소</button>
-            <button type='submit'>등록</button>
-            </div>
+                <>
+                제목
+                <input type="text" id='title' className='inputtitle' name='title'
+                    value={title} onChange={(e) => setTitle(e.target.value)} />
+                </>
+                <br/>
+                <>
+                과목
+                <SelectBox />
+                </>
+                <br/>
+                <>
+                작성자
+                <input type="text" id='writer' className='inputwriter' name='writer'
+                    value={userName} onChange={(e) => setWriter(e.target.value)} readOnly />
+                </>
+                <br/>
+                <>
+                <textarea id='content' className='lecontent' name='content'
+                    value={content} onChange={(e) => setContent(e.target.value)} />
+                </>
+                <div className='btnwrapper'>
+                    <button type='button' onClick={resetBtn} className='resetbtn'>취소</button>
+                    <button type='submit' className='submitbtn'>등록</button>
+                </div>
             </form>
         </div>
     )

@@ -44,32 +44,22 @@ export default function ServiceAnswer(){
 
     function answerBbs(){
         
-        axios.post("http://localhost:3000/answerService", null, 
-                    { params:{ "seq":seq, "topic":bbs.topic, "writer":writer, "title":title, "content":content } })
-             .then(res => {
-                console.log(res.data);
-                if(res.data === "YES"){
-                    alert("답글이 성공적으로 등록되었습니다");
-                    navigate('/cheesefriends/service/ServiceList');    // bbslist로 이동
-                }else{
-                    alert("답글이 등록되지 않았습니다");
-                }
-             })
-             .catch(function(err){
-                alert(err);
-             })
-
-             axios.post('http://localhost:3000/answerService', null, { params: {
-                topic,
-                title,
-                writer:userName,
-                content
+    axios.post('http://localhost:3000/answerService', null, { params: {
+            topic,
+            title,
+            writer:userName,
+            content
         }})
-            .then( resp => {
+        .then( resp => {
             console.log(resp);
+        if(resp.data === "YES"){
+                alert("답글이 성공적으로 등록되었습니다");
             navigate('/cheesefriends/service/ServiceList');
-            })
-            .catch(err => console.log(err));   
+        }else{
+            alert("답글이 등록되지 않았습니다");
+        }
+         })
+        .catch(err => console.log(err));   
     }
 
     function resetBtn() {
@@ -102,7 +92,7 @@ export default function ServiceAnswer(){
                 <table border="1" className="answertablet">
                     <tbody>
                     <tr>
-                        <th>제목</th>
+                        <th style={{width:"630px"}}>제목</th>
                         <td>
                             <input type="text"  className="servinput" size="50" value={title} onChange={titleChange}/>
                         </td>	
@@ -128,7 +118,7 @@ export default function ServiceAnswer(){
             </div>
             <div className="btwrapper">
             <button type="button" onClick={resetBtn} className="resetbtn">취소</button>
-            <button type="submit" onClick={answerBbs} style={{color:"black", background:"#fbca73"}} >작성완료</button>
+            <button type="submit" onClick={answerBbs} className="submitbtn">작성완료</button>
             </div>
         </div>
     );

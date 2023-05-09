@@ -17,6 +17,13 @@
     color: #434343;
 }
 
+.servh2 {
+    font-size: 2em;
+    color: #434343;
+    font-weight: bold;
+    margin-left: 46px;
+    margin-top: -33px;
+}
 .ser {
     font-size: 4.7em;
     cursor: pointer;
@@ -79,4 +86,18 @@
 .modalcss>p{
     font-size: 20px;
     line-height: 1.5;
+}
+.answerbtn {
+    font-size: 1em;
+    font-weight: bold;
+    background: #fbca73;
+    border-radius: 4px;
+    width: 130px;
+    height: 36px;
+    color: white;
+}
+.answerbtn:hover {
+    border: 2px solid #fbca73;
+    color: #434343;
+    background: white;
 }

@@ -1,17 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-// import Session from "react-session-api";
-
+import { faCheese } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import './asset/css/ServiceAnswer.css';
 import axios from 'axios';
 
 function QnaLearningAnswer(){
-    let history = useNavigate();
+    let navigate = useNavigate();
 
+    const login = JSON.parse(localStorage.getItem("login"));
+    const userName = login.name;
+    
     const [bbs, setBbs] = useState();
     const [loading, setLoading] = useState(false);
 
     let params = useParams();
-    console.log(params.seq);
 
     const [seq] = useState(params.seq);
     const [writer, setWriter] = useState('');
@@ -20,23 +23,8 @@ function QnaLearningAnswer(){
     const [subject, setSubject] = useState('');
     
     const titleChange = (e) => setTitle(e.target.value);
+    const writerChange = (e) => setWriter(e.target.value);
     const contentChange = (e) => setContent(e.target.value);
-
-    const SelectBox = () => {
-        return (
-            <select onChange={changeSelectOptionHandler} value={subject} style={{marginLeft:"60px", width:"190px", border:"none", borderBottom:"2px solid lightgray"}}>
-                <option key="kor" value="국어">국어</option>
-                <option key="math" value="수학">수학</option>
-                <option key="eng" value="영어">영어</option>
-                <option key="social" value="사회">사회</option>
-                <option key="sci" value="과학">과학</option>
-            </select>
-        );
-    };
-
-    const changeSelectOptionHandler = (e) => {
-        setSubject(e.target.value);
-    };
 
     const bbsData = async(seq) => {
         const response = await axios.get('http://localhost:3000/getLearningQna', { params:{"seq":seq} });
@@ -50,104 +38,88 @@ function QnaLearningAnswer(){
      useEffect(()=>{
          bbsData(params.seq); 
 
-    //     // setId(Session.get("login").id); 
-    //     let str = localStorage.getItem('login')        
-    //     if(str !== null){
-    //         let login = JSON.parse(str);
-    //         setWriter(login.id);
-    //     }else{
-    //         alert('login해 주십시오');
-    //         history('/');
-    //     }
-
-     }, [params.seq, history])
+     }, [params.seq, navigate])
 
 
     function answerBbs(){
         
-        axios.post("http://localhost:3000/answerQna", null, 
-                    { params:{ "seq":seq, "subject":bbs.subject, "writer":writer, "title":title, "content":content } })
-             .then(res => {
-                console.log(res.data);
-                if(res.data === "YES"){
-                    alert("추가 글이 성공적으로 등록되었습니다");
-                    history('/learning/QnALearningList');    // bbslist로 이동
-                }else{
-                    alert("등록되지 않았습니다");
-                }
-             })
-             .catch(function(err){
-                alert(err);
-             })   
+        axios.post('http://localhost:3000/answerQna', null, { params: {
+            seq:bbs.seq,
+            title,
+            subject,
+            writer:userName,
+            content
+        }})
+        .then( resp => {
+            console.log(resp);
+        if(resp.data === "YES"){
+                alert("답글이 성공적으로 등록되었습니다");
+            navigate('/cheesefriends/learning/QnaLearningList');
+        }else{
+            alert("답글이 등록되지 않았습니다");
+        }
+        })
+        .catch(err => console.log(err));   
     }
 
+    function resetBtn() {
+        navigate('/cheesefriends/learning/QnaLearningList');
+    }
 
     if(loading === false){
         return <div>Loading...</div>
     }
 
     return (
-        <div>
-            <h2>수업 질문방</h2>
+        <div className="answer">
+        <h2 className='ph2'>
+            <FontAwesomeIcon icon={faCheese} />&nbsp;&nbsp;수업질문하기</h2>
+            <div className="answertable">
+                <div style={{backgroundColor:"#f0f0f0", width:"727px", height:"55px", margin:"auto"}}>
+                    <p style={{marginBottom:"8px"}}> [ {bbs.title} ]</p>
+                    <h3 style={{fontWeight:"bold", fontSize:"24px"}}>{bbs.subject}</h3>
+                    <div style={{background:"#f0f0f0"}}>
+                        작성자 {bbs.writer} | {bbs.regdate}
+                    </div>
+                </div>
+                <textarea style={{width:"725px", fontSize:"1.0em", height:"135px", margin:"auto", marginTop:"33px", marginLeft:"87px"}} value={bbs.content} readOnly></textarea>
+            </div>
 
-            <table border="1" style={{width:"600px", fontSize:"19px", margin:"auto", textAlign:"left"}}>
-
-            <tbody>
-            <tr>
-                <th>제목</th>
-                <td>{bbs.title}</td>
-            </tr>
-            <tr>
-                <th>과목</th>
-                <td>{bbs.subject}</td>
-            </tr>
-            <tr>
-                <th>작성자</th>
-                <td>{bbs.writer}</td>
-            </tr>
-            <tr>
-                <th>등록일</th>
-                <td>{bbs.regdate}</td>
-            </tr>
-            <tr>
-                <th>내용</th>
-                <td>
-                    <textarea rows="10" cols="50" value={bbs.content} readOnly></textarea>
-                </td>
-            </tr>
-            </tbody>
-            </table>
-
-            <h2>답변하기</h2>
-            
-            <table border="1" style={{width:"600px", fontSize:"19px", margin:"auto", textAlign:"left"}}>
-            <tbody>
-            <tr>
-                <th>제목</th>
-                <td>
-                    <input type="text" size="50" value={title} onChange={titleChange}/>
-                </td>	
-            </tr>
-            <tr>
-                <th>과목</th>
-                <td>{bbs.subject}</td>
-            </tr>
-            <tr>
-                <th>작성자</th>
-                <td>
-                    <input type="text" size="50" value={writer} readOnly/>
-                </td>
-            </tr>
-            <tr>
-                <th>내용</th>
-                <td>
-                    <textarea rows="10" cols="50" value={content} onChange={contentChange}></textarea>
-                </td>
-            </tr>
-            </tbody>
-            </table>            
-
-            <button type="button" onClick={answerBbs} style={{color:"black"}} >작성완료</button>
+            <div className="tablewrapper">
+                <h2 className="ph2a">
+                    <FontAwesomeIcon icon={faCheese} />&nbsp;&nbsp;답변하기</h2>
+                
+                <table border="1" className="answertablet">
+                    <tbody>
+                    <tr >
+                        <th style={{width:"360px"}}>제목</th>
+                        <td>
+                            <input type="text"  className="servinput" size="50" value={title} onChange={titleChange}/>
+                        </td>	
+                    </tr>
+                    <tr>
+                        <th>과목</th>
+                        <td>{bbs.subject}</td>
+                    </tr>
+                    <tr>
+                        <th>작성자</th>
+                        <td>
+                            <input type="text" className="servinput" size="50" value={userName} onChange={writerChange} readOnly />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>내용</th>
+                        <td style={{width:"804px"}}>
+                            <textarea  className='servtext' value={content} onChange={contentChange}></textarea>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>            
+            </div>
+            <div className="btwrapper">
+            <button type="button" onClick={resetBtn} className="resetbtn">취소</button>
+            <button type="submit" onClick={answerBbs} className="submitbtn" >작성완료</button>
+            </div>
         </div>
     );
 }

@@ -51,10 +51,10 @@ function LearningDetail(){
    
     return (
         <div className="lecdeMain">
-            <h2 style={{marginLeft:"140px", marginTop:"10px"}}>수업 자료실</h2>
+            <h2 className="lech2">수업 자료실</h2>
             <table style={{marginBottom:"180px"}} >
             <tbody>
-            <div style={{marginLeft:"140px"}}>
+            <div>
             <tr style={{height:"32px"}}>
                 <th style={{paddingRight:"103px"}} className="tableth">제목</th>
                 <td style={{ textAlign:"left" }}>{bbs.title}</td>
@@ -85,9 +85,7 @@ function LearningDetail(){
             <div style={{textAlign:"center"}}>
                 <button style={{width:"100px", height:"42px"}} type="button" onClick={learnlist} className="leclistBtn">목록으로</button>
             </div>
-            
-            {/* <UpdateButtonLoad /> */}
-        
+                    
         </div>
     )
 }
