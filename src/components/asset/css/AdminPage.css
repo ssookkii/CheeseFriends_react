@@ -45,16 +45,16 @@
     left:-35px;
     top:17px;
 }
-.sideMenu > ul > li:nth-child(3) > a::before {
+.sideMenu > ul > li:nth-child(2) > a::before {
     background-position: -28px 0;
 }
-.sideMenu > ul > li:nth-child(4) > a::before {
+.sideMenu > ul > li:nth-child(3) > a::before {
     background-position: -55px 0;
 }
-.sideMenu > ul > li:nth-child(5) > a::before {
+.sideMenu > ul > li:nth-child(4) > a::before {
     background-position: -82px 0;
 }
-.sideMenu > ul > li:nth-child(6) > a::before {
+.sideMenu > ul > li:nth-child(5) > a::before {
     background-position: -110px 0;
 }
 .btnActive {

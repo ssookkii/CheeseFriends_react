@@ -96,14 +96,14 @@ function Home(){
                 <p>궁금해하는 교육정보 모아모아 한 눈에!</p>
             </div>
             <Slider {...eduSettings}>
-                    <div><Link className={styles.slideContent}><img src={`${process.env.PUBLIC_URL}/img/thumbEx.jpg`}  style={{width:'100%'}} alt="애기"/></Link></div>
-                    <div><Link className={styles.slideContent}><img src={`${process.env.PUBLIC_URL}/img/thumbEx.jpg`}  style={{width:'100%'}} alt="애기"/></Link></div>
-                    <div><Link className={styles.slideContent}><img src={`${process.env.PUBLIC_URL}/img/thumbEx.jpg`}  style={{width:'100%'}} alt="애기"/></Link></div>
-                    <div><Link className={styles.slideContent}><img src={`${process.env.PUBLIC_URL}/img/thumbEx.jpg`}  style={{width:'100%'}} alt="애기"/></Link></div>
-                    <div><Link className={styles.slideContent}><img src={`${process.env.PUBLIC_URL}/img/thumbEx.jpg`}  style={{width:'100%'}} alt="애기"/></Link></div>
-                    <div><Link className={styles.slideContent}><img src={`${process.env.PUBLIC_URL}/img/thumbEx.jpg`}  style={{width:'100%'}} alt="애기"/></Link></div>
-                    <div><Link className={styles.slideContent}><img src={`${process.env.PUBLIC_URL}/img/thumbEx.jpg`}  style={{width:'100%'}} alt="애기"/></Link></div>
-                    <div><Link className={styles.slideContent}><img src={`${process.env.PUBLIC_URL}/img/thumbEx.jpg`}  style={{width:'100%'}} alt="애기"/></Link></div>
+                    <div><Link className={styles.slideContent}><img src={`${process.env.PUBLIC_URL}/img/thumbEx.jpg`}  style={{width:'100%'}} alt=""/></Link></div>
+                    <div><Link className={styles.slideContent}><img src={`${process.env.PUBLIC_URL}/img/thumbEx.jpg`}  style={{width:'100%'}} alt=""/></Link></div>
+                    <div><Link className={styles.slideContent}><img src={`${process.env.PUBLIC_URL}/img/thumbEx.jpg`}  style={{width:'100%'}} alt=""/></Link></div>
+                    <div><Link className={styles.slideContent}><img src={`${process.env.PUBLIC_URL}/img/thumbEx.jpg`}  style={{width:'100%'}} alt=""/></Link></div>
+                    <div><Link className={styles.slideContent}><img src={`${process.env.PUBLIC_URL}/img/thumbEx.jpg`}  style={{width:'100%'}} alt=""/></Link></div>
+                    <div><Link className={styles.slideContent}><img src={`${process.env.PUBLIC_URL}/img/thumbEx.jpg`}  style={{width:'100%'}} alt=""/></Link></div>
+                    <div><Link className={styles.slideContent}><img src={`${process.env.PUBLIC_URL}/img/thumbEx.jpg`}  style={{width:'100%'}} alt=""/></Link></div>
+                    <div><Link className={styles.slideContent}><img src={`${process.env.PUBLIC_URL}/img/thumbEx.jpg`}  style={{width:'100%'}} alt=""/></Link></div>
             </Slider>
         </div>
         <div className={styles.containerBg}>
@@ -113,9 +113,9 @@ function Home(){
                     <p>열심히 공부한 당신! 옹달샘에서 잠시 쉬어가요~</p>
                 </div>
                 <div className={styles.playBox}>
-                    <Link to="/cheesefriends/playgame"><img src={`${process.env.PUBLIC_URL}/img/game1.jpg`}  style={{width:'100%'}} alt="playgame1"/></Link>
-                    <Link to="/cheesefriends/playgame1"><img src={`${process.env.PUBLIC_URL}/img/game2.jpg`}  style={{width:'100%'}} alt="playgame2"/></Link>
-                    <Link to="/cheesefriends/playgame2"><img src={`${process.env.PUBLIC_URL}/img/game3.jpg`}  style={{width:'100%'}} alt="playgame3"/></Link>
+                    <Link to="/cheesefriends/shelterpage/playgame"><img src={`${process.env.PUBLIC_URL}/img/game1.jpg`}  style={{width:'100%'}} alt="playgame1"/></Link>
+                    <Link to="/cheesefriends/shelterpage/playgame1"><img src={`${process.env.PUBLIC_URL}/img/game2.jpg`}  style={{width:'100%'}} alt="playgame2"/></Link>
+                    <Link to="/cheesefriends/shelterpage/playgame2"><img src={`${process.env.PUBLIC_URL}/img/game3.jpg`}  style={{width:'100%'}} alt="playgame3"/></Link>
                 </div>
             </div>
         </div>

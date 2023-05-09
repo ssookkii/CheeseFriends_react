@@ -130,10 +130,10 @@ function App() {
             <Route path="grademanage" element={<GradeManage />} />
           </Route>
 
-          <Route path="shelterpage" element={<ShelterPage />}>
-            <Route path="shelterpage/playgame" element={<PlayGame />} />
-            <Route path="shelterpage/playgame1" element={<PlayGame1 />} />
-            <Route path="shelterpage/playgame2" element={<PlayGame2 />} />
+          <Route path="shelterpage/*" element={<ShelterPage />}>
+            <Route path="playgame" element={<PlayGame />} />
+            <Route path="playgame1" element={<PlayGame1 />} />
+            <Route path="playgame2" element={<PlayGame2 />} />
           </Route>
 
           <Route path='service/ServiceList' element={<ServiceList />} />
