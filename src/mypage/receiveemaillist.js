@@ -197,7 +197,7 @@ function Email(){
     // 메일 상세보기로 가기
     function Maildetail(props){
         function maildetailgo(){
-            window.location.href = `/testmain/maildetail/${props.mail.seq}`;
+            window.location.href = `/cheesefriends/testmain/maildetail/${props.mail.seq}`;
         }
         return(
             <td>

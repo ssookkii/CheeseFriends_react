@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
 
 import './components/asset/css/reset.css';
 import './components/asset/css/pagination.css';
-import './App.css';
+
 
 import PrivateRoutes from './components/PrivateRoutes';
 import Admin from './components/Admin';
@@ -51,6 +51,14 @@ import Socialloginselect from './login/socialregiselect';
 import Kakao from './login/kakao';
 import NaverLogin from './login/naverlogin';
 import Socialregiselect from './login/socialregiselect';
+import Common from './components/Common';
+import Home from './components/Home';
+import TimeTable from './components/TimeTable';
+import SubjectAdd from './components/SubjectAdd';
+import SubTimeManage from './components/SubTimeManage';
+import Testlogin from './login/testlogin';
+
+
 
 
 // import LectureList from './components/LectureList'
@@ -109,7 +117,6 @@ function App() {
             <Route path="/learning/EduInfoWrite" element={<EduInfoWrite />} />
             <Route path="/learning/EduInfoDetail/:seq" element={<EduInfoDetail />} /> */}
 
-
             <Route path="/" element={<Login />} />
             <Route path="/socialregiselect" element={<Socialregiselect />} />
             <Route path="/kakaologin" element={<Kakao/>} />
@@ -120,29 +127,39 @@ function App() {
             <Route path="/regiteacher" element={<Regiteacher />} />
             <Route path="/idsearch" element={<Idsearch />} />
             <Route path="/passwordsearch" element={<Passwordsearch />} />
-            <Route path="/testmain" element={<Testmain />}>
-              <Route path="/testmain/changeme" element={<Changeme />} />
-              <Route path="/testmain/email" element={<Email />} />
-              <Route path="/testmain/email/:choice/:search" element={<Email />} />
-              <Route path="/testmain/sendemail" element={<Sendemail />} />
-              <Route path="/testmain/sendemail/:sender" element={<Sendemail />} />
-              <Route path="/testmain/maildetail/:seq" element={<Maildetail />} />
-              <Route path="/testmain/sendemaillist" element={<Sendemaillist />} />
-              <Route path="/testmain/sendemaillist/:choice/:search" element={<Sendemaillist />} />
-              <Route path="/testmain/sendmaildetail/:seq" element={<Sendmaildetail />} />
-              <Route path="/testmain/grademypage" element={<Grademypage />} />
-              <Route path="/testmain/grademypage/:choice/:search" element={<Grademypage />} />
-              <Route path="/testmain/learningmypage" element={<Learningmypage />} />
-              <Route path="/testmain/learningmypage/:choice/:search" element={<Learningmypage />} />
-              <Route path="/testmain/breakaway" element={<Breakaway />} />
-              <Route path="/testmain/studentlist" element={<Studentlist />} />
-              <Route path="/testmain/studentlist/:choice/:search" element={<Studentlist />} />
-              <Route path="/testmain/AttendanceManageTeacher" element={<AttendanceManageTeacher />} />
-              <Route path="/testmain/DataAnalysisTeacher" element={<DataAnalysisTeacher />} />
-              <Route path="/testmain/DataAnalysis" element={<DataAnalysis />} />
-              <Route path="/testmain/AttendanceManage" element={<AttendanceManage />} />
-            </Route>
+            <Route path="/testlogin" element={<Testlogin />} />
+  
 
+            <Route path="/cheesefriends/*" element={<Common />}>
+              <Route path="home" element={<Home />} />
+                <Route path="testmain" element={<Testmain />}>
+                <Route path="changeme" element={<Changeme />} />
+                <Route path="email" element={<Email />} />
+                <Route path="tmain/email/:choice/:search" element={<Email />} />
+                <Route path="sendemail" element={<Sendemail />} />
+                <Route path="sendemail/:sender" element={<Sendemail />} />
+                <Route path="maildetail/:seq" element={<Maildetail />} />
+                <Route path="sendemaillist" element={<Sendemaillist />} />
+                <Route path="sendemaillist/:choice/:search" element={<Sendemaillist />} />
+                <Route path="sendmaildetail/:seq" element={<Sendmaildetail />} />
+                <Route path="timetable" element={<TimeTable />} />
+                <Route path="subjectadd" element={<SubjectAdd />} />
+                <Route path="subtimemanage" element={<SubTimeManage />} />
+                <Route path="grademanage" element={<GradeManage />} />
+                <Route path="grademypage" element={<Grademypage />} />
+                <Route path="grademypage/:choice/:search" element={<Grademypage />} />
+                <Route path="learningmypage" element={<Learningmypage />} />
+                <Route path="learningmypage/:choice/:search" element={<Learningmypage />} />
+                <Route path="breakaway" element={<Breakaway />} />
+                <Route path="studentlist" element={<Studentlist />} />
+                <Route path="studentlist/:choice/:search" element={<Studentlist />} />
+                <Route path="AttendanceManageTeacher" element={<AttendanceManageTeacher />} />
+                <Route path="DataAnalysisTeacher" element={<DataAnalysisTeacher />} />
+                <Route path="DataAnalysis" element={<DataAnalysis />} />
+                <Route path="AttendanceManage" element={<AttendanceManage />} />
+              </Route>
+             
+            </Route>
 
             <Route path="/attendance" element={<Attendance />} />
             <Route path="/attendance/attendanceQR" element={<AttendanceQR />} />

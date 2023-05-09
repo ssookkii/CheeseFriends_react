@@ -79,6 +79,7 @@ function TeacherManage(){
     }
 
     function pageChange(page){
+        console.log(page);
         setPage(page);
         getSendMailList(choice, search, page-1);
     }

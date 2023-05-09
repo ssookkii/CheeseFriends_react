@@ -3,7 +3,10 @@ import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 
 import axios from "axios";
+import "./css/login.css";
+import "./css/login2.css";
 
+import logo from './img/cheesefriendslogo.png';
 
 function Passwordsearch(){
 
@@ -98,10 +101,13 @@ function Passwordsearch(){
 
     function sendphonecheck(){
         if(phone_publicc.toString().trim() !== phone_public.toString().trim()){
+            alert("인증 번호를 확인해주세요")
             setPhone_publiccheck("인증 번호를 확인해주세요");
         }else{
+            alert("인증 완료되었습니다");
             setPhone_publiccheck("인증 완료되었습니다");
             setPhone_publicch(false);
+            passwordsearchbtn();
         }
     }
 
@@ -170,11 +176,12 @@ function Passwordsearch(){
             setPhonea(false);
             alert("휴대폰 번호를 입력해주세요");
             return;
-        }else if(phone_publiccheck !== "인증 완료되었습니다" ){
-            setPhone_publica(false);
-            alert("인증번호를 입력해주세요");
-            return;
         }
+        // else if(phone_publiccheck !== "인증 완료되었습니다" ){
+        //     setPhone_publica(false);
+        //     alert("인증번호를 입력해주세요");
+        //     return;
+        // }
 
         
     
@@ -245,146 +252,186 @@ function Passwordsearch(){
 
     }
 
+    // Login 세트 1
+    const inputs = document.querySelectorAll(".input");
+
+    function addcl(){
+      let parent = this.parentNode.parentNode;
+      parent.classList.add("focus");
+      console.log("addcl 작동");
+    }
+    
+    function remcl(){
+      let parent = this.parentNode.parentNode;
+      if(this.value == ""){
+        parent.classList.remove("focus");
+      }
+      console.log("remcl 작동");
+    }
+    
+    inputs.forEach(input => {
+        input.addEventListener("focus", addcl);
+        input.addEventListener("blur", remcl);
+    });
+
 
     return(
-        <div>
+        <div>  {/*  Login css 세트 1 */}
+        <div style={{textAlign:"center", alignItems:"center"}}>
+            
+            <div class="container2">
 
-            <h1>비밀번호 찾기</h1>
-            <br/><br/><br/>
-            <table border="1" align="center">
-                <colgroup>
-                    <col width="150"/><col width="150"/>
-                </colgroup>
-                <tr>
-                    <td >
-                    <label for="idsearch">아이디찾기</label>
-                    </td>
-                    <td style={{backgroundColor:"grey"}}>
-                        비밀번호찾기</td>
-                </tr>
-            </table>
-            <br/><br/>
-            {passwordchangeon === false
-                ?<table border="1" align="center">
-                    <colgroup>
-                        <col width="120"/><col width="250"/><col width="150"/>
-                    </colgroup>
-                    <tr>
-                        <td align="left">아이디</td> 
-                        <td align="left">
-                        {ida === true 
-                                ? <input style={{ width:"230px"}} value={id} onChange={(e)=>setId(e.target.value)} placeholder="아이디를 입력해주세요" />
-                                : <input style={{ borderColor:"red", width:"230px"}} value={id} onChange={(e)=>setId(e.target.value)} placeholder="아이디를 입력해주세요" />}
-                        </td>
-                        <td>
-                            { idc === "양식에 맞는 아이디입니다" 
-                                ? <div style={{ fontSize:"5px", color:'blue' }}>{idc}</div>
-                                : <div style={{ fontSize:"5px", color:'red' }}>{idc}</div>} 
-                        </td>
-                    </tr>
-                    <tr>
-                        <td align="left">핸드폰</td>
-                        <td align="left">
-                        {phonea === true 
-                                ?  <input style={{ width:"230px"}} value={phone} onChange={(e)=>setPhone(e.target.value)} placeholder="휴대폰 번호를 입력해주세요" />
-                                :  <input style={{ borderColor:"red", width:"230px"}} value={phone} onChange={(e)=>setPhone(e.target.value)} placeholder="휴대폰 번호를 입력해주세요" />}
+                <div class="login-content2">
+              
+                    <img src={logo} style={{width:"300px", height:"100px", marginLeft:"auto", marginRight:"auto"}}/>
+                    <br/><br/><br/>
+                
+                    <div className="idsea">비밀번호찾기</div>
+                    <br/><br/><br/>
                     
-                        </td>
-                        <td>
-                        { phonec === "올바르게 입력되었습니다" 
-                            ? <div style={{ fontSize:"5px", color:'blue' }}>{phonec}<button onClick={sendPhone}>인증번호 발송</button></div>
-                            
-                            : <div style={{ fontSize:"5px", color:'red' }}>{phonec}<button disabled="false" onClick={sendPhone}>인증번호 발송</button></div>}
-                        
-                        </td>
-                    </tr>
-                    <tr>
-                    <td align="left">인증번호</td> 
-                    <td align="left">
-                        {phone_publica === true 
-                                ?  <input style={{ width:"230px"}}  value={phone_public} onChange={(e)=>setPhone_public(e.target.value)} placeholder="인증번호를 입력해주세요" />
-                                :  <input style={{ borderColor:"red", width:"230px"}}  value={phone_public} onChange={(e)=>setPhone_public(e.target.value)} placeholder="인증번호를 입력해주세요" />}
-                    </td>
-                    <td>
+                        {findida === true
+                        ?<div></div>
+                        :<div>
+   
+                        {/* 아이디 입력칸 */}
+                        <div class="input-div one">
+                            <div class="i">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="div">
+                                <h5>아이디</h5>
+                                {ida === true 
+                                    ? <input  type="text" class="input" style={{ width:"230px"}} value={id} onChange={(e)=>setId(e.target.value)}  />
+                                    :  <input  type="text" class="input" style={{  width:"230px"}} value={id} onChange={(e)=>setId(e.target.value)} />}
+                            </div>
+                        </div>
+                        {ida === true 
+                            ?<div></div>
+                            :<div>{ idc === "양식에 맞는 아이디입니다" 
+                                ? <div><div class="inputtrue" >{idc}</div></div>
+                                : <div><div class="inputfalse" >{idc}</div></div>} 
+                        </div>}
+
+
+                        {/* 휴대폰 번호 입력칸 */}
+                        <div class="input-div pass">
+                            <div class="i"> 
+                                <i class="material-symbols-outlined">phone_iphone</i>
+                            </div>
+                            <div class="div">
+                                <h5>휴대폰</h5>
+                                {phonea === true 
+                                    ?  <input type="text" class="input" style={{ width:"230px"}} value={phone} onChange={(e)=>setPhone(e.target.value)}/>
+                                    :  <input type="text" class="input" style={{ borderColor:"red", width:"230px"}} value={phone} onChange={(e)=>setPhone(e.target.value)} />}
+                            </div>
+                        </div>
+                        {phonea === true 
+                            ?<div></div>
+                            :<div>{ phonec === "올바르게 입력되었습니다" 
+                                ? <div><div class="inputtrue" >{phonec}</div></div>
+                                : <div><div class="inputfalse" >{phonec}</div></div>} 
+                        </div>}
+
+                        {/* 인증번호 입력칸 */}
+                        <div>
+                            <div class="input-div pass">
+                                <div class="i"> 
+                                    <i class="fas fa-lock"></i>
+                                </div>
+                                <div class="div">
+                                    <h5>인증번호</h5>
+                                    {phone_publica === true 
+                                        ?  <input type="text" class="input" style={{ width:"230px"}}  value={phone_public} onChange={(e)=>setPhone_public(e.target.value)} />
+                                        :  <input type="text" class="input" style={{ borderColor:"red", width:"230px"}}  value={phone_public} onChange={(e)=>setPhone_public(e.target.value)}  />}
+                                </div>
+                            </div>
+                        </div>
                         { phone_publiccheck === "인증 완료되었습니다" 
-                            ? <div style={{ fontSize:"5px", color:'blue' }}>{phone_publiccheck}</div>
-                            
-                            : <div style={{ fontSize:"5px", color:'red' }}>{phone_publiccheck}</div>}
-                        { phone_publicch === true 
-                            ? <div><button onClick={sendphonecheck}>인증하기</button></div>
-                            
-                            : <div><button disabled="false" onClick={sendphonecheck}>인증하기</button></div>}
-                        
-                    </td>
-                    </tr>
-                </table>
-                :   <table border="1" align="center">
-                        <colgroup>
-                            <col width="120"/><col width="250"/>
-                        </colgroup>
-                        <tr>
-                            <td align="left">아이디</td> 
-                            <td align="left">
-                            <input style={{ width:"230px"}} value={id} readOnly="readOnly"/>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td align="left">핸드폰</td>
-                            <td align="left">
-                                <input style={{ width:"230px"}} value={phone} readOnly="readOnly"/>
-                            </td>
-                        </tr>
-                    </table>
-            }
-            <br/><br/><br/>
-            { findida === true
-                ? <div><input value= {findidtext} style={{ width:"230px"}}  />
-                <br/><br/>
-                <table border="1" align="center">
-                    <colgroup>
-                        <col width="120"/><col width="250"/><col width="150"/>
-                    </colgroup>
-                    <tr>
-                        <td align="left">새 비밀번호</td>
-                        <td align="left">
-                            {passworda === true 
-                            ? <input style={{ width:"230px"}} value={password} onChange={(e)=>setPassword(e.target.value)} placeholder="숫자,영문자,특수문자 포함 8자 이상" />
-                            : <input style={{ borderColor:"red", width:"230px"}} value={password} onChange={(e)=>setPassword(e.target.value)} placeholder="숫자,영문자,특수문자 포함 8자 이상" />}
-                        </td>
-                        <td align="left">
-                            { passwordc === "안전한 비밀번호 입니다" 
-                                ? <div style={{ fontSize:"5px", color:'blue' }}>{passwordc}</div>
-                                : <div style={{ fontSize:"5px", color:'red' }}>{passwordc}</div>}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td align="left">비밀번호 확인</td>
-                        <td align="left">
-                            {passwordChecka === true 
-                                ?  <input style={{ width:"230px"}} value={passwordcheck} onChange={(e)=>setPasswordcheck(e.target.value)} placeholder="위와 동일한 비밀번호 입력" />
-                                :  <input style={{ borderColor:"red", width:"230px"}} value={passwordcheck} onChange={(e)=>setPasswordcheck(e.target.value)} placeholder="위와 동일한 비밀번호 입력" />}
-                        </td>
-                        <td align="left">
-                            { passwordcheckc === "비밀번호가 동일합니다" 
-                                ? <div style={{ fontSize:"5px", color:'blue' }}>{passwordcheckc}</div>
-                                : <div style={{ fontSize:"5px", color:'red' }}>{passwordcheckc}</div>}
-                        </td>
-                    </tr>
-                </table>
-                </div>
-                :<table>
-                <tr></tr>
-                </table>
-            }
-            
-            <br/><br/>
-            <button id="idsearch" onClick={idsearch} style={{display:"none"}}></button>
-            { findida === true
-                ?<button onClick={passwordchangebtn}>비밀번호 재설정</button>
-                :<button onClick={passwordsearchbtn}>비밀번호 찾기</button>}
-                &nbsp;
-            <button onClick={login}>로그인 화면으로</button>
-            
+                            ? <div></div>
+                            : <div><div class="inputfalse" >{phone_publiccheck}</div></div>} 
+                       
+                        {/* 버튼 칸 */}
+                        {idc === "양식에 맞는 아이디입니다" 
+                            ?<div> 
+                                { phonec === "올바르게 입력되었습니다" 
+                                ? <div>
+                                     { findida === true
+                                        ?<div></div>
+                                        :<div><button  class="btn" onClick={sendPhone}>인증번호 발송</button></div>} </div>
+                                : <div><button  class="btnfalse" disabled="false" onClick={sendPhone}>휴대폰 번호를 입력해주세요</button></div>}</div>
+                            :<div><button  class="btnfalse" disabled="false" onClick={sendPhone}>아이디를 입력해주세요</button></div>}
+                        {phone_publicch === true
+                        ?<div><button class="btn" onClick={sendphonecheck} >인증하기</button></div>
+                        :<div></div>}
+                        </div>}
+                     
+                        {/* 인증 완료 후 비밀번호 새로 설정 */}
+                        <br/>
+                        { findida === true
+                            ? <div>
+                                <div class="idsea">
+                                    <div>{findidtext}</div> 
+                                </div>
+                                <br/><br/>
+
+                                {/* 새 비밀번호 입력칸 */}
+                                <div>
+                                    <div class="input-div pass">
+                                        <div class="i"> 
+                                            <i class="fas fa-lock"></i>
+                                        </div>
+                                        <div class="div">
+                                            <h5>새 비밀번호</h5>
+                                            {passworda === true 
+                                                ?  <input type="password" class="input" style={{ width:"230px"}}  value={password} onChange={(e)=>setPassword(e.target.value)} />
+                                                :  <input type="password" class="input" style={{ borderColor:"red", width:"230px"}}  value={password} onChange={(e)=>setPassword(e.target.value)}  />}
+                                        </div>
+                                    </div>
+                                </div>
+                                {passworda === true 
+                                ?<div></div>
+                                :<div>{ passwordc === "안전한 비밀번호 입니다" 
+                                    ? <div><div class="inputtrue" >{passwordc}</div></div>
+                                    : <div><div class="inputfalse" >{passwordc}</div></div>} 
+                                </div>}
+
+                                {/* 새 비밀번호 확인 입력칸 */}
+                                <div>
+                                    <div class="input-div pass">
+                                        <div class="i"> 
+                                            <i class="fas fa-lock"></i>
+                                        </div>
+                                        <div class="div">
+                                            <h5>비밀번호 확인</h5>
+                                            {passwordChecka === true 
+                                                ?  <input type="password" class="input" style={{ width:"230px"}}  value={passwordcheck} onChange={(e)=>setPasswordcheck(e.target.value)} />
+                                                :  <input type="password" class="input" style={{ borderColor:"red", width:"230px"}}  value={passwordcheck} onChange={(e)=>setPasswordcheck(e.target.value)}  />}
+                                        </div>
+                                    </div>
+                                </div>
+                                {passwordChecka === true 
+                                ?<div></div>
+                                :<div>{ passwordcheckc === "비밀번호가 동일합니다" 
+                                    ? <div><div class="inputtrue" >{passwordcheckc}</div></div>
+                                    : <div><div class="inputfalse" >{passwordcheckc}</div></div>} 
+                                </div>}
+
+                                <button class="btn" onClick={passwordchangebtn}>비밀번호 재설정</button>
+                            </div>
+                            :<div></div>
+                        }
+                    <br/><br/>
+                 
+                
+                    <div>
+                    <button class="btn2" onClick={login}>로그인 화면으로</button>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <button class="btn2" onClick={idsearch}>아이디찾기</button>
+                    </div>
+                    </div>
+              </div>
+        </div>
+
         </div>
     )
 
