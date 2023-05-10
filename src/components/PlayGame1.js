@@ -15,17 +15,23 @@ function PlayGame1() {
   return (
 
     <div>
-       <div>
+       <div className="divCenter">
             <h1>Hang Man</h1>
-       </div>
-       <button type="button" onClick={handlePlayGame}>Play Game</button>
-        {showIframe && <div><iframe src="../hangmanGame/index.html" width="800" height="800"></iframe></div>}
+       </div><br/><br/>
 
-        {showGameexp && <div>
+        <div className="divCenter">
+         {showGameexp &&<button className="btn" type="button" onClick={handlePlayGame}>Play Game</button>}
+        </div>
+        <div className="divCenter">
+         {showIframe && <button className="btn" type="button" onClick={handlePlayGame}>게임 설명</button>}<br/><br/>
+        </div>
+        {showIframe && <div><iframe src="../hangmanGame/index.html" width="800" height="800"></iframe></div>}<br/><br/>
+
+        {showGameexp && <div className="divCenter">
         <h1>게임 설명</h1><br/>
-        <h2>1. 게임 시작!</h2>
+        <h2>1. 게임 시작!</h2><br/>
         <img src="/img/HangmanStartImg.png" alt="게임 설명 이미지" width="500" height="auto" />
-        <p>Hang Man 은 밑줄로 표시된 글자수를 힌트로 영어 단어를 맞히는 게임입니다.</p>
+        <p><b>Hang Man</b> 은 밑줄로 표시된 글자수를 힌트로 영어 단어를 맞히는 게임입니다.</p>
         <p>게임을 시작하면 교수대와 함께 맞혀야할 단어의 글자 수만큼 밑줄이 보여집니다.</p><br/><br/>
 
         <h2>2. 26개의 알파벳중 한 개의 알파벳를 선택하세요!</h2><br/>
