@@ -50,10 +50,12 @@
     background: #434343;
 }
 
-.contentwrapper {
-    display: block;
-    margin-top: 20px;
-    margin-left: 69px;
+.contentwrappers {
+
+    position: fixed;
+    left: 690px;
+    top: 150px;
+
 }
 
 .ptag {
@@ -96,8 +98,11 @@
     height: 36px;
     color: white;
 }
+.answerbtna:hover {
+    color: #434343;
+}
 .answerbtn:hover {
     border: 2px solid #fbca73;
     color: #434343;
-    background: white;
+
 }

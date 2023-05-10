@@ -78,7 +78,7 @@ export default function ServiceAnswer(){
                 <div style={{backgroundColor:"#f0f0f0", width:"727px", height:"55px", margin:"auto"}}>
                     <p style={{marginBottom:"8px"}}> [ {bbs.topic} ]</p>
                     <h3 style={{fontWeight:"bold", fontSize:"24px"}}>{bbs.title}</h3>
-                    <div>
+                    <div style={{backgroundColor:"#f0f0f0"}}>
                         작성자 {bbs.writer} | {bbs.regdate}
                     </div>
                 </div>

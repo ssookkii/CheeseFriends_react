@@ -32,10 +32,13 @@ export default function EduInfoWrite() {
     const download = async () => {
     let filename = "zoom.txt";
 
-    const url = "http://localhost:3000/fileDownload?filename=" + filename;
+    const url = `http://localhost:3000/fileDownload?filename=${encodeURIComponent(filename)}`;
 
     // react에서 window를 붙여줘야 한다
-    window.location.href = url;
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = filename;
+    link.click();
   }
 
     const SelectBox = () => {
@@ -57,24 +60,6 @@ export default function EduInfoWrite() {
     const onSubmit = (e) => {
         e.preventDefault();
 
-        let formData = new FormData();
-        formData.append("subject", subject);
-        formData.append("title", title);
-        formData.append("writer", writer);
-        formData.append("content", content);
-
-        
-        axios.post('http://localhost:3000/writeEduInfo', formData)
-
-        .then( resp => {
-            console.log(resp);
-            alert('성공적으로 등록되었습니다');
-
-            navigate('/cheesefriends/learning/EduInfoList');
-            })
-        .catch(err => console.log(err));
-        
-
         axios.post('http://localhost:3000/writeEduInfo', null, { params: {
                 subject,
                 title,
@@ -83,13 +68,13 @@ export default function EduInfoWrite() {
         }})
             .then( resp => {
             console.log(resp);
+            alert('성공적으로 게시물이 등록되었습니다');
             navigate('/cheesefriends/learning/EduInfoList');
             })
             .catch(err => console.log(err));
 
     }
     
-
    
     return (
         <div className='lecwritemain'>

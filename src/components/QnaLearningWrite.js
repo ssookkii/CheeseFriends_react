@@ -46,37 +46,23 @@ export default function QnaLearningWrite() {
         formData.append("writer", writer);
         formData.append("content", content);
 
-        
-        axios.post('http://localhost:3000/writeQna', formData)
-
+      
+        axios.post('http://localhost:3000/writeQna', null, { params: {
+            subject,
+            title,
+            writer:userName,
+            content
+        }})
         .then( resp => {
             console.log(resp);
             alert('성공적으로 등록되었습니다');
-
-            navigate('/learning/QnaLearningList');
-            })
-            .catch(err => console.log(err));
-            alert('게시물 등록에 실패했습니다');
-        
-            axios.post('http://localhost:3000/writeQna', null, { params: {
-                subject,
-                title,
-                writer:userName,
-                content
-        }})
-            .then( resp => {
-            console.log(resp);
             navigate('/cheesefriends/learning/QnaLearningList');
-            })
-            .catch(err => console.log(err));
-        
-        
-        
-        }
-    
-
-   
-    return (
+        })
+        .catch(
+            err => console.log(err))   
+    }
+      
+    return ( 
         <div className='lecwritemain'>
             <h2 className='lecmainh2'>수업 질문 등록</h2>
             <form name="frm" onSubmit={onSubmit} encType="multipart/form-data">
