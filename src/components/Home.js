@@ -41,16 +41,6 @@ function Home(){
         autoplaySpeed: 4000,
         pauseOnHover: true
         };
-    const playSettings = {
-        className: "center",
-        centerMode: true,
-        infinite: true,
-        centerPadding: "60px",
-        slidesToShow: 2,
-        speed: 500,
-        autoplay: true,
-        autoplaySpeed: 4000,
-        };
     return(
         <>
         <div className={styles.keyVisual}>

@@ -20,10 +20,10 @@ function PlayGame2() {
        </div><br/><br/>
 
        <div className="divCenter">
-       {showGameexp && <button className="btn" type="button" onClick={handlePlayGame}>Play Game</button>}
+       {showGameexp && <button className="playbtn" type="button" onClick={handlePlayGame}>Play Game</button>}
        </div>
        <div className="divCenter">
-        {showIframe && <button className="btn" type="button" onClick={handlePlayGame}>게임 설명</button>}<br/><br/>
+        {showIframe && <button className="playbtn" type="button" onClick={handlePlayGame}>게임 설명</button>}<br/><br/>
        </div>
         {showIframe && <div style={{marginTop:80}}><iframe src="../typingGame/index.html" width="800" height="800"></iframe></div>}<br/><br/>
 
