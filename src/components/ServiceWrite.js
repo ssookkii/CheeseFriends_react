@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
 import axios from 'axios';
-import './asset/css/ServiceWrite.css'
+import './asset/css/LectureWrite.css'
 
 export default function ServiceWrite() {
 
@@ -16,12 +16,12 @@ export default function ServiceWrite() {
     const navigate = useNavigate();
 
     const resetBtn = () => {
-        navigate('/service/ServiceList');
+        navigate('/cheesefriends/service/ServiceList');
     }
 
     const SelectBox = () => {
         return (
-            <select onChange={changeSelectOptionHandler} value={topic} style={{marginLeft:"26px", width:"190px", border:"none", borderBottom:"2px solid lightgray"}}>
+            <select onChange={changeSelectOptionHandler} value={topic} className='inputsubject'>
                 <option key="frequently" value="frequently">자주묻는질문</option>
                 <option key="userInfo" value="userInfo">개인정보</option>
                 <option key="useLect" value="useLect">강의이용</option>
@@ -73,37 +73,32 @@ export default function ServiceWrite() {
     
     }
     return (
-        <div style={{margin:"-8px 370px 0px", textAlign:"left", padding:"15px", fontSize:"17px"}}>
-            <h2>고객센터 문의하기</h2>
-            <hr/>
-            <form name="frm" onSubmit={onSubmit} encType="multipart/form-data">
+        <div className='lecwritemain'>
+            <h2 className='lecmainh2' >고객센터 문의하기</h2>
+            <form name="frm" style={{marginTop:"13px"}} onSubmit={onSubmit} encType="multipart/form-data">
             <>
             제목
-            <input type="text" id='title' className='title' name='title'
-                value={title} onChange={(e) => setTitle(e.target.value)} />
+            <input type="text" id='title' className='inputtitle' name='title'
+                value={title} style={{marginLeft:"99px"}} onChange={(e) => setTitle(e.target.value)} />
             </>
-            <hr/>
+            <br/>
             <>
             카테고리
             <SelectBox />
             </>
-            <hr/>
+            <br/>
             <>
             작성자
-            <input type="text" id='writer' className='writer' name='writer'
+            <input type="text" id='writer' style={{marginLeft:"77px"}} className='inputwriter' name='writer'
                 value={userName} onChange={(e) => setWriter(e.target.value)} />
             </>
-            <hr/>
-            <>
-            내용
-            </>
-            <br />
-            <textarea id='content' className='content' name='content'
+            <br/>
+            <textarea id='content' style={{marginLeft:"131px", width:"954px"}} className='lecontent' name='content'
                 value={content} onChange={(e) => setContent(e.target.value)} />
 
             <div className='btnwrapper'>
-            <button type='button' onClick={resetBtn} style={{marginRight:"17px"}}>취소</button>
-            <button type='submit'>등록</button>
+                <button type='button' className='resetbtn' style={{borderRadius:"4px"}} onClick={resetBtn}>취소</button>
+                <button type='submit' className='submitbtn' style={{marginLeft:"15px"}} value='file upload'>등록</button>
             </div>
             </form>
         </div>

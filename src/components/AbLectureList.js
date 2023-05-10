@@ -5,17 +5,13 @@ import axios from "axios";
 import Pagination from 'react-js-pagination';
 import { useEffect } from 'react';
 
-import { faAngleRight } from "@fortawesome/free-solid-svg-icons";
-import { faAngleLeft } from "@fortawesome/free-solid-svg-icons";
-import { faAnglesLeft } from "@fortawesome/free-solid-svg-icons";
-import { faAnglesRight } from "@fortawesome/free-solid-svg-icons";
+import { faCheese, faAngleLeft, faAngleRight, faAnglesLeft, faAnglesRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function AbLectureList() {
     const [lecturelist, setLecturelist] = useState([]);
 
     const loginInfo = JSON.parse(localStorage.getItem("login"));
-    const userId = loginInfo?.id;
     const userAuth = loginInfo?.auth;
 
     const movePage = useNavigate();
@@ -82,9 +78,9 @@ export default function AbLectureList() {
         
         <div className="lecmain">
             <div style={{marginTop:"-627PX"}}>
-                <h2 style={{marginLeft:"15px", color:"#434343", marginTop:"-50px"}}>인강학습실</h2>
+                <h2 style={{marginLeft:"15px", color:"#434343", marginTop:"-63px", fontSize:"2em"}}>인강학습실</h2>
                 <div>
-                    {userAuth === 'admin' && (
+                    {userAuth === 'teacher' && (
                         <button type="button" className="lecBtn" style={{width:"221px"}} onClick={writelink}>
                               글쓰기
                       </button>
@@ -105,14 +101,14 @@ export default function AbLectureList() {
                 <input value={search} onChange={(e)=>setSearch(e.target.value)} style={{marginTop:"14px", height:"31px"}} placeholder="검색어를 입력하세요"/>
                 <button onClick={searchBtn} style={{marginTop:"14px"}}>검색</button>
             </div>
-            <table className="table" style={{marginTop:"28px"}}>
+            <table className="lectable" style={{marginTop:"28px"}}>
                 <thead>
-                    <tr>
-                        <th scope="col">번호</th>
-                        <th scope="col">과목</th>
-                        <th scope="col">강의제목</th>
-                        <th scope="col">작성일</th>
-                        <th scope="col">재생하기</th>
+                    <tr style={{backgroundColor:"#FFEBB4", height:"35px"}}>
+                        <th scope="col" style={{fontWeight:"bold", color:"#434343"}}>번호</th>
+                        <th scope="col" style={{fontWeight:"bold", color:"#434343"}}>과목</th>
+                        <th scope="col" style={{fontWeight:"bold", color:"#434343"}}>강의제목</th>
+                        <th scope="col" style={{fontWeight:"bold", color:"#434343"}}>작성일</th>
+                        <th scope="col" style={{fontWeight:"bold", color:"#434343"}}>재생하기</th>
                     </tr>
                 </thead>
             <tbody className="table-group-divider">
@@ -126,8 +122,8 @@ export default function AbLectureList() {
                                  {list.title}
                             </td>
                             <td>{list.regdate}</td>
-                            <td>
-                                <Link style={{textDecoration:"none"}} to={`/cheesefriends/lecture/LectureDetail/${list.seq}`}>▶</Link>
+                            <td style={{paddingLeft:"34px"}}>
+                            <Link style={{textDecoration:"none"}} to={`/cheesefriends/lecture/LectureDetail/${list.seq}`}><FontAwesomeIcon icon={faCheese} /></Link>
                             </td>
                         </tr>
                     )

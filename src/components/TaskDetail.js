@@ -48,10 +48,10 @@ function TaskDetail(){
 
     return (
         <div className="lecdeMain">
-            <h2 style={{marginLeft:"140px", marginTop:"10px"}}>과제 제출실</h2>
-            <table style={{marginBottom:"180px"}} >
+            <h2 className='lech2'>과제 제출실</h2>
+            <table className="lectable" >
             <tbody>
-            <div style={{marginLeft:"140px"}}>
+            <div style={{marginLeft:"110px"}}>
             <tr style={{height:"32px"}}>
                 <th style={{paddingRight:"103px"}} className="tableth">제목</th>
                 <td style={{ textAlign:"left" }}>{bbs.title}</td>

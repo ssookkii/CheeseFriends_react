@@ -5,10 +5,7 @@ import styled from "styled-components";
 import { useNavigate, Link } from 'react-router-dom';
 import arrow from './asset/css/arrow.png';
 
-import { faAngleRight } from "@fortawesome/free-solid-svg-icons";
-import { faAngleLeft } from "@fortawesome/free-solid-svg-icons";
-import { faAnglesLeft } from "@fortawesome/free-solid-svg-icons";
-import { faAnglesRight } from "@fortawesome/free-solid-svg-icons";
+import { faAngleRight, faAngleLeft,faAnglesLeft, faAnglesRight  } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 
@@ -17,39 +14,14 @@ export default function QnaLearningList() {
     const [qnalist, setQnaList] = useState([]);
 
     const movePage = useNavigate();
+    
+    const loginInfo = JSON.parse(localStorage.getItem("login"));
+    const userAuth = loginInfo?.auth;
 
-    function moveqnalist() {
-        movePage('/learning/QnALearningList');
-    }
-    function qnawrite() {
-        movePage('/learning/QnaLearningWrite');
-    }
-
-    function learninglist() {
-        movePage('/learning');
+    function writelink() {
+        movePage('/cheesefriends/learning/QnaLearningWrite');
     }
 
-    function movetasklist() {
-        movePage('/learning/TaskList');
-    }
-
-    function moveleclist() {
-        movePage('/lecture')
-    }
-    function movelearnlist() {
-        movePage('/learning');
-    }
-    function movetasklist() {
-        movePage('/learning/TaskList');
-    }
-
-    function moveEduInfo() {
-        movePage('/learning/EduInfoList');
-    }
-
-    function moveService() {
-        movePage('/service/ServiceList');
-    }
 
     function getQnaList() {
         axios.get("http://localhost:3000/qnalearninglist")
@@ -63,16 +35,6 @@ export default function QnaLearningList() {
         })
 
     }
-
-    const Btn = styled.button`
-        border:none;
-        cursor:pointer;
-        background:none;
-        font-size:18px;
-        &:hover {
-        color: #0d6efd;
-      }
-    `;
 
     useEffect(function(){
         getQnaList(0);
@@ -101,6 +63,11 @@ export default function QnaLearningList() {
         })
     }
 
+    function searchBtn(){
+        // if(choice.toString().trim() === "" || search.toString().trim() === "") return;
+        getSubList(choice, search, 0);
+    }
+
     function pageChange(page) {
         setPage(page);
         getSubList(choice, search, page-1);
@@ -112,58 +79,42 @@ export default function QnaLearningList() {
 
     return(
 
-            <div style={{display:"flex", marginTop:"116px"}} className="qnalist">
-
-            <div className="d-flex flex-column flex-shrink-0 p-3 text-bg-dark" style={{width:"280px", height:"630px", borderRadius:"16px"}}>
-                <a href="/" className="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-                    <svg className="bi pe-none me-2" style={{width:"40", height:"32" }} ><use xlinkHref="#bootstrap"></use></svg>
-                    <span className="fs-4">학습용 자료실</span>
-                </a>
-                <hr />
-                    <ul className="nav nav-pills flex-column mb-auto">
-
-                        <li className="nav-item">
-                            <a href="#" className="nav-link text-white" onClick={learninglist}>                                        
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;수업 자료실 
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" className="nav-link text-white" aria-current="page"onClick={movetasklist}>
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;과제 제출실
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" className="nav-link active"  onClick={moveqnalist}>
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;수업 질문방
-                            </a>
-                        </li>
-                    </ul>
-                    <hr/>
-                    <div className="dropdown">
-                        <button type="button" className="btn btn-secondary" onClick={qnawrite} style={{width:"248px"}}>
-                            질문하기
+            <div className="learninglist">
+                <div style={{marginTop:"-660px"}}>
+                <h2 className="learnh2">수업질문방</h2>
+                <div style={{width:"250px"}}>
+                    {/* {userAuth === 'student' && ( */}
+                        <button type="button" className="learnBtn"  onClick={writelink}>
+                            글쓰기
                         </button>
-                    </div>
+                    {/* )}  */}
+                    
+                </div>
             </div>
 
 
         {/* 목록 */}
         <div style={{display:"block", width:"1000px", marginTop:"25px", marginLeft:"20px"}}>
-            <div style={{display:"flex", marginTop:"-100px"}}>
-            <div style={{width:"310px", marginRight:"16px", cursor:"pointer", paddingTop:"19px", borderRadius:"14px", backgroundColor:"white", textAlign:"center"}} onClick={moveleclist}><h3>인강학습실</h3></div>
-            <div style={{width:"310px", marginRight:"16px", cursor:"pointer", paddingTop:"19px", borderRadius:"14px", backgroundColor:"white", textAlign:"center"}} onClick={movelearnlist}><h3>학습용자료실</h3></div>
-            <div style={{width:"310px", marginRight:"16px",cursor:"pointer", paddingTop:"19px", borderRadius:"14px", backgroundColor:"white", textAlign:"center"}} onClick={moveEduInfo}><h3>교육 정보</h3></div>
-            <div style={{width:"310px", marginRight:"16px", cursor:"pointer", paddingTop:"19px", borderRadius:"14px", backgroundColor:"white", textAlign:"center"}} onClick={moveService}><h3>고객센터</h3></div>
+            <div style={{display:"flex", marginTop:"-208px", justifyContent:"flex-end"}}>
+                    
+            <select vlaue={choice} onChange={(e)=>setChoice(e.target.value)}
+           style={{border:"none", borderBottom:"1px solid lightgray", height:"31px", marginTop:"14px", marginRight:"6px" }}>
+                <option value="">검색</option>
+                <option value="subject">과목</option>
+                <option value="title">제목</option>
+                <option value="content">내용</option>
+            </select>
+            <input value={search} onChange={(e)=>setSearch(e.target.value)} style={{marginTop:"14px", height:"31px"}} placeholder="검색어를 입력하세요"/>
+            <button onClick={searchBtn} style={{marginTop:"14px"}} className='lecsearchbtn'>검색</button>
         </div>
-            
-        <table className="table" style={{marginTop:"28px"}}>
+        <table className="lectable" style={{marginTop:"28px"}}>
             <thead>
-                <tr>
-                    <th scope="col">번호</th>
-                    <th scope="col">과목</th>
-                    <th scope="col" style={{width:"400px"}}>제목</th>
-                    <th scope="col" style={{width:"170px"}}>작성일</th>
-                    <th scope="col">작성자</th>
+                <tr style={{backgroundColor:"#FFEBB4", height:"35px"}}>
+                    <th scope="col" style={{fontWeight:"bold", color:"#434343"}}>번호</th>
+                    <th scope="col" style={{fontWeight:"bold", color:"#434343"}}>과목</th>
+                    <th scope="col" style={{fontWeight:"bold", color:"#434343"}}>제목</th>
+                    <th scope="col" style={{fontWeight:"bold", color:"#434343"}}>작성일</th>
+                    <th scope="col" style={{fontWeight:"bold", color:"#434343"}}>작성자</th>
                 </tr>
             </thead>
             <tbody className="table-group-divider">
@@ -201,7 +152,7 @@ function TableRow(props){
             <td>{props.cnt}</td>
             <td>{props.bbs.subject}</td>
             <td style={{ textAlign:"left" }}>{getArrow(props.depth)}
-            <Link to={`/learning/QnaLearningDetail/${props.bbs.seq}`}>{props.bbs.title}</Link>
+            <Link to={`/cheesefriends/learning/QnaLearningDetail/${props.bbs.seq}`}>{props.bbs.title}</Link>
             </td>
             <td>{props.bbs.regdate}</td>
             <td>{props.bbs.writer}</td>

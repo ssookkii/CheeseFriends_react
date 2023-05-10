@@ -10,14 +10,16 @@
     width: 900px;
     height: 260px;
     margin: auto;
-    margin-left: 260px;
+    margin-left: 200px;
     text-align: left;
 }
 
 .ph2 {
-    margin-left: 360px;
+    margin-left: 300px;
     margin-top: 30px;
     font-size: 19px;
+    font-weight: bold;
+    color: #434343;
 }
 .ph2>svg {
     color: #fbca73;
@@ -26,13 +28,13 @@
 .tablewrapper {
     width: 900px;
     height: 260px;
-    margin-left: 260px;
+    margin-left: 200px;
     margin-top: -40px;
 
 }
 
 .answertablet {
-    width: 900px;
+    width: 727px;
     height: 260px;
     margin: auto;
     text-align: left;
@@ -43,6 +45,8 @@
     margin-left: 100px;
     margin-top: 30px;
     font-size: 19px;
+    font-weight: bold;
+    color: #434343;
 }
 .ph2a>svg {
     color: #fbca73;
@@ -50,7 +54,7 @@
 
 .btwrapper {
     text-align: center;
-    margin-left: 761px;
+    margin-left: 591px;
     margin-top: 30px;
 }
 
@@ -58,7 +62,7 @@
     width: 630px;
     height: 180px;
     margin: auto;
-    border: 1px solid lightgray;
+    border: none;
 
 }
 

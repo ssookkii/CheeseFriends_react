@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from 'axios';
-
-// import "./LectureDetail.css";
+import './asset/css/LectureDetail.css';
 
 function QnaLearningDetail(){
     let history = useNavigate();
@@ -34,80 +33,49 @@ function QnaLearningDetail(){
     }
     
     const qnalist = () => {        
-        history('/learning/QnALearningList');
+        history('/cheesefriends/learning/QnALearningList');
     }
 
     const qnaAnswer = () => {
-        history('/learning/QnaLearningAnswer');
+        history('/cheesefriends/learning/QnaLearningAnswer');
     }
 
-    // const updateBbs = () => {
-    //     history("/bbsupdate/" + bbs.seq);
-    // }
-
-
-    // const handleDelete = (seq) => {
-    //     // 게시물 삭제 로직
-    //     // 삭제할 게시물의 postId를 받아와서 삭제 로직을 구현합니다.
-    //     const updatedPosts = bbs.filter(post => post.seq !== seq);
-    //     setBbs(updatedPosts);
-    //   }
-
-    // // login한 id와 작성자 id와 같을 시에는 버튼을 보여준다
-    // function UpdateButtonLoad(){
-    //     let str = localStorage.getItem('login');
-    //     let login = JSON.parse(str);
-
-    //     if(login.writer !== bbs.writer){
-    //         return ""
-    //     }
-    //     return (
-    //         <span>
-    //             &nbsp;<button type="button" onClick={() => handleDelete(bbs.seq)} className="btn btn-primary">삭제하기</button>
-    //             &nbsp;<button type="button" onClick={updateBbs} className="btn btn-primary">글 수정</button>
-    //         </span>
-                        
-    //     )
-    // }
-
+    
     return (
-        <div style={{margin:"30px 150px 50px 150px", textAlign:"left", padding:"15px", fontSize:"17px"}}>
-            <h2>수업 질문방</h2>
-            <hr/>
-            <table className="table table-striped table-sm">
-            {/* <colgroup>
-                <col style={{width: '400px'}}/>
-                <col style={{width: '150px'}}/>
-            </colgroup> */}
+        <div  className="lecdeMain">
+            <h2 className="lech2">수업 질문방</h2>
+            <table style={{marginBottom:"180px"}}>
             <tbody>
-            <tr>
-                <th>제목</th>
+            <div>
+            <tr style={{height:"32px"}}>
+                <th style={{paddingRight:"103px"}} className="tableth">제목</th>
                 <td style={{ textAlign:"left" }}>{bbs.title}</td>
             </tr>
-            <tr>
-                <th >과목</th>
+            <tr style={{height:"32px"}}>
+                <th className="tableth">과목</th>
                 <td style={{ textAlign:"left" }}>{bbs.subject}</td>
             </tr>
-            <tr>
-                <th>작성자</th>
+            <tr style={{height:"32px"}}>
+                <th className="tableth">작성자</th>
                 <td style={{ textAlign:"left" }}>{bbs.writer}</td>
             </tr>
-            <tr >
-                <th >작성일</th>
+            <tr style={{height:"32px"}}>
+                <th className="tableth">작성일</th>
                 <td style={{ textAlign:"left" }}>{bbs.regdate}</td>
             </tr>
-            <tr>	
+            <tr style={{height:"32px"}}>	
                 <th>내용</th>
                 <td colSpan="2" style={{ backgroundColor:'white' }}>
                     <pre id="content" style={{ fontSize:'20px', fontFamily:'고딕, arial', backgroundColor:'white', textAlign:"left" }}>{bbs.content}</pre>
                 </td>
             </tr>
+            </div>
             </tbody>
             </table>
             <div style={{textAlign:"center"}}>
-                <button style={{width:"100px", height:"42px", marginTop:"-5px"}} type="button" className="btn btn-primary">
-                <Link to={`/learning/QnaLearningAnswer/${bbs.seq}`} style={{textDecoration:"none", color:"white"}}>답변하기</Link></button>
-                <button style={{width:"100px", height:"42px"}} type="button" onClick={qnalist}>목록으로</button>
+                <button className="leclistBtn" type="button" >
+                <Link to={`/cheesefriends/learning/QnaLearningAnswer/${bbs.seq}`} style={{textDecoration:"none", fontWeight:"bold", color:"white"}}>답변하기</Link></button>
+                <button className="resetbtn" type="button" onClick={qnalist}>목록으로</button>
             </div>
             
             {/* <UpdateButtonLoad /> */}

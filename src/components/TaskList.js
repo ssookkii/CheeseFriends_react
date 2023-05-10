@@ -78,8 +78,8 @@ export default function TaskList() {
     return(
 
         <div className="tasklist">
-            <div style={{marginTop:"-627PX"}}>
-                <h2 style={{marginLeft:"42px", color:"#434343", marginTop:"-50px"}}>과제제출</h2>
+            <div style={{marginTop:"-627px"}}>
+                <h2 className="learnh2">과제제출</h2>
                 <div>
                     {/* {userAuth === 'student' && ( */}
                         <button type="button" className="learnBtn"  onClick={writelink}>
@@ -102,17 +102,17 @@ export default function TaskList() {
                 <option value="content">내용</option>
             </select>
             <input value={search} onChange={(e)=>setSearch(e.target.value)} style={{marginTop:"14px", height:"31px"}} placeholder="검색어를 입력하세요"/>
-            <button onClick={searchBtn} style={{marginTop:"14px"}} className='searchbtn'>검색</button>
+            <button onClick={searchBtn} style={{marginTop:"14px"}} className='lecsearchbtn'>검색</button>
         </div>
             
-        <table className="table" style={{marginTop:"28px"}}>
+        <table className="lectable" style={{marginTop:"28px"}}>
             <thead>
-                <tr style={{backgroundColor:"#FFEBB4"}}>
-                    <th scope="col">번호</th>
-                    <th scope="col">과목</th>
-                    <th scope="col">제목</th>
-                    <th scope="col">작성일</th>
-                    <th scope="col">작성자</th>
+                <tr style={{backgroundColor:"#FFEBB4", height:"35px"}}>
+                    <th scope="col" style={{fontWeight:"bold", color:"#434343"}}>번호</th>
+                    <th scope="col" style={{fontWeight:"bold", color:"#434343"}}>과목</th>
+                    <th scope="col" style={{fontWeight:"bold", color:"#434343"}}>제목</th>
+                    <th scope="col" style={{fontWeight:"bold", color:"#434343"}}>작성일</th>
+                    <th scope="col" style={{fontWeight:"bold", color:"#434343"}}>작성자</th>
                 </tr>
             </thead>
             <tbody className="table-group-divider">

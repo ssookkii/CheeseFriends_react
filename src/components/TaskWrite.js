@@ -80,7 +80,7 @@ function TaskWrite() {
 
             const SelectBox = () => {
                 return (
-                    <select onChange={changeSelectOptionHandler} value={subject} style={{marginLeft:"60px", width:"190px", border:"none", borderBottom:"2px solid lightgray"}}>
+                    <select onChange={changeSelectOptionHandler} value={subject} className='inputsubject'>
                         <option key="kor" value="국어">국어</option>
                         <option key="math" value="수학">수학</option>
                         <option key="eng" value="영어">영어</option>
@@ -97,38 +97,38 @@ function TaskWrite() {
 
    
         return (
-            <div style={{margin:"-8px 370px 0px", fontSize:"17px"}}>
-                <h2>과제 제출</h2>
-                <hr/>
+            <div  className='lecwritemain'>
+                <h2 className='lecmainh2'>과제 제출</h2>
+
                 <form name="frm" onSubmit={onSubmit} encType="multipart/form-data">
                 <>
                 제목
-                <input type="text" id='title' className='title' name='title'
+                <input type="text" id='title' className='inputtitle' name='title'
                     value={title} onChange={(e) => setTitle(e.target.value)} />
                 </>
-                <hr/>
+                <br/>
                 <>
                 과목
                 <SelectBox />
                 </>
-                <hr/>
+                <br/>
                 <>
                 작성자
-                <input type="text" id='writer' className='writer' name='writer'
+                <input type="text" id='writer' className='inputwriter' name='writer'
                     value={userName} onChange={(e) => setWriter(e.target.value)} readOnly />
                 </>
-                <hr/>
+                <br/>
                 <>
                 내용
                 </>
-                <input type="file" name='uploadFile' className='file' accept='*' />
+                <input type="file" name='uploadFile' className='inputfile' accept='*' />
                 <br />
-                <textarea id='content' className='content' name='content'
+                <textarea id='content' className='lecontent' name='content'
                     value={content} onChange={(e) => setContent(e.target.value)} />
 
                 <div className='btnwrapper'>
-                <button type='button' style={{borderRadius:"4px"}} onClick={resetBtn}>취소</button>
-                <button type='submit' style={{marginLeft:"15px"}} value='file upload'>등록</button>
+                    <button type='button' onClick={resetBtn} className='resetbtn'>취소</button>
+                    <button type='submit' value='file upload' className='submitbtn'>등록</button>
                 </div>
                 </form>
             </div>

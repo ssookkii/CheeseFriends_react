@@ -22,6 +22,9 @@ export default function LearningList() {
     function tasklink(){
         movePage('/cheesefriends/learning/TaskList');
     }
+    function qnalink() {
+        movePage('/cheesefriends/learning/QnaLearningList');
+    }
 
     function getLearnList() {
         axios.get("http://localhost:3000/learninglist")
@@ -81,19 +84,24 @@ export default function LearningList() {
     return(
 
         <div className="learninglist">
-            <div style={{marginTop:"-627PX"}}>
-                <h2 style={{marginLeft:"34px", color:"#434343", marginTop:"-15px"}}>학습자료실</h2>
+            <div style={{marginTop:"-583px"}}>
+                <h2 className="learnh2">학습자료실</h2>
                 <div style={{width:"250px"}}>
-                    {/* {userAuth === 'teacher' && ( */}
+                    {userAuth === 'teacher' && (
                         <button type="button" className="learnBtn"  onClick={writelink}>
                             글쓰기
                         </button>
-                    {/* )} */}
+                     )} 
                     {/* {userAuth === 'student' && ( */}
                         <button type="button" className="taskBtn"  onClick={tasklink}>
                             과제제출하기
                         </button>
-                    {/* )} */}
+                    {/* )}
+                    {userAuth === 'student' && ( */}
+                        <button type="button" className="qnabtn"  onClick={qnalink}>
+                            수업질문하기
+                        </button>
+                    {/* )}  */}
                 </div>
             </div>
 
@@ -103,23 +111,23 @@ export default function LearningList() {
             <div style={{display:"flex", marginTop:"-208px", justifyContent:"flex-end"}}>
                     
             <select vlaue={choice} onChange={(e)=>setChoice(e.target.value)}
-            style={{border:"none", borderBottom:"1px solid lightgray", height:"31px", marginTop:"14px", marginRight:"6px" }}>
+           style={{border:"none", borderBottom:"1px solid lightgray", height:"31px", marginTop:"14px", marginRight:"6px" }}>
                 <option value="">검색</option>
                 <option value="subject">과목</option>
                 <option value="title">제목</option>
                 <option value="content">내용</option>
             </select>
             <input value={search} onChange={(e)=>setSearch(e.target.value)} style={{marginTop:"14px", height:"31px"}} placeholder="검색어를 입력하세요"/>
-            <button onClick={searchBtn} style={{marginTop:"14px"}} className='searchbtn'>검색</button>
+            <button onClick={searchBtn} style={{marginTop:"14px"}} className='lecsearchbtn'>검색</button>
         </div>
-        <table className="table" style={{marginTop:"28px"}}>
+        <table className="lectable" style={{marginTop:"28px"}}>
             <thead>
-                <tr style={{backgroundColor:"#FFEBB4"}}>
-                    <th scope="col">번호</th>
-                    <th scope="col">과목</th>
-                    <th scope="col">제목</th>
-                    <th scope="col">작성일</th>
-                    <th scope="col">작성자</th>
+                <tr style={{backgroundColor:"#FFEBB4", height:"35px"}}>
+                    <th scope="col" style={{fontWeight:"bold", color:"#434343"}}>번호</th>
+                    <th scope="col" style={{fontWeight:"bold", color:"#434343"}}>과목</th>
+                    <th scope="col" style={{fontWeight:"bold", color:"#434343"}}>제목</th>
+                    <th scope="col" style={{fontWeight:"bold", color:"#434343"}}>작성일</th>
+                    <th scope="col" style={{fontWeight:"bold", color:"#434343"}}>작성자</th>
                 </tr>
             </thead>
             <tbody className="table-group-divider">
@@ -130,7 +138,7 @@ export default function LearningList() {
                             <td>{list.seq}</td>
                             <td>{list.subject}</td>
                             <td>
-                                <Link style={{textDecoration:"none", fontWeight:"bold"}} to={`/cheesefriends/learning/LearningDetail/${list.seq}`}>{list.title}</Link>
+                                <Link style={{textDecoration:"none", fontWeight:"bold", color:"#fac463"}} to={`/cheesefriends/learning/LearningDetail/${list.seq}`}>{list.title}</Link>
                             </td>
                             <td>{list.regdate}</td>
                             <td>{list.writer}</td>

@@ -8,18 +8,25 @@
     align-items: center;
     font-size: 19px;
 }
+.lech2 {
+    font-size: 2em;
+    font-weight: bold;
+    color: #434343;
+    margin-left: 30px;
+}
+
 
 .leclistBtn {
-    width: 75px;
-    height: 32px;
+    width: 100px;
+    height: 42px;
     color: #fff;
     background: #fbca73;
-    font-weight: 500;
+    font-weight: bold;
     border-radius: 7px;
 }
 .leclistBtn:hover {
     border: 2px solid #fbca73;
-    color: #444444;
+    color: #434343;
     background-color: white;
 }
 .tableth{

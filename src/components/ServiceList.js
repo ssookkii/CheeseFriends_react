@@ -57,8 +57,8 @@ export default function ServiceList() {
         return (
           <Modal isOpen={selectedItem !== null} onRequestClose={closeModal} className='modalcss'>
             <p>{selectedItem.content}</p>
-            <div>
-                <button type="button" onClick={answerbtn}>답글달기</button>
+            <div style={{marginTop:"348px", marginLeft:"420px"}}>
+                <button type="button" className='answerbtn' onClick={answerbtn}>답글달기</button>
             </div>
           </Modal>
 
@@ -154,10 +154,10 @@ export default function ServiceList() {
     return (
         <div className="servicelist">
             <div style={{marginTop:"-627PX"}}>
-                <h2 style={{marginLeft:"34px", color:"#434343", marginTop:"-15px"}}>고객센터</h2>
+                <h2 className='servh2'>고객센터</h2>
                 <div style={{width:"250px"}}>
                     {/* {userAuth === 'teacher' && ( */}
-                        <button type="button" className="learnBtn"  onClick={writelink}>
+                        <button type="button" className="learnBtn" style={{marginLeft:"11px"}} onClick={writelink}>
                             글쓰기
                         </button>
                     {/* )} */}

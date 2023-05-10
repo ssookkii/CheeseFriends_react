@@ -69,7 +69,7 @@
     border: 2px solid #fbca73;
 }
 .item-5>.edubtn {
-    margin-top: -17px;
+    margin-top: 32px;
 }
 
 .eduwritebtn {
@@ -106,11 +106,12 @@
 }
 
 .edubtn {
-    width: 214px;
+    width: 215px;
     height: 45px;
     margin-left: -5px;
     background-color: #fbca73;
     border-radius: 4px;
+    margin-top: 25px;
 }
 .edubtn:hover {
     border: 2px solid #f9f9f9;
@@ -124,4 +125,7 @@
 
 .edubtn>a:hover {
     color: lightgray;
+}
+.item-0>.edubtn {
+    margin-top: 25px;
 }
