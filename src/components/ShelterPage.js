@@ -1,22 +1,31 @@
 import React, {useState, useEffect} from "react";
 import { Link, Outlet } from "react-router-dom";
 
+import './asset/css/AdminPage.css'
 import './asset/css/ShelterPage.css'
 
 function ShelterPage() {
+
+  let [btnActive, setBtnActive] = useState(
+    localStorage.getItem("btnActive") || "playgame"
+  );
+
+  useEffect(() => {
+    localStorage.setItem("btnActive", btnActive);
+  }, [btnActive]);
 
   return (
     <div className="shelterPageWrap">
       <nav className="sideMenu">
         <ul>
-          <li>
-            <Link to="/shelterpage/playgame">Prop 2 Sky</Link>
+          <li className={btnActive === "playgame" ? "btnActive" : ""}>
+            <Link to="/cheesefriends/shelterpage/playgame" onClick={() => {setBtnActive('playgame');}} style={{ textDecoration: "none" }}>Prop 2 Sky</Link>
           </li>
-          <li>
-            <Link to="/shelterpage/playgame1">Hang Man</Link>
+          <li className={btnActive === "playgame1" ? "btnActive" : ""}>
+            <Link to="/cheesefriends/shelterpage/playgame1" onClick={() => {setBtnActive('playgame1');}} style={{ textDecoration: "none" }}>Hang Man</Link>
           </li>
-          <li>
-            <Link to="/shelterpage/playgame2">Speed Typing</Link>
+          <li className={btnActive === "playgame2" ? "btnActive" : ""}>
+            <Link to="/cheesefriends/shelterpage/playgame2" onClick={() => {setBtnActive('playgame2');}} style={{ textDecoration: "none" }}>Speed Typing</Link>
           </li>
         </ul>
       </nav>

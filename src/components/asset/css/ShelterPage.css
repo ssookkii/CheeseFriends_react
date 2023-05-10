@@ -2,64 +2,37 @@
     display: flex;
     justify-content: flex-start;
 }
-.sideMenu {
-    background-color:#434343;
-    width:250px;
-    border-top-right-radius: 20px;
-    border-bottom-right-radius: 20px;
-    height:100vh;
-}
-
-.sideMenu > ul {
-    position:relative;
-    margin:130px auto 15px;
-    padding:0;
-}
-.sideMenu > ul::before {
-    content:"";
-    background:url(../../../../public/img/logo100h.png) no-repeat;
-    width:200px;
-    height:50px;
-    position:absolute;
-    left:15px;
-    top:-70px;
-}
-.sideMenu > ul > li {
-    width:100%;
-    height:50px;
-}
-.sideMenu > ul > li > a {
-    position:relative;
-    color:#fff;
-    left:102px;
-    top:15px;
-    padding:15px 0;
-}
-.sideMenu > ul > li > a::before {
-    content:'';
-    background: url(../../../../public/img/MenuIcon.png) no-repeat;
-    background-size:130px;
-    width:23px;
-    height:20px;
-    position:absolute;
-    left:-35px;
-    top:17px;
+.shelterContentWrap {
+    width : 80%;
+    display : flex;
+    justify-content : center;
 }
 .sideMenu > ul > li:nth-child(3) > a::before {
     background-position: -28px 0;
 }
 .sideMenu > ul > li:nth-child(4) > a::before {
-    background-position: -55px 0;
+    background-position: -28px ;
 }
 .sideMenu > ul > li:nth-child(5) > a::before {
-    background-position: -82px 0;
+    background-position: -28px 0;
 }
 .sideMenu > ul > li:nth-child(6) > a::before {
-    background-position: -110px 0;
+    background-position: -28px 0;
 }
-.adminContentWrap {
-    display: flex;
-    justify-content: center;
+.btn {
+    width:200px;
+    padding:10px 0;
+    background-color: #FAC463;
+    border-radius:10px;
+    margin-left:0px;
+    color:#fff;
+    font-size:1.2em;
+    height:60px;
+}
+.divCenter {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
 }
 
 

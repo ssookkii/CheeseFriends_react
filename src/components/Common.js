@@ -82,7 +82,7 @@ function Common(){
                                 <Link to="/cheesefriends/learning/EduInfoList">교육정보</Link>
                             </li>
                             <li>
-                                <Link to="/cheesefriends/playgame">쉼터</Link>
+                                <Link to="/cheesefriends/shelterpage/playgame">쉼터</Link>
                             </li>
                             <li>
                             <Link to="/cheesefriends/service/ServiceList">고객센터</Link>
