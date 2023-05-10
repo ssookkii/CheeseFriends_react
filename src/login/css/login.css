@@ -162,7 +162,7 @@ form{
   margin-bottom: 4px;
 }
 
-a{
+.logina{
   /* display: block; */
   text-align: right;
   text-decoration: none;
@@ -175,7 +175,7 @@ a:hover{
   color: #ff6b3f;
 }
 
-.btn{
+.loginbtn{
   display: block;
   width: 100%;
   height: 50px;
@@ -192,7 +192,7 @@ a:hover{
   cursor: pointer;
   transition: .5s;
 }
-.btn:hover{
+.loginbtn:hover{
   background-position: right;
 }
 

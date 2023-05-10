@@ -142,8 +142,8 @@ function Login(){
                         <br/><br/><br/>
                     
                         <img src={logo} style={{width:"300px", height:"100px"}}/>
-                        <h2 class="title"></h2>
-                        <br/><br/>
+                        
+                        <br/><br/><br/><br/>
                             <div class="input-div one">
                                 <div class="i">
                                     <i class="fas fa-user"></i>
@@ -163,14 +163,14 @@ function Login(){
                                 </div>
                             </div>
                             <div style={{textAlign:"right"}}> 
-                                <a href="/socialregiselect">처음이신가요?&nbsp;회원가입</a>
+                                <a class="logina" href="/socialregiselect">처음이신가요?&nbsp;회원가입</a>
                             </div>
                            
                             <div style={{textAlign:"right"}}>
-                                <a href="/idsearch">ID/비밀번호 찾기</a>
+                                <a class="logina" href="/idsearch">ID/비밀번호 찾기</a>
                             </div>
                             <br/><br/>
-                            <button class="btn" onClick={login}>Login</button>
+                            <button class="loginbtn" onClick={login}>Login</button>
                             
                             <br/>
 
