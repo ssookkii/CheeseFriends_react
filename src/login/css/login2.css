@@ -26,8 +26,15 @@
     width: 450px;
 }
 
-.login-content2 img{
-    height: 100px;
+.regiimg{
+    height: 260px;
+    width: 300px;
+}
+
+.photoimg{
+  height: 260px;
+  width: 300px;
+  border:#000000;
 }
 
 .login-content2 h2{
@@ -226,6 +233,48 @@ position: relative;
   text-align: left;
 }
 
+.loginbtn2{
+  display: block;
+  width: 100%;
+  height: 30px;
+  border-radius: 10px;
+  outline: none;
+  border: none;
+  background-image: linear-gradient(to right, #27c5ff, #b1f9d4, #3f79ff);
+  background-size: 200%;
+  font-size: 1.2rem;
+  color: #ffffff;
+  font-family: 'Poppins', sans-serif;
+  text-transform: uppercase;
+  margin: 1rem 0;
+  cursor: pointer;
+  transition: .5s;
+}
+.loginbtn2:hover{
+  background-position: right;
+}
+
+.loginbtnfalse{
+  display: block;
+  width: 100%;
+  height: 30px;
+  border-radius: 10px;
+  outline: none;
+  border: none;
+  background-color:#dadada;
+  background-size: 200%;
+  font-size: 1.2rem;
+  color: #000000;
+  font-family: 'Poppins', sans-serif;
+  text-transform: uppercase;
+  margin: 1rem 0;
+  cursor: pointer;
+  transition: .5s;
+}
+.loginbtnfalse:hover{
+background-position: right;
+}
+
 .regibtn{
   margin-left: auto;
   margin-right: auto;
@@ -235,7 +284,7 @@ position: relative;
   border-radius: 5px;
   outline: none;
   border: none;
-  background-image: linear-gradient(to right, #fda083, #f9caa1, #ff6b3f);
+  background-image: linear-gradient(to right, #27c5ff, #b1f9d4, #3f79ff);
   background-size: 200%;
   font-size: 1rem;
   color: #fff;
@@ -245,5 +294,70 @@ position: relative;
   transition: .5s;
 }
 .regibtn:hover{
+  background-position: right;
+}
+
+.regibtnfalse{
+  margin-left: auto;
+  margin-right: auto;
+  display: inline-block;
+  width: 67%;
+  height: 30px;
+  border-radius: 5px;
+  outline: none;
+  border: none;
+  background-color:#dadada;
+  background-size: 200%;
+  font-size: 1rem;
+  color: #000000;
+  font-family: 'Poppins', sans-serif;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: .5s;
+}
+
+.regibtnfalse:hover{
+background-position: right;
+}
+
+.photobtn{
+  display: inline-block;
+  width: 32.5%;
+  height: 30px;
+  border-radius: 5px;
+  outline: none;
+  border: none;
+  background-image: linear-gradient(to right, #27c5ff, #b1f9d4, #3f79ff);
+  background-size: 200%;
+  font-size: 1.2rem;
+  color: #fff;
+  font-family: 'Poppins', sans-serif;
+  text-transform: uppercase;
+  margin: 1rem 0;
+  cursor: pointer;
+  transition: .5s;
+}
+.photobtn:hover{
+  background-position: right;
+}
+
+.btn2{
+  display: inline-block;
+  width: 45%;
+  height: 50px;
+  border-radius: 25px;
+  outline: none;
+  border: none;
+  background-image: linear-gradient(to right, #fda083, #f9caa1, #ff6b3f);
+  background-size: 200%;
+  font-size: 1.2rem;
+  color: #fff;
+  font-family: 'Poppins', sans-serif;
+  text-transform: uppercase;
+  margin: 1rem 0;
+  cursor: pointer;
+  transition: .5s;
+}
+.btn2:hover{
   background-position: right;
 }
