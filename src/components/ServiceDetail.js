@@ -37,35 +37,6 @@ export default function ServiceDetail(){
     }
 
 
-    // const updateBbs = () => {
-    //     history("/bbsupdate/" + bbs.seq);
-    // }
-
-
-    // const handleDelete = (seq) => {
-    //     // 게시물 삭제 로직
-    //     // 삭제할 게시물의 postId를 받아와서 삭제 로직을 구현합니다.
-    //     const updatedPosts = bbs.filter(post => post.seq !== seq);
-    //     setBbs(updatedPosts);
-    //   }
-
-    // // login한 id와 작성자 id와 같을 시에는 버튼을 보여준다
-    // function UpdateButtonLoad(){
-    //     let str = localStorage.getItem('login');
-    //     let login = JSON.parse(str);
-
-    //     if(login.writer !== bbs.writer){
-    //         return ""
-    //     }
-    //     return (
-    //         <span>
-    //             &nbsp;<button type="button" onClick={() => handleDelete(bbs.seq)} className="btn btn-primary">삭제하기</button>
-    //             &nbsp;<button type="button" onClick={updateBbs} className="btn btn-primary">글 수정</button>
-    //         </span>
-                        
-    //     )
-    // }
-
     return (
         <div style={{margin:"30px 150px 50px 150px", textAlign:"left", padding:"15px", fontSize:"17px"}}>
             <h2>수업 질문방</h2>
@@ -98,7 +69,7 @@ export default function ServiceDetail(){
             </table>
             <div style={{textAlign:"center"}}>
                 <button style={{width:"100px", height:"42px", marginTop:"-5px"}} type="button" className="btn btn-primary">
-                <Link to={`/service/ServiceAnswer/${bbs.seq}`} style={{textDecoration:"none", color:"white"}}>답변하기</Link></button>
+                <Link to={`/cheesefriends/service/ServiceAnswer/${bbs.seq}`} style={{textDecoration:"none", color:"white"}}>답변하기</Link></button>
                 <button style={{width:"100px", height:"42px"}} type="button" onClick={servlist}>목록으로</button>
             </div>
             

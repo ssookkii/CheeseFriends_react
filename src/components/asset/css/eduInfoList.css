@@ -17,12 +17,27 @@
     border: 3px solid #fbca73;
 }
 
+
+
 .item-1, .item-2 {
     margin-left: 50px;
     box-shadow: inset 0px 5px 10px 0 rgba(121, 121, 121, 0.08);
     background-color: #f9f9f9;
     border-radius: 10px;
     cursor: pointer;
+}
+
+.item-1>button {
+    margin-top: 26px;
+}
+.item-2>button {
+    margin-top: 26px;
+}
+.item-3>button {
+    margin-top: 17px;
+}
+.item-4>button {
+    margin-top: 17px;
 }
 .isAnotherSpecialItem:hover {
     border: 2px solid #fbca73;
@@ -34,7 +49,7 @@
 
 .item-3 {
     margin-top: 250px;
-    margin-left: -755px;
+    margin-left: -944px;
     box-shadow: inset 0px 5px 10px 0 rgba(121, 121, 121, 0.08);
     background-color: #f9f9f9;
     border-radius: 10px;
@@ -69,7 +84,7 @@
     border: 2px solid #fbca73;
 }
 .item-5>.edubtn {
-    margin-top: 32px;
+    margin-top: 17px;
 }
 
 .eduwritebtn {
@@ -106,16 +121,16 @@
 }
 
 .edubtn {
-    width: 215px;
-    height: 45px;
-    margin-left: -5px;
+    width: 279px;
+    height: 38px;
+    margin-left: -7px;
     background-color: #fbca73;
     border-radius: 4px;
-    margin-top: 25px;
+    margin-top: -1px;
 }
 .edubtn:hover {
     border: 2px solid #f9f9f9;
-    color: #434343;
+    color: #333;
 }
 
 .edubtn>a{

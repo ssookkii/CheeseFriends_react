@@ -55,7 +55,6 @@ export default function EduInfoList() {
     }
 
     function searchBtn(){
-        // if(choice.toString().trim() === "" || search.toString().trim() === "") return;
         getSubList(choice, search, 0);
     }
 
@@ -66,7 +65,20 @@ export default function EduInfoList() {
 
     useEffect(function(){
         getSubList("","", 0);
+        getTotalCount();
     }, []);
+
+    function getTotalCount() {
+        axios
+          .get("http://localhost:3000/eduInfoListCount")
+          .then(function (resp) {
+            setTotalCnt(resp.data.count);
+          })
+          .catch(function (err) {
+            alert(err);
+          });
+      }
+    
 
     
     return (
@@ -85,7 +97,7 @@ export default function EduInfoList() {
             </div>  
 
         {/* 목록 */}
-        <div style={{display:"block", width:"1000px", marginTop:"25px", marginLeft:"100px"}}>
+        <div style={{display:"block", width:"1000px", marginTop:"25px", marginLeft:"40px"}}>
             <div style={{display:"flex", marginTop:"-140px", justifyContent:"flex-end"}}>
                     
                     <select vlaue={choice} onChange={(e)=>setChoice(e.target.value)}
@@ -110,7 +122,7 @@ export default function EduInfoList() {
                     return (
 
                     <div key={i}  className={itemClassName}
-                        style={{display:"inline-block", padding:"6px", border:"1px solid lightgray", textAlign:"left", width:"218px", height:"150px"}}>
+                        style={{display:"inline-block", padding:"6px", border:"2px solid lightgray", textAlign:"left", width:"280px", height:"150px"}}>
                         <p style={{fontWeight:"bold", marginTop:"8px"}}>{list.title}</p>
                         <p style={{marginTop:"8px"}}>{list.subject}</p>
                         <p style={{marginTop:"8px"}}> {list.regdate}</p>

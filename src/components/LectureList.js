@@ -90,7 +90,7 @@ export default function LectureList() {
 
         <div className="lecmain">
             <div style={{marginTop:"-627PX"}}>
-                <h2 style={{marginLeft:"21px", color:"#434343", marginTop:"-63px", fontSize:"2em"}}>인강학습실</h2>
+                <h2 style={{marginLeft:"21px", color:"#434343", marginTop:"-63px", fontSize:"2em", fontWeight:"bold"}}>인강학습실</h2>
                 <div>
                      {userAuth === 'teacher' && ( 
                         <button type="button" className="lecBtn" onClick={writelink}>

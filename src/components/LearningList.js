@@ -86,7 +86,7 @@ export default function LearningList() {
         <div className="learninglist">
             <div style={{marginTop:"-583px"}}>
                 <h2 className="learnh2">학습자료실</h2>
-                <div style={{width:"250px"}}>
+                <div style={{width:"250px", marginTop:"10px", marginLeft:"10px"}}>
                     {userAuth === 'teacher' && (
                         <button type="button" className="learnBtn"  onClick={writelink}>
                             글쓰기

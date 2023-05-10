@@ -34,8 +34,8 @@
 .lecontent {
     border: 1px solid lightgray;
     margin-top: 10px;
-    margin-left: 91px;
-    width: 1000px;
+    margin-left: 8px;
+    width: 900px;
     height: 314px;
 }
 
@@ -64,8 +64,12 @@
 .btnwrapper {
     text-align: right;
     margin-top: 26px;
-    margin-right: 115px;
-
+    margin-right: -400px;
+}
+.btnwrappera{
+    text-align: right;
+    margin-top: 26px;
+    margin-right: -510px;
 }
 .inputfile {
     margin-top: 5px;

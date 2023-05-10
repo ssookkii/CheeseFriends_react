@@ -10,11 +10,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 
 export default function QnaLearningList() {
-
     const [qnalist, setQnaList] = useState([]);
-
     const movePage = useNavigate();
-    
     const loginInfo = JSON.parse(localStorage.getItem("login"));
     const userAuth = loginInfo?.auth;
 
@@ -22,24 +19,20 @@ export default function QnaLearningList() {
         movePage('/cheesefriends/learning/QnaLearningWrite');
     }
 
-
     function getQnaList() {
         axios.get("http://localhost:3000/qnalearninglist")
         .then(function(resp){
             setQnaList(resp.data);
             console.log(resp.data);
-            
         })
         .catch(function(err){
             // alert(err);
         })
-
     }
 
     useEffect(function(){
         getQnaList(0);
     },[]);
-    
  
     const [subList, setSubList] = useState([]);
     const [choice, setChoice] = useState('');
@@ -52,11 +45,8 @@ export default function QnaLearningList() {
     function getSubList(choice, search, page){
         axios.get("http://localhost:3000/qnalearninglist", { params:{"choice":choice, "search":search, "pageNumber":page } })
         .then(function(resp) {
-          //  console.log(resp.data);
-          //  alert(JSON.stringify(resp.data[8]));
-
-          setSubList(resp.data.list);
-          setTotalCnt(resp.data.cnt);
+            setSubList(resp.data.list);
+            setTotalCnt(resp.data.cnt);
         })
         .catch(function(err){
             alert(err);
@@ -64,7 +54,6 @@ export default function QnaLearningList() {
     }
 
     function searchBtn(){
-        // if(choice.toString().trim() === "" || search.toString().trim() === "") return;
         getSubList(choice, search, 0);
     }
 
@@ -76,6 +65,44 @@ export default function QnaLearningList() {
     useEffect(function(){
         getSubList("", "", 0);
     }, []);
+
+    const [depth, setDepth] = useState(0);
+    const [subject, setSubject] = useState('');
+
+    function handleClick() {
+        setDepth(depth + 1);
+    }
+
+    function getArrow() {           
+        let nbsp = "&nbsp;&nbsp;&nbsp;&nbsp;";
+        
+        let ts = "";
+        for(var i = 0;i < depth; i++){
+            ts += nbsp;
+        }
+    
+        // String -> Html
+        let space = <span dangerouslySetInnerHTML={{ __html: ts }}></span>    
+        if(subject !== 0){
+            return "";
+        }
+        return (<>{space}<img src={arrow} alt="arrow.png" width='20px' height='20px'/>&nbsp;</>);
+    }
+
+    function TableRow(props){
+        return (
+            <tr > 
+                <td>{props.cnt}</td>
+                <td>{props.bbs.subject}</td>
+                <td style={{ textAlign:"left" }} onClick={handleClick}>
+                    {getArrow(props.bbs.depth)}  
+                        <Link to={`/cheesefriends/learning/QnaLearningDetail/${props.bbs.seq}`}>{props.bbs.title}</Link>
+                </td>
+                <td>{props.bbs.regdate}</td>
+                <td>{props.bbs.writer}</td>
+            </tr>
+        );
+    }
 
     return(
 
@@ -121,7 +148,7 @@ export default function QnaLearningList() {
             {
                 subList.map(function(list, i){
                     return (
-                        <TableRow bbs={list} cnt={i + 1} key={i} />
+                        <TableRow bbs={list} cnt={i + 1} key={i} style={{backgroundColor:"yellow"}} />
                     )
                 })
             }
@@ -146,49 +173,6 @@ export default function QnaLearningList() {
     )
 }
 
-function TableRow(props){
-    return (
-        <tr>
-            <td>{props.cnt}</td>
-            <td>{props.bbs.subject}</td>
-            <td style={{ textAlign:"left" }}>{getArrow(props.depth)}
-            <Link to={`/cheesefriends/learning/QnaLearningDetail/${props.bbs.seq}`}>{props.bbs.title}</Link>
-            </td>
-            <td>{props.bbs.regdate}</td>
-            <td>{props.bbs.writer}</td>
-        </tr>
-    );
-}
 
-// // 제목에 대한 링크 및 삭제된 글의 처리
-// function BbsTitleProc(props){
-//     if(props.bbs.del === 0){
-//         return (
-//             <td style={{ textAlign:"left" }}>
-//                 {getArrow(props.bbs.depth)}                
-//                 <Link to={`/learning/QnALearningList/${props.bbs.seq}`}>{props.bbs.title}</Link>                
-//             </td>
-//         );
-//     }else{
-//         return (
-//             <td>*** 이 글은 작성자에 의해서 삭제되었습니다 ***</td>
-//         );
-//     }
-// }
 
-function getArrow( depth ) {
-	let nbsp = "&nbsp;&nbsp;&nbsp;&nbsp;";
-	
-	let ts = "";
-	for(var i = 0;i < depth; i++){
-		ts += nbsp;
-	}
-
-    // String -> Html
-    let space = <span dangerouslySetInnerHTML={{ __html: ts }}></span>    
-    if(depth === 0){
-        return "";
-    }
-	return (<>{space}<img src={arrow} alt="arrow.png" width='20px' height='20px'/>&nbsp;</>);
-}
 

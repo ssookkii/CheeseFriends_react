@@ -46,16 +46,16 @@ function EduInfoDetail(){
 
 
     const download = async () => {
-        let filename = "다운로드.jpg";
+        let filename = "다운로드-1.png";
     
-        const url = "http://localhost:3000/fileDownload?filename=" + filename;
+        const url = `http://localhost:3000/fileDownload?filename=${encodeURIComponent(filename)}`;
     
         // react에서 window를 붙여줘야 한다
-        window.location.href = url;
-
-        setImageUrl(url);
-    }
-
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = filename;
+        link.click();
+      }
 
 
     return (
@@ -81,10 +81,10 @@ function EduInfoDetail(){
                 <td style={{ textAlign:"left" }}>{bbs.regdate}</td>
             </tr>
             <tr style={{height:"32px"}}>	
-                <td colSpan="2" style={{ backgroundColor:'white' }}>
+                <td colSpan="2" style={{ backgroundColor:'white', wordBreak:"break-all", width:"1000px" }}>
                 <button onClick={download} style={{backgroundColor:'white', paddingTop:"10px", width:"133px", fontWeight:"bold", color:"#fbca73"}}><FontAwesomeIcon icon={faCheese} color="#fbca73" /> 첨부파일</button>
                     {imageUrl && <img src={imageUrl} alt="미리보기" style={{ maxWidth: "300px" }} />}
-                    <pre id="content" style={{ fontSize:'20px', fontFamily:'고딕, arial', backgroundColor:'white', textAlign:"left" }}>{bbs.content}</pre>
+                    <pre id="content" style={{ fontSize:'20px', fontFamily:'고딕, arial', backgroundColor:'white', textAlign:"left", width:"1000px", whiteSpace:"pre-wrap"}}>{bbs.content}</pre>
                 </td>
             </tr>
             </div>
