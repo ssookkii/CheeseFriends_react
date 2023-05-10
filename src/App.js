@@ -85,6 +85,10 @@ import ServiceList from './components/ServiceList';
 import ServiceWrite from './components/ServiceWrite';
 import ServiceDetail from './components/ServiceDetail';
 import ServiceAnswer from './components/ServiceAnswer';
+import Socialregiselect from './login/socialregiselect';
+import Kakao from './login/kakao';
+import NaverLogin from './login/naverlogin';
+import Testlogin from './login/testlogin';
 
 
 function App() {
@@ -94,12 +98,16 @@ function App() {
       <Routes>
 
         <Route path="/" element={<Login />} />
+        <Route path="/socialregiselect" element={<Socialregiselect />} />
+        <Route path="/kakaologin" element={<Kakao/>} />
+        <Route path="/naverlogin" element={<NaverLogin/>} />
         <Route path="/regiselect" element={<Regiselect />} />
         <Route path="/regi" element={<Regi />} />
         <Route path="/regiparents" element={<RegiParents />} />
         <Route path="/regiteacher" element={<Regiteacher />} />
         <Route path="/idsearch" element={<Idsearch />} />
         <Route path="/passwordsearch" element={<Passwordsearch />} />
+        <Route path="/testlogin" element={<Testlogin />} />
 
         <Route path="/cheesefriends/*" element={<Common />}>
           <Route path="home" element={<Home />} />
