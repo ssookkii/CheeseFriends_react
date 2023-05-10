@@ -9,7 +9,7 @@ import "./css/login.css";
 import "./css/login2.css";
 
 import logo from './img/cheesefriendslogo.png';
-
+import camera from './img/cameraimg.png';
 
 function Regi() {
     
@@ -238,6 +238,7 @@ function Regi() {
 
 
     // 추가된 과목 리스트 관리
+    const [subadd, setSubadd] = useState(false);
     const [count, setCount] = useState(1);
     const [sub_codecheck, setSub_codecheck] = useState([]);
 
@@ -263,6 +264,10 @@ function Regi() {
                 const table = document.getElementById("subplus2");
                 // const tbody = document.createElement("tbody");
                 const subplus = document.createElement("tr");
+
+                if(subadd === false){
+                    table.removeChild(table.lastChild);
+                }
 
                 // 체크박스
                 let td = document.createElement("td");
@@ -306,6 +311,8 @@ function Regi() {
 
                 // tbody.appendChild(subplus);
                 table.appendChild(subplus);
+
+                setSubadd(true);
             })
             .catch(function (err) {
                 alert('err')
@@ -467,6 +474,7 @@ function Regi() {
     const [phone_publiccheck, setPhone_publiccheck] = useState("");
 
     function sendphonecheck() {
+        console.log("sendphonecheck 작동");
         if (phone_publicc.toString().trim() !== phone_public.toString().trim()) {
             setPhone_publiccheck("인증 번호를 확인해주세요");
         } else {
@@ -482,6 +490,7 @@ function Regi() {
 
     // 사진 캡쳐 api
 
+    const [photostart, setPhotostart] = useState(false);
     const videoRef = useRef(null);
     const [imageSrc, setImageSrc] = useState(null);
     const [captured, setCaptured] = useState(false);
@@ -492,6 +501,8 @@ function Regi() {
         videoRef.current.srcObject = stream;
         setMediaStream(stream);
         setCaptured(false);
+        console.log("카메라작동")
+        setPhotostart(true);
     };
 
     const captureImage = () => {
@@ -709,11 +720,11 @@ function Regi() {
     });
 
 
+
     return (
         
         <div>
-            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous" />
-    
+            
         {/* // Login css 세트 1 */}
         <div style={{textAlign:"center", alignItems:"center"}}>
     
@@ -741,8 +752,9 @@ function Regi() {
                         <h5 class="regitag">성별</h5>
                         <div>
                             <select class="regiinput" onChange={genderChange}>
-                                <option value="man">남자</option>
-                                <option value="woman">여자</option>
+                                <option value="">성별을 선택해주세요</option>
+                                <option value="man" selected={gender === 'man'} >남자</option>
+                                <option value="woman" selected={gender === 'woman'}>여자</option>
                             </select>
                         </div>
                         <br/>
@@ -771,18 +783,26 @@ function Regi() {
                         <br/>
                         
                         {/* 과목 선택 */}
-                        <table border="1" className="table table-hover"  >
-                            <colgroup>
-                                <col width="50" /><col width="50" /><col width="200" /><col width="100" />
-                            </colgroup>
-                            <thead>
-                                <tr>
-                                    <th>선택</th><th>번호</th><th>교육기관</th><th>과목</th>
-                                </tr>
-                            </thead>
-                            <tbody className="subplus2" id="subplus2">
-                            </tbody>
-                        </table>
+                        {/* {sub_codecheck.length > 0
+                        ?<div> */}
+                            <table border="1" className="table table-hover"  >
+                                <colgroup>
+                                    <col width="50" /><col width="50" /><col width="200" /><col width="100" />
+                                </colgroup>
+                                <thead>
+                                    <tr>
+                                        <th>선택</th><th>번호</th><th>교육기관</th><th>과목</th>
+                                    </tr>
+                                </thead>
+                                <tbody className="subplus2" id="subplus2">
+                                    <tr>
+                                        <td colSpan="4">과목을 추가해주세요</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        {/* </div>
+                        :<div></div>} */}
+                        
                         <br/>
                         
                         {/* 아이디 입력칸 */}
@@ -827,17 +847,120 @@ function Regi() {
                         {/* 비밀번호 확인 입력칸 */}
                         <h5 class="regitag">이메일 주소</h5>
                         {emaila === true
-                            ? <input style={{ width: "230px" }} value={email} onChange={(e) => setEmail(e.target.value)} placeholder="이메일 주소를 입력해주세요" />
-                            : <input style={{ borderColor: "red", width: "230px" }} value={email} onChange={(e) => setEmail(e.target.value)} placeholder="이메일 주소를 입력해주세요" />}
-                    
-                        {emailc === "형식에 맞는 이메일입니다"
+                            ? <input class="regiinput"  value={email} onChange={(e) => setEmail(e.target.value)} placeholder="이메일 주소를 입력해주세요" />
+                            : <input class="regiinput" style={{ borderColor: "red"}} value={email} onChange={(e) => setEmail(e.target.value)} placeholder="이메일 주소를 입력해주세요" />}
+                        {email.length>0
+                        ?<div> 
+                            {emailc === "형식에 맞는 이메일입니다"
                             ? <div style={{ fontSize: "5px", color: 'blue' }}>{emailc}</div>
-                            : <div style={{ fontSize: "5px", color: 'red' }}>{emailc}</div>}
+                            : <div style={{ fontSize: "5px", color: 'red' }}>{emailc}</div>}</div>
+                        :<div></div>}
+                        <br/>
+                        
+                        {/* 생년월일 입력칸 */}
+                        <h5 class="regitag">생년월일</h5>
+                        {birtha === true
+                            ? <input class="regiinput" value={birth} onChange={(e) => setBirth(e.target.value)} placeholder="주민번호 앞자리 6자로 입력해주세요" />
+                            : <input class="regiinput" style={{ borderColor: "red" }} value={birth} onChange={(e) => setBirth(e.target.value)} placeholder="주민번호 앞자리 6자로 입력해주세요" />}
+                        {birth.length>0
+                        ?<div> 
+                             {birthc === "올바르게 입력되었습니다"
+                            ? <div style={{ fontSize: "5px", color: 'blue' }}>{birthc}</div>
+                            : <div style={{ fontSize: "5px", color: 'red' }}>{birthc}</div>}</div>
+                        :<div></div>}
+                        <br/>
+                       
+                        {/* 주소 입력칸 */}
+                        <h5 class="regitag">주소</h5>
+                        {addressa === true
+                            ? <input class="regiinput" placeholder="주소검색을 클릭해주세요" type="text" required={true}  value={enroll_company.address} />
+                            : <input class="regiinput" style={{ borderColor: "red"}}  placeholder="주소검색을 클릭해주세요" type="text" required={true} value={enroll_company.address} />}
+                        <br/>
+                        <div>
+                            <React.Fragment>
+                                <button class="regibtn" onClick={openModal}>주소검색</button>
+                                <Modal open={modalOpen} close={closeModal} header="주소검색 ">
+                                    <main>
+                                        <br />
+                                        <Post onClose={setPopup} setModalClose={setModalOpen} company={enroll_company} setcompany={setEnroll_company}></Post>
+                                    </main>
+
+                                </Modal>
+                            </React.Fragment>
+                        </div>
+                        <br/><br/>
+                        
+                        {/* 사진 찍는칸 */}
+                        <h5 class="regitag">사진</h5>
+                        <div>
+                            {photoa === true
+                                ? <button class="photobtn" onClick={startCapture}>카메라 열기</button>
+                                : <button class="photobtn" style={{ borderColor: 'red' }} onClick={startCapture}>카메라 열기</button>}
+                            &nbsp;&nbsp;
+                            <button class="photobtn" onClick={captureImage} disabled={!mediaStream}>
+                                사진 찍기
+                            </button>
+                            <div style={{ display: captured ? 'none' : 'block' }}>
+                                <video ref={videoRef} autoPlay width={300} height={260} />
+                            </div>
+                            {captured && (
+                                <div style={{ display: captured ? 'block' : 'none' }}>
+                                    <img src={URL.createObjectURL(imageSrc)} alt="captured image" width={300} height={220} />
+                                </div>
+                            )}
+                        </div>
+                        <br/>
+                     
+                        {/* 휴대폰 번호 입력칸 */}
+                        <h5 class="regitag">번호</h5>
+                        {phonea === true
+                            ? <input class="regiinput" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="휴대폰 번호를 입력해주세요" />
+                            : <input class="regiinput" style={{ borderColor: "red" }} value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="휴대폰 번호를 입력해주세요" />}
+                    
+                        {phone.length > 0
+                        ?<div> 
+                             {phonec === "올바르게 입력되었습니다"
+                                ?<div style={{ fontSize: "5px", color: 'blue' }}>{phonec}</div>
+                                :<div style={{ fontSize: "5px", color: 'red' }}>{phonec}</div>}
+                         </div>
+                        :<div></div>}
+                        <br/>
+                        {phonec === "올바르게 입력되었습니다"
+                        ?<button class="regibtn" onClick={sendPhone}>인증번호 발송</button>
+                        :<button class="regibtnfalse" disabled="false" onClick={sendPhone}>인증번호 발송</button>}
+                        <br/><br/>
+                        
+                        {/* 휴대폰 인증 번호 입력칸 */}
+                        <h5 class="regitag">인증번호</h5>
+                        {phone_publica === true
+                            ? <input class="regiinput" value={phone_public} onChange={(e) => setPhone_public(e.target.value)} placeholder="인증번호를 입력해주세요" />
+                            : <input class="regiinput" style={{ borderColor: "red"}} value={phone_public} onChange={(e) => setPhone_public(e.target.value)} placeholder="인증번호를 입력해주세요" />}
+                        
+                        {phone_publiccheck === "인증 완료되었습니다"
+                            ? <div style={{ fontSize: "5px", color: 'blue' }}>{phone_publiccheck}</div>
+                            : <div style={{ fontSize: "5px", color: 'red' }}>{phone_publiccheck}</div>}
+                        <br/>
+                        {phone_publicch === true
+                            ? <div><button class="regibtn" onClick={sendphonecheck}>인증하기</button></div>
+                            : <div><button class="regibtn" disabled="false" onClick={sendphonecheck}>인증하기</button></div>}
+                        <br/><br/><br/>
+
+                        <div>
+                            <button class="btn2" onClick={regiselect}>가입유형선택</button>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <button class="btn2" onClick={account}>회원가입</button>
+                        </div>
+                       
+                      
+                     
+                    
                       
                     </div>
                 </div>
         </div>
-     
+
+            {/* <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+            <br/><br/><br/><br/><br/><br/>
             <h3>회원가입</h3>
 
             <table border="1" align="center">
@@ -925,7 +1048,7 @@ function Regi() {
                                 ? <div style={{ fontSize: "5px", color: 'blue' }}>{idc}</div>
                                 : <div style={{ fontSize: "5px", color: 'red' }}>{idc}</div>}
 
-                            {/* <button onClick={idcheck}>아이디 체크</button> */}
+                            
                         </td>
                     </tr>
                     <tr>
@@ -1005,7 +1128,6 @@ function Regi() {
                     <tr>
                         <td align="left">사진</td>
                         <div>
-                            {/* style={{ backgroundColor:'red' }} */}
                             {photoa === true
                                 ? <button onClick={startCapture}>카메라 열기</button>
                                 : <button style={{ borderColor: 'red' }} onClick={startCapture}>카메라 열기</button>}
@@ -1066,7 +1188,7 @@ function Regi() {
             <br />
             <button onClick={regiselect}>가입유형선택</button>
             &nbsp;
-            <button onClick={account}>회원가입</button>
+            <button onClick={account}>회원가입</button> */}
         </div>
     )
 }
