@@ -80,6 +80,18 @@ export default function LearningList() {
         getSubList("","", 0);
     }, []);
 
+    // 작은 목록에 대한 행 개수 설정
+        const targetRowCount = 10; // 목표 행 개수
+        const emptyRow = {}; // 빈 행 데이터 객체
+
+    // 작은 목록일 경우 빈 행 추가
+        if (subList.length < targetRowCount) {
+        const emptyRowCount = targetRowCount - subList.length;
+        for (let i = 0; i < emptyRowCount; i++) {
+          subList.push(emptyRow);
+        }
+      }
+
 
     return(
 
@@ -96,12 +108,12 @@ export default function LearningList() {
                         <button type="button" className="taskBtn"  onClick={tasklink}>
                             과제제출하기
                         </button>
-                    {/* )}
-                    {userAuth === 'student' && ( */}
+                     {/* )} */}
+                    {/* {userAuth === 'student' && (  */}
                         <button type="button" className="qnabtn"  onClick={qnalink}>
                             수업질문하기
                         </button>
-                    {/* )}  */}
+                     {/* )}  */}
                 </div>
             </div>
 
@@ -120,34 +132,41 @@ export default function LearningList() {
             <input value={search} onChange={(e)=>setSearch(e.target.value)} style={{marginTop:"14px", height:"31px"}} placeholder="검색어를 입력하세요"/>
             <button onClick={searchBtn} style={{marginTop:"14px"}} className='lecsearchbtn'>검색</button>
         </div>
-        <table className="lectable" style={{marginTop:"28px"}}>
-            <thead>
-                <tr style={{backgroundColor:"#FFEBB4", height:"35px"}}>
-                    <th scope="col" style={{fontWeight:"bold", color:"#434343"}}>번호</th>
-                    <th scope="col" style={{fontWeight:"bold", color:"#434343"}}>과목</th>
-                    <th scope="col" style={{fontWeight:"bold", color:"#434343"}}>제목</th>
-                    <th scope="col" style={{fontWeight:"bold", color:"#434343"}}>작성일</th>
-                    <th scope="col" style={{fontWeight:"bold", color:"#434343"}}>작성자</th>
-                </tr>
-            </thead>
-            <tbody className="table-group-divider">
-            {
-                subList.map(function(list, i){
-                    return (
-                        <tr key={i}>
-                            <td>{list.seq}</td>
-                            <td>{list.subject}</td>
-                            <td>
-                                <Link style={{textDecoration:"none", fontWeight:"bold", color:"#fac463"}} to={`/cheesefriends/learning/LearningDetail/${list.seq}`}>{list.title}</Link>
-                            </td>
-                            <td>{list.regdate}</td>
-                            <td>{list.writer}</td>
-                        </tr>
-                    )
-                })
-            }
-            </tbody>
-        </table>
+        <div>
+        <table className="lectable" style={{ marginTop: "28px" }}>
+      <thead>
+        <tr style={{ backgroundColor: "#FFEBB4", height: "35px" }}>
+          <th scope="col" style={{ fontWeight: "bold", color: "#434343" }}>번호</th>
+          <th scope="col" style={{ fontWeight: "bold", color: "#434343" }}>과목</th>
+          <th scope="col" style={{ fontWeight: "bold", color: "#434343" }}>제목</th>
+          <th scope="col" style={{ fontWeight: "bold", color: "#434343" }}>작성일</th>
+          <th scope="col" style={{ fontWeight: "bold", color: "#434343" }}>작성자</th>
+        </tr>
+      </thead>
+      <tbody>
+        {subList.map((list, i) => (
+          <tr key={i} className='empty-row'>
+            <td>{list.seq}</td>
+            <td>{list.subject}</td>
+            <td>
+              <Link
+                style={{
+                  textDecoration: "none",
+                  fontWeight: "bold",
+                  color: "#fac463",
+                }}
+                to={`/cheesefriends/learning/LearningDetail/${list.seq}`}
+              >
+                {list.title}
+              </Link>
+            </td>
+            <td>{list.regdate}</td>
+            <td>{list.writer}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+        </div>
         <br/>
         <Pagination
             activePage={page}

@@ -13,14 +13,16 @@ export default function TaskList() {
     const movePage = useNavigate();
 
     const loginInfo = JSON.parse(localStorage.getItem("login"));
-    const userId = loginInfo?.id;
-    const userAuth = loginInfo?.auth;
+    const userId = loginInfo.id;
+    const userAuth = loginInfo.auth;
 
     function writelink() {
         movePage('/cheesefriends/learning/TaskWrite');
     }
 
-    
+    function movelearn(){
+        movePage('/cheesefriends/learning');
+    }    
     function getTaskList() {
         axios.get("http://localhost:3000/tasklist")
         .then(function(resp){
@@ -81,6 +83,7 @@ export default function TaskList() {
             <div style={{marginTop:"-627px"}}>
                 <h2 className="learnh2">과제제출</h2>
                 <div>
+                <button type="button" className="learnBtn" onClick={movelearn}>◀ 목록으로</button>
                     {/* {userAuth === 'student' && ( */}
                         <button type="button" className="learnBtn"  onClick={writelink}>
                             글쓰기

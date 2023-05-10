@@ -70,7 +70,7 @@ export default function EduInfoList() {
 
     function getTotalCount() {
         axios
-          .get("http://localhost:3000/eduInfoListCount")
+          .get("http://localhost:3000/eduInfoList")
           .then(function (resp) {
             setTotalCnt(resp.data.count);
           })
