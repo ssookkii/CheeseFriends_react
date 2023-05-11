@@ -127,14 +127,16 @@ function TeacherManage(){
     return(
         <div>
             <div className={manage.topContent}>
-                <div className={manage.search}>       
-                    <select vlaue={choice} onChange={(e)=>setChoice(e.target.value)}>
-                        <option value="">검색</option>
-                        <option value="title">제목</option>
-                        <option value="content">내용</option>
-                    </select>
+                <div className={manage.search}>    
+                    <div>   
+                        <select vlaue={choice} onChange={(e)=>setChoice(e.target.value)}>
+                            <option value="">검색</option>
+                            <option value="title">제목</option>
+                            <option value="content">내용</option>
+                        </select>
+                        <button onClick={searchBtn} className={manage.searchBtn}>검색</button>
+                    </div>
                     <input value={search} onChange={(e)=>setSearch(e.target.value)} onKeyPress={(e) => activeEnter(e)} placeholder="검색어를 입력하세요"/>
-                    <button onClick={searchBtn} className={manage.searchBtn}>검색</button>
                 </div>
                 <div className={manage.btnWrap}>
                     <button className={`${manage.eduAdd} ${manage.del}`} onClick={deleteBtn}>쪽지삭제</button>

@@ -84,15 +84,17 @@ function EduManage(){
     return(
         <div className='wrap'>
             <div className={manage.topContent}>
-                <div className={manage.search}>      
-                    <select value={choice} onChange={(e)=>setChoice(e.target.value)}>
-                        <option value="">검색</option>
-                        <option value="eduCode">학원코드</option>
-                        <option value="eduName">학원이름</option>
-                        <option value="eduAddress">학원주소</option>
-                    </select>
+                <div className={manage.search}>
+                    <div>
+                        <select value={choice} onChange={(e)=>setChoice(e.target.value)}>
+                            <option value="">검색</option>
+                            <option value="eduCode">학원코드</option>
+                            <option value="eduName">학원이름</option>
+                            <option value="eduAddress">학원주소</option>
+                        </select>
+                        <button onClick={searchBtn} className={manage.searchBtn}>검색</button>
+                    </div> 
                     <input value={search} onChange={(e)=>setSearch(e.target.value)} onKeyPress={(e) => activeEnter(e)} placeholder="검색어를 입력하세요"/>
-                    <button onClick={searchBtn} className={manage.searchBtn}>검색</button>
                 </div>
                 <Link to="/adminpage/eduAdd" className={manage.eduAdd}>기관등록</Link>
                 
