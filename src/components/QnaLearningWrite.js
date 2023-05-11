@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import './asset/css/LectureWrite.css';
 
@@ -7,7 +7,6 @@ import axios from "axios";
 
 export default function QnaLearningWrite() {
 
-    const [subject, setSubject] = useState('');
     const [title, setTitle] = useState('');
     const [writer, setWriter] = useState('');
     const [content, setContent] = useState('');
@@ -15,20 +14,50 @@ export default function QnaLearningWrite() {
     const login = JSON.parse(localStorage.getItem("login"));
     const userName = login.name;
 
+    const [subject, setSubject] = useState(
+        localStorage.getItem("subject")
+    );
+
     const navigate = useNavigate();
    
     const resetBtn = () => {
         navigate('/cheesefriends/learning/QnaLearningList');
     }
 
+    const [userSubjects, setUserSubjects] = useState([]);
+    const [edu_code, setEdu_code] = useState("");
+
+    useEffect (()=>{
+        axios.post("http://localhost:3000/eduselect", null, { params:{ "id":login.id}})
+        .then(function(resp){   
+            console.log(resp.data); 
+
+            setEdu_code(resp.data.educode);
+
+            axios.post("http://localhost:3000/subselect", null, { params:{ "id":login.id, "educode":resp.data.educode}})
+            .then(function(resp){   
+                console.log(resp.data); 
+                setUserSubjects(resp.data);
+            })
+            .catch(function(err){
+                console.log(err);
+                alert('err')
+            })
+            
+        })
+        .catch(function(err){
+            console.log(err);
+            alert('err')
+        })
+
+    },[]);
+
     const SelectBox = () => {
         return (
             <select onChange={changeSelectOptionHandler} value={subject} className='inputsubject'>
-                <option key="kor" value="국어">국어</option>
-                <option key="math" value="수학">수학</option>
-                <option key="eng" value="영어">영어</option>
-                <option key="social" value="사회">사회</option>
-                <option key="sci" value="과학">과학</option>
+                {userSubjects.map((subject)=> (
+                    <option key={subject.subCode} value={subject.subname}>{subject.subname}</option>
+                ))}
             </select>
         );
     };
@@ -36,6 +65,7 @@ export default function QnaLearningWrite() {
     const changeSelectOptionHandler = (e) => {
         setSubject(e.target.value);
     };
+
 
     const onSubmit = (e) => {
         e.preventDefault();

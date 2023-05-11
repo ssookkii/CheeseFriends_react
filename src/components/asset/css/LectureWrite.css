@@ -1,7 +1,7 @@
 .lecwritemain {
     width: 1200px;
     height: 500px;
-    margin: -10px 224px 0 auto;
+    margin: -10px -82px 0 auto;
     align-items: center;
     font-size: 18px;
 }
@@ -17,7 +17,7 @@
     height: 30px;
     border: none;
     border-bottom: 2px solid lightgray;
-    width: 260px;
+    width: 145px;
     margin-top: 8px;
 }
 

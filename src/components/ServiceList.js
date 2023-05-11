@@ -38,10 +38,14 @@ export default function ServiceList() {
 
     const [selectedItem, setSelectedItem] = useState(null);
     const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [answerContent, setAnswerContent] = useState('');
 
-    function handleItemClick(item) {
+    async function handleItemClick(item) {
         setSelectedItem(item);
         setModalIsOpen(true);
+
+        const bbs = await bbsData(item.seq);
+        setAnswerContent(bbs.answer);
     }
 
     function closeModal() {
@@ -57,17 +61,10 @@ export default function ServiceList() {
         }
         return (
           <Modal isOpen={selectedItem !== null} onRequestClose={closeModal} className='modalcss'>
-            <p>{selectedItem.content}</p>
-            <div style={{marginTop:"130px", marginLeft:"420px"}}>
-                 {/* {userAuth === 'admin' && ( */}
-                <button type="button" className='answerbtn'>
-                <Link to={`/cheesefriends/service/ServiceAnswer/${selectedItem.seq}`} style={{textDecoration:"none", fontWeight:"bold", color:"white", fontSize:"1em"}} className='answerbtna'>
-                    1:1문의하기 </Link>
-                </button>
-                {/* )} */}
-            </div>
+                {selectedItem.content && <p>{selectedItem.content}</p>}
+                {answerContent && <p>{answerContent}</p>}
+               
           </Modal>
-
         );
     }
 

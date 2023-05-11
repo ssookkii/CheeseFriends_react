@@ -14,7 +14,6 @@
     font-weight: bold;
     color: #434343;
     margin-left: 33px;
-    margin-top: -28px;
 }
 
 .learnBtn, .taskBtn, .qnabtn {
@@ -55,4 +54,7 @@
     background: white;
     color: #444;
     
+}
+.empty-row {
+    height: 36.5px;
 }

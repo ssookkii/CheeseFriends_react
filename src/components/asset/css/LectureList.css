@@ -125,5 +125,7 @@
     background: white;
     color: #444;
 }
-
+.empty-row {
+    height: 36.5px!important;
+}
 
