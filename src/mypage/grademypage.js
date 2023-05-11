@@ -103,10 +103,10 @@ function Grademypage(){
         console.log("search작동")
 
         if(choice.toString().trim() !== "" && search.toString().trim() !== ""){
-            navigate('/testmain/grademypage/' + choice + "/" + search);
+            navigate('/cheesefriends/testmain/grademypage/' + choice + "/" + search);
         }
         else{
-            navigate('/testmain/grademypage/');
+            navigate('/cheesefriends/testmain/grademypage/');
         }
         // 데이터를 다시 한번 갖고 온다
         setPage(1)
@@ -178,7 +178,7 @@ function Grademypage(){
             <div className={styles.topContent}>
                 {login.auth === 'parents' ?
                 <div className={styles.subject}>
-                    <select value={student} onChange={studentChange} className="studentplus" id="studentplus">
+                    <select value={student} onChange={studentChange} className="studentplus mypageselect" id="studentplus">
                         <option value=''>자녀선택</option>
                     </select>
                 </div>
@@ -187,7 +187,7 @@ function Grademypage(){
                 }
 
                 <div className={styles.search}>      
-                    <select value={choice} onChange={choiceChange}>
+                    <select class="mypageselect" value={choice} onChange={choiceChange}>
                         <option value="">검색</option>
                         <option value="eduname">교육기관</option>
                         <option value="subject">과목</option>

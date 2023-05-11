@@ -118,10 +118,10 @@ function Email(){
         setIscheck(false);
 
         if(choice.toString().trim() !== "" && search.toString().trim() !== ""){
-            navigate('/testmain/email/' + choice + "/" + search);
+            navigate('/cheesefriends/testmain/email/' + choice + "/" + search);
         }
         else{
-            navigate('/testmain/email/');
+            navigate('/cheesefriends/testmain/email/');
         }
         // 데이터를 다시 한번 갖고 온다
         setPage(1)
@@ -219,7 +219,7 @@ function Email(){
                         <Link to="/cheesefriends/testmain/sendemail">쪽지 보내기</Link>
                     </div>
                     <div className={styles.search}>      
-                        <select value={choice} onChange={choiceChange}>
+                        <select class="mypageselect" value={choice} onChange={choiceChange}>
                             <option value="">검색</option>
                             <option value="title">제목</option>
                                     <option value="content">내용</option>
@@ -232,7 +232,7 @@ function Email(){
                 <div className={styles.btnRight}>
                     <button onClick={openModal} className={`${styles.mypageBtn} ${styles.btnRight} ${styles.delBtn}`}>쪽지삭제</button>
                     <Deletemodal open={modalOpen} close={closeModal} yesclose={yescloseModal} header="쪽지삭제">
-                    <div>  
+                    <div class="modaltext">  
                         쪽지를 삭제하시겠습니까?
                     </div>        
                     </Deletemodal>

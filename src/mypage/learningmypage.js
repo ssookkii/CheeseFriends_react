@@ -176,10 +176,10 @@ function Learningmypage(){
         console.log("search작동")
 
         if(choice.toString().trim() !== "" && search.toString().trim() !== ""){
-            navigate('/testmain/learningmypage/' + choice + "/" + search);
+            navigate('/cheesefriends/testmain/learningmypage/' + choice + "/" + search);
         }
         else{
-            navigate('/testmain/learningmypage/');
+            navigate('/cheesefriends/testmain/learningmypage/');
         }
         // 데이터를 다시 한번 갖고 온다
         setPage(1)
@@ -223,8 +223,16 @@ function Learningmypage(){
                 <td>{props.subjectlist.educatorname}</td>
                 {props.subjectlist.state === "approving"
                 ?<td>수강중인 수업이 아닙니다</td>
-                :<td>{props.subjectlist.startdate.substr(0, 11)} ~ {props.subjectlist.enddate.substr(0, 11)}</td>
+                :<td>{props.subjectlist.startdate !== "" && props.subjectlist.startdate !== null
+                    ?<div>{props.subjectlist.startdate.substr(0, 11)}</div>
+                    :<div>{props.subjectlist.startdate}</div>} ~ 
+                    {props.subjectlist.enddate !== "" && props.subjectlist.enddate !== null
+                    ?<div>{props.subjectlist.enddate.substr(0, 11)}</div>
+                    :<div>{props.subjectlist.enddate}</div>}
+                </td>
                 }
+
+                
                 {props.subjectlist.state === "approving"
                 ?<td>수강 승인중</td>
                 :<td>
@@ -321,7 +329,7 @@ function Learningmypage(){
         return(
             <React.Fragment>
                 <button onClick={openModal3} className={`${styles.confirmBtn} ${styles.delBtn}`}>탈퇴 신청 취소하기</button>
-                <Cancelmodal open3={modalOpen3} close3={closeModal3} yesclose3={yescloseModal3} header="탈퇴 신청 취소하기">
+                <Cancelmodal open3={modalOpen3} close3={closeModal3} yesclose3={yescloseModal3} header3="탈퇴 신청 취소하기">
                 <main>  
                     탈퇴신청 취소하기 하시겠습니까?
                 </main>        
@@ -512,7 +520,7 @@ function Learningmypage(){
             <div className={styles.topContent}>
                 {login.auth === 'parents' ?
                 <div className={styles.subject}>
-                    <select value={student} onChange={studentChange} className="studentplus" id="studentplus">
+                    <select value={student} onChange={studentChange} className="studentplus mypageselect" id="studentplus">
                         <option value=''>자녀선택</option>
                     </select>
                 </div>
@@ -521,7 +529,7 @@ function Learningmypage(){
                 }
 
                 <div className={styles.search}>      
-                    <select value={choice} onChange={choiceChange}>
+                    <select class="mypageselect" value={choice} onChange={choiceChange}>
                         <option value="">검색</option>
                         <option value="eduname">교육기관</option>
                         <option value="subject">과목</option>
@@ -535,51 +543,44 @@ function Learningmypage(){
                     <button onClick={openModal2} className={`${styles.mypageBtn}`}>학습 추가 신청</button>
                 </div>
                 <Searchmodal open2={modalOpen2} close2={closeModal2} yesclose2={yescloseModal2} header2="학습 추가 신청">
-                <main>
-                    <table border="1" align="center">
-                        <colgroup>
-                            <col width="100" /><col width="200" /><col width="50" />
-                        </colgroup>
-                        <tr>
-                            <th>코드</th>
-                            <td align="left" colSpan="2">
-                                <div>
-                                    <input style={{ width:"150px"}} value={edu_code} onChange={(e) => setEdu_code(e.target.value)} placeholder="코드를 입력해주세요" ></input>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th align="left">
-                                <div >교육기관명</div>
-                            </th>
-                            <td align="left" colSpan="2">
-                                {edu_name === ""
-                                    ? <div style={{ fontSize: "10px" }}>올바른 코드를 입력해주세요</div>
-                                    : <div style={{ fontSize: "10px", color: 'blue' }}>{edu_name}</div>}
+                <main class="modaltext">
+                    <div class="input-div one">
+                        <div class="i">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="div">
+                            <input type="text" class="input" value={edu_code} onChange={(e)=>setEdu_code(e.target.value)} placeholder="교육기관 코드를 입력해주세요" />
+                        </div>
+                    </div>
+                    {edu_code.length > 0
+                    ? <div>
+                        {edu_name === ""
+                        ? <div style={{ fontSize: "10px" }}>올바른 코드를 입력해주세요</div>
+                        : <div>교육기관명 :&nbsp;&nbsp; <span style={{ color: 'blue' }}>{edu_name}</span></div>}</div>
+                    : <div></div>}
+                    
+                    <br/>
+                    <h5 class="regitag">과목</h5>   
+                    <select className="subplus regiinput" id="subplus" onChange={subcodecheck}>
 
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>과목</th>
-                            <td align="left">
-                                <select className="subplus" id="subplus" onChange={subcodecheck}>
-
-                                </select>&nbsp;&nbsp;
-                                <button onClick={subjectadd}>추가</button>
-                            </td>   
-                        </tr>
-                    </table>
+                    </select>&nbsp;&nbsp;
+                    <br/>
+                    <button class="modalbtn" onClick={subjectadd}>추가</button>
+                    <br/>
                     <br/>
 
-                    <table border="1" className="subplus2" id="subplus2">
+                    <table border="1" class="table table-hover">
                         <colgroup>
                             <col width="50" /><col width="50" /><col width="200" /><col width="100" />
                         </colgroup>
                         <thead>
                             <tr>
-                                <th>선택</th><th>번호</th><th>교육기관</th><th>과목</th>
+                                <th class="text-center">선택</th><th class="text-center">번호</th><th class="text-center">교육기관</th><th class="text-center">과목</th>
                             </tr>
                         </thead>
+                        <tbody className="subplus2" id="subplus2">
+
+                        </tbody>
                     </table>
                     
                 </main>        

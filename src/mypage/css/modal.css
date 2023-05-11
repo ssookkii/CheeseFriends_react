@@ -25,7 +25,7 @@
   }
   .modal > section > header {
     position: relative;
-    padding: 16px 64px 16px 16px;
+    padding: 16px 64px 16px 45px;
     background-color: #f1f1f1;
     font-weight: 700;
   }
@@ -82,4 +82,24 @@
     to {
       opacity: 1;
     }
+  }
+
+  .modalheader{
+    text-align: center;
+  }
+
+  .modaltext{
+    text-align: center;
+  }
+
+  .modalbtn{
+    padding: 6px 12px;
+    color: #fff;
+    background-color: #6c757d;
+    border-radius: 5px;
+    font-size: 13px;
+  }
+
+  .modaltable{
+    text-align: center;
   }
