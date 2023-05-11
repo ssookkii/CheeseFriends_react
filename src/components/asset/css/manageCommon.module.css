@@ -17,6 +17,7 @@
     border-bottom-left-radius: 8px;
     border:none;
     font-size:0.9em;
+    line-height:2.9;
     color:#fff;
     background: url(../../../../public/img/searchMenuW.png) no-repeat 86% 50% #434343;
     background-size:10px;
