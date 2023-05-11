@@ -77,6 +77,18 @@ export default function TaskList() {
         getSubList("", "", 0);
     }, []);
 
+    // 작은 목록에 대한 행 개수 설정
+    const targetRowCount = 10; // 목표 행 개수
+    const emptyRow = {}; // 빈 행 데이터 객체
+
+    // 작은 목록일 경우 빈 행 추가
+    if (subList.length < targetRowCount) {
+    const emptyRowCount = targetRowCount - subList.length;
+    for (let i = 0; i < emptyRowCount; i++) {
+      subList.push(emptyRow);
+    }
+  }
+
     return(
 
         <div className="tasklist">
@@ -122,7 +134,7 @@ export default function TaskList() {
             {
                 subList.map(function(list, i){
                     return (
-                        <tr key={i}>
+                        <tr key={i} className='empty-row'>
                             <td>{list.seq}</td>
                             <td>{list.subject}</td>
                             <td>

@@ -12,6 +12,10 @@ export default function EduInfoList() {
 
     const movePage = useNavigate();
 
+    const loginInfo = JSON.parse(localStorage.getItem("login"));
+    const userId = loginInfo?.id;
+    const userAuth = loginInfo?.auth;
+
     function eduwrite() {
         movePage('/cheesefriends/learning/EduInfoWrite');
     }
@@ -19,8 +23,10 @@ export default function EduInfoList() {
     function getEduInfoList() {
         axios.get("http://localhost:3000/eduInfoList")
         .then(function(resp){
-            setEduInfoList(resp.data);
+            setEduInfoList(resp.data.list);
+
             console.log(resp.data);
+            console.log(resp.data.list);
             
         })
         .catch(function(err){
@@ -38,49 +44,59 @@ export default function EduInfoList() {
     const [search, setSearch] = useState('');
 
         //paging
-        const [page, setPage] = useState(1);
-        const [totalCnt, setTotalCnt] = useState(10);
+    const [page, setPage] = useState(1);
+    const [totalCnt, setTotalCnt] = useState(0);
  
     function getSubList(choice, search, page){
+    //    const pageNumber = parseInt(page, 10);
+
         axios.get("http://localhost:3000/eduInfoList", { params:{"choice":choice, "search":search, "pageNumber":page } })
-        .then(function(resp) {
-            // 데이터가 있을 경우에만 subList 상태를 업데이트
-            if (resp.data.list) {
-                setSubList(resp.data.list);
-            }
+        .then(function(res) {
+            setSubList(res.data.list);
+            setTotalCnt(res.data.cnt);
+            console.log(res.data.list);
+
         })
         .catch(function(err){
             alert(err);
         })
     }
 
-    function searchBtn(){
-        getSubList(choice, search, 0);
-    }
-
-    function pageChange(page) {
-        setPage(page);
-        getSubList(choice, search, page-1);
-    }
-
-    useEffect(function(){
-        getSubList("","", 0);
-        getTotalCount();
-    }, []);
-
     function getTotalCount() {
         axios
           .get("http://localhost:3000/eduInfoList")
-          .then(function (resp) {
-            setTotalCnt(resp.data.count);
+          .then(function (res) {
+            setTotalCnt(res.data.cnt); // 데이터의 총 개수를 할당
+            getSubList(choice, search, page );
           })
           .catch(function (err) {
             alert(err);
           });
       }
-    
+      
+      useEffect(function () {
+        getEduInfoList();
+        getTotalCount(); // 데이터의 총 개수를 가져오는 요청
+      }, []);
 
+
+    function pageChange(page) {
+        const pageNumber = parseInt(page, 10);
+
+        setPage(pageNumber);
+        getSubList(choice, search, pageNumber);
+    }
+
+    function searchBtn(){
+        getSubList(choice, search, 0);
+    }
     
+    function handlePageChange(pageNumber) {
+        // 페이지 번호 변경 이벤트 처리
+        setPage(pageNumber);
+        getSubList(choice, search, pageNumber );
+      }
+      
     return (
 
     <div className='eduinfolist'>
@@ -88,11 +104,11 @@ export default function EduInfoList() {
                 <h2 style={{marginLeft:"34px", color:"#434343", marginTop:"-15px", fontSize:"2em", fontWeight:"bold"}}>교육정보</h2>
                 <p>최신 교육 정보를 제공합니다.</p>
                 <div style={{width:"250px"}}>
-                     {/* {userAuth === 'admin' && (  */}
+                      {userAuth === 'admin' && (  
                         <button type="button" className="learnBtn"  onClick={eduwrite}>
                             글쓰기
                         </button>
-                    {/* )}  */}
+                    )}  
                 </div>
             </div>  
 
@@ -142,7 +158,7 @@ export default function EduInfoList() {
             lastPageText={<FontAwesomeIcon icon={faAnglesRight} />}
             prevPageText={<FontAwesomeIcon icon={faAngleLeft} />}
             nextPageText={<FontAwesomeIcon icon={faAngleRight} />}
-            onChange={pageChange} />
+            onChange={handlePageChange} />
      
        </div>
        </div>

@@ -13,13 +13,17 @@ export default function LectureList() {
     const [lecturelist, setLecturelist] = useState([]);
     const [id, setId] = useState("");
   
-    const login = JSON.parse(localStorage.getItem("login"));
-    const userName = login.name;
-    const userAuth = login.auth;
+    
+    const loginInfo = JSON.parse(localStorage.getItem("login"));
+    const userAuth = loginInfo?.auth;
 
+    // console.log(userId);
+    // console.log(userAuth);
+    const [currentUserId, setCurrentUserId] = useState('');
+    const [subjectCode, setSubjectCode] = useState('');
     const [userSubjects, setUserSubjects] = useState([]);
     const [edu_code, setEdu_code] = useState("");
-
+    const [sub_code, setSub_code] = useState("");
     const [subject, setSubject] = useState(
         localStorage.getItem("subject")
     );
@@ -34,7 +38,7 @@ export default function LectureList() {
         axios.get("http://localhost:3000/lecturelist")
 
         .then(function(resp) {
-            setLecturelist(resp.data);
+            setLecturelist(resp.data);  // 전체 강의 목록
             console.log(resp.data);
             
         })
@@ -43,38 +47,72 @@ export default function LectureList() {
         });
     }
 
-    useEffect(function(){
-        getLecList();
-    },[]);
-
-    useEffect (()=>{
-       
-        axios.post("http://localhost:3000/eduselect", null, { params:{ "id":login.id}})
-        .then(function(resp){   
-            console.log(resp.data); 
-
-            setEdu_code(resp.data.educode);
-
-            axios.post("http://localhost:3000/subselect", null, { params:{ "id":login.id, "educode":resp.data.educode}})
-            .then(function(resp){   
-                console.log(resp.data); 
-                setUserSubjects(resp.data);
-                
-            })
-            .catch(function(err){
+    useEffect(() => {
+        if (userAuth === "teacher") {
+            const userId = loginInfo?.id;
+            if(userId) {
+            setCurrentUserId(userId);
+            console.log(userId);
+            }
+            axios
+              .post("http://localhost:3000/eduselect", null, { params: { id: userId } })
+              .then(function (resp) {
+                console.log(resp.data);
+                setEdu_code(resp.data.educode);
+        
+                axios
+                  .post("http://localhost:3000/subselect", null, {
+                    params: { id: userId, educode: resp.data.educode },
+                  })
+                  .then(function (resp) {
+                    console.log(resp.data);
+                    setUserSubjects(resp.data);
+                  })
+                  .catch(function (err) {
+                    console.log(err);
+                    alert("err");
+                  });
+              })
+              .catch(function (err) {
                 console.log(err);
-                alert('err')
-            })
-            
-        })
-        .catch(function(err){
-            console.log(err);
-            alert('err')
-        })
+                alert("err");
+              })
 
-    },[]);
+        } else if(userAuth === "student") {
+            const userId = loginInfo?.id;
+            if(userId) {
+            setCurrentUserId(userId);
+            console.log(userId);
+        }
+        axios
+              .get("http://localhost:3000/eduname", { params: { "edu_code": edu_code } })
+              .then(function (resp) {
+                console.log(resp.data);
+                setEdu_code(resp.data.educode);
+        
+                axios
+                  .get("http://localhost:3000/subname", {  params: { "sub_code": sub_code } })
+                  .then(function (resp) {
+                    console.log(resp.data);
+                    setUserSubjects(resp.data || []);
+                  })
+                  .catch(function (err) {
+                    console.log(err);
+                    alert("err");
+                  });
+              })
+              .catch(function (err) {
+                console.log(err);
+                alert("err");
+              });
+        }
+        }, [userAuth, edu_code, sub_code]);
 
-    const SelectBox = () => {
+        useEffect(() => {
+            getLecList();
+        }, [userSubjects]);
+    
+        const SelectBox = () => {
         return (
             <select onChange={changeSelectOptionHandler} value={subject} className='inputsubject'>
                 {userSubjects.map((subject)=> (
@@ -89,6 +127,7 @@ export default function LectureList() {
         setSubject(selectedSubject);
     };
 
+    
     useEffect(() => {
         // 기존의 선택된 과목 값을 가져온다
         const selectedSubject = localStorage.getItem("subject");

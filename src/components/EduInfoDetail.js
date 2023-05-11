@@ -65,12 +65,12 @@ function EduInfoDetail(){
             <tbody>
             <div style={{marginLeft:"140px"}}>
             <tr style={{height:"32px"}}>
-                <th  style={{paddingRight:"103px"}} className="tableth">제목</th>
+                <th  style={{paddingRight:"103px", maxWidth:"200px"}} className="tableth">제목</th>
                 <td style={{ textAlign:"left" }}>{bbs.title}</td>
             </tr>
             <tr style={{height:"32px"}}>
                 <th className="tableth">과목</th>
-                <td style={{ textAlign:"left" }}>{bbs.subject}</td>
+                <td style={{ textAlign:"left", minWidth:"800px" }}>{bbs.subject}</td>
             </tr>
             <tr style={{height:"32px"}}>
                 <th className="tableth">작성자</th>

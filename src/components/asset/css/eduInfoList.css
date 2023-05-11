@@ -28,16 +28,16 @@
 }
 
 .item-1>button {
-    margin-top: 26px;
+    margin-top: 30px;
 }
 .item-2>button {
-    margin-top: 26px;
+    margin-top: 30px;
 }
 .item-3>button {
-    margin-top: 17px;
+    margin-top: 30px;
 }
 .item-4>button {
-    margin-top: 17px;
+    margin-top: 30px;
 }
 .isAnotherSpecialItem:hover {
     border: 2px solid #fbca73;
@@ -84,7 +84,7 @@
     border: 2px solid #fbca73;
 }
 .item-5>.edubtn {
-    margin-top: 17px;
+    margin-top: 15px;
 }
 
 .eduwritebtn {
@@ -117,6 +117,7 @@
 .educontentwrapper{
     display: flex;
     margin-top: 50px;
+    margin-left: -47px;
 
 }
 
@@ -142,5 +143,6 @@
     color: lightgray;
 }
 .item-0>.edubtn {
-    margin-top: 25px;
+    margin-top: 30px;
 }
+

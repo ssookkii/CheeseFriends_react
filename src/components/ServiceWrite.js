@@ -11,6 +11,7 @@ export default function ServiceWrite() {
     const [content, setContent] = useState('');
 
     const login = JSON.parse(localStorage.getItem("login"));
+    const id = login.id;
     const userName = login.name;
 
     const navigate = useNavigate();
@@ -73,7 +74,7 @@ export default function ServiceWrite() {
             <>
             작성자
             <input type="text" id='writer' style={{marginLeft:"77px"}} className='inputwriter' name='writer'
-                value={userName} onChange={(e) => setWriter(e.target.value)} />
+                value={id} onChange={(e) => setWriter(e.target.value)} />
             </>
             <br/>
             <textarea id='content' style={{marginLeft:"131px", width:"954px"}} className='lecontent' name='content'
