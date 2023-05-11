@@ -215,7 +215,7 @@ position: relative;
   grid-template-columns: 7% 93%;
   margin-top: 5px;
   margin-left: auto;
-  margin-right: auto;
+  /* margin-right: auto; */
   padding: 5px 0;
   border: 2px solid #d9d9d9;
   width: 300px;
@@ -227,7 +227,7 @@ position: relative;
   grid-template-columns: 7% 93%;
   margin-top: 5px;
   margin-left: auto;
-  margin-right: auto;
+  /* margin-right: auto; */
   padding: 5px 0;
   border: 2px solid #ff6b3f;
   transition: .5s;
@@ -236,8 +236,8 @@ position: relative;
 }
 
 .regitag{
-  margin-bottom: 5px;
-  margin-left: 80px;
+  /* margin-bottom: 5px;
+  margin-left: 80px; */
   text-align: left;
 }
 
@@ -403,4 +403,6 @@ background-position: right;
 .divflex{
   display: flex;
   align-items: center;
+  text-align: center;
+  justify-content: space-between;
 }
