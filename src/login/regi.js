@@ -783,16 +783,20 @@ function Regi() {
                         
                      
                         {/* 과목 select */}
+                        <div class="divflex">
                         <h5 class="regitag">과목</h5>
                         <select className="regiinput subplus" id="subplus" onChange={subcodecheck}>
 
-                        </select>&nbsp;&nbsp;
+                        </select>
+                        </div>
+                        <br/>
                         <button class="regibtn" onClick={subjectadd}>추가</button>
                         <br/>
                         
                         {/* 과목 선택 */}
                         {/* {sub_codecheck.length > 0
                         ?<div> */}
+                        <div class="divflex">
                             <table border="1" className="tabletwo table table-hover"  >
                                 <colgroup>
                                     <col width="50" /><col width="50" /><col width="200" /><col width="100" />
@@ -808,12 +812,14 @@ function Regi() {
                                     </tr>
                                 </tbody>
                             </table>
+                        </div>
                         {/* </div>
                         :<div></div>} */}
                         
                         <br/>
                         
                         {/* 아이디 입력칸 */}
+                        <div class="divflex">
                         <h5 class="regitag">아이디</h5>
                         {ida === true
                                 ? <input class="regiinput"  value={id} onChange={idChange} placeholder="영문자와 숫자로 6자 이상" />
@@ -824,9 +830,11 @@ function Regi() {
                             ? <div style={{ fontSize: "5px", color: 'blue' }}>{idc}</div>
                             : <div style={{ fontSize: "5px", color: 'red' }}>{idc}</div>}</div>
                         :<div></div>}
+                        </div>
                         <br/>
                         
                         {/* 비밀번호 입력칸 */}
+                        <div class="divflex">
                         <h5 class="regitag">비밀번호</h5>
                         {passworda === true
                                 ? <input type="password" class="regiinput" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="숫자,영문자,특수문자 포함 8자 이상" />
@@ -837,9 +845,11 @@ function Regi() {
                             ? <div style={{ fontSize: "5px", color: 'blue' }}>{passwordc}</div>
                             : <div style={{ fontSize: "5px", color: 'red' }}>{passwordc}</div>}</div>
                         :<div></div>}
+                        </div>
                          <br/>
                         
                         {/* 비밀번호 확인 입력칸 */}
+                        <div class="divflex">
                         <h5 class="regitag">비밀번호 확인</h5>
                         {passwordChecka === true
                             ? <input type="password" class="regiinput" value={passwordcheck} onChange={(e) => setPasswordcheck(e.target.value)} placeholder="위와 동일한 비밀번호 입력" />
@@ -850,9 +860,11 @@ function Regi() {
                             ? <div style={{ fontSize: "5px", color: 'blue' }}>{passwordcheckc}</div>
                             : <div style={{ fontSize: "5px", color: 'red' }}>{passwordcheckc}</div>}</div>
                         :<div></div>}
+                        </div>
                          <br/>
 
                         {/* 비밀번호 확인 입력칸 */}
+                        <div class="divflex">
                         <h5 class="regitag">이메일 주소</h5>
                         {emaila === true
                             ? <input class="regiinput"  value={email} onChange={(e) => setEmail(e.target.value)} placeholder="이메일 주소를 입력해주세요" />
@@ -863,9 +875,11 @@ function Regi() {
                             ? <div style={{ fontSize: "5px", color: 'blue' }}>{emailc}</div>
                             : <div style={{ fontSize: "5px", color: 'red' }}>{emailc}</div>}</div>
                         :<div></div>}
+                        </div>
                         <br/>
                         
                         {/* 생년월일 입력칸 */}
+                        <div class="divflex">
                         <h5 class="regitag">생년월일</h5>
                         {birtha === true
                             ? <input class="regiinput" value={birth} onChange={(e) => setBirth(e.target.value)} placeholder="주민번호 앞자리 6자로 입력해주세요" />
@@ -876,13 +890,16 @@ function Regi() {
                             ? <div style={{ fontSize: "5px", color: 'blue' }}>{birthc}</div>
                             : <div style={{ fontSize: "5px", color: 'red' }}>{birthc}</div>}</div>
                         :<div></div>}
+                        </div>
                         <br/>
                        
                         {/* 주소 입력칸 */}
+                        <div class="divflex">
                         <h5 class="regitag">주소</h5>
                         {addressa === true
                             ? <input class="regiinput" placeholder="주소검색을 클릭해주세요" type="text" required={true}  value={enroll_company.address} />
                             : <input class="regiinput" style={{ borderColor: "red"}}  placeholder="주소검색을 클릭해주세요" type="text" required={true} value={enroll_company.address} />}
+                        </div>
                         <br/>
                         <div>
                             <React.Fragment>
@@ -899,7 +916,7 @@ function Regi() {
                         <br/><br/>
                         
                         {/* 사진 찍는칸 */}
-                        <h5 class="regitag">사진</h5>
+                        <div>
                         {photostart === true
                             ?
                             <div>
@@ -927,9 +944,11 @@ function Regi() {
                                 <button class="photobtn" onClick={startCapture}>사진찍기</button>    
                             </div>
                         }
+                        </div>
                         <br/>
                      
                         {/* 휴대폰 번호 입력칸 */}
+                        <div class="divflex">
                         <h5 class="regitag">번호</h5>
                         {phonea === true
                             ? <input class="regiinput" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="휴대폰 번호를 입력해주세요" />
@@ -942,6 +961,8 @@ function Regi() {
                                 :<div style={{ fontSize: "5px", color: 'red' }}>{phonec}</div>}
                          </div>
                         :<div></div>}
+                        </div>
+
                         <br/>
                         {phonec === "올바르게 입력되었습니다"
                         ?<button class="regibtn" onClick={sendPhone}>인증번호 발송</button>
@@ -949,6 +970,7 @@ function Regi() {
                         <br/><br/>
                         
                         {/* 휴대폰 인증 번호 입력칸 */}
+                        <div class="divflex">
                         <h5 class="regitag">인증번호</h5>
                         {phone_publica === true
                             ? <input class="regiinput" value={phone_public} onChange={(e) => setPhone_public(e.target.value)} placeholder="인증번호를 입력해주세요" />
@@ -957,10 +979,12 @@ function Regi() {
                         {phone_publiccheck === "인증 완료되었습니다"
                             ? <div style={{ fontSize: "5px", color: 'blue' }}>{phone_publiccheck}</div>
                             : <div style={{ fontSize: "5px", color: 'red' }}>{phone_publiccheck}</div>}
+                        </div>
                         <br/>
                         {phone_publicch === true
                             ? <div><button class="regibtn" onClick={sendphonecheck}>인증하기</button></div>
                             : <div><button class="regibtn" disabled="false" onClick={sendphonecheck}>인증하기</button></div>}
+                        
                         <br/><br/>
                         
                     </div>
