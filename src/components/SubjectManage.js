@@ -67,6 +67,11 @@ function SubjectManage(){
         }
         
     }
+    const activeEnter = (e) => {
+        if(e.key === "Enter") {
+            searchBtn()
+        }
+    }
 
     useEffect(function(){
         getSubList("", "", 0);
@@ -85,7 +90,7 @@ function SubjectManage(){
                         <option value="subName">과목이름</option>
                         <option value="id">아이디</option>
                     </select>
-                    <input value={search} onChange={(e)=>setSearch(e.target.value)} placeholder="검색어를 입력하세요"/>
+                    <input value={search} onChange={(e)=>setSearch(e.target.value)} onKeyPress={(e) => activeEnter(e)} placeholder="검색어를 입력하세요"/>
                     <button onClick={searchBtn} className={manage.searchBtn}>검색</button>
                 </div>
             </div>

@@ -57,6 +57,14 @@ function EduUpdate(){
     }, [params.eduCode]);
     
     function eduUpdate(){
+        if(place.place_name === null || place.place_name === ""){
+            alert("학원명을 입력해주세요");
+            return;
+        } else if((place.road_address_name === "" && place.address_name === "") || (place.road_address_name === null && place.address_name === null)){
+            alert("학원주소를 입력해주세요");
+            return;
+        }
+
         let eduData = null;
         if(place.road_address_name !== null || place.road_address_name !== "") {
             eduData = {
@@ -97,14 +105,14 @@ function EduUpdate(){
                 <input type="hidden" defaultValue={params.eduCode}/>
                 <div className={styles.InputBox}>
                     <span>교육기관이름</span>
-                    <input type="text" className={styles.Input} defaultValue={place.place_name} onInput={(e) => setPlace(prevState => ({...prevState, place_name: e.target.value}))} placeholder='학원이름'/>
+                    <input type="text" className={styles.Input} defaultValue={place.place_name} value={place.place_name} onInput={(e) => setPlace(prevState => ({...prevState, place_name: e.target.value}))} placeholder='학원이름'/>
                 </div>
                 <div className={styles.InputBox}>
                     <span>교육기관주소</span>
                     {place.road_address_name !== null && place.road_address_name !== "" ? (
-                        <input type="text" className={styles.Input} defaultValue={place.road_address_name} placeholder='학원검색'/>
+                        <input type="text" className={styles.Input} defaultValue={place.road_address_name} value={place.road_address_name} onInput={(e) => setPlace(prevState => ({...prevState, road_address_name: e.target.value}))} placeholder='학원검색'/>
                         ) : (
-                        <input type="text" className={styles.Input} defaultValue={place.address_name} placeholder='학원검색'/>
+                        <input type="text" className={styles.Input} defaultValue={place.address_name} value={place.address_name} onInput={(e) => setPlace(prevState => ({...prevState, address_name: e.target.value}))} placeholder='학원검색'/>
                     )}
                     <button className={styles.btn} onClick={openSearchModalHandler}>검색</button>
                 </div>

@@ -54,7 +54,7 @@ function Home(){
                                 <span></span>
                                 <span>출석체크</span>
                             </Link>
-                        : <Link to="/cheesefriends/testmain/DataAnalysis" className={styles.cbox}  onClick={()=>localStorage.setItem("mypageBtnActive", "DataAnalysisTeacher")}>
+                        : <Link to="/cheesefriends/testmain/DataAnalysis" className={styles.cbox}  onClick={()=>localStorage.setItem("mypageBtnActive", "DataAnalysis")}>
                             <span></span>
                             <span>출결분석</span>
                         </Link>
@@ -73,7 +73,11 @@ function Home(){
                         <Link to="/cheesefriends/testmain/email" className={styles.cbox} onClick={()=>localStorage.setItem("mypageBtnActive", "email")}>
                             <span></span>
                             <span>쪽지</span>
-                            <span>{unreducedMail}</span>
+                            {unreducedMail === 0 ?
+                            <></>
+                            :
+                            <span className={styles.unreduced}>{unreducedMail}</span>
+                            }
                         </Link>
                     </div>
                 </div>

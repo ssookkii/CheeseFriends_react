@@ -122,11 +122,11 @@ function UserMailWrite(){
         }
 
     return (
-        <div className={styles.wrap}>
+        <div className={styles.wrap}> 
             <div className={styles.contentBox}>
                 <span>수신인</span>
                 <div className={styles.cBox}>
-                    <div>
+                    <div className={styles.senderList}>
                     { receiver.map(function(id, i){
                             return(
                             <Fragment>

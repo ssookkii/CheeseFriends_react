@@ -47,7 +47,7 @@ function EduManage(){
 
     function pageChange(page){
         setPage(page);
-        getEduList(choice, search, page-1);
+        getEduList(choice, search, page);
     }
 
     function deleteBtn(eduCode){
@@ -70,6 +70,11 @@ function EduManage(){
         }
         
     }
+    const activeEnter = (e) => {
+        if(e.key === "Enter") {
+            searchBtn()
+        }
+    }
 
     useEffect(function(){
         getEduList("", "", 0);
@@ -86,7 +91,7 @@ function EduManage(){
                         <option value="eduName">학원이름</option>
                         <option value="eduAddress">학원주소</option>
                     </select>
-                    <input value={search} onChange={(e)=>setSearch(e.target.value)} placeholder="검색어를 입력하세요"/>
+                    <input value={search} onChange={(e)=>setSearch(e.target.value)} onKeyPress={(e) => activeEnter(e)} placeholder="검색어를 입력하세요"/>
                     <button onClick={searchBtn} className={manage.searchBtn}>검색</button>
                 </div>
                 <Link to="/adminpage/eduAdd" className={manage.eduAdd}>기관등록</Link>

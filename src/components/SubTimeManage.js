@@ -74,6 +74,19 @@ function SubTimeManage(){
     
     // 과목생성
     function timeTableAdd(){
+        if(insertDateTime.subCode === null || insertDateTime.subCode === ""){
+            alert("과목을 선택해주세요");
+            return;
+        } else if(insertDateTime.subDay === null || insertDateTime.subDay === "") {
+            alert("강의요일을 선택해주세요");
+            return;
+        } else if(insertDateTime.subStartTime === null || insertDateTime.subStartTime === "") {
+            alert("강의시작시간을 선택해주세요");
+            return;
+        } else if(insertDateTime.subEndTime === null || insertDateTime.subEndTime === "") {
+            alert("강의종료시간을 선택해주세요");
+            return;
+        }
         
         axios.post("http://localhost:3000/timeTableAdd", null, {params: insertDateTime})
         .then(function(resp){
