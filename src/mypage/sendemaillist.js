@@ -117,10 +117,10 @@ function Sendemaillist(){
         setIscheck(false);
 
         if(choice.toString().trim() !== "" && search.toString().trim() !== ""){
-            navigate('/testmain/sendemaillist/' + choice + "/" + search);
+            navigate('/cheesefriends/testmain/sendemaillist/' + choice + "/" + search);
         }
         else{
-            navigate('/testmain/sendemaillist/');
+            navigate('/cheesefriends/testmain/sendemaillist/');
         }
         // 데이터를 다시 한번 갖고 온다
         setPage(1)
@@ -218,7 +218,7 @@ function Sendemaillist(){
                         <Link to="/cheesefriends/testmain/sendemail">쪽지 보내기</Link>
                     </div>
                     <div className={styles.search}>      
-                        <select value={choice} onChange={choiceChange}>
+                        <select class="mypageselect" value={choice} onChange={choiceChange}>
                             <option value="">검색</option>
                             <option value="title">제목</option>
                                     <option value="content">내용</option>
@@ -231,7 +231,7 @@ function Sendemaillist(){
                 <div className={styles.btnRight}>
                     <button onClick={openModal} className={`${styles.mypageBtn} ${styles.delBtn}`}>발송취소</button>
                     <Deletemodal open={modalOpen} close={closeModal} yesclose={yescloseModal} header="발송취소">
-                    <main>  
+                    <main class="modaltext">  
                         발송취소 하시겠습니까?
                     </main>        
                     </Deletemodal>

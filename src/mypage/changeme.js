@@ -7,6 +7,8 @@ import axios from "axios";
 import Modal from "../login/modal";
 import Post from "../login/Post";
 
+import camera from '../login/img/cameraimg.png';
+
 
 function Changeme(){
 
@@ -356,7 +358,7 @@ function Changeme(){
         })
 
         alert("정상적으로 변경되었습니다");
-        history("/testmain");   
+        window.location.href = "/cheesefriends/testmain/changeme" ;
     }
         
 
@@ -364,10 +366,13 @@ function Changeme(){
         <div>
             {/* // Login css 세트 1 */}
             <div style={{textAlign:"center", alignItems:"center"}}>
+                <h5 class="changemetitle">나의 정보</h5>
+                <br/><br/><br/>
                     
-                    <div class="container2">
+                    <div class="container">
                     
-                        <div class="login-content2">
+                        <div class="login-content">
+                            <form>
                         
                             {/* 이름 입력칸 */}
                             <h5 class="regitag">이름</h5>
@@ -473,23 +478,33 @@ function Changeme(){
                             
                             {/* 사진 찍는칸 */}
                             <h5 class="regitag">사진</h5>
-                            <div>
-                                {photoa === true
-                                    ? <button class="photobtn" onClick={startCapture}>카메라 열기</button>
-                                    : <button class="photobtn" style={{ borderColor: 'red' }} onClick={startCapture}>카메라 열기</button>}
-                                &nbsp;&nbsp;
-                                <button class="photobtn" onClick={captureImage} disabled={!mediaStream}>
-                                    사진 찍기
-                                </button>
-                                <div style={{ display: captured ? 'none' : 'block' }}>
-                                    <video ref={videoRef} autoPlay width={300} height={260} />
-                                </div>
-                                {captured && (
-                                    <div style={{ display: captured ? 'block' : 'none' }}>
-                                        <img src={URL.createObjectURL(imageSrc)} alt="captured image" width={300} height={220} />
+                            {photostart === true
+                                ?
+                                <div>
+                                    {photoa === true 
+                                    ?  <button class="photobtn" onClick={startCapture}>다시 찍기</button>
+                                    :  <button class="photobtn" style={{ borderColor:'red' }} onClick={startCapture}>카메라 열기</button>}
+                                    &nbsp;&nbsp;
+                                    <button class="photobtn" onClick={captureImage} disabled={!mediaStream}>
+                                        사진 찍기
+                                    </button>
+                                    <div style={{ display: captured ? 'none' : 'block' }}>
+                                        <video ref={videoRef} autoPlay width={300} height={260} />
                                     </div>
-                                )}
-                            </div>
+                                    {captured && (
+                                        <div style={{ display: captured ? 'block' : 'none' }}>
+                                        <img src={URL.createObjectURL(imageSrc)} alt="captured image" width={300} height={220}  />
+                                        </div>
+                                    )}
+                                
+                                </div>
+                                : 
+                                <div>
+                                    <img src={camera} width="100" height="100"/>
+                                    &nbsp;&nbsp;
+                                    <button class="photobtn" onClick={startCapture}>사진찍기</button>    
+                                </div>
+                            }
                             <br/>
                         
                             {/* 휴대폰 번호 입력칸 */}
@@ -525,205 +540,12 @@ function Changeme(){
                                 ? <div><button class="regibtn" onClick={sendphonecheck}>인증하기</button></div>
                                 : <div><button class="regibtn" disabled="false" onClick={sendphonecheck}>인증하기</button></div>}
                             <br/><br/><br/>
-
-                         
-                        
-                        
+                            </form>
                         </div>
                     </div>
+
+               
             </div>
-
-
-            <h1>개인정보변경</h1>
-            <br/><br/>
-            <table border="1" align="center">
-            <colgroup>
-                <col width="120"/><col width="350" /><col width="200" />
-            </colgroup>
-            <tbody>
-            <tr>
-                <td align="left">이름</td> 
-                <td align="left">
-                    {namea === true 
-                        ? <input style={{ width:"230px"}} value={name} onChange={(e)=>setName(e.target.value)} placeholder="이름을 입력해주세요" />
-                        : <input style={{ borderColor:"red", width:"230px"}} value={name} onChange={(e)=>setName(e.target.value)} placeholder="이름을 입력해주세요" />}
-                   
-                </td>
-                <td>
-                    { namec === "입력되었습니다" 
-                        ? <div style={{ fontSize:"5px", color:'blue' }}>{namec}</div>
-                        : <div style={{ fontSize:"5px", color:'red' }}>{namec}</div>}
-                </td>
-            </tr>
-            <tr>
-                <td align="left">성별</td> 
-                <td align="left">
-                    <input type="radio" value="man" onChange={genderChange} checked={gender === 'man'}/>남
-                     &nbsp;
-                    <input type="radio" value="woman" onChange={genderChange} checked={gender === 'woman'}/>여
-                </td>
-            </tr>
-            <tr>
-                <td align="left">아이디</td> 
-                <td align="left">
-                    <div>{id}</div>
-                </td>
-            </tr>
-            <tr>
-                <td align="left">비밀번호</td> 
-                <td align="left">
-                    {passworda === true 
-                        ? <input style={{ width:"230px"}} value={password} onChange={(e)=>setPassword(e.target.value)} placeholder="숫자,영문자,특수문자 포함 8자 이상" />
-                        : <input style={{ borderColor:"red", width:"230px"}} value={password} onChange={(e)=>setPassword(e.target.value)} placeholder="숫자,영문자,특수문자 포함 8자 이상" />}
-                </td>
-                <td>
-                    { passwordc === "안전한 비밀번호 입니다" 
-                        ? <div style={{ fontSize:"5px", color:'blue' }}>{passwordc}</div>
-                        : <div style={{ fontSize:"5px", color:'red' }}>{passwordc}</div>}
-                </td>
-            </tr>
-            <tr>
-                <td align="left">비밀번호 확인</td> 
-                <td align="left">
-                    {passwordChecka === true 
-                        ?  <input style={{ width:"230px"}} value={passwordcheck} onChange={(e)=>setPasswordcheck(e.target.value)} placeholder="위와 동일한 비밀번호 입력" />
-                        :  <input style={{ borderColor:"red", width:"230px"}} value={passwordcheck} onChange={(e)=>setPasswordcheck(e.target.value)} placeholder="위와 동일한 비밀번호 입력" />}
-                </td>
-                <td>
-                    { passwordcheckc === "비밀번호가 동일합니다" 
-                        ? <div style={{ fontSize:"5px", color:'blue' }}>{passwordcheckc}</div>
-                        : <div style={{ fontSize:"5px", color:'red' }}>{passwordcheckc}</div>}
-                </td>
-            </tr>
-            <tr>
-                <td align="left">이메일 주소</td> 
-                <td align="left">
-                    {emaila === true 
-                        ?  <input style={{ width:"230px"}} value={email} onChange={(e)=>setEmail(e.target.value)} placeholder="이메일 주소를 입력해주세요" />
-                        :  <input style={{ borderColor:"red", width:"230px"}} value={email} onChange={(e)=>setEmail(e.target.value)} placeholder="이메일 주소를 입력해주세요" />}
-                </td>
-                <td>
-                    { emailc === "형식에 맞는 이메일입니다" 
-                        ? <div style={{ fontSize:"5px", color:'blue' }}>{emailc}</div>
-                        : <div style={{ fontSize:"5px", color:'red' }}>{emailc}</div>}
-                </td>
-            </tr>
-            <tr>
-                <td align="left">생년월일</td> 
-                <td align="left">
-                    <div>{birth}</div>
-                </td>
-            </tr>
-            <tr>
-                <td align="left">주소</td> 
-                <td align="left">
-                    {addressa === true 
-                        ?  <input style={{ width:"230px"}} className="user_enroll_text" placeholder="주소검색을 클릭해주세요"  type="text" required={true} name="address" value={enroll_company.address}/>
-                        :  <input style={{ borderColor:"red", width:"230px"}} className="user_enroll_text" placeholder="주소검색을 클릭해주세요"  type="text" required={true} name="address" value={enroll_company.address}/>}
-                </td>
-                <td>
-                     <div>
-                        <React.Fragment>
-                        <button onClick={openModal}>주소검색</button>
-                        <Modal open={modalOpen} close={closeModal} header="주소검색 ">
-                        <main>  
-                            <br/>
-                            <Post onClose={setPopup} setModalClose={setModalOpen} company={enroll_company} setcompany={setEnroll_company}></Post> 
-                        </main>
-                        
-                        </Modal>
-                        </React.Fragment>
-                    </div>
-                </td>
-            </tr>
-            {photostart === true
-            ?<tr>
-                <td align="left">사진</td> 
-                    <div>
-                        <div>photostart true</div>
-                        {photoa === true 
-                        ?  <button onClick={startCapture}>카메라 열기</button>
-                        :  <button style={{ borderColor:'red' }} onClick={startCapture}>카메라 열기</button>}
-                        <button onClick={captureImage} disabled={!mediaStream}>
-                            사진 찍기
-                        </button>
-                        <div style={{ display: captured ? 'none' : 'block' }}>
-                            <video ref={videoRef} autoPlay width={350} height={250} />
-                        </div>
-                        {captured && (
-                            <div style={{ display: captured ? 'block' : 'none' }}>
-                            <img src={URL.createObjectURL(imageSrc)} alt="captured image" />
-                            </div>
-                        )}
-                     
-                    </div>
-                <td align="left">
-                </td>
-                </tr>
-            : 
-                <tr>
-                <td align="left">사진</td> 
-                    <div>
-                    {/* style={{ backgroundColor:'red' }} */}
-                        <div align="left">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <img src={facereceive} width="100" height="100"/>
-                                    </td>
-                                    <td>
-                                        <button onClick={startCapture}>변경하기</button>
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-                        
-                    </div>
-                <td align="left">
-                </td>
-                </tr>
-            }
-            
-  
-            <tr>
-                <td align="left">번호</td>
-                <td align="left">
-                    {phonea === true 
-                            ?  <input style={{ width:"230px"}} value={phone} onChange={(e)=>setPhone(e.target.value)} placeholder="휴대폰 번호를 입력해주세요" />
-                            :  <input style={{ borderColor:"red", width:"230px"}} value={phone} onChange={(e)=>setPhone(e.target.value)} placeholder="휴대폰 번호를 입력해주세요" />}
-                </td>
-                <td>
-                    { phonec === "올바르게 입력되었습니다" 
-                        ? <div style={{ fontSize:"5px", color:'blue' }}>{phonec}<button onClick={sendPhone}>인증번호 발송</button></div>
-                        
-                        : <div style={{ fontSize:"5px", color:'red' }}>{phonec}<button disabled="false" onClick={sendPhone}>인증번호 발송</button></div>}
-                    
-                </td>
-            </tr>
-            <tr>
-                <td align="left">인증번호</td> 
-                <td align="left">
-                    {phone_publica === true 
-                            ?  <input style={{ width:"230px"}}  value={phone_public} onChange={(e)=>setPhone_public(e.target.value)} placeholder="인증번호를 입력해주세요" />
-                            :  <input style={{ borderColor:"red", width:"230px"}}  value={phone_public} onChange={(e)=>setPhone_public(e.target.value)} placeholder="인증번호를 입력해주세요" />}
-                </td>
-                <td>
-                    { phone_publiccheck === "인증 완료되었습니다" 
-                        ? <div style={{ fontSize:"5px", color:'blue' }}>{phone_publiccheck}</div>
-                        
-                        : <div style={{ fontSize:"5px", color:'red' }}>{phone_publiccheck}</div>}
-                    { phone_publicch === true 
-                        ? <div><button onClick={sendphonecheck}>인증하기</button></div>
-                        
-                        : <div><button disabled="false" onClick={sendphonecheck}>인증하기</button></div>}
-                    
-                </td>
-            </tr>
-       
-
-            </tbody>
-            </table>
-
             <br/>
             <button onClick={change}>저장</button>
             

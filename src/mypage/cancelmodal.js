@@ -1,5 +1,5 @@
 import React from 'react';
-import './modal.css';
+import './css/modal.css';
 
 const Cancelmodal = (props) => {
   // 열기, 닫기, 모달 헤더 텍스트를 부모로부터 받아옴
@@ -10,7 +10,7 @@ const Cancelmodal = (props) => {
     <div className={open3 ? 'openModal modal' : 'modal'}>
       {open3 ? (
         <section>
-          <header>
+          <header class="modalheader">
             {header3}
             <button className="close" onClick={close3}>
               &times;

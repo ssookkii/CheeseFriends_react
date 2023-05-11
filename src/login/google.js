@@ -50,7 +50,7 @@ const GoogleLoginButton = () => {
             
                                 let login = localStorage.getItem("login");
                                 console.log(login);
-                                history("/testmain");
+                                window.location.href = "cheesefriends/home" ;
                             }
                         })
                         .catch(function(err){

@@ -4,11 +4,12 @@ import { useNavigate } from "react-router-dom";
 
 import Modal from "./modal";
 import Post from "./Post";
-import "./css/regi.css";
+
 import "./css/login.css";
 import "./css/login2.css";
 
 import logo from './img/cheesefriendslogo.png';
+import camera from './img/cameraimg.png';
 
 function RegiParents(){
 
@@ -458,17 +459,20 @@ function RegiParents(){
         setPhone_publiccheck("");
     },[phone])
 
-    // 사진 캡쳐 api
+    
+    const [photostart, setPhotostart] = useState(false);
     const videoRef = useRef(null);
     const [imageSrc, setImageSrc] = useState(null);
     const [captured, setCaptured] = useState(false);
     const [mediaStream, setMediaStream] = useState(null);
-    
+
     const startCapture = async () => {
+        setPhotostart(true);
         const stream = await navigator.mediaDevices.getUserMedia({ video: true });
         videoRef.current.srcObject = stream;
         setMediaStream(stream);
         setCaptured(false);
+        console.log("카메라작동")    
     };
     
     const captureImage = () => {
@@ -807,23 +811,33 @@ function RegiParents(){
                             
                             {/* 사진 찍는칸 */}
                             <h5 class="regitag">사진</h5>
-                            <div>
-                                {photoa === true
-                                    ? <button class="photobtn" onClick={startCapture}>카메라 열기</button>
-                                    : <button class="photobtn" style={{ borderColor: 'red' }} onClick={startCapture}>카메라 열기</button>}
-                                &nbsp;&nbsp;
-                                <button class="photobtn" onClick={captureImage} disabled={!mediaStream}>
-                                    사진 찍기
-                                </button>
-                                <div style={{ display: captured ? 'none' : 'block' }}>
-                                    <video ref={videoRef} autoPlay width={300} height={260} />
-                                </div>
-                                {captured && (
-                                    <div style={{ display: captured ? 'block' : 'none' }}>
-                                        <img src={URL.createObjectURL(imageSrc)} alt="captured image" width={300} height={220} />
+                            {photostart === true
+                                ?
+                                <div>
+                                    {photoa === true 
+                                    ?  <button class="photobtn" onClick={startCapture}>다시 찍기</button>
+                                    :  <button class="photobtn" style={{ borderColor:'red' }} onClick={startCapture}>카메라 열기</button>}
+                                    &nbsp;&nbsp;
+                                    <button class="photobtn" onClick={captureImage} disabled={!mediaStream}>
+                                        사진 찍기
+                                    </button>
+                                    <div style={{ display: captured ? 'none' : 'block' }}>
+                                        <video ref={videoRef} autoPlay width={300} height={260} />
                                     </div>
-                                )}
-                            </div>
+                                    {captured && (
+                                        <div style={{ display: captured ? 'block' : 'none' }}>
+                                        <img src={URL.createObjectURL(imageSrc)} alt="captured image" width={300} height={220}  />
+                                        </div>
+                                    )}
+                                
+                                </div>
+                                : 
+                                <div>
+                                    <img src={camera} width="100" height="100"/>
+                                    &nbsp;&nbsp;
+                                    <button class="photobtn" onClick={startCapture}>사진찍기</button>    
+                                </div>
+                            }
                             <br/>
                         
                             {/* 휴대폰 번호 입력칸 */}

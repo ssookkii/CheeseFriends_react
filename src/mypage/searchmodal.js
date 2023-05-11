@@ -1,5 +1,5 @@
 import React from 'react';
-import './modal.css';
+import './css/modal.css';
 
 const Searchmodal = (props) => {
   // 열기, 닫기, 모달 헤더 텍스트를 부모로부터 받아옴
@@ -10,7 +10,7 @@ const Searchmodal = (props) => {
     <div className={open2 ? 'openModal modal' : 'modal'}>
       {open2 ? (
         <section>
-          <header>
+          <header class="modalheader">
             {header2}
             <button className="close" onClick={close2}>
               &times;
