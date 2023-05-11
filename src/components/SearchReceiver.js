@@ -66,6 +66,10 @@ const SearchReceiver = ({isOpen, onClose, setReceiver}) => {
     // 학원코드로 검색
     function clickEdu(){
         setOpenTitle(true);
+        setSearch('');
+        setSelectedId('');
+        setEdulist([]);
+        setConfirmId([]);
         const element = document.getElementById("element");
 
         if(element) {
@@ -78,6 +82,10 @@ const SearchReceiver = ({isOpen, onClose, setReceiver}) => {
     // 아이디로 검색
     function clickId(){
         setOpenTitle(false);
+        setSelectedId('');
+        setSearch('');
+        setEdulist([]);
+        setConfirmId([]);
     }
     
     function hadleIdSearch(ch, se, p) {
@@ -148,6 +156,17 @@ const SearchReceiver = ({isOpen, onClose, setReceiver}) => {
     console.log(page);
     console.log(totalCnt);
 
+    const activeEduEnter = (e) => {
+        if(e.key === "Enter") {
+            handleEduCodeSearch(choice, search, page)
+        }
+    }
+    const activeIdEnter = (e) => {
+        if(e.key === "Enter") {
+            hadleIdSearch(choice, selectedId, page)
+        }
+    }
+
     return (
         <ReactModal isOpen={isOpen} onRequestClose={() => onClose()}>
             <div>
@@ -164,7 +183,7 @@ const SearchReceiver = ({isOpen, onClose, setReceiver}) => {
                             <option value="eduCode">학원코드</option>
                             <option value="eduName">학원명</option>
                         </select>
-                        <input defaultValue={search} onInput={(e) =>setSearch(e.target.value)} />
+                        <input defaultValue={search} value={search} onInput={(e) =>setSearch(e.target.value)} onKeyPress={(e) => activeEduEnter(e)}/>
                         <button className={styles.searchBtn} onClick={()=>handleEduCodeSearch(choice, search, page)}>검색</button>
                     </div>
                 
@@ -212,7 +231,7 @@ const SearchReceiver = ({isOpen, onClose, setReceiver}) => {
                             <option value="userId">아이디</option>
                             <option value="userName">이름</option>
                         </select>
-                        <input defaultValue={selectedId} onInput={(e) =>setSelectedId(e.target.value)} />
+                        <input defaultValue={selectedId} value={selectedId} onInput={(e) =>setSelectedId(e.target.value)} onKeyPress={(e) => activeIdEnter(e)}/>
                         <button className={styles.searchBtn} onClick={()=>hadleIdSearch(choice, selectedId, page)}>검색</button>
                     </div>
                     <table className={`${styles.datalist} ${styles.idlist}`} border="1" align="center">

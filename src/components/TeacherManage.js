@@ -99,6 +99,11 @@ function TeacherManage(){
         }
         
     }
+    const activeEnter = (e) => {
+        if(e.key === "Enter") {
+            searchBtn()
+        }
+    }
 
     useEffect(function(){
         getTeacherList("", "", 0);
@@ -111,7 +116,7 @@ function TeacherManage(){
                 // 다른 props가 있다면 여기에 추가
             };
             const strProps = JSON.stringify(props); // 객체를 문자열로 변환합니다.
-            window.open(`/usermailwrite?props=${strProps}`, '_blank', 'width=800px,height=700px,scrollbars=yes');
+            window.open(`/usermailwrite?props=${strProps}`, '_blank', 'width=850px,height=700px,scrollbars=yes');
         }else{
             alert("회원을 선택해주세요");
         }
@@ -128,7 +133,7 @@ function TeacherManage(){
                         <option value="eduName">학원이름</option>
                         <option value="id">아이디</option>
                     </select>
-                    <input value={search} onChange={(e)=>setSearch(e.target.value)} placeholder="검색어를 입력하세요"/>
+                    <input value={search} onChange={(e)=>setSearch(e.target.value)} onKeyPress={(e) => activeEnter(e)} placeholder="검색어를 입력하세요"/>
                     <button onClick={searchBtn} className={manage.searchBtn}>검색</button>
                 </div>
                 <button onClick={openMailWrite} className={manage.eduAdd}>쪽지쓰기</button>

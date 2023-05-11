@@ -133,8 +133,8 @@ function SubUpdate(){
             <div className={`${styles.InputBox} ${styles.datalistAlign}`}>
                 <span>담당교사아이디</span> 
                 <div>
-                    <input type="text" className={styles.Input} list="list" id="ids" defaultValue={subject.educatorName} onInput={(e) => setSubject(prevState => ({...prevState, educatorName: e.target.value}))}/>
-                    <datalist id="list">
+                    <input type="text" className={styles.Input} list="idlist" id="ids" defaultValue={subject.educatorName} onInput={(e) => setSubject(prevState => ({...prevState, educatorName: e.target.value}))}/>
+                    <datalist id="idlist">
                         {
                             id.map(function(id, i){
                                 return(
