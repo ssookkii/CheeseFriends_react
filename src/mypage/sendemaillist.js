@@ -217,15 +217,17 @@ function Sendemaillist(){
                         <Link>보낸 쪽지함</Link>
                         <Link to="/cheesefriends/testmain/sendemail">쪽지 보내기</Link>
                     </div>
-                    <div className={styles.search}>      
-                        <select class="mypageselect" value={choice} onChange={choiceChange}>
-                            <option value="">검색</option>
-                            <option value="title">제목</option>
-                                    <option value="content">내용</option>
-                                    <option value="receiver">보낸사람</option>
-                        </select>
+                    <div className={styles.search}>
+                        <div>   
+                            <select class="mypageselect" value={choice} onChange={choiceChange}>
+                                <option value="">검색</option>
+                                <option value="title">제목</option>
+                                        <option value="content">내용</option>
+                                        <option value="receiver">보낸사람</option>
+                            </select>
+                            <button onClick={searchBtn} className={styles.searchBtn}>검색</button>
+                        </div>
                         <input value={search} onChange={searchChange} placeholder="검색어를 입력하세요"/>
-                        <button onClick={searchBtn} className={styles.searchBtn}>검색</button>
                     </div>
                 </div>
                 <div className={styles.btnRight}>

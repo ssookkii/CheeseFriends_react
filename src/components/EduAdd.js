@@ -44,18 +44,18 @@ function EduAdd() {
             return;
         }
         let eduData = null;
-        if(place.road_address_name !== null || place.road_address_name !== "") {
+        if(place.road_address_name === null || place.road_address_name === "" || place.road_address_name.length === 0) {
             eduData = {
                 eduCode : place.place_name,
                 eduName : place.place_name,
-                eduAddress : place.road_address_name,
+                eduAddress : place.address_name,
                 eduPhone : place.phone
             }
         }else {
             eduData = {
                 eduCode : place.place_name,
                 eduName : place.place_name,
-                eduAddress : place.address_name,
+                eduAddress : place.road_address_name,
                 eduPhone : place.phone
             }
         }
@@ -76,6 +76,9 @@ function EduAdd() {
             alert(err);
         })
     }
+    console.log(place.road_address_name.length);
+    console.log(place.address_name);
+    console.log(place.phone);
 
     return (
 
@@ -122,7 +125,7 @@ function EduAdd() {
                 </Map>) : (<div/>)}
                 <div className={styles.InputBox}>
                     <span>교육기관전화번호</span>
-                    <input type="text" className={styles.Input} defaultValue={place.phone} placeholder='학원번호'/>
+                    <input type="text" className={styles.Input} defaultValue={place.phone}  onInput={(e) => setPlace(prevState => ({...prevState, phone: e.target.value}))} placeholder='학원번호'/>
                 </div>
                 <button className={`${styles.btn} ${styles.btnCenter}`} onClick={eduAdd}>학원등록</button>
             </div>
