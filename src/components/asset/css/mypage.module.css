@@ -32,7 +32,7 @@
     content:'';
     width:30px;
     height:30px;
-    margin-right:20px;
+    margin:0 5px 5px 0;
     background: url(../../../../public/img/User\ Male@2x.png);
     display:inline-block;
     background-size: 30px;
@@ -100,7 +100,7 @@
     -moz-appearance: none;
     appearance: none;
 }
-.search > select::-ms-expand {
+.search select::-ms-expand {
     display: none;
 }
 .search > input {

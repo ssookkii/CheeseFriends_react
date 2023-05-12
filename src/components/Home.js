@@ -107,9 +107,15 @@ function Home(){
                     <p>열심히 공부한 당신! 옹달샘에서 잠시 쉬어가요~</p>
                 </div>
                 <div className={styles.playBox}>
-                    <Link to="/cheesefriends/shelterpage/playgame"><img src={`${process.env.PUBLIC_URL}/img/game1.jpg`}  style={{width:'100%'}} alt="playgame1"/></Link>
-                    <Link to="/cheesefriends/shelterpage/playgame1"><img src={`${process.env.PUBLIC_URL}/img/game2.jpg`}  style={{width:'100%'}} alt="playgame2"/></Link>
-                    <Link to="/cheesefriends/shelterpage/playgame2"><img src={`${process.env.PUBLIC_URL}/img/game3.jpg`}  style={{width:'100%'}} alt="playgame3"/></Link>
+                    <Link to="/cheesefriends/shelterpage/playgame">
+                        <img src={`${process.env.PUBLIC_URL}/img/game1.jpg`}  style={{width:'100%'}} alt="playgame1"/>
+                    </Link>
+                    <Link to="/cheesefriends/shelterpage/playgame1" onClick={()=>localStorage.setItem("btnActive", "playgame1")} >
+                        <img src={`${process.env.PUBLIC_URL}/img/game3.jpg`}  style={{width:'100%'}} alt="playgame1"/>
+                    </Link>
+                    <Link to="/cheesefriends/shelterpage/playgame2" onClick={()=>localStorage.setItem("btnActive", "playgame2")}>
+                        <img src={`${process.env.PUBLIC_URL}/img/game2.jpg`}  style={{width:'100%'}} alt="playgame2"/>
+                    </Link>
                 </div>
             </div>
         </div>

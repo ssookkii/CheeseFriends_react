@@ -213,7 +213,7 @@ function GradeManage(){
             {
                 subject.map(function(sub, i){
                     return(
-                            <button key={i} className={btnActive === i ? `${styles.btnActive} ${styles.sub} `: styles.sub} onClick={() => handleSubjectClick(sub.subCode, i)}>{sub.subName}</button>
+                            <button key={i} className={btnActive === i ? `${styles.btnActive} ${styles.sub} `: styles.sub} onClick={() => handleSubjectClick(sub.subCode, i)}>{sub.subName}({sub.classGrade})</button>
                     )
                 })
             }
