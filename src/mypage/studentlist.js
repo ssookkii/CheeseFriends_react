@@ -210,11 +210,11 @@ function Studentlist(){
             <td>{props.student.parentsid}</td>
             <td>{props.student.subname}</td>
             <td>{props.student.startdate !== "" && props.student.startdate !== null
-                ?<div>{props.student.startdate.substr(0, 11)}</div>
-                :<div>{props.student.startdate}</div>} ~ 
+                ?<span>{props.student.startdate.substr(0, 11)}</span>
+                :<span>{props.student.startdate}</span>} ~ 
                 {props.student.enddate !== "" && props.student.enddate !== null
-                ?<div>{props.student.enddate.substr(0, 11)}</div>
-                :<div>{props.student.enddate}</div>}
+                ?<span>{props.student.enddate.substr(0, 11)}</span>
+                :<span>{props.student.enddate}</span>}
             </td>
             {props.student.state === "approving"
             ?<td><span>수강승인필요</span><span>{approved(props)}</span></td>

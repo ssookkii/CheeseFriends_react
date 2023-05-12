@@ -178,20 +178,29 @@ position: relative;
 
 
 @media screen and (max-width: 1050px){
-    .container2{
-      grid-gap: 5rem;
-    }
+  .container2{
+    grid-gap: 5rem;
+  }
+  .container4{
+    grid-gap: 5rem;
+  }
 }
   
 @media screen and (max-width: 900px){
-    .container2{
-      grid-template-columns: 1fr;
-    }
-    .login-content2{
-        justify-content: center;
-    }
-    .regi-content{
+  .container2{
+    grid-template-columns: 1fr;
+  }
+  .login-content2{
       justify-content: center;
+  }
+  .regi-content{
+    justify-content: center;
+  }
+  .regi-content2{
+    justify-content: center;
+  }
+  .container4{
+    grid-template-columns: 1fr;
   }
 } 
 
@@ -205,6 +214,10 @@ position: relative;
       margin: 8px 0;
     }
     .regi-content h2{
+      font-size: 2.4rem;
+      margin: 8px 0;
+    }
+    .regi-content2 h2{
       font-size: 2.4rem;
       margin: 8px 0;
     }
@@ -238,7 +251,10 @@ position: relative;
 .regitag{
   /* margin-bottom: 5px;
   margin-left: 80px; */
+  margin-top: 5px;
   text-align: left;
+  font-weight: bold;
+
 }
 
 .loginbtn2{
@@ -405,4 +421,58 @@ background-position: right;
   align-items: center;
   text-align: center;
   justify-content: space-between;
+}
+
+.regititle{
+  font-weight: bold;
+  color: #ff9d7f;
+  font-size: 25px;
+}
+
+.checkdiv{
+  margin-top: 5px;
+}
+
+.container4{
+  margin-top: 20px;
+  display: grid;
+  grid-gap :3rem;
+  padding: 0 2rem;
+  justify-content: center;
+}
+
+
+.regi-content2 {
+  padding: 2rem 1rem;
+  border-radius: 1rem;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  text-align: center;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-content: center;
+  width: 500px;
+}
+
+
+.regi-content2 h2{
+  margin: 15px 0;
+  color: #333;
+  text-transform: uppercase;
+  font-size: 2.9rem;
+}
+
+.regi-content2 .input-div{
+  position: relative;
+    display: grid;
+    grid-template-columns: 7% 93%;
+    margin: 10px 0;
+    padding: 5px 0;
+    border-bottom: 2px solid #d9d9d9;
+}
+
+.regi-content2 .input-div.one{
+    margin-top: 0;
 }

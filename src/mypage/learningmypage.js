@@ -224,11 +224,11 @@ function Learningmypage(){
                 {props.subjectlist.state === "approving"
                 ?<td>수강중인 수업이 아닙니다</td>
                 :<td>{props.subjectlist.startdate !== "" && props.subjectlist.startdate !== null
-                    ?<div>{props.subjectlist.startdate.substr(0, 11)}</div>
-                    :<div>{props.subjectlist.startdate}</div>} ~ 
+                    ?<span>{props.subjectlist.startdate.substr(0, 11)}</span>
+                    :<span>{props.subjectlist.startdate}</span>} ~ 
                     {props.subjectlist.enddate !== "" && props.subjectlist.enddate !== null
-                    ?<div>{props.subjectlist.enddate.substr(0, 11)}</div>
-                    :<div>{props.subjectlist.enddate}</div>}
+                    ?<span>{props.subjectlist.enddate.substr(0, 11)}</span>
+                    :<span>{props.subjectlist.enddate}</span>}
                 </td>
                 }
 

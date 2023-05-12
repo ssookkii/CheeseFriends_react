@@ -52,7 +52,7 @@ function Login(){
 
                 let login = localStorage.getItem("login");
                 console.log(login);
-                window.location.href = "cheesefriends/home" ;
+                window.location.href = "/cheesefriends/home" ;
             }
             else{
                 alert("id나 password를 확인하십시오");
@@ -138,11 +138,11 @@ function Login(){
                             </div>
                         </div>
                     </div>
-                    <div class="login-content">
-                     <form>
+                    <div class="regi-content2">
+                  
                         <br/><br/><br/>
                     
-                        <img src={logo} style={{width:"300px", height:"100px"}}/>
+                        <img src={logo} style={{width:"300px", height:"100px", marginRight:"auto", marginLeft:"auto"}}/>
                         
                         <br/><br/><br/><br/>
                             <div class="input-div one">
@@ -200,7 +200,7 @@ function Login(){
                             </table>
                            
                             <br/>
-                            </form>
+                           
                     </div>
                 </div>
         </div>
