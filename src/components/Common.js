@@ -54,7 +54,10 @@ function Common(){
             <header>
                 <div className={styles.headerTopBg}>
 
-                    <div className={`${styles.headerTop} ${styles.search}`}>  
+                    <div className={`${styles.headerTop} ${styles.search}`}>
+                        {login.auth === "parents" ? 
+                        <></>
+                    :
                         <select value={userEdu} onChange={handleUserEdu}>
                             {eduCode.map(function(edu, i){
                                 return(
@@ -62,6 +65,7 @@ function Common(){
                                 )
                             })}
                         </select>
+                    }
                         <Link to="/cheesefriends/testmain/changeme" onClick={()=>localStorage.setItem("mypageBtnActive", "changeme")}>마이페이지</Link>
                         <button onClick={logout}>로그아웃</button>
                     </div>
