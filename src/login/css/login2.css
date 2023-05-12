@@ -196,6 +196,9 @@ position: relative;
   .regi-content{
     justify-content: center;
   }
+  .regi-content2{
+    justify-content: center;
+  }
   .container4{
     grid-template-columns: 1fr;
   }
@@ -211,6 +214,10 @@ position: relative;
       margin: 8px 0;
     }
     .regi-content h2{
+      font-size: 2.4rem;
+      margin: 8px 0;
+    }
+    .regi-content2 h2{
       font-size: 2.4rem;
       margin: 8px 0;
     }
@@ -431,5 +438,41 @@ background-position: right;
   display: grid;
   grid-gap :3rem;
   padding: 0 2rem;
-  justify-content: start;
+  justify-content: center;
+}
+
+
+.regi-content2 {
+  padding: 2rem 1rem;
+  border-radius: 1rem;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  text-align: center;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-content: center;
+  width: 500px;
+}
+
+
+.regi-content2 h2{
+  margin: 15px 0;
+  color: #333;
+  text-transform: uppercase;
+  font-size: 2.9rem;
+}
+
+.regi-content2 .input-div{
+  position: relative;
+    display: grid;
+    grid-template-columns: 7% 93%;
+    margin: 10px 0;
+    padding: 5px 0;
+    border-bottom: 2px solid #d9d9d9;
+}
+
+.regi-content2 .input-div.one{
+    margin-top: 0;
 }

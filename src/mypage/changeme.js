@@ -370,7 +370,7 @@ function Changeme(){
                     <br/><br/>
                     <h5 class="changemetitle">나의 정보</h5>
                     <div class="container4">
-                        <div class="regi-content">
+                        <div class="regi-content2" style={{marginRight:"auto", marginLeft:"auto"}}>
             
                         
                             {/* 이름 입력칸 */}
@@ -562,7 +562,7 @@ function Changeme(){
                                 : <div><button class="regibtn" disabled="false" onClick={sendphonecheck}>인증하기</button></div>}
                             
                             <br/><br/>
-                            <button onClick={change}>저장</button>
+                            <button class="loginbtn2" onClick={change}>변경하기</button>
                         </div>
 
        
