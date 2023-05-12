@@ -364,30 +364,32 @@ function Changeme(){
 
     return(
         <div>
-            {/* // Login css 세트 1 */}
-            <div style={{textAlign:"center", alignItems:"center"}}>
-                <h5 class="changemetitle">나의 정보</h5>
-                <br/><br/><br/>
-                    
-                    <div class="container">
-                    
-                        <div class="login-content">
-                            <form>
+            <div>
+                {/* // Login css 세트 1 */}
+                <div style={{textAlign:"center", alignItems:"center"}}>
+                    <br/><br/>
+                    <h5 class="changemetitle">나의 정보</h5>
+                    <div class="container4">
+                        <div class="regi-content">
+            
                         
                             {/* 이름 입력칸 */}
+                            <div class="divflex">
                             <h5 class="regitag">이름</h5>
                             {namea === true
                                     ? <input class="regiinput" value={name} onChange={(e) => setName(e.target.value)} placeholder="이름을 입력해주세요" />
                                     : <input class="regiinput" style={{ borderColor: "red" }} value={name} onChange={(e) => setName(e.target.value)} placeholder="이름을 입력해주세요" />}
+                            </div>
                             {namea === true 
                                 ?<div></div>
                                 :<div>{ namec === "입력되었습니다" 
-                                    ? <div><div class="inputtrue" >{namec}</div></div>
-                                    : <div><div class="inputfalse" >{namec}</div></div>} 
+                                    ? <div><div class="checkdiv" style={{ fontSize: "5px", color: 'blue' }}>{namec}</div></div>
+                                    : <div><div class="checkdiv" style={{ fontSize: "5px", color: 'red' }} >{namec}</div></div>} 
                             </div>}
                             <br/>
 
                             {/* 성별 선택 */}
+                            <div class="divflex">
                             <h5 class="regitag">성별</h5>
                             <div>
                                 <select class="regiinput" onChange={genderChange}>
@@ -396,71 +398,84 @@ function Changeme(){
                                     <option value="woman" selected={gender === 'woman'}>여자</option>
                                 </select>
                             </div>
+                            </div>
                             <br/>
-                            
+
                             {/* 아이디 입력칸 */}
+                            <div class="divflex">
                             <h5 class="regitag">아이디</h5>
-                            <div>{id}</div>
-                          
+                            <input class="regiinput" value={id} readOnly="readOnly" />
+                            </div>
                             <br/>
+                          
                             
                             {/* 비밀번호 입력칸 */}
+                            <div class="divflex">
                             <h5 class="regitag">비밀번호</h5>
                             {passworda === true
                                     ? <input type="password" class="regiinput" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="숫자,영문자,특수문자 포함 8자 이상" />
                                     : <input type="password" class="regiinput" style={{ borderColor: "red"}} value={password} onChange={(e) => setPassword(e.target.value)} placeholder="숫자,영문자,특수문자 포함 8자 이상" />}
+                            </div>
                             {password.length > 0
                             ?<div> 
                                 {passwordc === "안전한 비밀번호 입니다"
-                                ? <div style={{ fontSize: "5px", color: 'blue' }}>{passwordc}</div>
-                                : <div style={{ fontSize: "5px", color: 'red' }}>{passwordc}</div>}</div>
+                                ? <div class="checkdiv" style={{ fontSize: "5px", color: 'blue' }}>{passwordc}</div>
+                                : <div class="checkdiv" style={{ fontSize: "5px", color: 'red' }}>{passwordc}</div>}</div>
                             :<div></div>}
                             <br/>
                             
                             {/* 비밀번호 확인 입력칸 */}
+                            <div class="divflex">
                             <h5 class="regitag">비밀번호 확인</h5>
                             {passwordChecka === true
                                 ? <input type="password" class="regiinput" value={passwordcheck} onChange={(e) => setPasswordcheck(e.target.value)} placeholder="위와 동일한 비밀번호 입력" />
                                 : <input type="password" class="regiinput" style={{ borderColor: "red"}} value={passwordcheck} onChange={(e) => setPasswordcheck(e.target.value)} placeholder="위와 동일한 비밀번호 입력" />}
+                            </div>
                             {passwordcheck.length > 0
                             ?<div> 
                                 {passwordcheckc === "비밀번호가 동일합니다"
-                                ? <div style={{ fontSize: "5px", color: 'blue' }}>{passwordcheckc}</div>
-                                : <div style={{ fontSize: "5px", color: 'red' }}>{passwordcheckc}</div>}</div>
+                                ? <div class="checkdiv" style={{ fontSize: "5px", color: 'blue' }}>{passwordcheckc}</div>
+                                : <div class="checkdiv" style={{ fontSize: "5px", color: 'red' }}>{passwordcheckc}</div>}</div>
                             :<div></div>}
                             <br/>
 
                             {/* 비밀번호 확인 입력칸 */}
+                            <div class="divflex">
                             <h5 class="regitag">이메일 주소</h5>
                             {emaila === true
                                 ? <input class="regiinput"  value={email} onChange={(e) => setEmail(e.target.value)} placeholder="이메일 주소를 입력해주세요" />
                                 : <input class="regiinput" style={{ borderColor: "red"}} value={email} onChange={(e) => setEmail(e.target.value)} placeholder="이메일 주소를 입력해주세요" />}
+                            </div>
                             {email.length>0
                             ?<div> 
                                 {emailc === "형식에 맞는 이메일입니다"
-                                ? <div style={{ fontSize: "5px", color: 'blue' }}>{emailc}</div>
-                                : <div style={{ fontSize: "5px", color: 'red' }}>{emailc}</div>}</div>
+                                ? <div class="checkdiv" style={{ fontSize: "5px", color: 'blue' }}>{emailc}</div>
+                                : <div class="checkdiv" style={{ fontSize: "5px", color: 'red' }}>{emailc}</div>}</div>
                             :<div></div>}
                             <br/>
                             
                             {/* 생년월일 입력칸 */}
+                            <div class="divflex">
                             <h5 class="regitag">생년월일</h5>
                             {birtha === true
                                 ? <input class="regiinput" value={birth} onChange={(e) => setBirth(e.target.value)} placeholder="주민번호 앞자리 6자로 입력해주세요" />
                                 : <input class="regiinput" style={{ borderColor: "red" }} value={birth} onChange={(e) => setBirth(e.target.value)} placeholder="주민번호 앞자리 6자로 입력해주세요" />}
+                            </div>
                             {birth.length>0
                             ?<div> 
                                 {birthc === "올바르게 입력되었습니다"
-                                ? <div style={{ fontSize: "5px", color: 'blue' }}>{birthc}</div>
-                                : <div style={{ fontSize: "5px", color: 'red' }}>{birthc}</div>}</div>
+                                ? <div class="checkdiv" style={{ fontSize: "5px", color: 'blue' }}>{birthc}</div>
+                                : <div class="checkdiv" style={{ fontSize: "5px", color: 'red' }}>{birthc}</div>}</div>
                             :<div></div>}
                             <br/>
                         
                             {/* 주소 입력칸 */}
+                            <div class="divflex">
                             <h5 class="regitag">주소</h5>
                             {addressa === true
                                 ? <input class="regiinput" placeholder="주소검색을 클릭해주세요" type="text" required={true}  value={enroll_company.address} />
                                 : <input class="regiinput" style={{ borderColor: "red"}}  placeholder="주소검색을 클릭해주세요" type="text" required={true} value={enroll_company.address} />}
+                            </div>
                             <br/>
                             <div>
                                 <React.Fragment>
@@ -477,7 +492,8 @@ function Changeme(){
                             <br/><br/>
                             
                             {/* 사진 찍는칸 */}
-                            <h5 class="regitag">사진</h5>
+                            <h5 style={{fontWeight:"bold"}}>사진찍기</h5>   
+                            <div>
                             {photostart === true
                                 ?
                                 <div>
@@ -500,26 +516,30 @@ function Changeme(){
                                 </div>
                                 : 
                                 <div>
-                                    <img src={camera} width="100" height="100"/>
+                                    <img src={facereceive} width="100" height="100"/>
                                     &nbsp;&nbsp;
                                     <button class="photobtn" onClick={startCapture}>사진찍기</button>    
                                 </div>
                             }
+                            </div>
                             <br/>
                         
                             {/* 휴대폰 번호 입력칸 */}
+                            <div class="divflex">
                             <h5 class="regitag">번호</h5>
                             {phonea === true
                                 ? <input class="regiinput" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="휴대폰 번호를 입력해주세요" />
                                 : <input class="regiinput" style={{ borderColor: "red" }} value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="휴대폰 번호를 입력해주세요" />}
-                        
+                            </div>
                             {phone.length > 0
                             ?<div> 
                                 {phonec === "올바르게 입력되었습니다"
-                                    ?<div style={{ fontSize: "5px", color: 'blue' }}>{phonec}</div>
-                                    :<div style={{ fontSize: "5px", color: 'red' }}>{phonec}</div>}
+                                    ?<div class="checkdiv" style={{ fontSize: "5px", color: 'blue' }}>{phonec}</div>
+                                    :<div class="checkdiv" style={{ fontSize: "5px", color: 'red' }}>{phonec}</div>}
                             </div>
                             :<div></div>}
+                            
+
                             <br/>
                             {phonec === "올바르게 입력되었습니다"
                             ?<button class="regibtn" onClick={sendPhone}>인증번호 발송</button>
@@ -527,27 +547,31 @@ function Changeme(){
                             <br/><br/>
                             
                             {/* 휴대폰 인증 번호 입력칸 */}
+                            <div class="divflex">
                             <h5 class="regitag">인증번호</h5>
                             {phone_publica === true
                                 ? <input class="regiinput" value={phone_public} onChange={(e) => setPhone_public(e.target.value)} placeholder="인증번호를 입력해주세요" />
                                 : <input class="regiinput" style={{ borderColor: "red"}} value={phone_public} onChange={(e) => setPhone_public(e.target.value)} placeholder="인증번호를 입력해주세요" />}
-                            
+                            </div>
                             {phone_publiccheck === "인증 완료되었습니다"
-                                ? <div style={{ fontSize: "5px", color: 'blue' }}>{phone_publiccheck}</div>
-                                : <div style={{ fontSize: "5px", color: 'red' }}>{phone_publiccheck}</div>}
+                                ? <div class="checkdiv" style={{ fontSize: "5px", color: 'blue' }}>{phone_publiccheck}</div>
+                                : <div class="checkdiv" style={{ fontSize: "5px", color: 'red' }}>{phone_publiccheck}</div>}
                             <br/>
                             {phone_publicch === true
                                 ? <div><button class="regibtn" onClick={sendphonecheck}>인증하기</button></div>
                                 : <div><button class="regibtn" disabled="false" onClick={sendphonecheck}>인증하기</button></div>}
-                            <br/><br/><br/>
-                            </form>
+                            
+                            <br/><br/>
+                            <button onClick={change}>저장</button>
                         </div>
-                    </div>
 
-               
+       
+                        <br/><br/>   
+                    </div>
+                </div>
+                
             </div>
-            <br/>
-            <button onClick={change}>저장</button>
+           
             
             
         </div>

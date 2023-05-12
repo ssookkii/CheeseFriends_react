@@ -178,20 +178,26 @@ position: relative;
 
 
 @media screen and (max-width: 1050px){
-    .container2{
-      grid-gap: 5rem;
-    }
+  .container2{
+    grid-gap: 5rem;
+  }
+  .container4{
+    grid-gap: 5rem;
+  }
 }
   
 @media screen and (max-width: 900px){
-    .container2{
-      grid-template-columns: 1fr;
-    }
-    .login-content2{
-        justify-content: center;
-    }
-    .regi-content{
+  .container2{
+    grid-template-columns: 1fr;
+  }
+  .login-content2{
       justify-content: center;
+  }
+  .regi-content{
+    justify-content: center;
+  }
+  .container4{
+    grid-template-columns: 1fr;
   }
 } 
 
@@ -238,7 +244,10 @@ position: relative;
 .regitag{
   /* margin-bottom: 5px;
   margin-left: 80px; */
+  margin-top: 5px;
   text-align: left;
+  font-weight: bold;
+
 }
 
 .loginbtn2{
@@ -405,4 +414,22 @@ background-position: right;
   align-items: center;
   text-align: center;
   justify-content: space-between;
+}
+
+.regititle{
+  font-weight: bold;
+  color: #ff9d7f;
+  font-size: 25px;
+}
+
+.checkdiv{
+  margin-top: 5px;
+}
+
+.container4{
+  margin-top: 20px;
+  display: grid;
+  grid-gap :3rem;
+  padding: 0 2rem;
+  justify-content: start;
 }

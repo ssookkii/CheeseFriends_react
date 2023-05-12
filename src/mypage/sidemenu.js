@@ -42,7 +42,7 @@ function Sidemenu(){
         <div className={styles.mypageSideMenu}>
             <div className={styles.sideMenu}>
                 <span><em>{login.name}</em>({login.id})</span>
-            {login.auth === 'teacher'
+            {login.auth === 'teacher' || login.auth === 'main' 
             ?   
             <>
                 <Link to="changeme" className={btnActive === "changeme" ? styles.mypageBtnActive : ""} onClick={() => {setBtnActive('changeme');}}>개인정보 변경</Link>
