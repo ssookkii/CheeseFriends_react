@@ -94,16 +94,16 @@ export default function LearningList() {
 
 
     return(
-
         <div className="learninglist">
-            <div style={{marginTop:"-583px"}}>
-                <h2 className="learnh2">학습자료실</h2>
-                <div style={{width:"250px", marginTop:"10px", marginLeft:"10px"}}>
-                    {userAuth === 'teacher' && (
+            <div className='shelterPageWrap'>
+              <div style={{width:"247.94px", textAlign:"center", marginTop:"-204px"}}>
+                <h2 className='maintitle'>학습자료실</h2>
+
+                    {/* {userAuth === 'teacher' && ( */}
                         <button type="button" className="learnBtn"  onClick={writelink}>
                             글쓰기
                         </button>
-                     )} 
+                     {/* )}  */}
                     {/* {userAuth === 'student' && ( */}
                         <button type="button" className="taskBtn"  onClick={tasklink}>
                             과제제출하기
@@ -114,6 +114,7 @@ export default function LearningList() {
                             수업질문하기
                         </button>
                      {/* )}  */}
+
                 </div>
             </div>
 

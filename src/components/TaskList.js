@@ -92,16 +92,16 @@ export default function TaskList() {
     return(
 
         <div className="tasklist">
-            <div style={{marginTop:"-627px"}}>
-                <h2 className="learnh2">과제제출</h2>
-                <div>
-                <button type="button" className="learnBtn" onClick={movelearn}>◀ 목록으로</button>
+            <div className='shelterPageWrap'>
+            <div style={{width:"247.94px", textAlign:"center", marginTop:"-311px"}}>
+                <h2 className="taskh2">과제제출</h2>
                     {/* {userAuth === 'student' && ( */}
                         <button type="button" className="learnBtn"  onClick={writelink}>
                             글쓰기
-                    </button>
+                        </button>
                     {/* )} */}
-                </div>
+                    <button type="button" className="learnBtn" onClick={movelearn}>목록으로</button>
+            </div>
             </div>
 
 

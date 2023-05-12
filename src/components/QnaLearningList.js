@@ -139,18 +139,17 @@ export default function QnaLearningList() {
     return(
 
             <div className="learninglist">
-                <div style={{marginTop:"-607px"}}>
-                <h2 className="learnh2">수업질문방</h2>
-                <div style={{width:"250px"}}>
-                    <button type="button" className="learnBtn" onClick={movelearn}>◀ 목록으로</button>
-                    {/* {userAuth === 'student' && ( */}
-                        <button type="button" className="learnBtn"  onClick={writelink}>
-                            글쓰기
-                        </button>
-                    {/* )}  */}
-                    
+                <div className='shelterPageWrap'>
+                    <div style={{width:"247.94px", textAlign:"center", marginTop:"-311px"}}>
+                    <h2 className="learnh2">수업질문방</h2>
+                        {/* {userAuth === 'student' && ( */}
+                            <button type="button" className="learnBtn"  onClick={writelink}>
+                                글쓰기
+                            </button>
+                        {/* )}  */}
+                    <button type="button" className="learnBtn" onClick={movelearn}> 목록으로</button>
+                    </div>
                 </div>
-            </div>
 
 
         {/* 목록 */}
@@ -205,7 +204,3 @@ export default function QnaLearningList() {
 
     )
 }
-
-
-
-

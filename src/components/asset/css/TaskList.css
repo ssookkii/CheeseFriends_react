@@ -1,3 +1,6 @@
+* {
+    font-family: 고딕, arial;
+}
 .tasklist {
     width: 1200px;
     height: 500px;
@@ -6,12 +9,15 @@
     justify-content: space-between;
     align-items: center;
 }
-.searchbtn {
-    border-radius: 4px;
-}
+
 .searchbtn:hover {
-    border: 2px solid #fac463;
-    background: white;
-    color: #444;
-    
+    border-right: 2px solid #fac463;
+    background-color: #fac56357;
+    color: #ff6b3f;
+}
+.taskh2 {
+    font-size: 2em;
+    font-weight: bold;
+    color: #434343;
+
 }

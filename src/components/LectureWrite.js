@@ -15,86 +15,76 @@ function LectureWrite() {
     const [subject, setSubject] = useState(
         localStorage.getItem("subject")
     );
+    
+    const [filepath, setFilePath] = useState(
+
+    )
 
     const navigate = useNavigate();
 
     const onSubmit = (e) => {
-    e.preventDefault();
-    // alert('onSubmit');
-
+        e.preventDefault();
+        // alert('onSubmit');
     // file + form field -> 짐을 싼다
-    let formData = new FormData();
-    formData.append("subject", subject);
-    formData.append("title", title);
-    formData.append("writer", writer);
-    formData.append("content", content);
+        let formData = new FormData();
+        formData.append("subject", subject);
+        formData.append("title", title);
+        formData.append("writer", userName);
+        formData.append("content", content);
 
-    formData.append("uploadFile", document.frm.uploadFile.files[0]);
+        formData.append("uploadFile", document.frm.uploadFile.files[0]);
 
-    // 보내자!
-    axios.post("http://localhost:3000/fileUpload", formData)
-    .then(res=>{
-       console.log(res.data);
-       alert('성공적으로 등록되었습니다');
-    })
-    .catch(function(error){
-       alert('강의 등록에 실패했습니다');
-    });
-
-    axios.post('http://localhost:3000/writeLecture', null, { params: {
-                subject,
-                title,
-                writer:userName,
-                content
-        }})
-            .then( resp => {
-            console.log(resp);
-            navigate('/cheesefriends/lecture');
-            })
-            .catch(err => console.log(err));
-  }
-
-  // download
-  const download = async () => {
-    let filename = "zoom.txt";
-
-    const url = "http://localhost:3000/fileDownload?filename=" + filename;
-
-    window.location.href = url;
-  }
-
-    const resetBtn = () => {
+        // 보내자!
+        axios.post("http://localhost:3000/writeLecture", formData)
+        .then(res=>{
+        console.log(res.data);
+        alert('성공적으로 등록되었습니다');
         navigate('/cheesefriends/lecture');
-    }
+        })
+        .catch(function(error){
+        alert('강의 등록에 실패했습니다');
+        });
 
+     }
+    
+
+    // download
+    const download = async () => {
+        let filename = "zoom.txt";
+    
+        const url = "http://localhost:3000/fileDownload?filename=" + filename;
+    
+        window.location.href = url;
+      }
+    
+        const resetBtn = () => {
+            navigate('/cheesefriends/lecture');
+        }
 
     const [userSubjects, setUserSubjects] = useState([]);
     const [edu_code, setEdu_code] = useState("");
 
-    useEffect (()=>{
-        axios.post("http://localhost:3000/eduselect", null, { params:{ "id":login.id}})
-        .then(function(resp){   
-            console.log(resp.data); 
-
+    useEffect(() => {
+        axios.post("http://localhost:3000/eduselect", null, { params: { "id": login.id } })
+          .then(function (resp) {
             setEdu_code(resp.data.educode);
-
-            axios.post("http://localhost:3000/subselect", null, { params:{ "id":login.id, "educode":resp.data.educode}})
-            .then(function(resp){   
-                console.log(resp.data); 
+    
+            axios.post("http://localhost:3000/subselect", null, { params: { "id": login.id, "educode": resp.data.educode } })
+              .then(function (resp) {
                 setUserSubjects(resp.data);
-            })
-            .catch(function(err){
+              })
+              .catch(function (err) {
                 console.log(err);
-                alert('err')
-            })
-            
-        })
-        .catch(function(err){
+                alert('err');
+              });
+          })
+          .catch(function (err) {
             console.log(err);
-            alert('err')
-        })
+            alert('err');
+          });
+      }, []);
 
-    },[]);
+
 
     const SelectBox = () => {
         return (
@@ -114,7 +104,7 @@ function LectureWrite() {
             <div className='lecwritemain'>
                 <h2 className='lecmainh2'>강의 업로드</h2>
                 
-                <form name='frm' onSubmit={onSubmit} encType='multipart/form-data' style={{textAlign:"left", marginTop:"20px"}}>
+                <form name="frm" onSubmit={onSubmit} encType='multipart/form-data' style={{textAlign:"left", marginTop:"20px"}}>
                     <>
                     제목
                     <input type="text" id='title' className='inputtitle' name='title'
@@ -135,7 +125,7 @@ function LectureWrite() {
                     <>
                     내용
                     </>
-                    <input type="file" name='uploadFile' className='inputfile' accept='*' />
+                    <input type="file" name="uploadFile" className="inputfile" multiple accept="*" />
                     <br />
                     <textarea id='content' className='lecontent' name='content'
                         value={content} onChange={(e) => setContent(e.target.value)} />                  
@@ -144,9 +134,9 @@ function LectureWrite() {
                         <button type='submit' value='file upload' className='submitbtn'>등록</button>
                     </div>
                 </form>
-            </div>
+
+               </div>
         );
     }
-
 
 export default LectureWrite;

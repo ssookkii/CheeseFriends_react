@@ -6,25 +6,32 @@
     justify-content: space-between;
     align-items: center;
 }
+
+
+.maintitle {
+    color: #434343;
+    margin-top: -106px;
+    font-size: 2em;
+    font-weight: bold;
+}
 .lecBtn {
-    width: 210px;
+    width: 214px;
     font-size: 1.2em;
     font-weight: bold;
     margin-top: 9px;
-    border-radius: 4px;
-    background-color: #fbca73;
-    color: white;
-    height: 31px;
+    background-color: white;
+    color: #434343;
+    height: 34px;
 }
 
 .lecBtn:hover {
-    border: 2px solid #fbca73;
-    background-color: white;
-    color: #434343;
+    border-right: 2px solid #fac463;
+    background-color: #fac56357;
+    color: #ff6b3f;
 }
 .lectable {
     margin-top: 28px;
-    width: 977px;
+    width: 930px;
     height: 400px;
     font-size: 18px;
 }

@@ -162,20 +162,20 @@ export default function ServiceList() {
 
     return (
         <div className="servicelist">
-            <div style={{marginTop:"-627PX"}}>
-                <h2 className='servh2'>고객센터</h2>
-                <div style={{width:"250px"}}>
-                    {/* {userAuth === 'teacher' && ( */}
+           <div className='shelterPageWrap'>
+           <div style={{width:"247.94px", textAlign:"center", marginTop:"-204px"}}>
+                <h2 className='maintitle'>고객센터</h2>
+                      {/* {userAuth === 'teacher' && ( */}
                         <button type="button" className="learnBtn" style={{marginLeft:"11px", marginTop:"10px"}} onClick={writelink}>
                             글쓰기
                         </button>
                     {/* )} */}
-                </div>
+              </div>
             </div>
         
     
             {/* 목록 */}
-            <div style={{display:"block", width:"1000px", marginTop:"-230px"}}>
+            <div style={{display:"block", width:"1000px", marginTop:"-152px"}}>
     
                 <div className='contentwrappers'>
                     <div className='fontWrapper'>
