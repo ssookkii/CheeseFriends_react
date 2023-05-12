@@ -7,6 +7,7 @@ function LectureDetail(){
     let history = useNavigate();
 
     const [bbs, setBbs] = useState();
+    const [filename, setFileName] = useState('');
 
     // 데이터를 모두 읽어 들일 때까지 rendering을 조절하는 변수
     const [loading, setLoading] = useState(false);
@@ -20,6 +21,8 @@ function LectureDetail(){
 
         console.log("bbs:" + JSON.stringify(response.data));
         setBbs(response.data);
+        // setFileName(bbs.filename);
+        alert(JSON.stringify(response.data));
 
         setLoading(true);   // 여기서 rendering 해 준다
     }
@@ -37,12 +40,25 @@ function LectureDetail(){
     }
 
 
-    const handleDelete = (seq) => {
-        // 게시물 삭제 로직
-        // 삭제할 게시물의 postId를 받아와서 삭제 로직을 구현합니다.
-        const updatedPosts = bbs.filter(post => post.seq !== seq);
-        setBbs(updatedPosts);
-      }
+    const download = async () => {
+        try {
+          const response = await fetch('/fileUpload');
+          const data = await response.json();
+          const filename = data.filename;
+          console.log('filename:', filename);
+      
+          const url = `http://localhost:3000/download?filename=${filename}`;
+      
+          const downloadLink = document.createElement('a');
+          downloadLink.href = url;
+          downloadLink.download = filename;
+          downloadLink.click();
+        } catch (error) {
+          console.error('Error:', error);
+        }
+      };
+      
+      download();
 
   
     return (
@@ -66,16 +82,17 @@ function LectureDetail(){
             </div>
             <tr>	
                 <td colSpan="2" style={{ backgroundColor:'white' }}>
-                    <pre id="content" style={{ fontSize:'18px', fontFamily:'고딕, arial', backgroundColor:'white', textAlign:"left", marginLeft:"138px" }}>{bbs.content}</pre>
+                    <pre id="content" style={{ marginTop:"6px", fontSize:'18px', lineHeight:"1.5", fontFamily:'고딕, arial', backgroundColor:'white', textAlign:"left", marginLeft:"138px" }}>{bbs.content}</pre>
                     
-                    <video style={{width:"700px", marginLeft:"272px", border:"3px solid #eeeeee"}} controls >
+                    {/* <video style={{width:"700px", marginLeft:"272px", border:"3px solid #eeeeee"}} controls >
                         <source src={require('./asset/css/sample2.mp4')} type="video/mp4" /> 
-                    </video>
+                    </video> */}
+                       <button onClick={download} >file download</button>
                 </td>
             </tr>
             </tbody>
             </table>
-            <div style={{textAlign:"center"}}>
+            <div style={{textAlign:"center", marginLeft:"50px"}}>
                 <button className="leclistBtn" type="button" onClick={leclist}>목록으로</button>
             </div>
                   

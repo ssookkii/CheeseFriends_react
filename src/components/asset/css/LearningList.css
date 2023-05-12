@@ -17,42 +17,36 @@
 }
 
 .learnBtn, .taskBtn, .qnabtn {
-    width: 200px;
-    background-color: #fbca73;
-    color: white;
-    border-radius: 6px;
-    font-size: 19px;
-    height: 28px;
+    width: 214px;
+    font-size: 1.2em;
     font-weight: bold;
-    margin-top: 3px;
-    margin-bottom: 6px;
-    height: 31px;
-}
-.learnBtn:hover {
-    border: 2px solid #fbca73;
+    margin-top: 9px;
     background-color: white;
     color: #434343;
+    height: 34px;
+}
+.learnBtn:hover {
+    border-right: 2px solid #fac463;
+    background-color: #fac56357;
+    color: #ff6b3f;
 }
 
-.searchbtn {
-    border-radius: 4px;
-}
 .searchbtn:hover {
-    border: 2px solid #fac463;
-    background: white;
-    color: #444;
+    border-right: 2px solid #fac463;
+    background-color: #fac56357;
+    color: #ff6b3f;
     
 }
 .taskBtn:hover {
-    border: 2px solid #fac463;
-    background: white;
-    color: #444;
+    border-right: 2px solid #fac463;
+    background-color: #fac56357;
+    color: #ff6b3f;
     
 }
 .qnabtn:hover {
-    border: 2px solid #fac463;
-    background: white;
-    color: #444;
+    border-right: 2px solid #fac463;
+    background-color: #fac56357;
+    color: #ff6b3f;
     
 }
 .empty-row {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import './asset/css/LectureList.css';
 import axios from "axios";
@@ -12,18 +12,18 @@ export default function LectureList() {
 
     const [lecturelist, setLecturelist] = useState([]);
     const [id, setId] = useState("");
-  
-    
+    const [userEdu, setUserEdu] = useState(
+      localStorage.getItem("userEdu")
+    );
     const loginInfo = JSON.parse(localStorage.getItem("login"));
     const userAuth = loginInfo?.auth;
 
     // console.log(userId);
     // console.log(userAuth);
     const [currentUserId, setCurrentUserId] = useState('');
-    const [subjectCode, setSubjectCode] = useState('');
     const [userSubjects, setUserSubjects] = useState([]);
     const [edu_code, setEdu_code] = useState("");
-    const [sub_code, setSub_code] = useState("");
+    const [subCode, setSubCode] = useState("");
     const [subject, setSubject] = useState(
         localStorage.getItem("subject")
     );
@@ -34,19 +34,8 @@ export default function LectureList() {
         movePage('/cheesefriends/lecture/LectureWrite')
     }
 
-    function getLecList() {
-        axios.get("http://localhost:3000/lecturelist")
 
-        .then(function(resp) {
-            setLecturelist(resp.data);  // 전체 강의 목록
-            console.log(resp.data);
-            
-        })
-        .catch(function(err){
-            // alert(err);
-        });
-    }
-
+    const [subNames, setSubNames] = useState([]);
     useEffect(() => {
         if (userAuth === "teacher") {
             const userId = loginInfo?.id;
@@ -84,42 +73,57 @@ export default function LectureList() {
             setCurrentUserId(userId);
             console.log(userId);
         }
-        axios
-              .get("http://localhost:3000/eduname", { params: { "edu_code": edu_code } })
-              .then(function (resp) {
-                console.log(resp.data);
-                setEdu_code(resp.data.educode);
-        
-                axios
-                  .get("http://localhost:3000/subname", {  params: { "sub_code": sub_code } })
-                  .then(function (resp) {
-                    console.log(resp.data);
-                    setUserSubjects(resp.data || []);
-                  })
-                  .catch(function (err) {
-                    console.log(err);
-                    alert("err");
-                  });
-              })
-              .catch(function (err) {
-                console.log(err);
-                alert("err");
-              });
-        }
-        }, [userAuth, edu_code, sub_code]);
 
-        useEffect(() => {
-            getLecList();
-        }, [userSubjects]);
+
+        axios.get("http://localhost:3000/sublist")
+          .then(function (resp) {
+            console.log(resp.data); // 현재 수강중인 과목 목록
+            
+            const subNames = resp.data.list.map(item => item.subName);
+            console.log(subNames);
+            setSubNames(subNames);
+
+          })
+          .catch(function (err) {
+            console.log(err);
+            alert("err");
+          });
+        }
+      }, []);
+
+      const getLecList = useCallback(() => {
+        axios.get("http://localhost:3000/lecturelist")
+          .then(function(resp) {
+            setLecturelist(resp.data);  // 전체 강의 목록
+            console.log(resp.data);
+          })
+          .catch(function(err){
+            // alert(err);
+          });
+      }, [userSubjects]);
+
+      useEffect(() => {
+        getLecList();
+      }, [getLecList]);
     
-        const SelectBox = () => {
-        return (
+      const SelectBox = () => {
+        if(userAuth === "teacher"){
+          return (
             <select onChange={changeSelectOptionHandler} value={subject} className='inputsubject'>
-                {userSubjects.map((subject)=> (
+               {Array.isArray(userSubjects) && userSubjects.map((subject) => (
                     <option key={subject.subCode} value={subject.subname}>{subject.subname}</option>
                 ))}
             </select>
         );
+        } else if(userAuth ==="student") {
+          return (
+            <select onChange={changeSelectOptionHandler} value={subject} className='inputsubject'>
+              {Array.isArray(subNames) && subNames.map((subName) => (
+                <option key={subName} value={subName}>{subName}</option>
+              ))}
+            </select>
+          );
+        }
     };
 
     const changeSelectOptionHandler = (e) => {
@@ -210,20 +214,18 @@ export default function LectureList() {
     return(
 
         <div className="lecmain">
-            <div style={{marginTop:"-627PX"}}>
-                <h2 style={{marginLeft:"21px", color:"#434343", marginTop:"-63px", fontSize:"2em", fontWeight:"bold"}}>인강학습실</h2>
-                <div>
-                      {(userAuth === 'teacher' &&
+            <div className='shelterPageWrap'>
+              <div style={{width:"247.94px", textAlign:"center"}}>
+                  <h2 className='maintitle'>인강학습실</h2>
+                
+                      {/* {(userAuth === 'teacher' && */}
                         <button type="button" className="lecBtn" onClick={writelink}>
                               글쓰기
                       </button>
-                      )} 
-                </div>
-            </div>
-
-
+                      {/* )}  */}
+              </div>
         {/* 목록 */}
-        <div style={{display:"block", width:"1000px", marginTop:"25px", marginLeft:"20px"}}>
+        <div style={{display:"block", width:"1000px", marginTop:"25px", marginLeft:"20px", fontSize:"1em", color:"#434343"}}>
             <div style={{display:"flex", marginTop:"-208px", justifyContent:"flex-end"}}>           
             
             <SelectBox />
@@ -231,7 +233,7 @@ export default function LectureList() {
         </div>
         <table className="lectable" style={{marginTop:"28px"}}>
             <thead>
-                <tr style={{backgroundColor:"#FFEBB4", height:"35px"}}>
+                <tr style={{backgroundColor:"#ffebb4", height:"35px"}}>
                     <th scope="col" style={{fontWeight:"bold", color:"#434343"}}>번호</th>
                     <th scope="col" style={{fontWeight:"bold", color:"#434343"}}>과목</th>
                     <th scope="col" style={{fontWeight:"bold", color:"#434343"}}>강의제목</th>
@@ -291,7 +293,7 @@ export default function LectureList() {
         </div>
                 
     </div>
-
+  </div>
     )
 }
 
