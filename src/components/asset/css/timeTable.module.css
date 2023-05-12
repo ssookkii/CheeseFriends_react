@@ -149,3 +149,9 @@
 	height:100%;
 } */
 
+.solidCustom {
+    border:none;
+    border-right:1px solid #fac463;
+    border-left: 1px solid #fac463;
+}
+

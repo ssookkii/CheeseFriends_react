@@ -188,7 +188,7 @@ function SubTimeManage(){
                 <span>대상학년</span>
                 <p>{insertDateTime.classGrade}</p>
             </div>
-            <div className={`${styles.InputBox}`}>
+            <div className={`${styles.InputBox} ${styles.solidCustom}`}>
                 <span>개강일</span>
                 <DatePicker
                     selected={startDate}
@@ -199,7 +199,7 @@ function SubTimeManage(){
                     placeholderText="YYYY/MM/DD"
                 />
             </div>
-            <div className={styles.InputBox}>
+            <div className={`${styles.InputBox} ${styles.solidCustom}`}>
                 <span>강의요일</span>
                 <div className={styles.selectCustom}>
                     <select value={insertDateTime.subDay} onChange={(e) => setInsertDateTime(prevState => ({...prevState, subDay: e.target.value}))}>

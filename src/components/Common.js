@@ -58,7 +58,7 @@ function Common(){
                         <select value={userEdu} onChange={handleUserEdu}>
                             {eduCode.map(function(edu, i){
                                 return(
-                                    <option value={edu.eduCode} key={i}>({edu.eduCode}){edu.eduName}</option>
+                                    <option value={edu.eduCode} key={i}>({edu.eduCode}) {edu.eduName}</option>
                                 )
                             })}
                         </select>
