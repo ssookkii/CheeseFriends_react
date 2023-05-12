@@ -5,11 +5,21 @@
     justify-content: space-between;
 }
 .search {
+    position:relative;
     border:1px solid #434343;
-    border-radius: 10px;
+    border-radius: 12px;
     margin-left:5%;
 }
-.search > select {
+.search > input {
+    height:40px;
+    width:350px;
+    font-size:0.9em;
+    padding:0 15px 0 120px;
+}
+.search select {
+    position:absolute;
+    left:0;
+    top:0;
     width:100px;
     height:40px;
     padding:0 10px;
@@ -17,6 +27,7 @@
     border-bottom-left-radius: 8px;
     border:none;
     font-size:0.9em;
+    line-height:2.9;
     color:#fff;
     background: url(../../../../public/img/searchMenuW.png) no-repeat 86% 50% #434343;
     background-size:10px;
@@ -27,13 +38,10 @@
 .search > select::-ms-expand {
     display: none;
 }
-.search > input {
-    height:40px;
-    width:250px;
-    font-size:0.9em;
-    padding:0 15px;
-}
 .search .searchBtn {
+    position:absolute;
+    right:0;
+    top:0;
     color:#fff;
     background: url(../../../../public/img/searchBtnIcon.png) no-repeat 50% 50% #434343;
     text-indent: -9999px;
@@ -50,17 +58,17 @@
 .eduAdd {
     background-color: #FAC463;
     color:#fff;
-    width:100px;
-    height:40px;
+    padding:10px;
     border-radius: 10px;
     text-align: center;
-    line-height: 39px;
     font-weight: 600;
     font-size:0.9em;
-    margin-left:1%;
     display:inline-block;
 }
-.del {
+.eduAdd:nth-child(2) {
+    margin-left:5px;
+}
+.btnWrap .del {
     background-color: #e80000;
 }
 
@@ -201,16 +209,13 @@
 
 /* QnAManage 테이블 크기조절 custom */
 .qnalist > thead > tr > th:nth-child(1) {
-    width:3%;
-}
-.qnalist > thead > tr > th:nth-child(2) {
     width:10%;
 }
-.qnalist > thead > tr > th:nth-child(3) {width:12%;}
-.qnalist > thead > tr > th:nth-child(4) {width:54%;}
+.qnalist > thead > tr > th:nth-child(2) {width:15%;}
+.qnalist > thead > tr > th:nth-child(3) {width:55%;}
 
-.qnalist > tbody > tr > td:nth-child(3), 
-.qnalist > tbody > tr > td:nth-child(4) {
+.qnalist > tbody > tr > td:nth-child(2), 
+.qnalist > tbody > tr > td:nth-child(3) {
     overflow: hidden;
     text-overflow: ellipsis;
     -webkit-box-orient: vertical;
@@ -219,9 +224,9 @@
     line-height: 49px;
     padding:0 5px;
 }
-.qnalist > tbody > tr > td:nth-child(4) {text-align:left;}
-.qnalist > thead > tr > th:nth-child(5) {width:10%;}
-.qnalist > tbody > tr > td:nth-child(6) > span:first-child {
+.qnalist > tbody > tr > td:nth-child(3) {text-align:left;}
+.qnalist > thead > tr > th:nth-child(4) {width:10%;}
+.qnalist > tbody > tr > td:nth-child(5) > span:first-child {
     display:inline-block;
     background-color: #e80000;
     width:10px;

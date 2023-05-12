@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from "axios";
 import Pagination from 'react-js-pagination';
-import styled from "styled-components";
 import { useNavigate, Link } from 'react-router-dom';
 import arrow from './asset/css/arrow.png';
 
@@ -17,6 +16,10 @@ export default function QnaLearningList() {
 
     function writelink() {
         movePage('/cheesefriends/learning/QnaLearningWrite');
+    }
+    
+    function movelearn() {
+        movePage("/cheesefriends/learning");
     }
 
     function getQnaList() {
@@ -86,30 +89,60 @@ export default function QnaLearningList() {
         if(subject !== 0){
             return "";
         }
-        return (<>{space}<img src={arrow} alt="arrow.png" width='20px' height='20px'/>&nbsp;</>);
+        return (<>{space}<img src={arrow} alt="arrow.png" width='20px' height='20px'/>&nbsp;</>)
+    
+    
     }
 
-    function TableRow(props){
-        return (
-            <tr > 
-                <td>{props.cnt}</td>
-                <td>{props.bbs.subject}</td>
-                <td style={{ textAlign:"left" }} onClick={handleClick}>
-                    {getArrow(props.bbs.depth)}  
-                        <Link to={`/cheesefriends/learning/QnaLearningDetail/${props.bbs.seq}`}>{props.bbs.title}</Link>
-                </td>
-                <td>{props.bbs.regdate}</td>
-                <td>{props.bbs.writer}</td>
+    function TableRow(props) {
+        if (!props.bbs.title) {
+          return (
+            <tr className="empty-row">
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
             </tr>
+          );
+        }
+      
+        return (
+          <tr className="empty-row">
+            {props.cnt && <td>{props.cnt}</td>}
+            <td>{props.bbs.subject}</td>
+            <td style={{ textAlign: "left" }} onClick={handleClick}>
+              {getArrow(props.bbs.depth)}
+              <Link to={`/cheesefriends/learning/QnaLearningDetail/${props.bbs.seq}`}>
+                {props.bbs.title}
+              </Link>
+            </td>
+            <td>{props.bbs.regdate}</td>
+            <td>{props.bbs.writer}</td>
+          </tr>
         );
-    }
+      }
+      
+      // 작은 목록에 대한 행 개수 설정
+      const targetRowCount = 10; // 목표 행 개수
+      
+      // 작은 목록일 경우 빈 행 추가
+      if (subList.length < targetRowCount) {
+        const emptyRowCount = targetRowCount - subList.length;
+        for (let i = 0; i < emptyRowCount; i++) {
+          const emptyRow = { title: null };
+          subList.push(emptyRow);
+        }
+      } else if (subList.length > targetRowCount) {
+        subList.splice(targetRowCount);
+      }
 
     return(
 
             <div className="learninglist">
-                <div style={{marginTop:"-660px"}}>
+                <div style={{marginTop:"-607px"}}>
                 <h2 className="learnh2">수업질문방</h2>
                 <div style={{width:"250px"}}>
+                    <button type="button" className="learnBtn" onClick={movelearn}>◀ 목록으로</button>
                     {/* {userAuth === 'student' && ( */}
                         <button type="button" className="learnBtn"  onClick={writelink}>
                             글쓰기

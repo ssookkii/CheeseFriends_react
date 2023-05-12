@@ -37,7 +37,14 @@ function QnAManage(){
 
     function searchBtn(){
         // if(choice.toString().trim() === "" || search.toString().trim() === "") return;
+        console.log(choice);
+        console.log(search);
         getQnaList(choice, search, 0);
+    }
+    const activeEnter = (e) => {
+        if(e.key === "Enter") {
+            searchBtn()
+        }
     }
 
     function pageChange(page){
@@ -45,26 +52,6 @@ function QnAManage(){
         getQnaList(choice, search, page-1);
     }
 
-    function deleteBtn(id){
-        if(window.confirm("정말 삭제하시겠습니까?")){
-            axios.post("http://localhost:3000/teacherDelete", null, {params: {"id":id}})
-            .then(function(resp){
-                if(resp.data !== null && resp.data !== "" && resp.data === "success"){
-                    alert("삭제되었습니다.");
-                    console.log(resp.data);
-                    window.location.replace("/adminpage/teachermanage")
-                }else if(resp.data !== null && resp.data !== "" && resp.data === "fail"){
-                    alert("삭제를 실패하였습니다.")
-                }
-            })
-            .catch(function(err){
-                alert(err);
-            })
-        }else{
-            alert("취소되었습니다.");
-        }
-        
-    }
 
     useEffect(function(){
         getQnaList("", "", 0);
@@ -74,22 +61,23 @@ function QnAManage(){
     return(
         <div>
             <div className={manage.topContent}>
-                <div className={manage.search}>       
-                    <select value={choice} onChange={(e)=>setChoice(e.target.value)}>
-                        <option value="">검색</option>
-                        <option value="eduCode">학원코드</option>
-                        <option value="eduName">학원이름</option>
-                        <option value="id">아이디</option>
-                    </select>
-                    <input value={search} onChange={(e)=>setSearch(e.target.value)} placeholder="검색어를 입력하세요"/>
-                    <button onClick={searchBtn} className={manage.searchBtn}>검색</button>
+                <div className={manage.search}>
+                    <div> 
+                        <select value={choice} onChange={(e)=>setChoice(e.target.value)}>
+                            <option value="">검색</option>
+                            <option value="id">작성자</option>
+                            <option value="title">제목</option>
+                            <option value="topic">문의주제</option>
+                        </select>
+                        <button onClick={searchBtn} className={manage.searchBtn}>검색</button>
+                    </div>   
+                    <input value={search} onChange={(e)=>setSearch(e.target.value)}  onKeyPress={(e) => activeEnter(e)} placeholder="검색어를 입력하세요"/>
                 </div>
             </div>
 
             <table className={`${manage.manageList} ${manage.qnalist}`}>
                 <thead>
                     <tr>
-                        <th><input type="checkbox"/></th>
                         <th>작성자</th>
                         <th>문의주제</th>
                         <th>제목</th>
@@ -102,7 +90,6 @@ function QnAManage(){
                         qnaList.map(function(qna, i){
                             return (
                                 <tr key={i}>
-                                    <td><input type="checkbox"/></td>
                                     <td>{qna.writer}</td>
                                     <td>{qna.topic}</td>
                                     <td><Link to={`/adminpage/qnaanswer/${qna.seq}`}>{qna.title}</Link></td>

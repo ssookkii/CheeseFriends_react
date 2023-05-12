@@ -528,14 +528,16 @@ function Learningmypage(){
                 <div></div>
                 }
 
-                <div className={styles.search}>      
-                    <select class="mypageselect" value={choice} onChange={choiceChange}>
-                        <option value="">검색</option>
-                        <option value="eduname">교육기관</option>
-                        <option value="subject">과목</option>
-                    </select>
+                <div className={styles.search}>
+                    <div>  
+                        <select class="mypageselect" value={choice} onChange={choiceChange}>
+                            <option value="">검색</option>
+                            <option value="eduname">교육기관</option>
+                            <option value="subject">과목</option>
+                        </select>
+                        <button onClick={searchBtn} className={styles.searchBtn}>검색</button>
+                    </div> 
                     <input value={search} onChange={searchChange} placeholder="검색어를 입력하세요"/>
-                    <button onClick={searchBtn} className={styles.searchBtn}>검색</button>
                 </div>
             </div>
             <React.Fragment>

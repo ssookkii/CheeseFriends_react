@@ -48,10 +48,7 @@ function TeaUpdate(){
     function teacherUpdate(){
         let teacherData = null;
         if(teacher.name === null || teacher.name === ""){
-            alert("과목명을 입력해주세요");
-            return;
-        } else if(teacher.phone === null || teacher.phone === ""){
-            alert("담당교사 아이디를 입력해주세요");
+            alert("담당교사 이름을 입력해주세요");
             return;
         } else {
             teacherData = {
@@ -104,7 +101,9 @@ function TeaUpdate(){
                 <input
                 type="text"
                 className={styles.Input}
-                defaultValue={teacher.name}/>
+                defaultValue={teacher.name}
+                onInput={(e) => setTeacher(prevState => ({...prevState, name: e.target.value}))}
+                />
             </div>
             <div className={styles.InputBox}>
                 <span>이메일</span>

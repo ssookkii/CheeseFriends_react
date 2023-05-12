@@ -3,14 +3,17 @@
     justify-content: center;
     margin-top: 30px;
 }
-.active > * {
-    color:#FAC463;
+.pagination li.active > a {
+    background:#FAC463;
+    border-radius: 5px;
+    padding:3px 8px;
+    color:#fff !important;
     font-weight: 600;
-    font-size:1em !important;
 }
 .pagination > li {
     width:20px;
     text-align: center;
+    margin:0 5px;
 }
 .pagination > li > * {
     font-size:0.9em;

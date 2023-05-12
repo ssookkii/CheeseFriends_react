@@ -24,7 +24,7 @@ function PlayGame() {
 
   return (
 
-    <div style={{width:800}}>
+    <div style={{width:800, height:1300}}>
       <div className="divCenter" style={{marginTop:40}}>
         <h1><img src={`${process.env.PUBLIC_URL}/img/playgame1.png`}  style={{width:'30%'}} alt="prop 2 sky"/></h1>
       </div>
@@ -35,7 +35,7 @@ function PlayGame() {
       <div className="divCenter">
       {showIframe && <button className="playbtn" type="button" onClick={handlePlayGame}>게임 설명</button>}
       </div>
-      {showIframe && <div className="divCenter"><iframe src="../WebGLTest/index.html" width="520" height="1090"></iframe></div>}
+      {showIframe && <div className="divCenter"><iframe src="../../WebGLTest/index.html" width="520" height="1090"></iframe></div>}
 
     <div className="playInfoWrap">
       {showGameexp && 
