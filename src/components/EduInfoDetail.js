@@ -57,6 +57,20 @@ function EduInfoDetail(){
         link.click();
       }
 
+      const [imgFile, setImgFile] = useState("");
+      const imgRef = useRef();
+
+        // 이미지 업로드 input의 onChange
+      const saveImgFile = () => {
+        const file = imgRef.current.files[0];
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onloadend = () => {
+            setImgFile(reader.result);
+        };
+    };
+
+
 
     return (
         <div className="lecdeMain">
