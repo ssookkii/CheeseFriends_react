@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { faCheese } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import './asset/css/ServiceAnswer.css';
+import './asset/css/QnaLearningAnswer.css';
 import axios from 'axios';
 
 function QnaLearningAnswer(){
@@ -41,7 +41,7 @@ function QnaLearningAnswer(){
         axios.post('http://localhost:3000/answerQna', null, { params: {
             seq:bbs.seq,
             title,
-            subject,
+            subject:bbs.subject,
             writer:userName,
             content
         }})

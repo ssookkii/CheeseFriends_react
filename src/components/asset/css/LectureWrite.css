@@ -1,7 +1,7 @@
 .lecwritemain {
     width: 1200px;
     height: 500px;
-    margin: -10px -82px 0 auto;
+    margin: 20px -110px 0 auto;
     align-items: center;
     font-size: 18px;
 }
@@ -12,14 +12,16 @@
 }
 
 .inputtitle, .inputsubject {
+    margin-left: 30px;
     margin-right: 69px;
     font-size: 18px;
     height: 30px;
     border: none;
     border-bottom: 2px solid lightgray;
-    width: 145px;
+    width: 200px;
     margin-top: 8px;
 }
+
 
 .subjectCode {
     margin-left: 60px;
@@ -34,7 +36,7 @@
 .lecontent {
     border: 1px solid lightgray;
     margin-top: 10px;
-    margin-left: 8px;
+    margin-left: 60px;
     width: 900px;
     height: 314px;
 }
@@ -48,8 +50,8 @@
 
 .inputwriter {
     margin-top: 8px;
-    margin-left: 42px;
-    font-size: 17px;
+    margin-left: 10px;
+    font-size: 18px;
     border: none;
 }
 
@@ -63,8 +65,8 @@
 
 .btnwrapper {
     text-align: right;
-    margin-top: 26px;
-    margin-right: -400px;
+    margin-top: 20px;
+    margin-right: -460px;
 }
 .btnwrappera{
     text-align: right;
@@ -72,8 +74,8 @@
     margin-right: -510px;
 }
 .inputfile {
-    margin-top: 5px;
-    margin-left: 59px;
+    margin-top: 12px;
+    margin-left: 25px;
 }
 .resetbtn, .submitbtn {
     width: 100px;

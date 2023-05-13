@@ -22,7 +22,7 @@ function LectureDetail(){
         console.log("bbs:" + JSON.stringify(response.data));
         setBbs(response.data);
         // setFileName(bbs.filename);
-        alert(JSON.stringify(response.data));
+        // alert(JSON.stringify(response.data));
 
         setLoading(true);   // 여기서 rendering 해 준다
     }
@@ -84,15 +84,15 @@ function LectureDetail(){
                 <td colSpan="2" style={{ backgroundColor:'white' }}>
                     <pre id="content" style={{ marginTop:"6px", fontSize:'18px', lineHeight:"1.5", fontFamily:'고딕, arial', backgroundColor:'white', textAlign:"left", marginLeft:"138px" }}>{bbs.content}</pre>
                     
-                    {/* <video style={{width:"700px", marginLeft:"272px", border:"3px solid #eeeeee"}} controls >
+                    <video style={{width:"700px", marginLeft:"272px", border:"3px solid #eeeeee"}} controls >
                         <source src={require('./asset/css/sample2.mp4')} type="video/mp4" /> 
-                    </video> */}
-                       <button onClick={download} >file download</button>
+                    </video>
+
                 </td>
             </tr>
             </tbody>
             </table>
-            <div style={{textAlign:"center", marginLeft:"50px"}}>
+            <div style={{textAlign:"center", marginLeft:"50px", marginTop:"5px"}}>
                 <button className="leclistBtn" type="button" onClick={leclist}>목록으로</button>
             </div>
                   

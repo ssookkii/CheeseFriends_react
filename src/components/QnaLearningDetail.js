@@ -7,6 +7,8 @@ function QnaLearningDetail(){
     let history = useNavigate();
 
     const [bbs, setBbs] = useState();
+    const loginInfo = JSON.parse(localStorage.getItem("login"));
+    const userAuth = loginInfo?.auth;
 
     // 데이터를 모두 읽어 들일 때까지 rendering을 조절하는 변수
     const [loading, setLoading] = useState(false);
@@ -73,8 +75,11 @@ function QnaLearningDetail(){
             </tbody>
             </table>
             <div style={{textAlign:"center"}}>
-                <button className="leclistBtn" type="button" >
-                <Link to={`/cheesefriends/learning/QnaLearningAnswer/${bbs.seq}`} style={{textDecoration:"none", fontWeight:"bold", color:"white", fontSize:"1em"}}>답변하기</Link></button>
+            {userAuth === 'teacher' && (
+                    <button className="leclistBtn" type="button">
+                        <Link to={`/cheesefriends/learning/QnaLearningAnswer/${bbs.seq}`} style={{textDecoration:"none", fontWeight:"bold", color:"white", fontSize:"1em"}}>답변하기</Link>
+                    </button>
+                )}
                 <button className="resetbtn" type="button" onClick={qnalist}>목록으로</button>
             </div>
                    

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import axios from "axios";
 import Pagination from 'react-js-pagination';
 import './asset/css/LearningList.css';
@@ -8,13 +8,25 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function LearningList() {
 
-    const [learninglist, setLearninglist] = useState([]);
+  const [learnList, setLearnList] = useState([]);
+    const [id, setId] = useState("");
+    const [userEdu, setUserEdu] = useState(
+      localStorage.getItem("userEdu")
+    );
+    const loginInfo = JSON.parse(localStorage.getItem("login"));
+    const userAuth = loginInfo?.auth;
+
+    // console.log(userId);
+    // console.log(userAuth);
+    const [currentUserId, setCurrentUserId] = useState('');
+    const [userSubjects, setUserSubjects] = useState([]);
+    const [edu_code, setEdu_code] = useState("");
+    const [subCode, setSubCode] = useState("");
+    const [subject, setSubject] = useState(
+        localStorage.getItem("subject")
+    );
 
     const movePage = useNavigate();
-
-    const loginInfo = JSON.parse(localStorage.getItem("login"));
-    const userId = loginInfo?.id;
-    const userAuth = loginInfo?.auth;
 
     function writelink() {
         movePage('/cheesefriends/learning/LearningWrite')
@@ -25,79 +37,210 @@ export default function LearningList() {
     function qnalink() {
         movePage('/cheesefriends/learning/QnaLearningList');
     }
+   
+    const [subNames, setSubNames] = useState([]);
 
-    function getLearnList() {
-        axios.get("http://localhost:3000/learninglist")
-        .then(function(resp){
-            setLearninglist(resp.data);
-            console.log(resp.data);
-            
-        })
-        .catch(function(err){
-            // alert(err);
-        })
+    useEffect(() => {
+      if (userAuth === "teacher") {
+          const userId = loginInfo?.id;
+          if(userId) {
+          setCurrentUserId(userId);
+          console.log(userId);
+          }
+          axios
+            .post("http://localhost:3000/eduselect", null, { params: { id: userId } })
+            .then(function (resp) {
+              console.log(resp.data);
+              setEdu_code(resp.data.educode);
+      
+              axios
+                .post("http://localhost:3000/subselect", null, {
+                  params: { id: userId, educode: resp.data.educode },
+                })
+                .then(function (resp) {
+                  console.log(resp.data);
+                  setUserSubjects(resp.data);
+                })
+                .catch(function (err) {
+                  console.log(err);
+                  alert("err");
+                });
+            })
+            .catch(function (err) {
+              console.log(err);
+              alert("err");
+            })
 
-    }
-
-    useEffect(function(){
-        getLearnList(0);
-    },[]);
-    
- 
-    const [subList, setSubList] = useState([]);
-    const [choice, setChoice] = useState('');
-    const [search, setSearch] = useState('');
-
-    //paging
-    const [page, setPage] = useState(1);
-    const [totalCnt, setTotalCnt] = useState(10);
-
-    function getSubList(choice, search, page){
-        axios.get("http://localhost:3000/learninglist", { params:{"choice":choice, "search":search, "pageNumber":page } })
-        .then(function(resp) {
-          //  console.log(resp.data);
-          //  alert(JSON.stringify(resp.data[8]));
-
-          setSubList(resp.data.list);
-          setTotalCnt(resp.data.cnt);
-        })
-        .catch(function(err){
-            alert(err);
-        })
-    }
-
-    function searchBtn(){
-        // if(choice.toString().trim() === "" || search.toString().trim() === "") return;
-        getSubList(choice, search, 0);
-    }
-
-    function pageChange(page) {
-        setPage(page);
-        getSubList(choice, search, page-1);
-    }
-
-    useEffect(function(){
-        getSubList("","", 0);
-    }, []);
-
-    // 작은 목록에 대한 행 개수 설정
-        const targetRowCount = 10; // 목표 행 개수
-        const emptyRow = {}; // 빈 행 데이터 객체
-
-    // 작은 목록일 경우 빈 행 추가
-        if (subList.length < targetRowCount) {
-        const emptyRowCount = targetRowCount - subList.length;
-        for (let i = 0; i < emptyRowCount; i++) {
-          subList.push(emptyRow);
-        }
+      } else if(userAuth === "student") {
+          const userId = loginInfo?.id;
+          if(userId) {
+          setCurrentUserId(userId);
+          console.log(userId);
       }
 
 
+      axios.get("http://localhost:3000/sublist")
+        .then(function (resp) {
+          console.log(resp.data); // 현재 수강중인 과목 목록
+          
+          const subNames = resp.data.list.map(item => item.subName);
+          console.log(subNames);
+          setSubNames(subNames);
+
+        })
+        .catch(function (err) {
+          console.log(err);
+          alert("err");
+        });
+      }
+    }, []);
+
+
+    // const getSubList = useCallback(async (c, s, p) => {
+    //   await axios.get('http://localhost:3000/learninglist', { params: { "choice": c, "search": s, "pageNumber": p } })
+    //     .then(function (res) {
+    //       // 데이터 처리 로직
+    //     })
+    //     .catch(function (err) {
+    //       console.log(err);
+    //     });
+    // }, [userAuth, subject, userSubjects]);
+ 
+    const getLearnList = useCallback(() => {
+      axios.get("http://localhost:3000/learninglist")
+        .then(function(resp) {
+          setLearnList(resp.data);  // 전체 강의 목록
+          console.log(resp.data);
+        })
+        .catch(function(err){
+          // alert(err);
+        });
+    }, [userSubjects]);
+
+    useEffect(() => {
+      getLearnList();
+    }, [getLearnList]);
+  
+    const SelectBox = () => {
+      if(userAuth === "teacher"){
+        return (
+          <select onChange={changeSelectOptionHandler} value={subject} className='inputsubject' style={{marginRight:"3px", marginBottom:"8px"}}>
+             {Array.isArray(userSubjects) && userSubjects.map((subject) => (
+                  <option key={subject.subCode} value={subject.subname}>{subject.subname}</option>
+              ))}
+          </select>
+      );
+      } else if(userAuth ==="student") {
+        return (
+          <select onChange={changeSelectOptionHandler} value={subject} className='inputsubject' style={{marginRight:"3px", marginBottom:"8px"}}>
+            {Array.isArray(subNames) && subNames.map((subName) => (
+              <option key={subName} value={subName}>{subName}</option>
+            ))}
+          </select>
+        );
+      }
+  };
+
+  const changeSelectOptionHandler = (e) => {
+      const selectedSubject = e.target.value;
+      setSubject(selectedSubject);
+  };
+
+  
+  useEffect(() => {
+      // 기존의 선택된 과목 값을 가져온다
+      const selectedSubject = localStorage.getItem("subject");
+      if (selectedSubject) {
+        setSubject(selectedSubject);
+      }
+    }, []);
+    
+    useEffect(() => {
+      // subject 값이 변경될 때마다 로컬 스토리지에 저장한다
+      localStorage.setItem("subject", subject);
+    }, [subject]);
+
+  const [subList, setSubList] = useState([]);
+  const [choice, setChoice] = useState('');
+  const [search, setSearch] = useState('');
+
+  
+   // paging
+   const [page, setPage] = useState(1);
+   const [totalCnt, setTotalCnt] = useState(0);
+
+  function searchBtn(){
+      // if(choice.toString().trim() === "" || search.toString().trim() === "") return;
+      getSubList(choice, search, 0);
+  }
+
+  const getSubList = useCallback(async (c, s, p) => {
+    await axios.get('http://localhost:3000/learninglist', { params: { "choice": c, "search": s, "pageNumber": p } })
+      .then(function (res) {
+        let fetchedList = res.data.list;
+  
+        // 과목 필터링
+        if (userAuth === "teacher") {
+          fetchedList = fetchedList.filter(item => item.subject === subject);
+        } else if (userAuth === "student") {
+          fetchedList = fetchedList.filter(item => userSubjects.find(subject => subject.subname === item.subject));
+        }
+  
+        const fetchedListLength = fetchedList.length;
+  
+        if (fetchedListLength <= 10) {
+          // 전체 데이터가 10개 이하일 경우, 나머지 빈 데이터를 추가하여 10개로 맞춥니다.
+          const targetRowCount = 10; // 목표 행 개수
+          const emptyRow = {}; // 빈 행 데이터 객체
+  
+          const emptyRowCount = targetRowCount - fetchedListLength;
+          for (let i = 0; i < emptyRowCount; i++) {
+            fetchedList.push(emptyRow);
+          }
+  
+          setSubList(fetchedList);
+          setTotalCnt(fetchedListLength);
+        } else {
+          // 전체 데이터가 10개보다 많을 경우, 페이지네이션을 적용하여 데이터를 나누어 보여줍니다.
+          const targetRowCount = 10; // 목표 행 개수
+          const emptyRow = {}; // 빈 행 데이터 객체
+  
+          // 작은 목록에 대한 행 개수 설정
+          if (fetchedListLength < targetRowCount) {
+            const emptyRowCount = targetRowCount - fetchedListLength;
+            for (let i = 0; i < emptyRowCount; i++) {
+              fetchedList.push(emptyRow);
+            }
+          }
+  
+          setSubList(fetchedList);
+          setTotalCnt(res.data.cnt);
+        }
+  
+        console.log(res.data);
+      })
+      .catch(function (err) {
+        console.log(err);
+      });
+  }, [userAuth, subject, userSubjects]);
+
+    // 페이지 설정
+    const pageChange = (page) => {
+      setPage(page);
+      getSubList(choice, search, page - 1);
+    };
+
+    useEffect(() => {
+      getSubList(choice, search, page - 1);
+    }, [getSubList, choice, search, page]);
+
+
+
     return(
-        <div className="learninglist">
+        <div className="learninglist" style={{marginTop:"120px"}}>
             <div className='shelterPageWrap'>
-              <div style={{width:"247.94px", textAlign:"center", marginTop:"-204px"}}>
-                <h2 className='maintitle'>학습자료실</h2>
+              <div style={{width:"247.94px", textAlign:"center", marginTop:"-190px"}}>
+                <h2 className='maintitle' style={{marginTop:"-175px"}}>학습자료실</h2>
 
                     {/* {userAuth === 'teacher' && ( */}
                         <button type="button" className="learnBtn"  onClick={writelink}>
@@ -121,20 +264,11 @@ export default function LearningList() {
 
         {/* 목록 */}
         <div style={{display:"block", width:"1000px", marginTop:"25px", marginLeft:"20px"}}>
-            <div style={{display:"flex", marginTop:"-208px", justifyContent:"flex-end"}}>
-                    
-            <select vlaue={choice} onChange={(e)=>setChoice(e.target.value)}
-           style={{border:"none", borderBottom:"1px solid lightgray", height:"31px", marginTop:"14px", marginRight:"6px" }}>
-                <option value="">검색</option>
-                <option value="subject">과목</option>
-                <option value="title">제목</option>
-                <option value="content">내용</option>
-            </select>
-            <input value={search} onChange={(e)=>setSearch(e.target.value)} style={{marginTop:"14px", height:"31px"}} placeholder="검색어를 입력하세요"/>
-            <button onClick={searchBtn} style={{marginTop:"14px"}} className='lecsearchbtn'>검색</button>
+            <div style={{display:"flex", marginTop:"-137px", justifyContent:"flex-end"}}>      
+            <SelectBox />
         </div>
         <div>
-        <table className="lectable" style={{ marginTop: "28px" }}>
+        <table className="lectable" style={{ marginTop: "10px" }}>
       <thead>
         <tr style={{ backgroundColor: "#FFEBB4", height: "35px" }}>
           <th scope="col" style={{ fontWeight: "bold", color: "#434343" }}>번호</th>

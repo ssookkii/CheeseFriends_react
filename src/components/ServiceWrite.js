@@ -22,7 +22,8 @@ export default function ServiceWrite() {
 
     const SelectBox = () => {
         return (
-            <select onChange={changeSelectOptionHandler} value={topic} className='inputsubject'>
+            <select onChange={changeSelectOptionHandler} value={topic} className='inputsubject' style={{marginLeft:"61px"}}>
+                <option key="" value=""></option>
                 <option key="frequently" value="자주묻는질문">자주묻는질문</option>
                 <option key="userInfo" value="개인정보">개인정보</option>
                 <option key="useLect" value="강의이용">강의이용</option>

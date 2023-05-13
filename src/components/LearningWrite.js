@@ -139,7 +139,7 @@ function LearningWrite() {
                     <>
                     내용
                     </>
-                    <input type="file" name="uploadFile" className='inputfile' accept="*"  />
+                    {/* <input type="file" name="uploadFile" className='inputfile' accept="*"  /> */}
                     <br/>
                     <textarea id='content' className='lecontent' name='content'
                         value={content} onChange={(e) => setContent(e.target.value)} />

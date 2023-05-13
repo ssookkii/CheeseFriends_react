@@ -10,9 +10,16 @@ function TaskWrite() {
     const [title, setTitle] = useState('');
     const [writer, setWriter] = useState('');
     const [content, setContent] = useState('');
+    const [file, setFile] = useState(null);
+    const [filename, setFilename] = useState("");
+    const [newfilename, setNewfilename] = useState("");
 
-    const login = JSON.parse(localStorage.getItem("login"));
-    const userName = login.name;
+
+    const [subNames, setSubNames] = useState([]);
+    const [currentUserId, setCurrentUserId] = useState('');
+    const loginInfo = JSON.parse(localStorage.getItem("login"));
+    const userAuth = loginInfo?.auth;
+    const userName = loginInfo?.name;
 
     const [subject, setSubject] = useState(
         localStorage.getItem("subject")
@@ -25,101 +32,137 @@ function TaskWrite() {
         // alert('onSubmit');
     
         // file + form field -> 짐을 싼다
-        let formData = new FormData();
-        formData.append("subject", subject);
-        formData.append("title", title);
-        formData.append("writer", userName);
-        formData.append("content", content);
-    
-        formData.append("uploadFile", document.frm.uploadFile.files[0]);
-    
-        // 보내자!
-        axios.post("http://localhost:3000/fileUpload", formData)
-        .then(res=>{
-           console.log(res.data);
-           alert('성공적으로 등록되었습니다');
-           return 
-        })
-        .catch(function(error){
-           alert('과제 제출에 실패했습니다');
-        });
-
-        axios.post('http://localhost:3000/writeTask', null, { params: {
-                subject,
-                title,
-                writer:userName,
-                content
-        }})
-        .then( resp => {
-            console.log(resp);
-            navigate('/cheesefriends/learning/TaskList');
+           
+        if (filename !== null && filename !== "") {
+          const formData = new FormData();
+          formData.append('uploadFile', file, filename);
+          console.log(formData);
+        
+          fetch('http://localhost:3000/upload', {
+            method: 'POST',
+            body: formData,
+            headers:{'content-type':'multipart/form-data'}
+          })
+            .then(response => response.json())
+            .then(data => {
+              console.log(data);
+              alert('성공적으로 등록되었습니다');
+              navigate('/cheesefriends/learning/TaskList');
             })
-            .catch(err => console.log(err));
+            .catch(error => {
+              console.error(error);
+              // 오류 처리 로직 추가
+            });
+        } else {
+          axios.post('http://localhost:3000/upload', {
+            subject: subject,
+            title: title,
+            writer: userName,
+            content: content,
+            filename: filename,
+            newfilename: newfilename
+          })
+            .then(resp => {
+              console.log(resp.data);
+              alert('성공적으로 등록되었습니다');
+              navigate('/cheesefriends/learning/TaskList');
+            })
+            .catch(err => {
+              console.log(err);
+      })
+    }}
 
-        }
-
-        // download
-        const download = async () => {
-            let filename = "zoom.txt";
-
-            const url = "http://localhost:3000/fileDownload?filename=" + filename;
-
-            window.location.href = url;
-        }
-
-            const resetBtn = () => {
-                navigate('/cheesefriends/learning/TaskList');
-            }    
+        const resetBtn = () => {
+            navigate('/cheesefriends/learning/TaskList');
+        }    
             
             const [userSubjects, setUserSubjects] = useState([]);
             const [edu_code, setEdu_code] = useState("");
 
-            useEffect (()=>{
-                axios.post("http://localhost:3000/eduselect", null, { params:{ "id":login.id}})
-                .then(function(resp){   
-                    console.log(resp.data); 
-        
-                    setEdu_code(resp.data.educode);
-        
-                    axios.post("http://localhost:3000/subselect", null, { params:{ "id":login.id, "educode":resp.data.educode}})
-                    .then(function(resp){   
-                        console.log(resp.data); 
-                        setUserSubjects(resp.data);
-                    })
-                    .catch(function(err){
+            useEffect(() => {
+                if (userAuth === "teacher") {
+                    const userId = loginInfo?.id;
+                    if(userId) {
+                    setCurrentUserId(userId);
+                    console.log(userId);
+                    }
+                    axios
+                      .post("http://localhost:3000/eduselect", null, { params: { id: userId } })
+                      .then(function (resp) {
+                        console.log(resp.data);
+                        setEdu_code(resp.data.educode);
+                
+                        axios
+                          .post("http://localhost:3000/subselect", null, {
+                            params: { id: userId, educode: resp.data.educode },
+                          })
+                          .then(function (resp) {
+                            console.log(resp.data);
+                            setUserSubjects(resp.data);
+                          })
+                          .catch(function (err) {
+                            console.log(err);
+                            alert("err");
+                          });
+                      })
+                      .catch(function (err) {
                         console.log(err);
-                        alert('err')
-                    })
-                    
-                })
-                .catch(function(err){
-                    console.log(err);
-                    alert('err')
-                })
+                        alert("err");
+                      })
         
-            },[]);
-
+                } else if(userAuth === "student") {
+                    const userId = loginInfo?.id;
+                    if(userId) {
+                    setCurrentUserId(userId);
+                    console.log(userId);
+                }
+        
+        
+                axios.get("http://localhost:3000/sublist")
+                  .then(function (resp) {
+                    console.log(resp.data); // 현재 수강중인 과목 목록
+                    
+                    const subNames = resp.data.list.map(item => item.subName);
+                    console.log(subNames);
+                    setSubNames(subNames);
+        
+                  })
+                  .catch(function (err) {
+                    console.log(err);
+                    alert("err");
+                  });
+                }
+              }, []);
+        
             const SelectBox = () => {
-                return (
+                if(userAuth === "teacher"){
+                  return (
                     <select onChange={changeSelectOptionHandler} value={subject} className='inputsubject'>
-                        {userSubjects.map((subject)=> (
+                       {Array.isArray(userSubjects) && userSubjects.map((subject) => (
                             <option key={subject.subCode} value={subject.subname}>{subject.subname}</option>
                         ))}
                     </select>
                 );
+                } else if(userAuth ==="student") {
+                  return (
+                    <select onChange={changeSelectOptionHandler} value={subject} className='inputsubject'>
+                      {Array.isArray(subNames) && subNames.map((subName) => (
+                        <option key={subName} value={subName}>{subName}</option>
+                      ))}
+                    </select>
+                  );
+                }
             };
-        
             const changeSelectOptionHandler = (e) => {
                 setSubject(e.target.value);
             };
         
-                   
    
         return (
             <div  className='lecwritemain'>
                 <h2 className='lecmainh2'>과제 제출</h2>
 
-                <form name="frm" onSubmit={onSubmit} encType="multipart/form-data">
+              <form name="frm" onSubmit={onSubmit} encType="multipart/form-data">
                 <>
                 제목
                 <input type="text" id='title' className='inputtitle' name='title'
@@ -140,7 +183,7 @@ function TaskWrite() {
                 <>
                 내용
                 </>
-                <input type="file" name='uploadFile' className='inputfile' accept='*' />
+                <input type="file" name='uploadFile' multiple="multiple" className='inputfile' accept='*' />
                 <br />
                 <textarea id='content' className='lecontent' name='content'
                     value={content} onChange={(e) => setContent(e.target.value)} />

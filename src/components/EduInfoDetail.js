@@ -82,7 +82,8 @@ function EduInfoDetail(){
             </tr>
             <tr style={{height:"32px"}}>	
                 <td colSpan="2" style={{ backgroundColor:'white', wordBreak:"break-all", width:"1000px" }}>
-                <button onClick={download} style={{backgroundColor:'white', paddingTop:"10px", width:"133px", fontWeight:"bold", color:"#fbca73"}}><FontAwesomeIcon icon={faCheese} color="#fbca73" /> 첨부파일</button>
+                {/* <button onClick={download} style={{backgroundColor:'white', paddingTop:"10px", width:"133px", fontWeight:"bold", color:"#fbca73"}}><FontAwesomeIcon icon={faCheese} color="#fbca73" /> 첨부파일</button> */}
+                <img src='./img/eduinfo-1.png'></img>
                     {imageUrl && <img src={imageUrl} alt="미리보기" style={{ maxWidth: "300px" }} />}
                     <pre id="content" style={{ fontSize:'20px', fontFamily:'고딕, arial', backgroundColor:'white', textAlign:"left", width:"1000px", whiteSpace:"pre-wrap"}}>{bbs.content}</pre>
                 </td>

@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
 import './asset/css/LectureWrite.css';
-
 import axios from "axios";
-
 
 export default function EduInfoWrite() {
 
@@ -43,7 +41,7 @@ export default function EduInfoWrite() {
 
     const SelectBox = () => {
         return (
-            <select onChange={changeSelectOptionHandler} value={subject}  className='inputsubject'>
+            <select onChange={changeSelectOptionHandler} value={subject}  className='inputsubject' style={{width:"315px"}}>
                 <option key="kor" value="국어">국어</option>
                 <option key="math" value="수학">수학</option>
                 <option key="eng" value="영어">영어</option>
@@ -82,7 +80,7 @@ export default function EduInfoWrite() {
             <form name="frm" onSubmit={onSubmit} encType="multipart/form-data">
             <>
             제목
-            <input type="text" id='title' className='inputtitle' name='title'
+            <input type="text" id='title' className='inputtitle' name='title' style={{width:"315px"}}
                 value={title} onChange={(e) => setTitle(e.target.value)} />
             </>
             <br/>
@@ -103,8 +101,8 @@ export default function EduInfoWrite() {
             <input type="file" name="uploadFile" className='inputfile' accept="*" onChange={handleFileSelect} />
             <br />
             <div className='efile'>
-            {selectedFile && <img src={selectedFile} id="previewImage" alt="미리보기" style={{ maxWidth: "300px", marginTop:"13px" }} />}
-            <textarea id='content' className='lecontent' name='content'
+            {selectedFile && <img src={selectedFile} id="previewImage" alt="미리보기" style={{ maxWidth: "300px", marginTop:"13px", maxHeight:"310px" }} />}
+            <textarea id='content' className='lecontent' name='content' style={{maxWidth:"733px"}}
                 value={content} onChange={(e) => setContent(e.target.value)} />
             </div>
             <div className='btnwrapper'>

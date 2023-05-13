@@ -5,7 +5,7 @@
 .servicelist{
     width: 1200px;
     height: 500px;
-    margin: 100px auto 0;
+    margin: 150px auto 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -55,10 +55,9 @@
 }
 
 .contentwrappers {
-
     position: fixed;
-    left: 541px;
-    top: 182px;
+    left: 760px;
+    top: 190px;
 
 }
 
@@ -93,6 +92,13 @@
     font-size: 20px;
     line-height: 1.5;
 }
+
+.answercont {
+    font-weight: bold;
+    margin-top: 200px;
+}
+
+
 .answerbtn {
     font-size: 1em;
     font-weight: bold;

@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react';
 import axios from "axios";
 import Pagination from 'react-js-pagination';
 import { useNavigate, Link } from 'react-router-dom';
-import arrow from './asset/css/arrow.png';
-
 import { faAngleRight, faAngleLeft,faAnglesLeft, faAnglesRight  } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -33,9 +31,10 @@ export default function QnaLearningList() {
         })
     }
 
-    useEffect(function(){
-        getQnaList(0);
-    },[]);
+    useEffect(function () {
+        getQnaList();
+        getSubList("", "", 0);
+      }, []);
  
     const [subList, setSubList] = useState([]);
     const [choice, setChoice] = useState('');
@@ -76,24 +75,6 @@ export default function QnaLearningList() {
         setDepth(depth + 1);
     }
 
-    function getArrow() {           
-        let nbsp = "&nbsp;&nbsp;&nbsp;&nbsp;";
-        
-        let ts = "";
-        for(var i = 0;i < depth; i++){
-            ts += nbsp;
-        }
-    
-        // String -> Html
-        let space = <span dangerouslySetInnerHTML={{ __html: ts }}></span>    
-        if(subject !== 0){
-            return "";
-        }
-        return (<>{space}<img src={arrow} alt="arrow.png" width='20px' height='20px'/>&nbsp;</>)
-    
-    
-    }
-
     function TableRow(props) {
         if (!props.bbs.title) {
           return (
@@ -105,13 +86,14 @@ export default function QnaLearningList() {
             </tr>
           );
         }
-      
+        
+        const isReply = props.bbs.depth > 0;
+
         return (
-          <tr className="empty-row">
-            {props.cnt && <td>{props.cnt}</td>}
+          <tr className={`empty-row ${isReply ? 'reply' : ''}`}>
+            {props.cnt && <td >{props.cnt}</td>}
             <td>{props.bbs.subject}</td>
-            <td style={{ textAlign: "left" }} onClick={handleClick}>
-              {getArrow(props.bbs.depth)}
+            <td style={{ textAlign: "left" }} onClick={handleClick} className={isReply ? 'replya' : ''}>
               <Link to={`/cheesefriends/learning/QnaLearningDetail/${props.bbs.seq}`}>
                 {props.bbs.title}
               </Link>
@@ -140,8 +122,8 @@ export default function QnaLearningList() {
 
             <div className="learninglist">
                 <div className='shelterPageWrap'>
-                    <div style={{width:"247.94px", textAlign:"center", marginTop:"-311px"}}>
-                    <h2 className="learnh2">수업질문방</h2>
+                    <div style={{width:"247.94px", textAlign:"center", marginTop:"-352px"}}>
+                    <h2 className="learnh2" style={{marginLeft:"-15px"}}>수업질문방</h2>
                         {/* {userAuth === 'student' && ( */}
                             <button type="button" className="learnBtn"  onClick={writelink}>
                                 글쓰기
@@ -177,13 +159,9 @@ export default function QnaLearningList() {
                 </tr>
             </thead>
             <tbody className="table-group-divider">
-            {
-                subList.map(function(list, i){
-                    return (
-                        <TableRow bbs={list} cnt={i + 1} key={i} style={{backgroundColor:"yellow"}} />
-                    )
-                })
-            }
+                {subList.map(function (list, i) {
+                    return <TableRow bbs={list} cnt={i + 1} key={i} style={{ backgroundColor: "yellow" }} />;
+                })}
             </tbody>
         </table>
         <br/>

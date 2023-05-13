@@ -24,9 +24,10 @@ export default function ServiceList() {
     let params = useParams();
     
     const bbsData = async(seq) => {
-        const response = await axios.get('http://localhost:3000/getService', { params:{"seq":seq} });
+        const response = await axios.get('http://localhost:3000/getAnswer', { params:{"seq":seq} });
 
         setBbs(response.data);
+        console.log(response.data);
     }
 
     useEffect(() => {
@@ -41,12 +42,14 @@ export default function ServiceList() {
     const [answerContent, setAnswerContent] = useState('');
 
     async function handleItemClick(item) {
-        setSelectedItem(item);
-        setModalIsOpen(true);
-
-        const bbs = await bbsData(item.seq);
-        setAnswerContent(bbs.answer);
-    }
+      setSelectedItem(item);
+      setModalIsOpen(true);
+  
+      const response = await bbsData(item.seq);
+      if (response) {
+          setAnswerContent(response.data.answer);
+      }
+  }
 
     function closeModal() {
         setSelectedItem(null);
@@ -61,9 +64,8 @@ export default function ServiceList() {
         }
         return (
           <Modal isOpen={selectedItem !== null} onRequestClose={closeModal} className='modalcss'>
-                {selectedItem.content && <p>{selectedItem.content}</p>}
-                {answerContent && <p>{answerContent}</p>}
-               
+            {selectedItem.content && <p>Q : {selectedItem.content}</p>}
+            {answerContent ? <p> A: {answerContent}</p> : <p className='answercont'>A : 관리자가 답변을 확인중입니다...</p>}
           </Modal>
         );
     }
@@ -165,11 +167,11 @@ export default function ServiceList() {
            <div className='shelterPageWrap'>
            <div style={{width:"247.94px", textAlign:"center", marginTop:"-204px"}}>
                 <h2 className='maintitle'>고객센터</h2>
-                      {/* {userAuth === 'teacher' && ( */}
+                      {userAuth === 'student' && (
                         <button type="button" className="learnBtn" style={{marginLeft:"11px", marginTop:"10px"}} onClick={writelink}>
                             글쓰기
                         </button>
-                    {/* )} */}
+                     )} 
               </div>
             </div>
         
@@ -195,9 +197,7 @@ export default function ServiceList() {
                             <FontAwesomeIcon icon={faMobileScreen}className='ser' onClick={() => handleButtonClick('mobileli')}/>
                         </div>
                     </div>
-                </div>
-
-                <hr className='servhr'/>            
+                </div> 
             
                 <div className='contentwrapper'>
                     
