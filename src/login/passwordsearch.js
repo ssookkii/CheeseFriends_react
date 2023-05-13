@@ -276,7 +276,9 @@ function Passwordsearch(){
 
 
     return(
-        <div>  {/*  Login css 세트 1 */}
+        <div>  
+            
+        {/*  Login css 세트 1 */}
         <div style={{textAlign:"center", alignItems:"center"}}>
             
             <div class="container2">

@@ -91,8 +91,7 @@ function Studentlist(){
 
             axios.post("http://localhost:3000/subselect", null, { params:{ "id":login.id, "educode":resp.data.educode}})
             .then(function(resp){   
-                console.log(resp.data); 
-
+                console.log("resp.data : " + resp.data); 
                 const subselect = document.getElementById("subselect");
 
                 while (subselect.firstChild) {
@@ -104,15 +103,22 @@ function Studentlist(){
                 element.setAttribute("value", "");
                 subselect.appendChild(element);
 
-                for (let i = 0; i < resp.data.length; i++) {
-                    let element = document.createElement("option");
-                    element.innerHTML = resp.data[i].subname;
-                    element.setAttribute("value", resp.data[i].subcode);
-                    subselect.appendChild(element);
-                }
+                if(resp.data.length <= 0){
+                    alert("현재 수업중인 과목이 없습니다")
+                    return;
+                }else{
+                    
 
-                fetchData(resp.data[0].subcode, '', '', 0);
-                setSub_code(resp.data[0].subcode);
+                    for (let i = 0; i < resp.data.length; i++) {
+                        let element = document.createElement("option");
+                        element.innerHTML = resp.data[i].subname;
+                        element.setAttribute("value", resp.data[i].subcode);
+                        subselect.appendChild(element);
+                    }
+
+                    fetchData(resp.data[0].subcode, '', '', 0);
+                    setSub_code(resp.data[0].subcode);
+                }
             })
             .catch(function(err){
                 console.log(err);
@@ -203,7 +209,13 @@ function Studentlist(){
             <td>{props.student.id}</td>
             <td>{props.student.parentsid}</td>
             <td>{props.student.subname}</td>
-            <td>{props.student.startdate.substr(0, 11)} ~ {props.student.enddate.substr(0, 11)}</td>
+            <td>{props.student.startdate !== "" && props.student.startdate !== null
+                ?<span>{props.student.startdate.substr(0, 11)}</span>
+                :<span>{props.student.startdate}</span>} ~ 
+                {props.student.enddate !== "" && props.student.enddate !== null
+                ?<span>{props.student.enddate.substr(0, 11)}</span>
+                :<span>{props.student.enddate}</span>}
+            </td>
             {props.student.state === "approving"
             ?<td><span>수강승인필요</span><span>{approved(props)}</span></td>
             :<td>
@@ -319,7 +331,7 @@ function Studentlist(){
         return(
             <React.Fragment>
                 <button onClick={openModal3} className={styles.confirmBtn}>탈퇴 승인하기</button>
-                <Okmodal open3={modalOpen3} close3={closeModal3} yesclose3={yescloseModal3} header="탈퇴 승인하기">
+                <Okmodal open3={modalOpen3} close3={closeModal3} yesclose3={yescloseModal3} header3="탈퇴 승인하기">
                 <main>  
                     탈퇴 신청을 승인 하시겠습니까?
                 </main>        
@@ -367,7 +379,7 @@ function Studentlist(){
         return(
             <React.Fragment>
                 <button onClick={openModal2} className={`${styles.confirmBtn} ${styles.delBtn}`}>탈퇴시키기</button>
-                <Quitmodal open2={modalOpen2} close2={closeModal2} yesclose2={yescloseModal2} header="탈퇴시키기">
+                <Quitmodal open2={modalOpen2} close2={closeModal2} yesclose2={yescloseModal2} header2="탈퇴시키기">
                 <main>  
                     해당유저의 수강을 탈퇴 시키겠습니까?
                 </main>        
@@ -380,13 +392,13 @@ function Studentlist(){
         <div>
             <div className={styles.topContent}>
                 <div className={styles.subject}>
-                    <select className="subselect" id="subselect" value={sub_code} onChange={subcodechange}>
+                    <select className="subselect mypageselect" id="subselect" value={sub_code} onChange={subcodechange}>
                         
                     </select>
                 </div>
 
                 <div className={styles.search}>      
-                    <select value={choice} onChange={choiceChange}>
+                    <select class="mypageselect" value={choice} onChange={choiceChange}>
                         <option value="">검색</option>
                         <option value="name">이름</option>
                         <option value="id">아이디</option>

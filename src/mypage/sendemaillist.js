@@ -117,10 +117,10 @@ function Sendemaillist(){
         setIscheck(false);
 
         if(choice.toString().trim() !== "" && search.toString().trim() !== ""){
-            navigate('/testmain/sendemaillist/' + choice + "/" + search);
+            navigate('/cheesefriends/testmain/sendemaillist/' + choice + "/" + search);
         }
         else{
-            navigate('/testmain/sendemaillist/');
+            navigate('/cheesefriends/testmain/sendemaillist/');
         }
         // 데이터를 다시 한번 갖고 온다
         setPage(1)
@@ -217,21 +217,23 @@ function Sendemaillist(){
                         <Link>보낸 쪽지함</Link>
                         <Link to="/cheesefriends/testmain/sendemail">쪽지 보내기</Link>
                     </div>
-                    <div className={styles.search}>      
-                        <select value={choice} onChange={choiceChange}>
-                            <option value="">검색</option>
-                            <option value="title">제목</option>
-                                    <option value="content">내용</option>
-                                    <option value="receiver">보낸사람</option>
-                        </select>
+                    <div className={styles.search}>
+                        <div>   
+                            <select class="mypageselect" value={choice} onChange={choiceChange}>
+                                <option value="">검색</option>
+                                <option value="title">제목</option>
+                                        <option value="content">내용</option>
+                                        <option value="receiver">보낸사람</option>
+                            </select>
+                            <button onClick={searchBtn} className={styles.searchBtn}>검색</button>
+                        </div>
                         <input value={search} onChange={searchChange} placeholder="검색어를 입력하세요"/>
-                        <button onClick={searchBtn} className={styles.searchBtn}>검색</button>
                     </div>
                 </div>
                 <div className={styles.btnRight}>
                     <button onClick={openModal} className={`${styles.mypageBtn} ${styles.delBtn}`}>발송취소</button>
                     <Deletemodal open={modalOpen} close={closeModal} yesclose={yescloseModal} header="발송취소">
-                    <main>  
+                    <main class="modaltext">  
                         발송취소 하시겠습니까?
                     </main>        
                     </Deletemodal>

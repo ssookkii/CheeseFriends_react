@@ -85,27 +85,38 @@ function TeacherManage(){
     }
 
     function deleteBtn(){
-        if(window.confirm("정말 삭제하시겠습니까?")){
-            for (let i = 0; i < deletecheckboxlist.length; i++) {
-                axios.post("http://localhost:3000/deleteMail", null, {params: { "wdate":deletecheckboxlist[i]}})
-                .then(function(resp){
-                    if(resp.data !== null && resp.data !== "" && resp.data === "success"){
-                        console.log(resp.data);
-                    }else if(resp.data !== null && resp.data !== "" && resp.data === "fail"){
-                        alert("삭제를 실패하였습니다.")
-                    }
-                })
-                .catch(function(err){
-                    alert(err);
-                })
+        if(deletecheckboxlist.length > 0) {
+            if(window.confirm("정말 삭제하시겠습니까?")){
+                for (let i = 0; i < deletecheckboxlist.length; i++) {
+                    axios.post("http://localhost:3000/deleteMail", null, {params: { "wdate":deletecheckboxlist[i]}})
+                    .then(function(resp){
+                        if(resp.data !== null && resp.data !== "" && resp.data === "success"){
+                            console.log(resp.data);
+                        }else if(resp.data !== null && resp.data !== "" && resp.data === "fail"){
+                            alert("삭제를 실패하였습니다.")
+                        }
+                    })
+                    .catch(function(err){
+                        alert(err);
+                    })
+                }
+                alert("삭제되었습니다.");
+                setDeletecheckboxlist([]);
+                window.location.replace("/adminpage/sendmailmanage")
+            }else{
+                alert("취소되었습니다.");
             }
-            alert("삭제되었습니다.");
-            setDeletecheckboxlist([]);
-            window.location.replace("/adminpage/sendmailmanage")
-        }else{
-            alert("취소되었습니다.");
+        } else {
+            alert("삭제할 쪽지를 선택해주세요")
+            return;
         }
         
+    }
+
+    const activeEnter = (e) => {
+        if(e.key === "Enter") {
+            searchBtn()
+        }
     }
 
     useEffect(function(){
@@ -116,14 +127,16 @@ function TeacherManage(){
     return(
         <div>
             <div className={manage.topContent}>
-                <div className={manage.search}>       
-                    <select vlaue={choice} onChange={(e)=>setChoice(e.target.value)}>
-                        <option value="">검색</option>
-                        <option value="title">제목</option>
-                        <option value="content">내용</option>
-                    </select>
-                    <input value={search} onChange={(e)=>setSearch(e.target.value)} placeholder="검색어를 입력하세요"/>
-                    <button onClick={searchBtn} className={manage.searchBtn}>검색</button>
+                <div className={manage.search}>    
+                    <div>   
+                        <select vlaue={choice} onChange={(e)=>setChoice(e.target.value)}>
+                            <option value="">검색</option>
+                            <option value="title">제목</option>
+                            <option value="content">내용</option>
+                        </select>
+                        <button onClick={searchBtn} className={manage.searchBtn}>검색</button>
+                    </div>
+                    <input value={search} onChange={(e)=>setSearch(e.target.value)} onKeyPress={(e) => activeEnter(e)} placeholder="검색어를 입력하세요"/>
                 </div>
                 <div className={manage.btnWrap}>
                     <button className={`${manage.eduAdd} ${manage.del}`} onClick={deleteBtn}>쪽지삭제</button>

@@ -68,7 +68,7 @@ function TimeTable(){
                     const timeNum = timeCheck(start, end);
         
                     // rowspan으로 합쳐주기 위해 첫 칸만 입력
-                    newEmptyTable[timeNum[0]][dayNum] = `${timelist[i].subName}/${timelist[i].subStartTime}-${timelist[i].subEndTime}`;
+                    newEmptyTable[timeNum[0]][dayNum] = `${timelist[i].subName}(${timelist[i].classGrade})/${timelist[i].subStartTime}-${timelist[i].subEndTime}`;
                     
                     // rowspan 저장해두기
                     newRowspansave.push({

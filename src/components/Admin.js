@@ -37,9 +37,9 @@ function Admin(){
             //alert(resp.data);
             if(resp.data !== null && resp.data !== ""){
                 localStorage.setItem("login", JSON.stringify(resp.data));
+                localStorage.setItem("btnActive", "edumanage");
                 console.log(JSON.stringify(resp.data));
                 console.log(resp.data);
-                localStorage.setItem("btnActive", "edumanage");
                 history('/adminpage/edumanage')
             }else{
                 alert("id나 password를 확인하십시오")
@@ -48,6 +48,12 @@ function Admin(){
         .catch(function(err){
             alert(err);
         })
+    }
+
+    const activeEnter = (e) => {
+        if(e.key === "Enter") {
+            login()
+        }
     }
 
     useEffect(function(){
@@ -75,7 +81,9 @@ function Admin(){
                 type="password"
                 className={`${styles.idPwInput} ${styles.pwInput}`} 
                 value={password}
-                onChange={(e)=>setPassword(e.target.value)} placeholder="비밀번호"/>
+                onChange={(e)=>setPassword(e.target.value)}
+                onKeyPress={(e) => activeEnter(e)}
+                placeholder="비밀번호"/>
             <div>
             <input type="checkbox"
                 name="SaveIdChk"

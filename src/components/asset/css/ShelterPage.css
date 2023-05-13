@@ -1,7 +1,8 @@
 .shelterPageWrap {
     display: flex;
     justify-content: flex-start;
-    margin-top:50px;
+    margin:50px auto 0;
+    width:1200px;
 }
 .shelterContentWrap {
     width : 80%;
@@ -63,22 +64,31 @@
 }
 .playInfoWrap {
     margin-top:80px;
+    background-color: #FAC463;
 }
 .playInfoWrap .playInfo {
     display:flex !important;
-    justify-content: center;
+    
+    
 }
 .InfoTxt {
     margin-left:30px;
+    margin-top: 15%;
 }
 .InfoTxt > h2 {
     font-size:2em;
     font-weight: 600;
     line-height:1.2;
+    margin-top: 30px;
     margin-bottom:30px;
+    text-align: center;
 }
 .InfoTxt > p {
     line-height:2;
+    text-align: center;
 }
+
+
+
 
 

@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 import Modal from "./modal";
 import Post from "./Post";
-import "./css/regi.css";
+
 import "./css/login.css";
 import "./css/login2.css";
 
@@ -452,22 +452,23 @@ function Regi() {
     const [phone_publicch, setPhone_publicch] = useState(false);
 
     function sendPhone() {
+
         axios.post("http://localhost:3000/phoneAuth", null, { params: { "phone": phone } })
-            .then(function (resp) {
-                setPhone_publicc("");
-                setPhone_publiccheck("");
-                alert("인증번호를 보냈습니다");
-                setPhone_publicch(false);
-                if (resp.data !== null) {
-                    setPhone_publicc(resp.data);
-                    setPhone_publicch(true);
-                } else {
-                    alert("휴대폰 번호를 확인해주세요");
-                }
-            })
-            .catch(function (err) {
-                alert("err");
-            })
+        .then(function (resp) {
+            setPhone_publicc("");
+            setPhone_publiccheck("");
+            alert("인증번호를 보냈습니다");
+            setPhone_publicch(false);
+            if (resp.data !== null) {
+                setPhone_publicc(resp.data);
+                setPhone_publicch(true);
+            } else {
+                alert("휴대폰 번호를 확인해주세요");
+            }
+        })
+        .catch(function (err) {
+            alert("err");
+        })
     }
 
     // 휴대폰 인증번호 체크
@@ -497,12 +498,12 @@ function Regi() {
     const [mediaStream, setMediaStream] = useState(null);
 
     const startCapture = async () => {
+        setPhotostart(true);
         const stream = await navigator.mediaDevices.getUserMedia({ video: true });
         videoRef.current.srcObject = stream;
         setMediaStream(stream);
         setCaptured(false);
-        console.log("카메라작동")
-        setPhotostart(true);
+        console.log("카메라작동")    
     };
 
     const captureImage = () => {
@@ -599,102 +600,118 @@ function Regi() {
             return;
         }
 
-
-        // 보내자
-        axios.post("http://localhost:3000/adduser", null,
-            {
-                params: {
-                    "id": id,
-                    "password": password,
-                    "name": name,
-                    "gender": gender,
-                    "email": email,
-                    "birth": birth,
-                    "address": address,
-                    "facename": id + ".jpg",
-                    "phone": phone,
-                    "auth": auth,
-                    "jointype":jointype,
-                    "joinid":joinid
-                }
-            })
-            .then(function (resp) {
-                for (let i = 0; i < sub_codechecked.length; i++) {
-                    console.log("sub_codechecked : " + sub_codechecked)
-                    if (resp.data === "YES") {
-                        // 교육기관 보내자
-                        axios.post("http://localhost:3000/educodematching", null,
-                            {
-                                params: {
-                                    "sub_code": sub_codechecked[i]
-                                }
-                            })
-                            .then(function (resp) {
-                                console.log(resp.data);
-                                axios.post("http://localhost:3000/adduseredu", null,
-                                    {
-                                        params: {
-                                            "id": id,
-                                            "educode": resp.data
-                                        }
-                                    })
-                                    .then(function (r) {
-
-                                    })
-                                    .catch(function (err) {
-                                        alert("err");
-                                        console.log(err);
-                                    })
-                            })
-                            .catch(function (err) {
-                                alert("err");
-                                console.log(err);
-                            })
-
-                        // 과목 보내자
-                        axios.post("http://localhost:3000/addusersubject", null,
-                            {
-                                params: {
-                                    "id": id,
-                                    "subcode": sub_codechecked[i]
-                                }
-                            })
-                            .then(function (resp) {
-
-                            })
-                            .catch(function (err) {
-                                alert("err");
-                                console.log(err);
-                            })
-                    } else {
-                        alert("가입되지 않았습니다");
+        // 해당 번호로 이미 가입된 계정이 있는지 체크
+        axios.post("http://localhost:3000/phonecheck", null, { params: { "phone": phone } })
+        .then(function (resp) {
+            if (resp.data === "YES") {
+                 // 보내자
+                axios.post("http://localhost:3000/adduser", null,
+                {
+                    params: {
+                        "id": id,
+                        "password": password,
+                        "name": name,
+                        "gender": gender,
+                        "email": email,
+                        "birth": birth,
+                        "address": address,
+                        "facename": id + ".jpg",
+                        "phone": phone,
+                        "auth": auth,
+                        "jointype":jointype,
+                        "joinid":joinid
                     }
-                }
-            })
-            .catch(function (err) {
-                alert("err");
-                console.log(err);
-            })
+                })
+                .then(function (resp) {
+                    for (let i = 0; i < sub_codechecked.length; i++) {
+                        console.log("sub_codechecked : " + sub_codechecked)
+                        if (resp.data === "YES") {
+                            // 교육기관 보내자
+                            axios.post("http://localhost:3000/educodematching", null,
+                                {
+                                    params: {
+                                        "sub_code": sub_codechecked[i]
+                                    }
+                                })
+                                .then(function (resp) {
+                                    console.log(resp.data);
+                                    axios.post("http://localhost:3000/adduseredu", null,
+                                        {
+                                            params: {
+                                                "id": id,
+                                                "educode": resp.data
+                                            }
+                                        })
+                                        .then(function (r) {
 
-        // 사진저장
-        const formData = new FormData();
-        formData.append('uploadFile', imageSrc, id + ".jpg");
+                                        })
+                                        .catch(function (err) {
+                                            alert("err");
+                                            console.log(err);
+                                        })
+                                })
+                                .catch(function (err) {
+                                    alert("err");
+                                    console.log(err);
+                                })
 
-        fetch('http://localhost:3000/fileUpload', {
-            method: 'POST',
-            body: formData,
+                            // 과목 보내자
+                            axios.post("http://localhost:3000/addusersubject", null,
+                                {
+                                    params: {
+                                        "id": id,
+                                        "subcode": sub_codechecked[i]
+                                    }
+                                })
+                                .then(function (resp) {
+
+                                })
+                                .catch(function (err) {
+                                    alert("err");
+                                    console.log(err);
+                                })
+                        } else {
+                            alert("가입되지 않았습니다");
+                        }
+                    }
+                })
+                .catch(function (err) {
+                    alert("err");
+                    console.log(err);
+                })
+
+            // 사진저장
+            const formData = new FormData();
+            formData.append('uploadFile', imageSrc, id + ".jpg");
+
+            fetch('http://localhost:3000/fileUpload', {
+                method: 'POST',
+                body: formData,
+            })
+                // .then((response) => response.json())
+                .then((result) => {
+                    console.log(result);
+                    return fetch(`http://localhost:3000/api/imgcrop/${id}`, {
+                        method: 'POST',
+                    });
+                })
+                .catch((error) => console.error(error));
+
+            alert("정상적으로 가입되었습니다");
+            history("/");      // 이동(link)
+                
+            } else {
+                alert("이미 해당 번호로 가입된 계정이 있습니다");
+                return;
+            }
         })
-            // .then((response) => response.json())
-            .then((result) => {
-                console.log(result);
-                return fetch(`http://localhost:3000/api/imgcrop/${id}`, {
-                    method: 'POST',
-                });
-            })
-            .catch((error) => console.error(error));
+        .catch(function (err) {
+            alert('err')
+        })
+    
 
-        alert("정상적으로 가입되었습니다");
-        history("/");      // 이동(link)
+
+       
     }
 
     // Login 세트 1
@@ -723,32 +740,37 @@ function Regi() {
 
     return (
         
-        <div>
-            
+        <div>   
         {/* // Login css 세트 1 */}
         <div style={{textAlign:"center", alignItems:"center"}}>
-    
+                <br/><br/><br/>
+                <img src={logo} style={{width:"300px", height:"100px", marginLeft:"auto", marginRight:"auto"}}/>
+                <br/><br/><br/>
+                {/* <h1 class="regititle">회원가입</h1>   
+                <br/> */}
+
                 <div class="container2">
                  
-                    <div class="login-content2">
-                    
-                        <img src={logo} style={{width:"300px", height:"100px", marginLeft:"auto", marginRight:"auto"}}/>
-                        <br/><br/><br/>
+                    <div class="regi-content">
+           
                       
                         {/* 이름 입력칸 */}
+                        <div class="divflex">
                         <h5 class="regitag">이름</h5>
                         {namea === true
                                 ? <input class="regiinput" value={name} onChange={(e) => setName(e.target.value)} placeholder="이름을 입력해주세요" />
                                 : <input class="regiinput" style={{ borderColor: "red" }} value={name} onChange={(e) => setName(e.target.value)} placeholder="이름을 입력해주세요" />}
+                        </div>
                         {namea === true 
                             ?<div></div>
                             :<div>{ namec === "입력되었습니다" 
-                                ? <div><div class="inputtrue" >{namec}</div></div>
-                                : <div><div class="inputfalse" >{namec}</div></div>} 
+                                ? <div><div class="checkdiv" style={{ fontSize: "5px", color: 'blue' }}>{namec}</div></div>
+                                : <div><div class="checkdiv" style={{ fontSize: "5px", color: 'red' }} >{namec}</div></div>} 
                         </div>}
                         <br/>
 
                         {/* 성별 선택 */}
+                        <div class="divflex">
                         <h5 class="regitag">성별</h5>
                         <div>
                             <select class="regiinput" onChange={genderChange}>
@@ -757,41 +779,51 @@ function Regi() {
                                 <option value="woman" selected={gender === 'woman'}>여자</option>
                             </select>
                         </div>
+                        </div>
                         <br/>
 
                         {/* 교육기관 코드 선택 */}
+                        <div class="divflex">
                         <h5 class="regitag">교육기관 코드</h5>
                         {codea === true
                             ? <input class="regiinput" value={edu_code} onChange={(e) => setEdu_code(e.target.value)} placeholder="코드를 입력해주세요" />
                             : <input class="regiinput" style={{ borderColor: "red"}} value={edu_code} onChange={(e) => setEdu_code(e.target.value)} placeholder="코드를 입력해주세요" />}
+                        </div>
                         <br/>
                         
+                        
                         {/* 교육기관 명 */}
+                        <div class="divflex">
                         <h5 class="regitag">교육기관 명</h5>
                         {edu_name === ""
                             ? <div><input class="regiinput" value={edu_name} placeholder='올바른 코드를 입력해주세요' readOnly="readOnly"/></div>
                             : <div><input class="regiinput" style={{color: 'blue' }} value={edu_name}  readOnly="readOnly"/></div>}
+                        </div>
                         <br/>
                         
                      
                         {/* 과목 select */}
+                        <div class="divflex">
                         <h5 class="regitag">과목</h5>
                         <select className="regiinput subplus" id="subplus" onChange={subcodecheck}>
 
-                        </select>&nbsp;&nbsp;
+                        </select>
+                        </div>
+                        <br/>
                         <button class="regibtn" onClick={subjectadd}>추가</button>
                         <br/>
                         
                         {/* 과목 선택 */}
                         {/* {sub_codecheck.length > 0
                         ?<div> */}
-                            <table border="1" className="table table-hover"  >
+                        <div class="divflex">
+                            <table border="1" className="tabletwo table table-hover"  >
                                 <colgroup>
                                     <col width="50" /><col width="50" /><col width="200" /><col width="100" />
                                 </colgroup>
                                 <thead>
                                     <tr>
-                                        <th>선택</th><th>번호</th><th>교육기관</th><th>과목</th>
+                                        <th class="text-center">선택</th><th class="text-center">번호</th><th class="text-center">교육기관</th><th class="text-center">과목</th>
                                     </tr>
                                 </thead>
                                 <tbody className="subplus2" id="subplus2">
@@ -800,81 +832,95 @@ function Regi() {
                                     </tr>
                                 </tbody>
                             </table>
+                        </div>
                         {/* </div>
                         :<div></div>} */}
                         
                         <br/>
                         
                         {/* 아이디 입력칸 */}
+                        <div class="divflex">
                         <h5 class="regitag">아이디</h5>
                         {ida === true
                                 ? <input class="regiinput"  value={id} onChange={idChange} placeholder="영문자와 숫자로 6자 이상" />
                                 : <input class="regiinput"  style={{ borderColor: "red" }} value={id} onChange={idChange} placeholder="영문자와 숫자로 6자 이상" />}
+                        </div>
                         {id.length > 0
                         ?<div> 
                             {idc === "이 아이디는 사용할 수 있습니다" 
-                            ? <div style={{ fontSize: "5px", color: 'blue' }}>{idc}</div>
-                            : <div style={{ fontSize: "5px", color: 'red' }}>{idc}</div>}</div>
+                            ? <div class="checkdiv" style={{ fontSize: "5px", color: 'blue' }}>{idc}</div>
+                            : <div class="checkdiv" style={{ fontSize: "5px", color: 'red' }}>{idc}</div>}</div>
                         :<div></div>}
+                        
                         <br/>
                         
                         {/* 비밀번호 입력칸 */}
+                        <div class="divflex">
                         <h5 class="regitag">비밀번호</h5>
                         {passworda === true
                                 ? <input type="password" class="regiinput" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="숫자,영문자,특수문자 포함 8자 이상" />
                                 : <input type="password" class="regiinput" style={{ borderColor: "red"}} value={password} onChange={(e) => setPassword(e.target.value)} placeholder="숫자,영문자,특수문자 포함 8자 이상" />}
+                        </div>
                         {password.length > 0
                         ?<div> 
                             {passwordc === "안전한 비밀번호 입니다"
-                            ? <div style={{ fontSize: "5px", color: 'blue' }}>{passwordc}</div>
-                            : <div style={{ fontSize: "5px", color: 'red' }}>{passwordc}</div>}</div>
+                            ? <div class="checkdiv" style={{ fontSize: "5px", color: 'blue' }}>{passwordc}</div>
+                            : <div class="checkdiv" style={{ fontSize: "5px", color: 'red' }}>{passwordc}</div>}</div>
                         :<div></div>}
                          <br/>
                         
                         {/* 비밀번호 확인 입력칸 */}
+                        <div class="divflex">
                         <h5 class="regitag">비밀번호 확인</h5>
                         {passwordChecka === true
                             ? <input type="password" class="regiinput" value={passwordcheck} onChange={(e) => setPasswordcheck(e.target.value)} placeholder="위와 동일한 비밀번호 입력" />
                             : <input type="password" class="regiinput" style={{ borderColor: "red"}} value={passwordcheck} onChange={(e) => setPasswordcheck(e.target.value)} placeholder="위와 동일한 비밀번호 입력" />}
+                        </div>
                         {passwordcheck.length > 0
                         ?<div> 
                              {passwordcheckc === "비밀번호가 동일합니다"
-                            ? <div style={{ fontSize: "5px", color: 'blue' }}>{passwordcheckc}</div>
-                            : <div style={{ fontSize: "5px", color: 'red' }}>{passwordcheckc}</div>}</div>
+                            ? <div class="checkdiv" style={{ fontSize: "5px", color: 'blue' }}>{passwordcheckc}</div>
+                            : <div class="checkdiv" style={{ fontSize: "5px", color: 'red' }}>{passwordcheckc}</div>}</div>
                         :<div></div>}
                          <br/>
 
                         {/* 비밀번호 확인 입력칸 */}
+                        <div class="divflex">
                         <h5 class="regitag">이메일 주소</h5>
                         {emaila === true
                             ? <input class="regiinput"  value={email} onChange={(e) => setEmail(e.target.value)} placeholder="이메일 주소를 입력해주세요" />
                             : <input class="regiinput" style={{ borderColor: "red"}} value={email} onChange={(e) => setEmail(e.target.value)} placeholder="이메일 주소를 입력해주세요" />}
+                        </div>
                         {email.length>0
                         ?<div> 
                             {emailc === "형식에 맞는 이메일입니다"
-                            ? <div style={{ fontSize: "5px", color: 'blue' }}>{emailc}</div>
-                            : <div style={{ fontSize: "5px", color: 'red' }}>{emailc}</div>}</div>
+                            ? <div class="checkdiv" style={{ fontSize: "5px", color: 'blue' }}>{emailc}</div>
+                            : <div class="checkdiv" style={{ fontSize: "5px", color: 'red' }}>{emailc}</div>}</div>
                         :<div></div>}
                         <br/>
                         
                         {/* 생년월일 입력칸 */}
+                        <div class="divflex">
                         <h5 class="regitag">생년월일</h5>
                         {birtha === true
                             ? <input class="regiinput" value={birth} onChange={(e) => setBirth(e.target.value)} placeholder="주민번호 앞자리 6자로 입력해주세요" />
                             : <input class="regiinput" style={{ borderColor: "red" }} value={birth} onChange={(e) => setBirth(e.target.value)} placeholder="주민번호 앞자리 6자로 입력해주세요" />}
+                        </div>
                         {birth.length>0
                         ?<div> 
                              {birthc === "올바르게 입력되었습니다"
-                            ? <div style={{ fontSize: "5px", color: 'blue' }}>{birthc}</div>
-                            : <div style={{ fontSize: "5px", color: 'red' }}>{birthc}</div>}</div>
+                            ? <div class="checkdiv" style={{ fontSize: "5px", color: 'blue' }}>{birthc}</div>
+                            : <div class="checkdiv" style={{ fontSize: "5px", color: 'red' }}>{birthc}</div>}</div>
                         :<div></div>}
                         <br/>
                        
                         {/* 주소 입력칸 */}
+                        <div class="divflex">
                         <h5 class="regitag">주소</h5>
                         {addressa === true
                             ? <input class="regiinput" placeholder="주소검색을 클릭해주세요" type="text" required={true}  value={enroll_company.address} />
                             : <input class="regiinput" style={{ borderColor: "red"}}  placeholder="주소검색을 클릭해주세요" type="text" required={true} value={enroll_company.address} />}
+                        </div>
                         <br/>
                         <div>
                             <React.Fragment>
@@ -891,39 +937,54 @@ function Regi() {
                         <br/><br/>
                         
                         {/* 사진 찍는칸 */}
-                        <h5 class="regitag">사진</h5>
+                        <h5 style={{fontWeight:"bold"}}>사진찍기</h5>   
                         <div>
-                            {photoa === true
-                                ? <button class="photobtn" onClick={startCapture}>카메라 열기</button>
-                                : <button class="photobtn" style={{ borderColor: 'red' }} onClick={startCapture}>카메라 열기</button>}
-                            &nbsp;&nbsp;
-                            <button class="photobtn" onClick={captureImage} disabled={!mediaStream}>
-                                사진 찍기
-                            </button>
-                            <div style={{ display: captured ? 'none' : 'block' }}>
-                                <video ref={videoRef} autoPlay width={300} height={260} />
-                            </div>
-                            {captured && (
-                                <div style={{ display: captured ? 'block' : 'none' }}>
-                                    <img src={URL.createObjectURL(imageSrc)} alt="captured image" width={300} height={220} />
+                        {photostart === true
+                            ?
+                            <div>
+                                {photoa === true 
+                                ?  <button class="photobtn" onClick={startCapture}>다시 찍기</button>
+                                :  <button class="photobtn" style={{ borderColor:'red' }} onClick={startCapture}>카메라 열기</button>}
+                                &nbsp;&nbsp;
+                                <button class="photobtn" onClick={captureImage} disabled={!mediaStream}>
+                                    사진 찍기
+                                </button>
+                                <div style={{ display: captured ? 'none' : 'block' }}>
+                                    <video ref={videoRef} autoPlay width={300} height={260} />
                                 </div>
-                            )}
+                                {captured && (
+                                    <div style={{ display: captured ? 'block' : 'none' }}>
+                                    <img src={URL.createObjectURL(imageSrc)} alt="captured image" width={300} height={220}  />
+                                    </div>
+                                )}
+                            
+                            </div>
+                            : 
+                            <div>
+                                <img src={camera} width="100" height="100"/>
+                                &nbsp;&nbsp;
+                                <button class="photobtn" onClick={startCapture}>사진찍기</button>    
+                            </div>
+                        }
                         </div>
                         <br/>
                      
                         {/* 휴대폰 번호 입력칸 */}
+                        <div class="divflex">
                         <h5 class="regitag">번호</h5>
                         {phonea === true
                             ? <input class="regiinput" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="휴대폰 번호를 입력해주세요" />
                             : <input class="regiinput" style={{ borderColor: "red" }} value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="휴대폰 번호를 입력해주세요" />}
-                    
+                        </div>
                         {phone.length > 0
                         ?<div> 
                              {phonec === "올바르게 입력되었습니다"
-                                ?<div style={{ fontSize: "5px", color: 'blue' }}>{phonec}</div>
-                                :<div style={{ fontSize: "5px", color: 'red' }}>{phonec}</div>}
+                                ?<div class="checkdiv" style={{ fontSize: "5px", color: 'blue' }}>{phonec}</div>
+                                :<div class="checkdiv" style={{ fontSize: "5px", color: 'red' }}>{phonec}</div>}
                          </div>
                         :<div></div>}
+                        
+
                         <br/>
                         {phonec === "올바르게 입력되었습니다"
                         ?<button class="regibtn" onClick={sendPhone}>인증번호 발송</button>
@@ -931,264 +992,32 @@ function Regi() {
                         <br/><br/>
                         
                         {/* 휴대폰 인증 번호 입력칸 */}
+                        <div class="divflex">
                         <h5 class="regitag">인증번호</h5>
                         {phone_publica === true
                             ? <input class="regiinput" value={phone_public} onChange={(e) => setPhone_public(e.target.value)} placeholder="인증번호를 입력해주세요" />
                             : <input class="regiinput" style={{ borderColor: "red"}} value={phone_public} onChange={(e) => setPhone_public(e.target.value)} placeholder="인증번호를 입력해주세요" />}
-                        
+                        </div>
                         {phone_publiccheck === "인증 완료되었습니다"
-                            ? <div style={{ fontSize: "5px", color: 'blue' }}>{phone_publiccheck}</div>
-                            : <div style={{ fontSize: "5px", color: 'red' }}>{phone_publiccheck}</div>}
+                            ? <div class="checkdiv" style={{ fontSize: "5px", color: 'blue' }}>{phone_publiccheck}</div>
+                            : <div class="checkdiv" style={{ fontSize: "5px", color: 'red' }}>{phone_publiccheck}</div>}
                         <br/>
                         {phone_publicch === true
                             ? <div><button class="regibtn" onClick={sendphonecheck}>인증하기</button></div>
                             : <div><button class="regibtn" disabled="false" onClick={sendphonecheck}>인증하기</button></div>}
-                        <br/><br/><br/>
-
-                        <div>
-                            <button class="btn2" onClick={regiselect}>가입유형선택</button>
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            <button class="btn2" onClick={account}>회원가입</button>
-                        </div>
-                       
-                      
-                     
-                    
-                      
+                        
+                        <br/><br/>
+                        
                     </div>
+
+                    <div>
+                        <button class="btn2" onClick={regiselect}>가입유형선택</button>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <button class="btn2" onClick={account}>회원가입</button>
+                    </div> 
+                    <br/><br/>   
                 </div>
-        </div>
-
-            {/* <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
-            <br/><br/><br/><br/><br/><br/>
-            <h3>회원가입</h3>
-
-            <table border="1" align="center">
-                <colgroup>
-                    <col width="120" /><col width="250" /><col width="200" />
-                </colgroup>
-                <tbody>
-                    <tr>
-                        <td align="left">이름</td>
-                        <td align="left">
-                            {namea === true
-                                ? <input style={{ width: "230px" }} value={name} onChange={(e) => setName(e.target.value)} placeholder="이름을 입력해주세요" />
-                                : <input style={{ borderColor: "red", width: "230px" }} value={name} onChange={(e) => setName(e.target.value)} placeholder="이름을 입력해주세요" />}
-
-                        </td>
-                        <td>
-                            {namec === "입력되었습니다"
-                                ? <div style={{ fontSize: "5px", color: 'blue' }}>{namec}</div>
-                                : <div style={{ fontSize: "5px", color: 'red' }}>{namec}</div>}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td align="left">성별</td>
-                        <td align="left">
-                            <input type="radio" value="man" onChange={genderChange} checked={gender === 'man'} />남
-                            &nbsp;
-                            <input type="radio" value="woman" onChange={genderChange} checked={gender === 'woman'} />여
-                        </td>
-                    </tr>
-                    <tr>
-                        <td align="left">교육기관 코드</td>
-                        <td align="left">
-                            {codea === true
-                                ? <input style={{ width: "230px" }} value={edu_code} onChange={(e) => setEdu_code(e.target.value)} placeholder="코드를 입력해주세요" />
-                                : <input style={{ borderColor: "red", width: "230px" }} value={edu_code} onChange={(e) => setEdu_code(e.target.value)} placeholder="코드를 입력해주세요" />}
-
-                        </td>
-
-                    </tr>
-                    <tr>
-                        <td align="left">
-                            <div >교육기관명</div>
-                        </td>
-                        <td align="left">
-                            {edu_name === ""
-                                ? <div style={{ fontSize: "10px" }}>올바른 코드를 입력해주세요</div>
-                                : <div style={{ fontSize: "10px", color: 'blue' }}>{edu_name}</div>}
-
-                        </td>
-                    </tr>
-                    <tr>
-                        <td align="left">과목</td>
-                        <td align="left">
-                            <select className="subplus" id="subplus" onChange={subcodecheck}>
-
-                            </select>&nbsp;&nbsp;
-                            <button onClick={subjectadd}>추가</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td align="left">과목선택</td>
-                        <td>
-
-                            <table border="1" className="subplus2" id="subplus2">
-                                <colgroup>
-                                    <col width="50" /><col width="50" /><col width="200" /><col width="100" />
-                                </colgroup>
-                                <thead>
-                                    <tr>
-                                        <th>선택</th><th>번호</th><th>교육기관</th><th>과목</th>
-                                    </tr>
-                                </thead>
-                            </table>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td align="left">아이디</td>
-                        <td align="left">
-                            {ida === true
-                                ? <input style={{ width: "230px" }} value={id} onChange={idChange} placeholder="영문자와 숫자로 6자 이상" />
-                                : <input style={{ borderColor: "red", width: "230px" }} value={id} onChange={idChange} placeholder="영문자와 숫자로 6자 이상" />}
-                        </td>
-                        <td>
-                            {idc === "이 아이디는 사용할 수 있습니다"
-                                ? <div style={{ fontSize: "5px", color: 'blue' }}>{idc}</div>
-                                : <div style={{ fontSize: "5px", color: 'red' }}>{idc}</div>}
-
-                            
-                        </td>
-                    </tr>
-                    <tr>
-                        <td align="left">비밀번호</td>
-                        <td align="left">
-                            {passworda === true
-                                ? <input type="password" style={{ width: "230px" }} value={password} onChange={(e) => setPassword(e.target.value)} placeholder="숫자,영문자,특수문자 포함 8자 이상" />
-                                : <input type="password" style={{ borderColor: "red", width: "230px" }} value={password} onChange={(e) => setPassword(e.target.value)} placeholder="숫자,영문자,특수문자 포함 8자 이상" />}
-                        </td>
-                        <td>
-                            {passwordc === "안전한 비밀번호 입니다"
-                                ? <div style={{ fontSize: "5px", color: 'blue' }}>{passwordc}</div>
-                                : <div style={{ fontSize: "5px", color: 'red' }}>{passwordc}</div>}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td align="left">비밀번호 확인</td>
-                        <td align="left">
-                            {passwordChecka === true
-                                ? <input type="password" style={{ width: "230px" }} value={passwordcheck} onChange={(e) => setPasswordcheck(e.target.value)} placeholder="위와 동일한 비밀번호 입력" />
-                                : <input type="password" style={{ borderColor: "red", width: "230px" }} value={passwordcheck} onChange={(e) => setPasswordcheck(e.target.value)} placeholder="위와 동일한 비밀번호 입력" />}
-                        </td>
-                        <td>
-                            {passwordcheckc === "비밀번호가 동일합니다"
-                                ? <div style={{ fontSize: "5px", color: 'blue' }}>{passwordcheckc}</div>
-                                : <div style={{ fontSize: "5px", color: 'red' }}>{passwordcheckc}</div>}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td align="left">이메일 주소</td>
-                        <td align="left">
-                            {emaila === true
-                                ? <input style={{ width: "230px" }} value={email} onChange={(e) => setEmail(e.target.value)} placeholder="이메일 주소를 입력해주세요" />
-                                : <input style={{ borderColor: "red", width: "230px" }} value={email} onChange={(e) => setEmail(e.target.value)} placeholder="이메일 주소를 입력해주세요" />}
-                        </td>
-                        <td>
-                            {emailc === "형식에 맞는 이메일입니다"
-                                ? <div style={{ fontSize: "5px", color: 'blue' }}>{emailc}</div>
-                                : <div style={{ fontSize: "5px", color: 'red' }}>{emailc}</div>}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td align="left">생년월일</td>
-                        <td align="left">
-                            {birtha === true
-                                ? <input style={{ width: "230px" }} value={birth} onChange={(e) => setBirth(e.target.value)} placeholder="주민번호 앞자리 6자로 입력해주세요" />
-                                : <input style={{ borderColor: "red", width: "230px" }} value={birth} onChange={(e) => setBirth(e.target.value)} placeholder="주민번호 앞자리 6자로 입력해주세요" />}
-                        </td>
-                        <td>
-                            {birthc === "올바르게 입력되었습니다"
-                                ? <div style={{ fontSize: "5px", color: 'blue' }}>{birthc}</div>
-                                : <div style={{ fontSize: "5px", color: 'red' }}>{birthc}</div>}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td align="left">주소</td>
-                        <td align="left">
-                            {addressa === true
-                                ? <input style={{ width: "230px" }} className="user_enroll_text" placeholder="주소검색을 클릭해주세요" type="text" required={true} name="address" value={enroll_company.address} />
-                                : <input style={{ borderColor: "red", width: "230px" }} className="user_enroll_text" placeholder="주소검색을 클릭해주세요" type="text" required={true} name="address" value={enroll_company.address} />}
-                        </td>
-                        <td>
-                            <div>
-                                <React.Fragment>
-                                    <button onClick={openModal}>주소검색</button>
-                                    <Modal open={modalOpen} close={closeModal} header="주소검색 ">
-                                        <main>
-                                            <br />
-                                            <Post onClose={setPopup} setModalClose={setModalOpen} company={enroll_company} setcompany={setEnroll_company}></Post>
-                                        </main>
-
-                                    </Modal>
-                                </React.Fragment>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td align="left">사진</td>
-                        <div>
-                            {photoa === true
-                                ? <button onClick={startCapture}>카메라 열기</button>
-                                : <button style={{ borderColor: 'red' }} onClick={startCapture}>카메라 열기</button>}
-                            <button onClick={captureImage} disabled={!mediaStream}>
-                                사진 찍기
-                            </button>
-                            <div style={{ display: captured ? 'none' : 'block' }}>
-                                <video ref={videoRef} autoPlay width={350} height={250} />
-                            </div>
-                            {captured && (
-                                <div style={{ display: captured ? 'block' : 'none' }}>
-                                    <img src={URL.createObjectURL(imageSrc)} alt="captured image" />
-                                </div>
-                            )}
-                        </div>
-                        <td align="left">
-
-                        </td>
-                    </tr>
-                    <tr>
-                        <td align="left">번호</td>
-                        <td align="left">
-                            {phonea === true
-                                ? <input style={{ width: "230px" }} value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="휴대폰 번호를 입력해주세요" />
-                                : <input style={{ borderColor: "red", width: "230px" }} value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="휴대폰 번호를 입력해주세요" />}
-                        </td>
-                        <td>
-                            {phonec === "올바르게 입력되었습니다"
-                                ? <div style={{ fontSize: "5px", color: 'blue' }}>{phonec}<button onClick={sendPhone}>인증번호 발송</button></div>
-
-                                : <div style={{ fontSize: "5px", color: 'red' }}>{phonec}<button disabled="false" onClick={sendPhone}>인증번호 발송</button></div>}
-
-                        </td>
-                    </tr>
-                    <tr>
-                        <td align="left">인증번호</td>
-                        <td align="left">
-                            {phone_publica === true
-                                ? <input style={{ width: "230px" }} value={phone_public} onChange={(e) => setPhone_public(e.target.value)} placeholder="인증번호를 입력해주세요" />
-                                : <input style={{ borderColor: "red", width: "230px" }} value={phone_public} onChange={(e) => setPhone_public(e.target.value)} placeholder="인증번호를 입력해주세요" />}
-                        </td>
-                        <td>
-                            {phone_publiccheck === "인증 완료되었습니다"
-                                ? <div style={{ fontSize: "5px", color: 'blue' }}>{phone_publiccheck}</div>
-
-                                : <div style={{ fontSize: "5px", color: 'red' }}>{phone_publiccheck}</div>}
-                            {phone_publicch === true
-                                ? <div><button onClick={sendphonecheck}>인증하기</button></div>
-
-                                : <div><button disabled="false" onClick={sendphonecheck}>인증하기</button></div>}
-
-                        </td>
-                    </tr>
-
-                </tbody>
-            </table>
-
-            <br />
-            <button onClick={regiselect}>가입유형선택</button>
-            &nbsp;
-            <button onClick={account}>회원가입</button> */}
+            </div>
         </div>
     )
 }

@@ -42,7 +42,7 @@ function Sidemenu(){
         <div className={styles.mypageSideMenu}>
             <div className={styles.sideMenu}>
                 <span><em>{login.name}</em>({login.id})</span>
-            {login.auth === 'teacher'
+            {login.auth === 'teacher' || login.auth === 'main' 
             ?   
             <>
                 <Link to="changeme" className={btnActive === "changeme" ? styles.mypageBtnActive : ""} onClick={() => {setBtnActive('changeme');}}>개인정보 변경</Link>
@@ -52,6 +52,7 @@ function Sidemenu(){
                 <Link to="timetable" className={btnActive === "timetable" ? styles.mypageBtnActive : ""} onClick={() => {setBtnActive('timetable');}}>수업일정</Link>
                 <Link to="studentlist" className={btnActive === "studentlist" ? styles.mypageBtnActive : ""} onClick={() => {setBtnActive('studentlist');}}>과목별 수강생 확인</Link>
                 <Link to="DataAnalysisTeacher" className={btnActive === "DataAnalysisTeacher" ? styles.mypageBtnActive : ""} onClick={() => {setBtnActive('DataAnalysisTeacher');}}>데이터 분석</Link>
+                <Link to="breakaway" className={btnActive === "breakaway" ? styles.mypageBtnActive : ""} onClick={() => {setBtnActive('breakaway');}}>회원 탈퇴</Link>
             </>
             :
             <>
@@ -61,10 +62,11 @@ function Sidemenu(){
                 <Link to="grademypage" className={btnActive === "grademypage" ? styles.mypageBtnActive : ""} onClick={() => {setBtnActive('grademypage');}}>성적표</Link>
                 <Link to="learningmypage" className={btnActive === "learningmypage" ? styles.mypageBtnActive : ""} onClick={() => {setBtnActive('learningmypage');}}>수강중인 학습</Link>
                 <Link to="DataAnalysis" className={btnActive === "DataAnalysis" ? styles.mypageBtnActive : ""} onClick={() => {setBtnActive('DataAnalysis');}}>데이터 분석</Link>
+                <Link to="breakaway" className={btnActive === "breakaway" ? styles.mypageBtnActive : ""} onClick={() => {setBtnActive('breakaway');}}>회원 탈퇴</Link>
             </>
             }
             </div>
-            <Link to="breakaway" className={styles.unRegi}>회원 탈퇴</Link>
+         
         </div>
         
     )

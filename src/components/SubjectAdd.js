@@ -68,6 +68,13 @@ function SubjectAdd(){
     }
     // 과목생성
     function subAdd(){
+        if(subName === null || subName === ""){
+            alert("과목명을 입력해주세요");
+            return;
+        } else if(level === null || level === "") {
+            alert("대상학년을 선택해주세요");
+            return;
+        }
         axios.post("http://localhost:3000/subAdd", null, {params: {"subName" : subName, "classGrade":level, "educatorName":id}})
         .then(function(resp){
             if(resp.data !== null && resp.data !== "" && resp.data === "success"){

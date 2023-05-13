@@ -32,12 +32,14 @@
     content:'';
     width:30px;
     height:30px;
+    margin:0 5px 5px 0;
     background: url(../../../../public/img/User\ Male@2x.png);
     display:inline-block;
     background-size: 30px;
 }
 .sideMenu > span {
     display : flex;
+    flex-flow: wrap;
     align-items: center;
     padding-left:20px;
     margin-bottom:50px;
@@ -45,7 +47,7 @@
 .sideMenu > span > em {
     font-size:1.2em;
     font-weight:500;
-    padding-left:10px;
+    margin:5px 0;
 }
 
 .mypageBtnActive {
@@ -75,11 +77,15 @@
     justify-content: space-between;
 }
 .search {
+    position:relative;
     border:1px solid #80735e;
-    border-radius: 10px;
+    border-radius: 12px;
     margin-left:5%;
 }
-.search > select {
+.search select {
+    position:absolute;
+    left:0;
+    top:0;
     width:100px;
     height:40px;
     padding:0 10px;
@@ -94,16 +100,19 @@
     -moz-appearance: none;
     appearance: none;
 }
-.search > select::-ms-expand {
+.search select::-ms-expand {
     display: none;
 }
 .search > input {
     height:40px;
-    width:250px;
+    width:350px;
     font-size:0.9em;
-    padding:0 15px;
+    padding:0 15px 0 120px;
 }
 .search .searchBtn {
+    position:absolute;
+    right:0;
+    top:0;
     color:#fff;
     background: url(../../../../public/img/searchBtnIcon.png) no-repeat 50% 50% #80735e;
     text-indent: -9999px;

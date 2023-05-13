@@ -7,6 +7,7 @@ import Session from "react-session-api";
 import axios from "axios";
 import Addmodal from "./addmodal";
 import Searchmodal from "./searchmodal";
+import "./css/mypage.css";
 
 import styles from "../components/asset/css/mypage.module.css"
 import write from '../components/asset/css/adminWrite.module.css'
@@ -35,9 +36,9 @@ function Sendemail(){
     const [modalOpen2, setModalOpen2] = useState(false);
 
     const openModal2 = () => {
+        setReceiver("");
         setIscheck(false);
         setModalOpen2(true);
-        setReceiver("");
         setUseraddlist([]);
         setReceivercheckboxlist([]);
     };
@@ -272,6 +273,7 @@ function Sendemail(){
         setReceivercheck(false);
         setReceivermatching("");
         setReceivercheckboxlist([]);
+        setUseraddlist([]);
 
         const table = document.getElementById("subplus");
 
@@ -293,9 +295,9 @@ function Sendemail(){
     } 
 
     useEffect(()=>{
-        if(receiver !== ""){
+        // if(receiver !== ""){
             receivermatch(receiver);     
-        }   
+        // }   
     }, [receiver]) 
     
 
@@ -498,7 +500,7 @@ function Sendemail(){
         }
 
         alert("쪽지를 보냈습니다");
-        history("/testmain/sendemaillist");      // 이동(link)
+        history("/cheesefriends/testmain/sendemaillist");      // 이동(link)
     }
   
     // 맵으로 뿌려주기
@@ -517,6 +519,8 @@ function Sendemail(){
         );
     }
 
+  
+
     return(
         <div>
             <div>
@@ -530,14 +534,14 @@ function Sendemail(){
                 <div>
                     <div className={write.contentBox}>
                         <span>수신자</span>
-                        {useraddlist.length > 0 ?
+                        {useraddlist.length > 0 && receivers.length > 0?
                         <div className={`${styles.responsiveInput} ${write.senderListWidth}`}>
                             <table className={styles.rowTr} id="receiverplus">
                             </table>
                         </div>
                         :
                         <div className={`${write.senderList} ${write.senderListWidth}`}>
-                            <table className="receiverplus" id="receiverplus">
+                            <table className={styles.rowTr} id="receiverplus">
                             </table>
                         </div>
                         }
@@ -548,38 +552,37 @@ function Sendemail(){
                         <button onClick={openModal2} className={write.answerBtn}>받는사람 검색</button>
                         <Searchmodal open2={modalOpen2} close2={closeModal2} yesclose2={yescloseModal2} header2="받는사람 검색">
                         <div>
-                            <table border="1" align="center">
-                                <colgroup>
-                                    <col width="150" /><col width="100" />
-                                </colgroup>
-                                <tr>
-                                    <th>받는사람 검색</th><th>이름</th>
-                                </tr>
-                                <tr>
-                                    <td>받는사람 검색</td>
-                                    <td>
-                                        <div>
-                                            <input style={{ width:"150px"}} value={receiver} onChange={(e) => setReceiver(e.target.value)} ></input>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </table>
-                            <br/>
-                            <table border="1" align="center" className="subplus" id="subplus">
+                            <div class="input-div one">
+                                <div class="i">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <div class="div">
+                                    <input type="text" class="input" value={receiver} onChange={(e)=>setReceiver(e.target.value)} placeholder="받는사람검색" />
+                                </div>
+                            </div>
+                            <table class="table table-hover">
                                 <colgroup>
                                     <col width="50" /><col width="50" /><col width="200" /><col width="150" />
                                 </colgroup>
-                                <tr>
-                                    <th></th><th>번호</th><th>아이디</th><th>이름</th>
-                                </tr>
-                                {useraddlist !== null
-                                    ?useraddlist.map(function(dto, i){
-                                        return (
-                                            <TableRow user={dto} cnt={i+1} key={i} />
-                                        )
-                                    })
-                                    :<td></td>
-                                }         
+                                <thead>
+                                    <tr>
+                                        <th></th><th class="text-center">번호</th><th class="text-center">아이디</th><th class="text-center">이름</th>
+                                    </tr>
+                                </thead>
+                                <tbody className="subplus" id="subplus">
+                                    {useraddlist.length > 0
+                                        ?useraddlist.map(function(dto, i){
+                                            return (
+                                                <TableRow user={dto} cnt={i+1} key={i} />
+                                            )
+                                        })
+                                        :<tr align="center">
+                                            <td colSpan="4">받는사람을 추가해주세요</td>
+                                        </tr>
+                                    }       
+                                    
+                                </tbody>
+                                  
                             </table>
                         </div>
                         </Searchmodal>
@@ -589,53 +592,48 @@ function Sendemail(){
                         <React.Fragment>
                         <button onClick={openModal} className={write.answerBtn}>단체인원 추가</button>
                         <Addmodal open={modalOpen} close={closeModal} yesclose={yescloseModal} header="단체인원 추가">
-                        <div>
-                            <table border="1" align="center">
-                                <colgroup>
-                                    <col width="100" /><col width="200" /><col width="100" />
-                                </colgroup>
-                                <tr>
-                                    <th>교육기관 선택</th><th>과목 선택</th><th>수강생</th>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <select className="edu" id="edu" onChange={(e) => setEdu_code(e.target.value)} >
-                                        
-                                        </select>
-                                    </td>
-                                    <td>
-                                        {edu_code === ""
-                                        ?<select className="sub" id="sub" style={{display:"none"}} onChange={(e) => setSub_code(e.target.value)}></select>
-                                        :<select className="sub" id="sub" onChange={(e) => setSub_code(e.target.value)}></select>
-                                        } 
-                                    </td>
-                                    <td>
-                                        <button onClick={userlist}>확인</button>
-                                    </td>
-                                </tr>
-                            </table>
+                        <div class="modaltext">
+                            <h5 class="regitag">교육기관</h5>
+                            <select className="edu regiinput" id="edu" onChange={(e) => setEdu_code(e.target.value)} >
+                            
+                            </select>
+                            <br/>
+                            <h5 class="regitag">과목</h5>
+                            {edu_code === ""
+                            ?<select className="sub regiinput" id="sub" style={{display:"none"}} onChange={(e) => setSub_code(e.target.value)}></select>
+                            :<select className="sub regiinput" id="sub" onChange={(e) => setSub_code(e.target.value)}></select>
+                            } 
+                            <br/>
+                            <button class="modalbtn" onClick={userlist}>확인</button>
+                            <br/>
 
                             <br/>
-                            <table border="1" align="center" className="userlist" id="userlist">
+                            <table border="1" align="center" class="table table-hover" >
                                 <colgroup>
                                     <col width="50" /><col width="50" /><col width="200" /><col width="150" />
                                 </colgroup>
+                                <thead>
                                 <tr>
-                                    <th>
+                                    <th class="text-center">
                                         <input type="checkbox" onChange={allcheck} checked={ischeck?true:false}></input>
                                     </th>
-                                    <th>번호</th><th>아이디</th><th>이름</th>
+                                    <th class="text-center">번호</th><th class="text-center">아이디</th><th class="text-center">이름</th>
                                 </tr>
-                                {useraddlist !== null
-                                    ?useraddlist.map(function(dto, i){
-                                        return (
-                                            <TableRow user={dto} cnt={i+1} key={i} />
-                                        )
-                                    })
-                                    :<td></td>
-                                }  
-                            </table>
-                        
+                                </thead>
+                                <tbody className="userlist" id="userlist">
+                                    {useraddlist.length > 0
+                                        ?useraddlist.map(function(dto, i){
+                                            return (
+                                                <TableRow user={dto} cnt={i+1} key={i} />
+                                            )
+                                        })
+                                        :<tr align="center">
+                                            <td colSpan="4">받는사람을 추가해주세요</td>
+                                        </tr>
+                                    }  
+                                </tbody>
+                                
+                            </table>  
                         </div>        
                         </Addmodal>
                         </React.Fragment>

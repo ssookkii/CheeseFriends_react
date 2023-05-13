@@ -9,7 +9,7 @@ function AdminPage() {
     const navigate = useNavigate();
 
     let [btnActive, setBtnActive] = useState(
-        sessionStorage.getItem("btnActive") || "edumanage"
+        localStorage.getItem("btnActive") || "edumanage"
     );
 
     function logout(){

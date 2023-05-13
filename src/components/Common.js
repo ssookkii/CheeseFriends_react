@@ -54,14 +54,18 @@ function Common(){
             <header>
                 <div className={styles.headerTopBg}>
 
-                    <div className={`${styles.headerTop} ${styles.search}`}>  
+                    <div className={`${styles.headerTop} ${styles.search}`}>
+                        {login.auth === "parents" ? 
+                        <></>
+                    :
                         <select value={userEdu} onChange={handleUserEdu}>
                             {eduCode.map(function(edu, i){
                                 return(
-                                    <option value={edu.eduCode} key={i}>({edu.eduCode}){edu.eduName}</option>
+                                    <option value={edu.eduCode} key={i}>({edu.eduCode}) {edu.eduName}</option>
                                 )
                             })}
                         </select>
+                    }
                         <Link to="/cheesefriends/testmain/changeme" onClick={()=>localStorage.setItem("mypageBtnActive", "changeme")}>마이페이지</Link>
                         <button onClick={logout}>로그아웃</button>
                     </div>
@@ -82,7 +86,7 @@ function Common(){
                                 <Link to="/cheesefriends/learning/EduInfoList">교육정보</Link>
                             </li>
                             <li>
-                                <Link to="/cheesefriends/shelterpage/playgame">쉼터</Link>
+                                <Link to="/cheesefriends/shelterpage/playgame" onClick={()=>localStorage.setItem("btnActive", "playgame")}>쉼터</Link>
                             </li>
                             <li>
                             <Link to="/cheesefriends/service/ServiceList">고객센터</Link>

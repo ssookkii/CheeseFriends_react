@@ -27,6 +27,7 @@ html, body {
     height:30px;
 }
 .homeWrap header .search > select {
+    position:relative;
     width:210px;
     padding:0 20px 0 0;
     border:none;
@@ -50,7 +51,7 @@ html, body {
     position:relative;
     color:#434343;
 }
-.homeWrap header .headerTop > a::before {
+/* .homeWrap header .search > select::after {
     content:'';
     position:absolute;
     display: inline-block;
@@ -69,7 +70,7 @@ html, body {
     height:13px;
     right:-16px;
     top:0;
-}
+} */
 .homeWrap header .headerTop > button {
     font-size: 0.85em;
     color:#434343;
@@ -102,7 +103,6 @@ html, body {
 .homeWrap > main {
     flex: 1;
     min-width:1200px;
-    margin:0 auto;
 }
 
 /* footer   */

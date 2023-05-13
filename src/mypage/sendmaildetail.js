@@ -31,7 +31,7 @@ function Sendmaildetail(){
         axios.get("http://localhost:3000/senddeleteMail", { params:{ "seq":params.seq}})
         .then(function(resp){
             alert("발송취소 되었습니다");
-            history('/testmain/sendemaillist');
+            history('/cheesefriends/testmain/sendemaillist');
         })
         .catch(function(err){
             alert('err');
@@ -184,7 +184,7 @@ function Sendmaildetail(){
             <React.Fragment>
             <button onClick={openModal} className={styles.answerBtn}>발송취소</button>
             <Deletemodal open={modalOpen} close={closeModal} yesclose={yescloseModal} header="발송취소">
-            <main>  
+            <main class="modaltext">  
                 발송취소 하시겠습니까?
             </main>        
             </Deletemodal>

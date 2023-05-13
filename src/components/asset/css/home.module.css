@@ -58,7 +58,7 @@
 .mypageBox .cboxWrap .cbox:nth-child(3) {
     position:relative;
 }
-.mypageBox .cboxWrap .cbox:nth-child(3) span:last-child {
+.mypageBox .cboxWrap .cbox .unreduced {
     width:15px;
     height:15px;
     position:absolute;
@@ -70,7 +70,7 @@
     font-weight: 600;
     font-size:0.7em;
     text-align: center;
-    line-height:13px;
+    line-height:14px;
 }
 .keyVisualIcon {
     width:50%;

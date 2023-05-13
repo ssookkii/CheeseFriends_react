@@ -74,6 +74,19 @@ function SubTimeManage(){
     
     // 과목생성
     function timeTableAdd(){
+        if(insertDateTime.subCode === null || insertDateTime.subCode === ""){
+            alert("과목을 선택해주세요");
+            return;
+        } else if(insertDateTime.subDay === null || insertDateTime.subDay === "") {
+            alert("강의요일을 선택해주세요");
+            return;
+        } else if(insertDateTime.subStartTime === null || insertDateTime.subStartTime === "") {
+            alert("강의시작시간을 선택해주세요");
+            return;
+        } else if(insertDateTime.subEndTime === null || insertDateTime.subEndTime === "") {
+            alert("강의종료시간을 선택해주세요");
+            return;
+        }
         
         axios.post("http://localhost:3000/timeTableAdd", null, {params: insertDateTime})
         .then(function(resp){
@@ -175,7 +188,7 @@ function SubTimeManage(){
                 <span>대상학년</span>
                 <p>{insertDateTime.classGrade}</p>
             </div>
-            <div className={`${styles.InputBox}`}>
+            <div className={`${styles.InputBox} ${styles.solidCustom}`}>
                 <span>개강일</span>
                 <DatePicker
                     selected={startDate}
@@ -186,7 +199,7 @@ function SubTimeManage(){
                     placeholderText="YYYY/MM/DD"
                 />
             </div>
-            <div className={styles.InputBox}>
+            <div className={`${styles.InputBox} ${styles.solidCustom}`}>
                 <span>강의요일</span>
                 <div className={styles.selectCustom}>
                     <select value={insertDateTime.subDay} onChange={(e) => setInsertDateTime(prevState => ({...prevState, subDay: e.target.value}))}>
