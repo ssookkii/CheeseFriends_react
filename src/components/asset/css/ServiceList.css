@@ -28,14 +28,7 @@
     margin-left: 46px;
     margin-top: -33px;
 }
-.ser {
-    font-size: 4.7em;
-    cursor: pointer;
-}
 
-.ser:hover{
-    color: #fbca73;
-}
 
 .serlist {
     display: block;
@@ -115,4 +108,55 @@
     border: 2px solid #fbca73;
     color: #434343;
 
+}
+
+.p2 {
+    font-size: 23px;
+    font-weight: bold;
+    margin-top: 8px;
+}
+
+.active {
+    color: #fbca73;
+}
+
+.ser1 {
+    font-size: 4.7em;
+    cursor: pointer;
+}
+
+.ser1:hover{
+    color: #fbca73;
+}
+.ser2 {
+    font-size: 4.7em;
+    cursor: pointer;
+}
+
+.ser2:hover{
+    color: #fbca73;
+}
+.ser3 {
+    font-size: 4.7em;
+    cursor: pointer;
+}
+
+.ser3:hover{
+    color: #fbca73;
+}
+.ser4 {
+    font-size: 4.7em;
+    cursor: pointer;
+}
+
+.ser4:hover{
+    color: #fbca73;
+}
+.ser5 {
+    font-size: 4.7em;
+    cursor: pointer;
+}
+
+.ser5:hover{
+    color: #fbca73;
 }

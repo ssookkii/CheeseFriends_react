@@ -62,7 +62,7 @@ function LectureDetail(){
 
   
     return (
-        <div className="lecdeMain">
+        <div className="lecdeMain" style={{marginTop:"15px"}}>
             <h2 className="lech2">강의 보기</h2>
             <table className="lectable">
             <tbody>

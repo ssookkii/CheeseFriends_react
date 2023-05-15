@@ -12,9 +12,7 @@ export default function LectureList() {
 
     const [lecturelist, setLecturelist] = useState([]);
     const [id, setId] = useState("");
-    const [userEdu, setUserEdu] = useState(
-      localStorage.getItem("userEdu")
-    );
+
     const loginInfo = JSON.parse(localStorage.getItem("login"));
     const userAuth = loginInfo?.auth;
 
@@ -73,15 +71,13 @@ export default function LectureList() {
             setCurrentUserId(userId);
             console.log(userId);
         }
-
-
         axios.get("http://localhost:3000/sublist")
           .then(function (resp) {
-            console.log(resp.data); // 현재 수강중인 과목 목록
+            console.log(resp.data); 
             
-            const subNames = resp.data.list.map(item => item.subName);
-            console.log(subNames);
-            setSubNames(subNames);
+            // const eduCode = resp.data.list.map(item => item.eduCode);
+            // console.log(eduCode); //학원 이름
+            // setEdu_code(eduCode);
 
           })
           .catch(function (err) {
@@ -172,7 +168,7 @@ export default function LectureList() {
             fetchedList = fetchedList.filter(item => item.subject === subject);
           } else if (userAuth === "student") {
             fetchedList = fetchedList.filter(item => userSubjects.find(subject => subject.subname === item.subject));
-          }
+          } 
     
           const fetchedListLength = fetchedList.length;
     
@@ -228,11 +224,11 @@ export default function LectureList() {
             <div className='shelterPageWrap'>
               <div style={{width:"247.94px", textAlign:"center"}}>
                   <h2 className='maintitle' style={{marginTop:"-203px"}}>인강학습실</h2>
-                      {/* {(userAuth === 'teacher' && */}
+                      {(userAuth === 'teacher' &&
                         <button type="button" className="lecBtn" onClick={writelink}>
                               글쓰기
                         </button>
-                     {/* )}  */}
+                      )} 
               </div>
         {/* 목록 */}
         <div style={{display:"block", width:"1000px", marginTop:"25px", marginLeft:"20px", fontSize:"1em", color:"#434343"}}>

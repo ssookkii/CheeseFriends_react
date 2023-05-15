@@ -15,9 +15,8 @@ export default function LearningList() {
     );
     const loginInfo = JSON.parse(localStorage.getItem("login"));
     const userAuth = loginInfo?.auth;
-
-    // console.log(userId);
-    // console.log(userAuth);
+    const [mysubjectlist, setMysubjectlist] = useState([]);
+    
     const [currentUserId, setCurrentUserId] = useState('');
     const [userSubjects, setUserSubjects] = useState([]);
     const [edu_code, setEdu_code] = useState("");
@@ -40,72 +39,64 @@ export default function LearningList() {
    
     const [subNames, setSubNames] = useState([]);
 
-    useEffect(() => {
-      if (userAuth === "teacher") {
-          const userId = loginInfo?.id;
-          if(userId) {
-          setCurrentUserId(userId);
-          console.log(userId);
-          }
-          axios
-            .post("http://localhost:3000/eduselect", null, { params: { id: userId } })
-            .then(function (resp) {
-              console.log(resp.data);
-              setEdu_code(resp.data.educode);
-      
-              axios
-                .post("http://localhost:3000/subselect", null, {
-                  params: { id: userId, educode: resp.data.educode },
-                })
-                .then(function (resp) {
-                  console.log(resp.data);
-                  setUserSubjects(resp.data);
-                })
-                .catch(function (err) {
-                  console.log(err);
-                  alert("err");
-                });
-            })
-            .catch(function (err) {
-              console.log(err);
-              alert("err");
-            })
+    function handleUserEdu(e){
+      setUserEdu(e.target.value);
+      localStorage.setItem("userEdu", e.target.value);
+  }
 
-      } else if(userAuth === "student") {
-          const userId = loginInfo?.id;
-          if(userId) {
-          setCurrentUserId(userId);
-          console.log(userId);
-      }
+  useEffect(() => {
+    if (userAuth === "teacher") {
+        const userId = loginInfo?.id;
+        if(userId) {
+        setCurrentUserId(userId);
+        console.log(userId);
+        }
+        axios
+          .post("http://localhost:3000/eduselect", null, { params: { id: userId } })
+          .then(function (resp) {
+            console.log(resp.data);
+            setEdu_code(resp.data.educode);
+    
+            axios
+              .post("http://localhost:3000/subselect", null, {
+                params: { id: userId, educode: resp.data.educode },
+              })
+              .then(function (resp) {
+                console.log(resp.data);
+                setUserSubjects(resp.data);
+              })
+              .catch(function (err) {
+                console.log(err);
+                alert("err");
+              });
+          })
+          .catch(function (err) {
+            console.log(err);
+            alert("err");
+          })
 
+    } else if(userAuth === "student") {
+        const userId = loginInfo?.id;
+        if(userId) {
+        setCurrentUserId(userId);
+        console.log(userId);
+    }
+    axios.get("http://localhost:3000/sublist")
+      .then(function (resp) {
+        console.log(resp.data); // 현재 수강중인 과목 목록
+        
+        const subNames = resp.data.list.map(item => item.subName);
+        console.log(subNames);
+        setSubNames(subNames);
 
-      axios.get("http://localhost:3000/sublist")
-        .then(function (resp) {
-          console.log(resp.data); // 현재 수강중인 과목 목록
-          
-          const subNames = resp.data.list.map(item => item.subName);
-          console.log(subNames);
-          setSubNames(subNames);
+      })
+      .catch(function (err) {
+        console.log(err);
+        alert("err");
+      });
+    }
+  }, []);
 
-        })
-        .catch(function (err) {
-          console.log(err);
-          alert("err");
-        });
-      }
-    }, []);
-
-
-    // const getSubList = useCallback(async (c, s, p) => {
-    //   await axios.get('http://localhost:3000/learninglist', { params: { "choice": c, "search": s, "pageNumber": p } })
-    //     .then(function (res) {
-    //       // 데이터 처리 로직
-    //     })
-    //     .catch(function (err) {
-    //       console.log(err);
-    //     });
-    // }, [userAuth, subject, userSubjects]);
- 
     const getLearnList = useCallback(() => {
       axios.get("http://localhost:3000/learninglist")
         .then(function(resp) {
@@ -242,22 +233,20 @@ export default function LearningList() {
               <div style={{width:"247.94px", textAlign:"center", marginTop:"-190px"}}>
                 <h2 className='maintitle' style={{marginTop:"-175px"}}>학습자료실</h2>
 
-                    {/* {userAuth === 'teacher' && ( */}
+                    {userAuth === 'teacher' && (
                         <button type="button" className="learnBtn"  onClick={writelink}>
                             글쓰기
                         </button>
-                     {/* )}  */}
-                    {/* {userAuth === 'student' && ( */}
+                      )} 
+
                         <button type="button" className="taskBtn"  onClick={tasklink}>
                             과제제출하기
                         </button>
-                     {/* )} */}
-                    {/* {userAuth === 'student' && (  */}
+
+ 
                         <button type="button" className="qnabtn"  onClick={qnalink}>
                             수업질문하기
                         </button>
-                     {/* )}  */}
-
                 </div>
             </div>
 
@@ -319,5 +308,5 @@ export default function LearningList() {
     </div>
 
     )
-}
+              }
 

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from 'axios';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -8,6 +8,9 @@ import './asset/css/LectureDetail.css';
 function EduInfoDetail(){
     let history = useNavigate();
     const[eduDetail, setEduDetail] = useState([]);
+    
+    const [imgFile, setImgFile] = useState("");
+    const imgRef = useRef();
     const [bbs, setBbs] = useState();
     const [imageUrl, setImageUrl] = useState('');
 
@@ -57,8 +60,6 @@ function EduInfoDetail(){
         link.click();
       }
 
-      const [imgFile, setImgFile] = useState("");
-      const imgRef = useRef();
 
         // 이미지 업로드 input의 onChange
       const saveImgFile = () => {
