@@ -12,7 +12,9 @@ export default function LectureList() {
 
     const [lecturelist, setLecturelist] = useState([]);
     const [id, setId] = useState("");
-
+    const [userEdu, setUserEdu] = useState(
+      localStorage.getItem("userEdu")
+  );
     const loginInfo = JSON.parse(localStorage.getItem("login"));
     const userAuth = loginInfo?.auth;
 
@@ -21,7 +23,7 @@ export default function LectureList() {
     const [currentUserId, setCurrentUserId] = useState('');
     const [userSubjects, setUserSubjects] = useState([]);
     const [edu_code, setEdu_code] = useState("");
-    const [subCode, setSubCode] = useState("");
+
     const [subject, setSubject] = useState(
         localStorage.getItem("subject")
     );
@@ -34,6 +36,7 @@ export default function LectureList() {
 
 
     const [subNames, setSubNames] = useState([]);
+
     useEffect(() => {
         if (userAuth === "teacher") {
             const userId = loginInfo?.id;
@@ -63,7 +66,7 @@ export default function LectureList() {
               .catch(function (err) {
                 console.log(err);
                 alert("err");
-              })
+              });
 
         } else if(userAuth === "student") {
             const userId = loginInfo?.id;
@@ -73,19 +76,47 @@ export default function LectureList() {
         }
         axios.get("http://localhost:3000/sublist")
           .then(function (resp) {
-            console.log(resp.data); 
-            
-            // const eduCode = resp.data.list.map(item => item.eduCode);
-            // console.log(eduCode); //학원 이름
-            // setEdu_code(eduCode);
+            const subNames = resp.data.list.map(item => item.subName);
+            setSubNames(subNames);
+            console.log(resp.data); // 현재 학원 전체 과목 
+            console.log(subNames);
 
-          })
-          .catch(function (err) {
-            console.log(err);
-            alert("err");
-          });
-        }
-      }, []);
+          axios.get("http://localhost:3000/subjectlist", { params: { edu_code: userEdu } })
+         .then(function(resp) {
+          console.log(resp.data);
+          const subCode = resp.data.map(item => item?.subcode);
+          console.log(subCode);     // 현재 학원 전체 과목 코드
+        
+          axios.get("http://localhost:3000/getSub", { params: {"subcode":subCode } })
+          .then(function (resp) {
+
+            console.log("state : " + resp.data);
+
+            // if(resp.data === 'approved'){
+            //     alert("이미 수강중인 학습입니다")
+            // }else if(resp.data === 'approving'){
+            //     alert("수강 승인 대기중인 학습입니다")
+            // }else if(resp.data === 'quiting'){
+            //     alert("탈퇴 진행 중인 학습입니다")
+            // }else{
+            //     axios.get("http://localhost:3000/eduname", { params: { "edu_code": edu_code } })
+         })
+         .catch(function (err) {
+          console.log(err);
+          alert("err");
+        });
+      })
+      .catch(function (err) {
+        console.log(err);
+        alert("err");
+      });
+    })
+    .catch(function (err) {
+      console.log(err);
+      alert("err");
+    });
+}
+}, []);
 
       const getLecList = useCallback(() => {
         axios.get("http://localhost:3000/lecturelist")
@@ -304,6 +335,5 @@ export default function LectureList() {
     </div>
   </div>
     )
-}
 
-
+  }

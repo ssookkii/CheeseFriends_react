@@ -57,22 +57,16 @@ function TaskDetail(){
 
     // download
     const download = async () => {
-    let filename = taskDetail.filename;
 
-    const url = "http://localhost:3000/download?filename=" + filename;
+      //  alert(JSON.stringify(bbs));
 
-    // a tag 를 생성 + 자동실행
-    /*
-    const download = document.createElement('a');   // <a href='' 
-    download.setAttribute('href', url);
-    download.setAttribute('download', filename);
-    download.setAttribute('type', 'application/json');
-    download.click();
-    */
-
-    // react에서 window를 붙여줘야 한다
-    window.location.href = url;
+        let filename = bbs.filename;
+    
+        const url = "http://localhost:3000/fileDownload?filename=" + filename;
+    
+        window.location.href = url;
     }
+
     
 
 

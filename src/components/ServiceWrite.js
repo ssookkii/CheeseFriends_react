@@ -43,7 +43,7 @@ export default function ServiceWrite() {
         axios.post('http://localhost:3000/writeService', null, { params: {
             topic,
             title,
-            writer:userName,
+            writer:id,
             content
     }})
         .then( resp => {
@@ -52,11 +52,9 @@ export default function ServiceWrite() {
         navigate('/cheesefriends/service/ServiceList');
         
         })
-        .catch(err => console.log(err));
-
-
-    
+        .catch(err => console.log(err));    
     }
+
     return (
         <div className='lecwritemain'>
             <h2 className='lecmainh2' >고객센터 문의하기</h2>
@@ -88,5 +86,5 @@ export default function ServiceWrite() {
             </form>
         </div>
     )
-  }
+}
 

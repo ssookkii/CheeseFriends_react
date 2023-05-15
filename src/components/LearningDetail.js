@@ -41,7 +41,10 @@ function LearningDetail(){
     }
 
     const download = async () => {
-        let filename = "file.txt";
+
+        // alert(JSON.stringify(bbs));
+
+        let filename = bbs.filename;
     
         const url = "http://localhost:3000/fileDownload?filename=" + filename;
     

@@ -25,29 +25,15 @@ export default function EduInfoWrite() {
     const resetBtn = () => {
         navigate('/cheesefriends/learning/EduInfoList');
     }
-
-      // download
-    const download = async () => {
-    let filename = "zoom.txt";
-
-    const url = `http://localhost:3000/fileDownload?filename=${encodeURIComponent(filename)}`;
-
-    // react에서 window를 붙여줘야 한다
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = filename;
-    link.click();
-  }
-
     const SelectBox = () => {
-        return (
-            <select onChange={changeSelectOptionHandler} value={subject}  className='inputsubject' style={{width:"315px"}}>
-                <option key="kor" value="국어">국어</option>
-                <option key="math" value="수학">수학</option>
-                <option key="eng" value="영어">영어</option>
-                <option key="social" value="사회">사회</option>
-                <option key="sci" value="과학">과학</option>
-            </select>
+    return (
+        <select onChange={changeSelectOptionHandler} value={subject}  className='inputsubject' style={{width:"315px"}}>
+            <option key="kor" value="국어">국어</option>
+            <option key="math" value="수학">수학</option>
+            <option key="eng" value="영어">영어</option>
+            <option key="social" value="사회">사회</option>
+            <option key="sci" value="과학">과학</option>
+        </select>
         );
     };
 
@@ -57,21 +43,28 @@ export default function EduInfoWrite() {
 
     const onSubmit = (e) => {
         e.preventDefault();
+     //   alert('onSubmit~~~');
+        
+        // file + form field -> 짐을 싼다        
+            const formData = new FormData();
+            formData.append("subject", subject);
+            formData.append("title", title);
+            formData.append("writer", userName);
+            formData.append("content", content);
+ 
+    
+          formData.append("uploadFile", document.frm.uploadFile.files[0]);
 
-        axios.post('http://localhost:3000/writeEduInfo', null, { params: {
-                subject,
-                title,
-                writer:userName,
-                content
-        }})
-            .then( resp => {
-            console.log(resp);
-            alert('성공적으로 게시물이 등록되었습니다');
-            navigate('/cheesefriends/learning/EduInfoList');
+          axios.post('http://localhost:3000/fileUpload', formData)
+            .then(resp => {
+              console.log(resp.data);
+              alert('성공적으로 등록되었습니다');
+              navigate('/cheesefriends/learning/EduInfoList');
             })
-            .catch(err => console.log(err));
-
-    }
+            .catch(err => {
+              console.log(err);
+          })
+      }
     
    
     return (
