@@ -338,6 +338,17 @@ function Changeme(){
                     "auth":auth
                 }})
         .then(function(resp){
+            axios.post("http://localhost:3000/login", null, { params: {"id": id, "password": password}})
+            .then(function(res){
+                alert("작동2");
+                localStorage.setItem("login", JSON.stringify(res.data));
+                alert("setstorage 작동");
+            })
+            .catch(function(err){
+                console.log(err);
+                alert(err);
+            })
+
             // 사진저장
             if(photostart === true){
                 const formData = new FormData();
@@ -351,6 +362,8 @@ function Changeme(){
                 .then((result) => console.log(result))
                 .catch((error) => console.error(error));
             }
+
+            
         })
         .catch(function(err){
             alert("err");
@@ -359,6 +372,8 @@ function Changeme(){
 
         alert("정상적으로 변경되었습니다");
         window.location.href = "/cheesefriends/testmain/changeme" ;
+
+      
     }
         
 
