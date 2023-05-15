@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from 'axios';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheese } from "@fortawesome/free-solid-svg-icons";
 import './asset/css/LectureDetail.css';
 
 function LectureDetail(){
@@ -40,25 +42,18 @@ function LectureDetail(){
     }
 
 
+    // download
     const download = async () => {
-        try {
-          const response = await fetch('/fileUpload');
-          const data = await response.json();
-          const filename = data.filename;
-          console.log('filename:', filename);
+
+        // alert(JSON.stringify(bbs));
+  
+          let filename = bbs.filename;
       
-          const url = `http://localhost:3000/download?filename=${filename}`;
+          const url = "http://localhost:3000/fileDownload?filename=" + filename;
       
-          const downloadLink = document.createElement('a');
-          downloadLink.href = url;
-          downloadLink.download = filename;
-          downloadLink.click();
-        } catch (error) {
-          console.error('Error:', error);
-        }
-      };
-      
-      download();
+          window.location.href = url;
+    }
+  
 
   
     return (
@@ -82,9 +77,9 @@ function LectureDetail(){
             </div>
             <tr>	
                 <td colSpan="2" style={{ backgroundColor:'white' }}>
-                    <pre id="content" style={{ marginTop:"6px", fontSize:'18px', lineHeight:"1.5", fontFamily:'고딕, arial', backgroundColor:'white', textAlign:"left", marginLeft:"138px" }}>{bbs.content}</pre>
-                    
-                    <video style={{width:"700px", marginLeft:"272px", border:"3px solid #eeeeee"}} controls >
+                    <pre id="content" style={{ marginTop:"6px", marginBottom:"0px", fontSize:'18px', lineHeight:"1.5", fontFamily:'고딕, arial', backgroundColor:'white', textAlign:"left", marginLeft:"138px" }}>{bbs.content}</pre>
+                    <button onClick={download} style={{backgroundColor:'white', marginLeft:"776px", width:"133px", fontWeight:"bold", color:"#fbca73"}}><FontAwesomeIcon icon={faCheese} color="#fbca73" /> 다운로드</button>
+                    <video style={{width:"629px", height:"357px", marginLeft:"272px", border:"3px solid #eeeeee"}} controls >
                         <source src={require('./asset/css/sample2.mp4')} type="video/mp4" /> 
                     </video>
 
@@ -92,7 +87,7 @@ function LectureDetail(){
             </tr>
             </tbody>
             </table>
-            <div style={{textAlign:"center", marginLeft:"50px", marginTop:"5px"}}>
+            <div style={{textAlign:"center", marginTop:"20px"}}>
                 <button className="leclistBtn" type="button" onClick={leclist}>목록으로</button>
             </div>
                   

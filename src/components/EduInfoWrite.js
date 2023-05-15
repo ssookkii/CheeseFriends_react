@@ -10,14 +10,16 @@ export default function EduInfoWrite() {
     const [writer, setWriter] = useState('');
     const [content, setContent] = useState('');
     const [selectedFile, setSelectedFile] = useState(null);
+    const [mainImg, setMainImg] = useState('');
+    const [previewImg, setPreviewImg] = useState('');
 
     const login = JSON.parse(localStorage.getItem("login"));
     const userName = login.name;
 
-    const handleFileSelect = (event) => {
-        const file = event.target.files[0];
-        setSelectedFile(URL.createObjectURL(file));
-      };
+    // const handleFileSelect = (event) => {
+    //     const file = event.target.files[0];
+    //     setSelectedFile(URL.createObjectURL(file));
+    //   };
 
     const navigate = useNavigate();
 
@@ -64,7 +66,17 @@ export default function EduInfoWrite() {
             .catch(err => {
               console.log(err);
           })
-      }
+
+        setPreviewImg = (event) => {
+            var reader = new FileReader();
+
+        reader.onload = function(event) {
+            setMainImg(event.target.result);
+        };
+
+        reader.readAsDataURL(event.target.files[0]);
+    }
+    }
     
    
     return (
@@ -91,10 +103,11 @@ export default function EduInfoWrite() {
             <>
             내용
             </>
-            <input type="file" name="uploadFile" className='inputfile' accept="*" onChange={handleFileSelect} />
+            <input type="file" name="uploadFile" className='inputfile' accept="*" onChange={setPreviewImg} />
             <br />
             <div className='efile'>
-            {selectedFile && <img src={selectedFile} id="previewImage" alt="미리보기" style={{ maxWidth: "300px", marginTop:"13px", maxHeight:"310px" }} />}
+           
+            <img alt='이미지' src={mainImg} style={{width:"270px"}} /> 
             <textarea id='content' className='lecontent' name='content' style={{maxWidth:"733px"}}
                 value={content} onChange={(e) => setContent(e.target.value)} />
             </div>

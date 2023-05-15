@@ -39,6 +39,7 @@
     margin-left: 60px;
     width: 900px;
     height: 314px;
+    line-height: 1.5;
 }
 
 .regdate {
@@ -65,8 +66,8 @@
 
 .btnwrapper {
     text-align: right;
-    margin-top: 20px;
-    margin-right: -460px;
+    margin-top: 6px;
+    margin-right: -455px;
 }
 .btnwrappera{
     text-align: right;
@@ -121,4 +122,5 @@
 .efile {
     display: inline-flex;
     justify-content: center;
+    margin-top: 16px;
 }

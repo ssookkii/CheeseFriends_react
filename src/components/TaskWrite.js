@@ -37,6 +37,7 @@ function TaskWrite() {
           formData.append("title", title);
           formData.append("writer", userName);
           formData.append("content", content);
+          
  
     
           formData.append("uploadFile", document.frm.uploadFile.files[0]);

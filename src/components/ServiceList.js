@@ -177,7 +177,7 @@ export default function ServiceList() {
         
     
             {/* 목록 */}
-            <div style={{display:"block", width:"1000px", marginTop:"-152px"}}>
+            <div style={{display:"block", width:"1000px", marginTop:"-252px"}}>
     
                 <div className='contentwrappers'>
                     <div className='fontWrapper'>
@@ -202,7 +202,7 @@ export default function ServiceList() {
                       onClick={() => handleButtonClick('infolist')}
                     />
                     <p className={`p2 ${activeButton === 'infolist' ? 'active' : ''}`}
-                    style={{ marginLeft:"-13px" }}
+                    style={{ marginLeft:"-10px" }}
                     >개인정보</p>
                   </div>
                   <div>
@@ -212,7 +212,7 @@ export default function ServiceList() {
                       onClick={() => handleButtonClick('useLectList')}
                     />
                     <p className={`p2 ${activeButton === 'useLectList' ? 'active' : ''}`}
-                    style={{ marginLeft:"-5px" }}
+                    style={{ marginLeft:"-2px" }}
                     >강의이용</p>
                   </div>
                   <div>

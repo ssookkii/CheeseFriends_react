@@ -22,8 +22,8 @@ export default function LectureList() {
     // console.log(userAuth);
     const [currentUserId, setCurrentUserId] = useState('');
     const [userSubjects, setUserSubjects] = useState([]);
-    const [edu_code, setEdu_code] = useState("");
-
+    const [eduCode, setEduCode] = useState("");
+    const [subCode, setSubCode] = useState("");
     const [subject, setSubject] = useState(
         localStorage.getItem("subject")
     );
@@ -38,25 +38,52 @@ export default function LectureList() {
     const [subNames, setSubNames] = useState([]);
 
     useEffect(() => {
-        if (userAuth === "teacher") {
-            const userId = loginInfo?.id;
-            if(userId) {
-            setCurrentUserId(userId);
-            console.log(userId);
-            }
+      if (userAuth === "teacher") {
+        const userId = loginInfo?.id;
+        if (userId) {
+          setCurrentUserId(userId);
+          console.log(userId);
+        }
+        axios
+          .post("http://localhost:3000/eduselect", null, { params: { id: userId } })
+          .then(function (resp) {
+            console.log(resp.data);
+            setEduCode(resp.data.educode);
+    
+            return axios.post("http://localhost:3000/subselect", null, {
+              params: { id: userId, educode: resp.data.educode },
+            });
+          })
+          .then(function (resp) {
+            console.log(resp.data);
+            setUserSubjects(resp.data);
+          })
+          .catch(function (err) {
+            console.log(err);
+            alert("err");
+          });
+      } else if (userAuth === "student") {
+        const userId = loginInfo?.id;
+        if (userId) {
+          setCurrentUserId(userId);
+           console.log(userId); // 사용자아이디
+        }
+        axios
+          .get("http://localhost:3000/homeEduCode", { params: { id: userId } })
+          .then(function (resp) {
+             console.log(resp.data); // 사용자가 수강중인 학원 코드 EDU001
+             
+    
             axios
-              .post("http://localhost:3000/eduselect", null, { params: { id: userId } })
+              .get("http://localhost:3000/subjectlist", { params: { edu_code: userEdu } })
               .then(function (resp) {
-                console.log(resp.data);
-                setEdu_code(resp.data.educode);
-        
-                axios
-                  .post("http://localhost:3000/subselect", null, {
-                    params: { id: userId, educode: resp.data.educode },
-                  })
+                // console.log(resp.data); // 사용자가 수강중인 학원의 전과목 정보
+                const subCode = resp.data.map((item) => item?.subcode);
+                console.log(subCode); // 현재 학원 전체 과목 코드
+    
+                axios.get("http://localhost:3000/approvedcheck", { params: { "id":currentUserId, "subcode":subCode } })
                   .then(function (resp) {
                     console.log(resp.data);
-                    setUserSubjects(resp.data);
                   })
                   .catch(function (err) {
                     console.log(err);
@@ -67,56 +94,38 @@ export default function LectureList() {
                 console.log(err);
                 alert("err");
               });
+          })
+          .catch(function (err) {
+            console.log(err);
+            alert("err");
+          });
+      }
+    }, []);
 
-        } else if(userAuth === "student") {
-            const userId = loginInfo?.id;
-            if(userId) {
-            setCurrentUserId(userId);
-            console.log(userId);
-        }
-        axios.get("http://localhost:3000/sublist")
-          .then(function (resp) {
-            const subNames = resp.data.list.map(item => item.subName);
-            setSubNames(subNames);
-            console.log(resp.data); // 현재 학원 전체 과목 
-            console.log(subNames);
+    //       axios.get("http://localhost:3000/getSub", { params: {"subcode":subCode } })
+    //       .then(function (resp) {
 
-          axios.get("http://localhost:3000/subjectlist", { params: { edu_code: userEdu } })
-         .then(function(resp) {
-          console.log(resp.data);
-          const subCode = resp.data.map(item => item?.subcode);
-          console.log(subCode);     // 현재 학원 전체 과목 코드
-        
-          axios.get("http://localhost:3000/getSub", { params: {"subcode":subCode } })
-          .then(function (resp) {
+    //         console.log("state : " + resp.data);
 
-            console.log("state : " + resp.data);
+    //         // if(resp.data === 'approved'){
+    //         //     alert("이미 수강중인 학습입니다")
+    //         // }else if(resp.data === 'approving'){
+    //         //     alert("수강 승인 대기중인 학습입니다")
+    //         // }else if(resp.data === 'quiting'){
+    //         //     alert("탈퇴 진행 중인 학습입니다")
+    //         // }else{
+    //         //     axios.get("http://localhost:3000/eduname", { params: { "edu_code": edu_code } })
+    //      })
+    //      .catch(function (err) {
+    //       console.log(err);
+    //       alert("err");
+    //     });
+    //   })
+    //   .catch(function (err) {
+    //     console.log(err);
+    //     alert("err");
+    //   });
 
-            // if(resp.data === 'approved'){
-            //     alert("이미 수강중인 학습입니다")
-            // }else if(resp.data === 'approving'){
-            //     alert("수강 승인 대기중인 학습입니다")
-            // }else if(resp.data === 'quiting'){
-            //     alert("탈퇴 진행 중인 학습입니다")
-            // }else{
-            //     axios.get("http://localhost:3000/eduname", { params: { "edu_code": edu_code } })
-         })
-         .catch(function (err) {
-          console.log(err);
-          alert("err");
-        });
-      })
-      .catch(function (err) {
-        console.log(err);
-        alert("err");
-      });
-    })
-    .catch(function (err) {
-      console.log(err);
-      alert("err");
-    });
-}
-}, []);
 
       const getLecList = useCallback(() => {
         axios.get("http://localhost:3000/lecturelist")

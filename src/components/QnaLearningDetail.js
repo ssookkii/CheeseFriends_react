@@ -66,9 +66,9 @@ function QnaLearningDetail(){
                 <td style={{ textAlign:"left" }}>{bbs.regdate}</td>
             </tr>
             <tr style={{height:"32px"}}>	
-                <th>내용</th>
+                <th className="tableth">내용</th>
                 <td colSpan="2" style={{ backgroundColor:'white' }}>
-                    <pre id="content" style={{ fontSize:'20px', fontFamily:'고딕, arial', backgroundColor:'white', textAlign:"left" }}>{bbs.content}</pre>
+                    <pre id="content" style={{ fontSize:'20px', fontFamily:'고딕, arial', backgroundColor:'white', textAlign:"left", marginBottom:"0" }}>{bbs.content}</pre>
                 </td>
             </tr>
             </div>

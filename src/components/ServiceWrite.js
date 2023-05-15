@@ -11,7 +11,7 @@ export default function ServiceWrite() {
     const [content, setContent] = useState('');
 
     const login = JSON.parse(localStorage.getItem("login"));
-    const id = login.id;
+    const id = login?.id;
     const userName = login.name;
 
     const navigate = useNavigate();
@@ -76,7 +76,7 @@ export default function ServiceWrite() {
                 value={id} onChange={(e) => setWriter(e.target.value)} />
             </>
             <br/>
-            <textarea id='content' style={{marginLeft:"131px", width:"954px"}} className='lecontent' name='content'
+            <textarea id='content' style={{marginLeft:"131px", width:"900px"}} className='lecontent' name='content'
                 value={content} onChange={(e) => setContent(e.target.value)} />
 
             <div className='btnwrappera'>

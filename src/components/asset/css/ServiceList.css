@@ -34,9 +34,9 @@
     display: block;
     font-size: 24px;
     border-bottom: 2px solid #4343;
-    width: 1000px;
+    width: 850px;
     text-align: left;
-    margin-left: -94px;
+    margin-left: -150px;
     margin-bottom: 10px;
     margin-top: -10px;
 }
@@ -49,7 +49,7 @@
 
 .contentwrappers {
     position: fixed;
-    left: 760px;
+    left: 745px;
     top: 190px;
 
 }

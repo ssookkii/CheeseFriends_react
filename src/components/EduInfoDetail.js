@@ -8,11 +8,8 @@ import './asset/css/LectureDetail.css';
 function EduInfoDetail(){
     let history = useNavigate();
     const[eduDetail, setEduDetail] = useState([]);
-    
-    const [imgFile, setImgFile] = useState("");
-    const imgRef = useRef();
     const [bbs, setBbs] = useState();
-    const [imageUrl, setImageUrl] = useState('');
+
 
 
     // 데이터를 모두 읽어 들일 때까지 rendering을 조절하는 변수
@@ -48,28 +45,18 @@ function EduInfoDetail(){
     }
 
 
-    const download = async () => {
-        let filename = "다운로드-1.png";
+     // download
+     const download = async () => {
+
+      //alert(JSON.stringify(bbs));
+
+        let filename = bbs.filename;
     
-        const url = `http://localhost:3000/fileDownload?filename=${encodeURIComponent(filename)}`;
+        const url = "http://localhost:3000/fileDownload?filename=" + filename;
     
-        // react에서 window를 붙여줘야 한다
-        const link = document.createElement("a");
-        link.href = url;
-        link.download = filename;
-        link.click();
+        window.location.href = url;
       }
 
-
-        // 이미지 업로드 input의 onChange
-      const saveImgFile = () => {
-        const file = imgRef.current.files[0];
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onloadend = () => {
-            setImgFile(reader.result);
-        };
-    };
 
 
 
@@ -97,10 +84,9 @@ function EduInfoDetail(){
             </tr>
             <tr style={{height:"32px"}}>	
                 <td colSpan="2" style={{ backgroundColor:'white', wordBreak:"break-all", width:"1000px" }}>
-                {/* <button onClick={download} style={{backgroundColor:'white', paddingTop:"10px", width:"133px", fontWeight:"bold", color:"#fbca73"}}><FontAwesomeIcon icon={faCheese} color="#fbca73" /> 첨부파일</button> */}
-                <img src='./img/eduinfo-1.png'></img>
-                    {imageUrl && <img src={imageUrl} alt="미리보기" style={{ maxWidth: "300px" }} />}
-                    <pre id="content" style={{ fontSize:'20px', fontFamily:'고딕, arial', backgroundColor:'white', textAlign:"left", width:"1000px", whiteSpace:"pre-wrap"}}>{bbs.content}</pre>
+                <button onClick={download} style={{backgroundColor:'white', paddingTop:"10px", width:"133px", fontWeight:"bold", color:"#fbca73"}}><FontAwesomeIcon icon={faCheese} color="#fbca73" /> 첨부파일</button>
+                
+                  <pre id="content" style={{ fontSize:'20px', fontFamily:'고딕, arial', backgroundColor:'white', textAlign:"left", width:"1000px", whiteSpace:"pre-wrap"}}>{bbs.content}</pre>
                 </td>
             </tr>
             </div>
