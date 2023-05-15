@@ -54,7 +54,6 @@ import AttendanceManage from "./components/AttendanceManage";
 import AttendanceManageTeacher from "./components/AttendanceManageTeacher";
 import DataAnalysis from "./components/DataAnalysis";
 import DataAnalysisTeacher from "./components/DataAnalysisTeacher";
-// import Test from "./components/Test";
 
 import PlayGame from './components/PlayGame';
 import PlayGame1 from './components/PlayGame1';
@@ -88,7 +87,6 @@ import ServiceAnswer from './components/ServiceAnswer';
 import Socialregiselect from './login/socialregiselect';
 import Kakao from './login/kakao';
 import NaverLogin from './login/naverlogin';
-import Testlogin from './login/testlogin';
 
 
 function App() {
@@ -107,7 +105,6 @@ function App() {
         <Route path="/regiteacher" element={<Regiteacher />} />
         <Route path="/idsearch" element={<Idsearch />} />
         <Route path="/passwordsearch" element={<Passwordsearch />} />
-        <Route path="/testlogin" element={<Testlogin />} />
 
         <Route path="/cheesefriends/*" element={<Common />}>
           <Route path="home" element={<Home />} />
