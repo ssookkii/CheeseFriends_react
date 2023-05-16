@@ -30,9 +30,8 @@ export default function EduInfoWrite() {
     const SelectBox = () => {
     return (
         <select onChange={changeSelectOptionHandler} value={subject}  className='inputsubject' style={{width:"315px"}}>
+            <option key="" value=""></option>
             <option key="kor" value="국어">국어</option>
-            <option key="math" value="수학">수학</option>
-            <option key="eng" value="영어">영어</option>
             <option key="social" value="사회">사회</option>
             <option key="sci" value="과학">과학</option>
         </select>

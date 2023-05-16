@@ -75,14 +75,13 @@ function QnaLearningDetail(){
             </tbody>
             </table>
             <div style={{textAlign:"center"}}>
-            {/* {userAuth === 'teacher' && ( */}
-                    <button className="l" type="button">
-                    <Link to={`/cheesefriends/learning/QnaLearningAnswer/${bbs.seq}`} style={{textDecoration:"none", fontWeight:"bold", color:"white", fontSize:"1em"}}>답변하기</Link>
-                    </button>
-            {/* )} */}
-                <button className="resetbtn" type="button" style={{marginLeft:"-100px"}} onClick={qnalist}>목록으로</button>
+            {userAuth === 'teacher' && (
+                <button type="button" className="submitbtn">
+                    <Link to={`/cheesefriends/learning/QnaLearningAnswer/${bbs.seq}`}>답변하기</Link>
+                </button>
+            )}  
+                <button className="resetbtn" type="button" onClick={qnalist}>목록으로</button>
             </div>
-                   
         </div>
     )
 }
