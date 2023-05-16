@@ -317,8 +317,28 @@ function Studentlist(){
             console.log("yescloseModal 작동");
             setModalOpen3(false);
 
+            let result = "";
+
             axios.get("http://localhost:3000/deletestudent", { params:{ "id":studentid, "subcode":receivesubcode}})
             .then(function(resp){
+                if(resp.data === "YES"){
+                    axios.post("http://localhost:3000/educodematching", null, {params: {"sub_code": receivesubcode}})
+                    .then(function (res) {
+                        alert(res.data);
+                        axios.post("http://localhost:3000/deleteuseredu", null,{params: {"id": studentid,"eduCode": res.data}})
+                        .then(function (re) {
+                            
+                        })
+                        .catch(function (err) {
+                            alert("err3");
+                            console.log(err);
+                        })
+                    })
+                    .catch(function (err) {
+                        alert("err1");
+                        console.log(err);
+                    })    
+                }
                 alert("탈퇴 신청이 승인 되었습니다");
                 fetchData(sub_code, choice, search, 0);
             })
@@ -367,6 +387,25 @@ function Studentlist(){
 
             axios.get("http://localhost:3000/deletestudent", { params:{ "id":studentid, "subcode":receivesubcode}})
             .then(function(resp){
+                if(resp.data === "YES"){
+                    axios.post("http://localhost:3000/educodematching", null, {params: {"sub_code": receivesubcode}})
+                    .then(function (res) {
+                        alert(res.data);
+                        axios.post("http://localhost:3000/deleteuseredu", null,{params: {"id": studentid,"eduCode": res.data}})
+                        .then(function (re) {
+                            
+                        })
+                        .catch(function (err) {
+                            alert("err3");
+                            console.log(err);
+                        })
+                    })
+                    .catch(function (err) {
+                        alert("err1");
+                        console.log(err);
+                    })    
+                }
+
                 alert("탈퇴 처리 되었습니다");
                 fetchData(sub_code, choice, search, 0);
             })

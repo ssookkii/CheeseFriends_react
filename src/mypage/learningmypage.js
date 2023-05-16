@@ -139,6 +139,26 @@ function Learningmypage(){
                     console.log(err);
                     alert('err')
                 })
+
+                await axios.post("http://localhost:3000/educodematching", null, {params: {"sub_code": sub_codechecked[i]}})
+                .then(function (resp) {
+                    console.log(resp.data); 
+                    educode = resp.data;
+                })
+                .catch(function (err) {
+                    alert("err1");
+                    console.log(err);
+                })
+
+                await axios.post("http://localhost:3000/addusereducheck", null,{params: {"id": id,"educode": educode}})
+                .then(function (res) {
+                    
+                })
+                .catch(function (err) {
+                    alert("err");
+                    console.log(err);
+                })
+                
             }else if(statement === ""){
                 await axios.get("http://localhost:3000/approving", { params: { "id":id, "subcode":sub_codechecked[i] } })
                 .then(function (resp) {
