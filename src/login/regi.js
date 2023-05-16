@@ -540,7 +540,7 @@ function Regi() {
     const [phonea, setPhonea] = useState(true);
     const [phone_publica, setPhone_publica] = useState(true);
 
-    function account() {
+    async function account() {
         // 회원가입 유효검사
         setNamea(true);
         setCodea(true);
@@ -600,10 +600,12 @@ function Regi() {
             return;
         }
 
+        let p = false;
         // 해당 번호로 이미 가입된 계정이 있는지 체크
-        axios.post("http://localhost:3000/phonecheck", null, { params: { "phone": phone } })
-        .then(function (resp) {
-            if (resp.data === "YES") {
+        await axios.post("http://localhost:3000/phonecheck", null, { params: { "phone": phone } })
+        .then(function (res) {
+            if (res.data === "YES") {
+                p = true;
                  // 보내자
                 axios.post("http://localhost:3000/adduser", null,
                 {
@@ -623,56 +625,10 @@ function Regi() {
                     }
                 })
                 .then(function (resp) {
-                    for (let i = 0; i < sub_codechecked.length; i++) {
-                        console.log("sub_codechecked : " + sub_codechecked)
-                        if (resp.data === "YES") {
-                            // 교육기관 보내자
-                            axios.post("http://localhost:3000/educodematching", null,
-                                {
-                                    params: {
-                                        "sub_code": sub_codechecked[i]
-                                    }
-                                })
-                                .then(function (resp) {
-                                    console.log(resp.data);
-                                    axios.post("http://localhost:3000/adduseredu", null,
-                                        {
-                                            params: {
-                                                "id": id,
-                                                "educode": resp.data
-                                            }
-                                        })
-                                        .then(function (r) {
-
-                                        })
-                                        .catch(function (err) {
-                                            alert("err");
-                                            console.log(err);
-                                        })
-                                })
-                                .catch(function (err) {
-                                    alert("err");
-                                    console.log(err);
-                                })
-
-                            // 과목 보내자
-                            axios.post("http://localhost:3000/addusersubject", null,
-                                {
-                                    params: {
-                                        "id": id,
-                                        "subcode": sub_codechecked[i]
-                                    }
-                                })
-                                .then(function (resp) {
-
-                                })
-                                .catch(function (err) {
-                                    alert("err");
-                                    console.log(err);
-                                })
-                        } else {
-                            alert("가입되지 않았습니다");
-                        }
+                    if(resp.data === "YES"){
+                       
+                    }else{
+                        alert("가입되지 않았습니다");
                     }
                 })
                 .catch(function (err) {
@@ -680,37 +636,70 @@ function Regi() {
                     console.log(err);
                 })
 
-            // 사진저장
-            const formData = new FormData();
-            formData.append('uploadFile', imageSrc, id + ".jpg");
+                // 사진저장
+                const formData = new FormData();
+                formData.append('uploadFile', imageSrc, id + ".jpg");
 
-            fetch('http://localhost:3000/fileUpload', {
-                method: 'POST',
-                body: formData,
-            })
-                // .then((response) => response.json())
-                .then((result) => {
-                    console.log(result);
-                    return fetch(`http://localhost:3000/api/imgcrop/${id}`, {
-                        method: 'POST',
-                    });
+                fetch('http://localhost:3000/fileUpload', {
+                    method: 'POST',
+                    body: formData,
                 })
-                .catch((error) => console.error(error));
-
-            alert("정상적으로 가입되었습니다");
-            history("/");      // 이동(link)
-                
+                    // .then((response) => response.json())
+                    .then((result) => {
+                        console.log(result);
+                        // return fetch(`http://localhost:3000/api/imgcrop/${id}`, {
+                        //     method: 'POST',
+                        // });
+                    })
+                    .catch((error) => console.error(error));   
             } else {
+                p = false;
                 alert("이미 해당 번호로 가입된 계정이 있습니다");
                 return;
             }
+
         })
         .catch(function (err) {
             alert('err')
         })
-    
 
+        alert(p);
+        if(p === true){
+            for (let i = 0; i < sub_codechecked.length; i++) {
+                let educode = "";
+                // 교육기관 보내자
+                await axios.post("http://localhost:3000/educodematching", null, {params: {"sub_code": sub_codechecked[i]}})
+                    .then(function (resp) {
+                        console.log(resp.data); 
+                        educode = resp.data;
+                    })
+                    .catch(function (err) {
+                        alert("err1");
+                        console.log(err);
+                    })
 
+                await axios.post("http://localhost:3000/addusereducheck", null,{params: {"id": id,"educode": educode}})
+                    .then(function (res) {
+                        
+                    })
+                    .catch(function (err) {
+                        alert("err3");
+                        console.log(err);
+                    })
+            
+                // 과목 보내자
+                await axios.post("http://localhost:3000/addusersubject", null, {params: {"id": id, "subcode": sub_codechecked[i]}})
+                    .then(function (resp) {
+
+                    })
+                    .catch(function (err) {
+                        alert("err");
+                        console.log(err);
+                    })
+            }
+            alert("정상적으로 가입되었습니다");
+            history("/");      // 이동(link)
+        }
        
     }
 
@@ -735,8 +724,6 @@ function Regi() {
         input.addEventListener("focus", addcl);
         input.addEventListener("blur", remcl);
     });
-
-
 
     return (
         

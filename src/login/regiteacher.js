@@ -603,8 +603,8 @@ function Regiteacher(){
                         <h5 class="regitag">교육기관 명</h5>
                         <div>
                             {codea === true 
-                                ? <input class="regiinput"  list="edulist" id="ids" onInput={(e) => setEdu_name(e.target.value)} />
-                                : <input class="regiinput" style={{ borderColor:"red"}} type="text" list="edulist" id="ids" onInput={(e) => setEdu_name(e.target.value)} />}
+                                ? <input class="regiinput"  list="edulist" id="ids" onInput={(e) => setEdu_name(e.target.value)} placeholder="교육기관명을 입력해주세요" />
+                                : <input class="regiinput" style={{ borderColor:"red"}} type="text" list="edulist" id="ids" onInput={(e) => setEdu_name(e.target.value)} placeholder="교육기관명을 입력해주세요"/>}
                             
                             <datalist id="edulist">
                                 
