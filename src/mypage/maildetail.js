@@ -91,34 +91,42 @@ function Maildetail(){
                     <p className={detail.mailTitle}>{mail.title}</p>
                 </div>
                 <div className={`${styles.InputBox} ${detail.maildetail}`}>
-                    <span>보낸사람</span>
+                    <span style={{width:"60px"}}>보낸사람</span>
                     <span>{mail.sender}</span>
                 </div>
 
                 <div className={`${styles.InputBox} ${detail.maildetail}`}>
-                    <span>수신일자</span>
+                    <span style={{width:"60px"}}>수신일자</span>
                     <span>{mail.wdate}</span>
                 </div>
             {mail.filename === null || mail.filename === "" ?
                 <></>
                 :
                 <div className={`${styles.InputBox} ${detail.maildetail}`}>
-                    <span>첨부파일</span>
+                    <span style={{width:"60px"}}>첨부파일</span>
                     {mail.filename === null || mail.filename === ""
                     ?<span>{mail.filename}</span>
                     :<span>{mail.filename}<button onClick={download}>다운로드</button></span>
                     }
                 </div>
             }
-            {mail.filename.substr(extension.indexOf('.')+1) === "jpg" || mail.filename.substr(extension.indexOf('.')+1) === "png" || mail.filename.substr(extension.indexOf('.')+1) === "jpeg"
-            ? 
-                <div className={`${styles.InputBox} ${detail.maildetail}`}>
-                    <span>미리보기</span>
-                    <span><img src={filereceive} width="100" height="100"/></span>
-                </div>
-                :
+             {mail.filename === null || mail.filename === "" ?
                 <></>
+                :
+                <>
+                {
+                    mail.filename.substr(extension.indexOf('.')+1) === "jpg" || mail.filename.substr(extension.indexOf('.')+1) === "png" || mail.filename.substr(extension.indexOf('.')+1) === "jpeg"
+                    ? 
+                    <div className={`${styles.InputBox} ${detail.maildetail}`}>
+                        <span style={{width:"60px"}}>미리보기</span>
+                        <span><img src={filereceive} width="100" height="100"/></span>
+                    </div>
+                    :
+                    <></>
+                }
+                </>
             }
+            
 
                 <div className={`${styles.InputBox} ${styles.flex} ${detail.maildetail} ${detail.mailcontent}`}>
                     {/* <span>내용</span> */}
