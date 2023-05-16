@@ -7,6 +7,8 @@ import { faAngleRight } from "@fortawesome/free-solid-svg-icons";
 import { faAngleLeft } from "@fortawesome/free-solid-svg-icons";
 import { faAnglesLeft } from "@fortawesome/free-solid-svg-icons";
 import { faAnglesRight } from "@fortawesome/free-solid-svg-icons";
+import { faPen } from "@fortawesome/free-solid-svg-icons";
+import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 
@@ -81,6 +83,7 @@ function SubjectManage(){
     return(
         <div>
             <div className={manage.topContent}>
+                <h2>과목관리</h2>
                 <div className={manage.search}>
                     <div>   
                         <select vlaue={choice} onChange={(e)=>setChoice(e.target.value)}>
@@ -123,8 +126,8 @@ function SubjectManage(){
                                     <td>{sub.educatorName}</td>
                                     <td>{sub.name}</td>
                                     <td>
-                                        <Link to={`/adminpage/subupdate/${sub.subCode}`} className={manage.Edit}>수정</Link>
-                                        <button onClick={() => deleteBtn(sub.subCode)} className={manage.Del}>삭제</button>
+                                        <Link to={`/adminpage/subupdate/${sub.subCode}`} className={manage.Edit}><FontAwesomeIcon icon={faPen} /></Link>
+                                        <button onClick={() => deleteBtn(sub.subCode)} className={manage.Del}><FontAwesomeIcon icon={faTrashCan} /></button>
                                     </td>
                                 </tr>
                             )

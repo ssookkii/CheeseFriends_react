@@ -1,8 +1,12 @@
 import React, {useState, useEffect} from "react"
 import axios from "axios";
 import DatePicker from "react-datepicker";
+import moment from "moment";
 import { ko } from 'date-fns/esm/locale';
 import { format } from "date-fns";
+import { faPen } from "@fortawesome/free-solid-svg-icons";
+import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import styles from './asset/css/timeTable.module.css';
 import './asset/css/reactDatePickerCustom.css';
@@ -32,7 +36,7 @@ function SubTimeManage(){
     // 과목데이터 가져오기
     const getSubDateTime = async(id) => {
         const response = await axios.get("http://localhost:3000/subTimeList", {params:{"teacher":id}})
-            // console.log(response.data);
+            console.log(response.data);
             setSubDateTime(response.data);
     }
     // 과목데이터 가져오기
@@ -54,9 +58,23 @@ function SubTimeManage(){
     }
     // 날짜입력
     const dateChange = (date) => {
-        setStartDate(date)
-        let formattedDate = format(date, "yyyy-MM-dd");
+        setStartDate(date);
+    }
+    useEffect(() => {
+        // 날짜 형식변경(date를 직접 바꾸면 invalid error나기때문)
+        let formattedDate = changeFormat(startDate, "yyyy-MM-DD");
+        console.log(formattedDate);
         setInsertDateTime(prevState => ({...prevState, subStart: formattedDate}));
+        console.log(insertDateTime);
+    }, [startDate]);
+
+    // 날짜형식변경함수
+    function changeFormat(date, format){
+        if(moment(date).isValid()){
+            return moment(date).format(format);
+        }else {
+            return null;
+        }
     }
 
     // 과목 선택 시 대상학년 자동 업데이트
@@ -74,6 +92,8 @@ function SubTimeManage(){
     
     // 과목생성
     function timeTableAdd(){
+
+
         if(insertDateTime.subCode === null || insertDateTime.subCode === ""){
             alert("과목을 선택해주세요");
             return;
@@ -104,10 +124,13 @@ function SubTimeManage(){
             alert(err);
         })
     }
-    console.log(btnActive)
+
     // 과목수정
     function timeUpdate(){
+
         let timeUpdateData = null;
+        // 날짜정규식확인
+        let regex = RegExp(/^\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$/);
         if(subDateTime[btnActive].subDay === null || subDateTime[btnActive].subDay === ""){
             alert("요일을 선택해주세요");
             return;
@@ -117,10 +140,14 @@ function SubTimeManage(){
         }else if(subDateTime[btnActive].subEndTime === null || subDateTime[btnActive].subEndTime === ""){
             alert("강의종료시간을 입력해주세요");
             return;
+        }else if(subDateTime[btnActive].subStart.match(regex) === null ){
+            alert("날짜를 형식에 맞게 입력해주세요");
+            return;
         }else{
             timeUpdateData = {
                 seq : subDateTime[btnActive].seq,
                 subDay : subDateTime[btnActive].subDay,
+                subStart : subDateTime[btnActive].subStart,
                 subStartTime : subDateTime[btnActive].subStartTime,
                 subEndTime : subDateTime[btnActive].subEndTime,
                 educatorName : id,
@@ -161,11 +188,10 @@ function SubTimeManage(){
         }
         
     }
-
-    console.log(insertDateTime);
     
     return(
         <div className={styles.wrap}>
+        <h2>강의시간관리</h2>
         <div className={styles.subInputBox}>
             <div className={styles.InputBox}>
                 <span>과목명</span>
@@ -188,18 +214,20 @@ function SubTimeManage(){
                 <span>대상학년</span>
                 <p>{insertDateTime.classGrade}</p>
             </div>
-            <div className={`${styles.InputBox} ${styles.solidCustom}`}>
+            <div className={`${styles.InputBox}`}>
                 <span>개강일</span>
-                <DatePicker
-                    selected={startDate}
-                    onChange={dateChange}
-                    dateFormat="yyyy/MM/dd" 
-                    locale={ko}
-                    isClearable
-                    placeholderText="YYYY/MM/DD"
-                />
+                <div>
+                    <DatePicker
+                        selected={startDate}
+                        onChange={dateChange}
+                        dateFormat="yyyy/MM/dd" 
+                        locale={ko}
+                        isClearable
+                        placeholderText="YYYY/MM/DD"
+                    />
+                </div>
             </div>
-            <div className={`${styles.InputBox} ${styles.solidCustom}`}>
+            <div className={`${styles.InputBox}`}>
                 <span>강의요일</span>
                 <div className={styles.selectCustom}>
                     <select value={insertDateTime.subDay} onChange={(e) => setInsertDateTime(prevState => ({...prevState, subDay: e.target.value}))}>
@@ -247,7 +275,17 @@ function SubTimeManage(){
                                 <td>{dateTime.subCode}</td>
                                 <td>{dateTime.subName}</td>
                                 <td>{dateTime.classGrade}</td>
-                                <td>{dateTime.subStart}</td>
+                                <td>
+                                    {subUpdateBtn && btnActive === i ? 
+                                    <input type="text" defaultValue={dateTime.subStart} onChange={(e) => setSubDateTime(prevState => {
+                                        const newState = [...prevState];
+                                        newState[i].subStart = e.target.value;
+                                        return newState;
+                                        })}
+                                        style={{border:"1px solid #777", borderRadius:"5px", height:"30px"}}/>
+                                    : <>{dateTime.subStart}</>
+                                    }
+                                </td>
                                 <td>
                                     {
                                         subUpdateBtn && btnActive === i ? 
@@ -256,7 +294,8 @@ function SubTimeManage(){
                                                     const newState = [...prevState];
                                                     newState[i].subDay = e.target.value;
                                                     return newState;
-                                                })}>
+                                                })}
+                                                style={{border:"1px solid #777", borderRadius:"5px", padding:"5px"}}>
                                                 <option value="월요일">월요일</option>
                                                 <option value="화요일">화요일</option>
                                                 <option value="수요일">수요일</option>
@@ -310,15 +349,15 @@ function SubTimeManage(){
                                     <div>
                                         {
                                             subUpdateBtn && btnActive === i ? 
-                                            <button className={`${styles.Edit} ${styles.ok}`} onClick={() => timeUpdate()}>완료</button>
-                                            : <button className={styles.Edit} onClick={() => updateBtnHandler(i)}>수정</button>
+                                            <button className={`${styles.ok}`} onClick={() => timeUpdate()}>완료</button>
+                                            : <button className={styles.Edit} onClick={() => updateBtnHandler(i)}><FontAwesomeIcon icon={faPen} /></button>
                                         }
                                     </div>
                                     <div>
                                         {
                                             subUpdateBtn && btnActive === i ? 
-                                            <button className={styles.Del} onClick={() => setSubUpdateBtn(false)}>취소</button>
-                                            : <button className={styles.Del} onClick={() => deleteBtn(dateTime.seq)}>삭제</button>
+                                            <button className={styles.no} onClick={() => setSubUpdateBtn(false)}>취소</button>
+                                            : <button className={styles.Del} onClick={() => deleteBtn(dateTime.seq)}><FontAwesomeIcon icon={faTrashCan} /></button>
                                         }
                                     </div>
                                         

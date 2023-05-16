@@ -267,7 +267,7 @@ function Studentlist(){
             console.log("yescloseModal 작동");
             setModalOpen(false);
 
-            axios.get("http://localhost:3000/makeapproved", { params:{ "id":studentid, "subcode":receivesubcode}})
+            axios.get("http://localhost:3000/makeapproved", { params:{ "id":studentid, "subcode":receivesubcode, "educatorname":login.id}})
             .then(function(resp){
                 alert("학습 신청 승인 되었습니다");
                 fetchData(sub_code, choice, search, 0);

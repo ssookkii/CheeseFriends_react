@@ -1,18 +1,27 @@
+.topContent > h2 {
+    font-size:2.2em;
+    font-weight:900;
+}
 .topContent {
-    margin:50px 0 20px;
-    display: flex;
+    margin:50px 0 20px 55px;
+    display:flex;
     align-items: center;
     justify-content: space-between;
+}
+.topContent > a:hover {
+    color:#fff;
+}
+.btnWrap > a:hover {
+    color:#fff;
 }
 .search {
     position:relative;
     border:1px solid #434343;
     border-radius: 12px;
-    margin-left:5%;
 }
 .search > input {
     height:40px;
-    width:350px;
+    width:400px;
     font-size:0.9em;
     padding:0 15px 0 120px;
 }
@@ -56,14 +65,27 @@
     align-items: center;
 }
 .eduAdd {
-    background-color: #FAC463;
-    color:#fff;
-    padding:10px;
-    border-radius: 10px;
+    background-color: #fac463;
+    padding:0 10px 5px;
+    height:40px;
+    line-height:39px;
+    border-radius: 5px;
     text-align: center;
+    display:flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.eduAdd > em {
+    color:#fff;
+    font-size:1.4em;
+    padding-top:3px;
+}
+.eduAdd > span {
+    color:#fff;
     font-weight: 600;
-    font-size:0.9em;
-    display:inline-block;
+    margin-left:10px;
+    padding-top:5px;
+    font-size:0.85em;
 }
 .eduAdd:nth-child(2) {
     margin-left:5px;
@@ -107,25 +129,27 @@
 .manageList > tbody > tr > td .detail,
 .manageList > tbody > tr > td .Del {
     display:block;
-    width:40px;
+    background: none;
+    width:30px;
     border-radius: 5px;
     color:#fff;
     height:20px;
-    font-size:0.75em;
+    font-size:1.2em;
     font-weight: 500;
 }
 .manageList > tbody > tr > td .Edit {
-    background-color: #376efa;
+    color: #376efa;
     line-height:19px;
     margin-right:5px;
 }
 .manageList > tbody > tr > td .detail {
-    background-color: #fac463;
+    color: #fac463;
     line-height:19px;
     margin-right:5px;
+    font-size:1.5em;
 }
 .manageList > tbody > tr > td .Del {
-    background-color: #e80000;
+    color: #e80000;
 }
 
 

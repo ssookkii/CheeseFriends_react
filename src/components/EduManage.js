@@ -7,6 +7,9 @@ import { faAngleRight } from "@fortawesome/free-solid-svg-icons";
 import { faAngleLeft } from "@fortawesome/free-solid-svg-icons";
 import { faAnglesLeft } from "@fortawesome/free-solid-svg-icons";
 import { faAnglesRight } from "@fortawesome/free-solid-svg-icons";
+import { faCirclePlus } from "@fortawesome/free-solid-svg-icons";
+import { faPen } from "@fortawesome/free-solid-svg-icons";
+import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 
@@ -84,6 +87,7 @@ function EduManage(){
     return(
         <div className='wrap'>
             <div className={manage.topContent}>
+                <h2>기관관리</h2>
                 <div className={manage.search}>
                     <div>
                         <select value={choice} onChange={(e)=>setChoice(e.target.value)}>
@@ -96,8 +100,7 @@ function EduManage(){
                     </div> 
                     <input value={search} onChange={(e)=>setSearch(e.target.value)} onKeyPress={(e) => activeEnter(e)} placeholder="검색어를 입력하세요"/>
                 </div>
-                <Link to="/adminpage/eduAdd" className={manage.eduAdd}>기관등록</Link>
-                
+                <Link to="/adminpage/eduAdd" className={manage.eduAdd}><em><FontAwesomeIcon icon={faCirclePlus} /></em><span>기관등록</span></Link>
             </div>
             <table className={`${manage.manageList} ${manage.edulist}`}>
                 <thead>
@@ -121,8 +124,8 @@ function EduManage(){
                                     <td>{edu.eduPhone}</td>
                                     <td>{edu.id}</td>
                                     <td>
-                                        <Link to={`/adminpage/eduupdate/${edu.eduCode}`} className={manage.Edit}>수정</Link>
-                                        <button className={manage.Del} onClick={() => deleteBtn(edu.eduCode)}>삭제</button>
+                                        <Link to={`/adminpage/eduupdate/${edu.eduCode}`} className={manage.Edit}><FontAwesomeIcon icon={faPen} /></Link>
+                                        <button className={manage.Del} onClick={() => deleteBtn(edu.eduCode)}><FontAwesomeIcon icon={faTrashCan} /></button>
                                     </td>
                                 </tr>
                             )

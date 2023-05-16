@@ -3,9 +3,10 @@
 }
 .react-datepicker-wrapper {
     width:70% !important;
-    margin:0 auto !important;
-    padding:0 4px 0 25px !important;
 }
 .react-datepicker__input-container  > input {
     letter-spacing: 2.5px;
+}
+.react-datepicker__close-icon {
+    right:-72px !important;
 }

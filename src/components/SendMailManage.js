@@ -7,6 +7,8 @@ import { faAngleRight } from "@fortawesome/free-solid-svg-icons";
 import { faAngleLeft } from "@fortawesome/free-solid-svg-icons";
 import { faAnglesLeft } from "@fortawesome/free-solid-svg-icons";
 import { faAnglesRight } from "@fortawesome/free-solid-svg-icons";
+import { faCirclePlus } from "@fortawesome/free-solid-svg-icons";
+import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 
@@ -127,6 +129,7 @@ function TeacherManage(){
     return(
         <div>
             <div className={manage.topContent}>
+                <h2>보낸쪽지함</h2>
                 <div className={manage.search}>    
                     <div>   
                         <select vlaue={choice} onChange={(e)=>setChoice(e.target.value)}>
@@ -139,8 +142,8 @@ function TeacherManage(){
                     <input value={search} onChange={(e)=>setSearch(e.target.value)} onKeyPress={(e) => activeEnter(e)} placeholder="검색어를 입력하세요"/>
                 </div>
                 <div className={manage.btnWrap}>
-                    <button className={`${manage.eduAdd} ${manage.del}`} onClick={deleteBtn}>쪽지삭제</button>
-                    <Link to="/adminpage/mailwrite" className={manage.eduAdd}>쪽지쓰기</Link>
+                    <button className={`${manage.eduAdd} ${manage.del}`} onClick={deleteBtn}><em><FontAwesomeIcon icon={faTrashCan} /></em><span>쪽지삭제</span></button>
+                    <Link to="/adminpage/mailwrite" className={manage.eduAdd}><em><FontAwesomeIcon icon={faCirclePlus} /></em><span>쪽지쓰기</span></Link>
                 </div>
             </div>
 

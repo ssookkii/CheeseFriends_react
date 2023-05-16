@@ -1,5 +1,8 @@
 import React, {useState, useEffect} from "react"
 import axios from "axios";
+import { faPen } from "@fortawesome/free-solid-svg-icons";
+import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import styles from './asset/css/timeTable.module.css';
 
@@ -104,7 +107,7 @@ function SubjectAdd(){
                 }
             })
             .catch(function(err){
-                alert(err);
+                alert("과목을 수강중인 학생이 있습니다.");
             })
         }else{
             alert("취소되었습니다.");
@@ -117,130 +120,133 @@ function SubjectAdd(){
 
     return(
         <div className={styles.wrap}>
-        <div className={styles.subInputBox}>
-            <div className={styles.InputBox}>
-                <span>과목명</span>
-                <input type="text" placeholder="과목명" defaultValue={subName} onChange={(e) => setSubName(e.target.value)}/>
-            </div>
-            <div className={`${styles.InputBox} ${styles.datalistAlign}`}>
-                <span>대상학년</span>
-                <div className={styles.selectBox}>
-                    <input type="text" list="list" id="level" defaultValue={level} onInput={(e) => setLevel(e.target.value)}  placeholder='대상학년'/>
-                    <datalist id="list">
-                        <option value="일반">일반</option>
-                        <option value="고3">고3</option>
-                        <option value="고2">고2</option>
-                        <option value="고1">고1</option>
-                        <option value="중3">중3</option>
-                        <option value="중2">중2</option>
-                        <option value="중1">중1</option>
-                        <option value="초6">초6</option>
-                        <option value="초5">초5</option>
-                        <option value="초4">초4</option>
-                        <option value="초3">초3</option>
-                        <option value="초2">초2</option>
-                        <option value="초1">초1</option>
-                        <option value="유치부">유치부</option>
-                    </datalist>
+            <h2>과목관리</h2>
+            <div className={styles.topContentWrap}>
+                <div className={styles.subInputBox}>
+                    <div className={styles.InputBox}>
+                        <span>과목명*</span>
+                        <input type="text" placeholder="과목명" defaultValue={subName} onChange={(e) => setSubName(e.target.value)}/>
+                    </div>
+                    <div className={`${styles.InputBox} ${styles.datalistAlign}`}>
+                        <span>대상학년*</span>
+                        <div className={styles.selectBox}>
+                            <input type="text" list="list" id="level" defaultValue={level} onInput={(e) => setLevel(e.target.value)}  placeholder='대상학년'/>
+                            <datalist id="list">
+                                <option value="일반">일반</option>
+                                <option value="고3">고3</option>
+                                <option value="고2">고2</option>
+                                <option value="고1">고1</option>
+                                <option value="중3">중3</option>
+                                <option value="중2">중2</option>
+                                <option value="중1">중1</option>
+                                <option value="초6">초6</option>
+                                <option value="초5">초5</option>
+                                <option value="초4">초4</option>
+                                <option value="초3">초3</option>
+                                <option value="초2">초2</option>
+                                <option value="초1">초1</option>
+                                <option value="유치부">유치부</option>
+                            </datalist>
+                        </div>
+                    </div>
+                </div>
+                <div className={styles.btnWrap}>
+                    <button className={styles.btn} onClick={subAdd}>과목생성</button>
                 </div>
             </div>
-        </div>
-        <div className={styles.btnWrap}>
-            <button className={styles.btn} onClick={subAdd}>과목생성</button>
-        </div>
-        <table className={styles.subjectList}>
-            <thead>
-                <tr>
-                    <th>과목코드</th>
-                    <th>과목명</th>
-                    <th>대상학년</th>
-                    <th>교육자</th>
-                    <th>관리</th>
-                </tr>
-            </thead>
-            <tbody>
-                {
-                    subData.map(function(subData, i){
-                        return(
-                            <tr key={i}>
-                                <td>{subData.subCode}</td>
-                                <td>
-                                    {
-                                        subUpdateBtn && btnActive === i ? 
-                                        <input type="text" 
-                                            className={styles.changeData} d
-                                            efaultValue={subData.subName}
-                                            onChange={(e) => setSubData(prevState => {
-                                                const newState = [...prevState];
-                                                newState[i].subName = e.target.value;
-                                                return newState;
-                                            })}
-                                        />
-                                        : <input type="text" value={subData.subName}/>
-                                    }
-                                    
-                                </td>
-                                <td>
-                                    {
-                                        subUpdateBtn && btnActive === i ? 
-                                        <div>
-                                            <input type="text"
-                                                className={styles.changeData}
-                                                list="list"
-                                                id="level"
-                                                defaultValue={subData.classGrade}
+            <table className={styles.subjectList}>
+                <thead>
+                    <tr>
+                        <th>과목코드</th>
+                        <th>과목명</th>
+                        <th>대상학년</th>
+                        <th>교육자</th>
+                        <th>관리</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {
+                        subData.map(function(subData, i){
+                            return(
+                                <tr key={i}>
+                                    <td>{subData.subCode}</td>
+                                    <td>
+                                        {
+                                            subUpdateBtn && btnActive === i ? 
+                                            <input type="text" 
+                                                className={styles.changeData} d
+                                                efaultValue={subData.subName}
                                                 onChange={(e) => setSubData(prevState => {
                                                     const newState = [...prevState];
-                                                    newState[i].classGrade = e.target.value;
+                                                    newState[i].subName = e.target.value;
                                                     return newState;
                                                 })}
                                             />
-                                            <datalist id="list">
-                                                <option value="일반">일반</option>
-                                                <option value="고3">고3</option>
-                                                <option value="고2">고2</option>
-                                                <option value="고1">고1</option>
-                                                <option value="중3">중3</option>
-                                                <option value="중2">중2</option>
-                                                <option value="중1">중1</option>
-                                                <option value="초6">초6</option>
-                                                <option value="초5">초5</option>
-                                                <option value="초4">초4</option>
-                                                <option value="초3">초3</option>
-                                                <option value="초2">초2</option>
-                                                <option value="초1">초1</option>
-                                                <option value="유치부">유치부</option>
-                                            </datalist>
-                                        </div>
-                                        : <input type="text" value={subData.classGrade}/>
+                                            : <input type="text" value={subData.subName}/>
+                                        }
                                         
-                                    }
-                                    
                                     </td>
-                                <td>{subData.name}</td>
-                                <td>
-                                    <div>
+                                    <td>
                                         {
                                             subUpdateBtn && btnActive === i ? 
-                                            <button className={`${styles.Edit} ${styles.ok}`} onClick={() => subUpdate(subData.subCode)}>완료</button>
-                                            : <button className={styles.Edit} onClick={() => updateBtnHandler(i)}>수정</button>
+                                            <div>
+                                                <input type="text"
+                                                    className={styles.changeData}
+                                                    list="list"
+                                                    id="level"
+                                                    defaultValue={subData.classGrade}
+                                                    onChange={(e) => setSubData(prevState => {
+                                                        const newState = [...prevState];
+                                                        newState[i].classGrade = e.target.value;
+                                                        return newState;
+                                                    })}
+                                                />
+                                                <datalist id="list">
+                                                    <option value="일반">일반</option>
+                                                    <option value="고3">고3</option>
+                                                    <option value="고2">고2</option>
+                                                    <option value="고1">고1</option>
+                                                    <option value="중3">중3</option>
+                                                    <option value="중2">중2</option>
+                                                    <option value="중1">중1</option>
+                                                    <option value="초6">초6</option>
+                                                    <option value="초5">초5</option>
+                                                    <option value="초4">초4</option>
+                                                    <option value="초3">초3</option>
+                                                    <option value="초2">초2</option>
+                                                    <option value="초1">초1</option>
+                                                    <option value="유치부">유치부</option>
+                                                </datalist>
+                                            </div>
+                                            : <input type="text" value={subData.classGrade}/>
+                                            
                                         }
-                                    </div>
-                                    <div>
-                                        {
-                                            subUpdateBtn && btnActive === i ? 
-                                            <button className={styles.Del} onClick={() => setSubUpdateBtn(false)}>취소</button>
-                                            : <button className={styles.Del} onClick={() => deleteBtn(subData.subCode)}>삭제</button>
-                                        }
-                                    </div>
                                         
-                                </td>
-                            </tr>
-                        )
-                    })
-                }
-            </tbody>
-        </table>
+                                        </td>
+                                    <td>{subData.name}</td>
+                                    <td>
+                                        <div>
+                                            {
+                                                subUpdateBtn && btnActive === i ? 
+                                                <button className={`${styles.ok}`} onClick={() => subUpdate(subData.subCode)}>완료</button>
+                                                : <button className={styles.Edit} onClick={() => updateBtnHandler(i)}><FontAwesomeIcon icon={faPen} /></button>
+                                            }
+                                        </div>
+                                        <div>
+                                            {
+                                                subUpdateBtn && btnActive === i ? 
+                                                <button className={styles.no} onClick={() => setSubUpdateBtn(false)}>취소</button>
+                                                : <button className={styles.Del} onClick={() => deleteBtn(subData.subCode)}><FontAwesomeIcon icon={faTrashCan} /></button>
+                                            }
+                                        </div>
+                                            
+                                    </td>
+                                </tr>
+                            )
+                        })
+                    }
+                </tbody>
+            </table>
         </div>
     )
 

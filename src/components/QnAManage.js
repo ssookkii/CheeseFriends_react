@@ -61,6 +61,7 @@ function QnAManage(){
     return(
         <div>
             <div className={manage.topContent}>
+                <h2>고객문의함</h2>
                 <div className={manage.search}>
                     <div> 
                         <select value={choice} onChange={(e)=>setChoice(e.target.value)}>
