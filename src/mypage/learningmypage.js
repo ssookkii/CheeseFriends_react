@@ -96,46 +96,100 @@ function Learningmypage(){
         setModalOpen2(false);
     };
 
-    const yescloseModal2 = () => {
+    const yescloseModal2 = async () => {
         console.log("yescloseModal2 작동");
         setModalOpen2(false);
         // receiveraddbtn();
 
+        let statement = "";
+        let educode = "";
+
         for (let i = 0; i < sub_codechecked.length; i++) {
             console.log("sub_codechecked : " + sub_codechecked)
-            axios.get("http://localhost:3000/approvedcheck", { params: { "id":id, "subcode":sub_codechecked[i] } })
+            await axios.get("http://localhost:3000/approvedcheck", { params: { "id":id, "subcode":sub_codechecked[i] } })
             .then(function (resp) {
                 console.log("state : " + resp.data)
                 if(resp.data === 'quiting'){
                     alert("이미 수강중인 학습입니다")
+                    statement = resp.data;
                 }else if(resp.data === 'approving'){
                     alert("수강 승인 대기중인 학습입니다")
+                    statement = resp.data;
                 }else if(resp.data === 'quiting'){
                     alert("탈퇴 진행 중인 학습입니다")
+                    statement = resp.data;
                 }else if(resp.data === 'quited'){
-                    axios.get("http://localhost:3000/changeapproving", { params: { "id":id, "subcode":sub_codechecked[i] } })
-                    .then(function (resp) {
-    
-                    })
-                    .catch(function (err) {
-                        console.log(err);
-                        alert('err')
-                    })
+                    statement = resp.data;
                 }else{
-                    axios.get("http://localhost:3000/approving", { params: { "id":id, "subcode":sub_codechecked[i] } })
-                    .then(function (resp) {
-
-                    })
-                    .catch(function (err) {
-                        console.log(err);
-                        alert('err')
-                    })
+                    statement = "";
+                    
                 }
             })
             .catch(function (err) {
                 console.log(err);
                 alert('err')
             })
+
+            if(statement === 'quited'){
+                await axios.get("http://localhost:3000/changeapproving", { params: { "id":id, "subcode":sub_codechecked[i] } })
+                .then(function (resp) {
+
+                })
+                .catch(function (err) {
+                    console.log(err);
+                    alert('err')
+                })
+
+                await axios.post("http://localhost:3000/educodematching", null, {params: {"sub_code": sub_codechecked[i]}})
+                .then(function (resp) {
+                    console.log(resp.data); 
+                    educode = resp.data;
+                })
+                .catch(function (err) {
+                    alert("err1");
+                    console.log(err);
+                })
+
+                await axios.post("http://localhost:3000/addusereducheck", null,{params: {"id": id,"educode": educode}})
+                .then(function (res) {
+                    
+                })
+                .catch(function (err) {
+                    alert("err");
+                    console.log(err);
+                })
+                
+            }else if(statement === ""){
+                await axios.get("http://localhost:3000/approving", { params: { "id":id, "subcode":sub_codechecked[i] } })
+                .then(function (resp) {
+
+                })
+                .catch(function (err) {
+                    console.log(err);
+                    alert('err')
+                })
+
+                await axios.post("http://localhost:3000/educodematching", null, {params: {"sub_code": sub_codechecked[i]}})
+                .then(function (resp) {
+                    console.log(resp.data); 
+                    educode = resp.data;
+                })
+                .catch(function (err) {
+                    alert("err1");
+                    console.log(err);
+                })
+
+                await axios.post("http://localhost:3000/addusereducheck", null,{params: {"id": id,"educode": educode}})
+                .then(function (res) {
+                    
+                })
+                .catch(function (err) {
+                    alert("err");
+                    console.log(err);
+                })
+            }
+
+
         }
 
         alert("학습 추가 신청 완료되었습니다");
@@ -562,10 +616,12 @@ function Learningmypage(){
                     : <div></div>}
                     
                     <br/>
-                    <h5 class="regitag">과목</h5>   
-                    <select className="subplus regiinput" id="subplus" onChange={subcodecheck}>
+                    <div class="divflex">
+                        <h5 class="regitag">과목</h5>   
+                        <select className="subplus regiinput" id="subplus" onChange={subcodecheck}>
 
-                    </select>&nbsp;&nbsp;
+                        </select>&nbsp;&nbsp;
+                    </div>
                     <br/>
                     <button class="modalbtn" onClick={subjectadd}>추가</button>
                     <br/>

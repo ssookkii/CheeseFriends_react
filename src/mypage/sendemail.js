@@ -569,7 +569,7 @@ function Sendemail(){
                                         <th></th><th class="text-center">번호</th><th class="text-center">아이디</th><th class="text-center">이름</th>
                                     </tr>
                                 </thead>
-                                <tbody className="subplus" id="subplus">
+                                <tbody className="subplus" id="subplus" class="text-center">
                                     {useraddlist.length > 0
                                         ?useraddlist.map(function(dto, i){
                                             return (
@@ -593,16 +593,20 @@ function Sendemail(){
                         <button onClick={openModal} className={write.answerBtn}>단체인원 추가</button>
                         <Addmodal open={modalOpen} close={closeModal} yesclose={yescloseModal} header="단체인원 추가">
                         <div class="modaltext">
-                            <h5 class="regitag">교육기관</h5>
-                            <select className="edu regiinput" id="edu" onChange={(e) => setEdu_code(e.target.value)} >
-                            
-                            </select>
+                            <div class="divflex">
+                                <h5 class="regitag">교육기관</h5>
+                                <select className="edu regiinput" id="edu" onChange={(e) => setEdu_code(e.target.value)} >
+                                
+                                </select>
+                            </div>
                             <br/>
+                            <div class="divflex">
                             <h5 class="regitag">과목</h5>
                             {edu_code === ""
                             ?<select className="sub regiinput" id="sub" style={{display:"none"}} onChange={(e) => setSub_code(e.target.value)}></select>
                             :<select className="sub regiinput" id="sub" onChange={(e) => setSub_code(e.target.value)}></select>
                             } 
+                            </div>
                             <br/>
                             <button class="modalbtn" onClick={userlist}>확인</button>
                             <br/>
@@ -624,7 +628,7 @@ function Sendemail(){
                                     {useraddlist.length > 0
                                         ?useraddlist.map(function(dto, i){
                                             return (
-                                                <TableRow user={dto} cnt={i+1} key={i} />
+                                                <TableRow user={dto} cnt={i+1} key={i}/>
                                             )
                                         })
                                         :<tr align="center">
@@ -644,7 +648,7 @@ function Sendemail(){
                         <span>제목</span>
                         {titlea === true 
                             ? <input value={title} onChange={(e)=>setTitle(e.target.value)}></input>
-                            : <input style={{ borderColor:"red", width:"230px"}} value={title} onChange={(e)=>setTitle(e.target.value)}></input>}
+                            : <input style={{ borderColor:"red"}} value={title} onChange={(e)=>setTitle(e.target.value)}></input>}
                     </div>
                     <div className={write.contentBox}>
                         <span>파일</span>

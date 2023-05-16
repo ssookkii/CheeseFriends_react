@@ -3,39 +3,66 @@
     width:80%;
     margin:0 auto 30px;
 }
+.wrap > h2 {
+    font-size:2.2em;
+    font-weight:900;
+    margin-bottom:30px;
+}
+.topContentWrap {
+    margin-bottom:30px;
+    border-radius: 3px;
+}
 .subInputBox {
     display: flex;
     flex-flow:wrap;
+    background: #ffc1070a;
+    padding: 20px 10px 20px 20px;
+    box-shadow: 2px 4px 5px 1px #ddd;
+    border-top: 10px solid #fac463;
 }
 .InputBox {
     display:flex;
     align-items: center;
     width:50%;
-    border:1px solid #FAC463;
+    /* border:1px solid #FAC463; */
 }
 .InputBox > span {
-    background-color: #FAC463;
-    color:#fff;
+    /* background-color: #FAC463;
+    color:#fff; */
     font-weight: 600;
-    width:30%;
+    width:25%;
     height:50px;
-    text-align: center;
+    /* text-align: center; */
     line-height:49px;
 }
+.InputBox > input {
+    margin-right:5%;
+}
+.InputBox > p,
+.InputBox > div,
 .InputBox > input,
 .InputBox .selectBox{
     width:70%;
-    height:50px;
+    height:40px;
     padding:0 20px;
+    border:1px solid #ddd;
+    background-color: #fff;
+    border-radius: 5px;
+}
+.InputBox > div {
+    display:flex;
+    align-items: center;
+    justify-content: start;
 }
 .InputBox > div > input {
     width:100%;
-    height:50px;
+    height:30px;
 }
-.datalistAlign {
-    display: flex;
-    justify-content: start;
-    align-items: center;
+.datalistAlign .selectBox {
+    padding:0;
+}
+.datalistAlign .selectBox > input {
+    padding:0 20px;
 }
 .btnWrap {
     text-align: right;
@@ -45,7 +72,7 @@
     padding:10px 0;
     background-color: #FAC463;
     border-radius:10px;
-    margin:30px 0 100px;
+    margin:30px 0 20px;
     color:#fff;
     font-size:0.9em;
     height:40px;
@@ -56,7 +83,7 @@
     width: 100%;
 }
 .subjectList > thead > tr {
-    background-color: #fac5634b;
+    border-bottom:1px solid #777;
     height:50px;
 }
 .subjectList > thead > tr > th,
@@ -65,7 +92,7 @@
     font-size:0.9em;
 }
 .subjectList > thead > tr > th {
-    font-weight: 500;
+    font-weight: 700;
     font-size:0.9em;
 }
 .subjectList > thead > tr > th:last-child {
@@ -77,7 +104,9 @@
 }
 .subjectList > tbody > tr > td .Edit,
 .subjectList > tbody > tr > td .detail,
-.subjectList > tbody > tr > td .Del {
+.subjectList > tbody > tr > td .Del,
+.subjectList > tbody > tr > td .ok,
+.subjectList > tbody > tr > td .no {
     display:block;
     width:40px;
     border-radius: 5px;
@@ -87,9 +116,11 @@
     font-weight: 500;
 }
 .subjectList > tbody > tr > td .Edit {
-    background-color: #376efa;
+    background: none;
+    color: #376efa;
     line-height:19px;
     margin-right:5px;
+    font-size:1.3em;
 }
 .subjectList > tbody > tr > td .detail {
     background-color: #fac463;
@@ -97,10 +128,16 @@
     margin-right:5px;
 }
 .subjectList > tbody > tr > td .Del {
-    background-color: #e80000;
+    background: none;
+    color: #e80000;
+    font-size:1.3em;
 }
 .subjectList > tbody > tr > td .ok {
     background-color: #fac463;
+    margin-right:5px;
+}
+.subjectList > tbody > tr > td .no {
+    background-color: #e80000;
 }
 .subjectList > tbody > tr > td > input,
 .subjectList > tbody > tr > td > div > input {
@@ -128,9 +165,8 @@
 
 
 /* 강의시간추가 입력폼 custom */
-.selectCustom {
-    width:68%;
-    padding:0 5px 0 17px;
+.InputBox .selectCustom {
+    padding:0 20px 0 14px;
 }
 .selectCustom > select {
     border:none;
@@ -138,20 +174,12 @@
 }
 .InputBox > p {
     padding : 0 20px;
+    line-height:39px;
 }
 .InputBox .dayTime {
     width: 70%;
-    padding: 0 10px 0 20px;
+    padding: 0 16px 0 20px;
     font-size: 1.0em;
 }
-/* input[type='time']::-webkit-calendar-picker-indicator {
-	width: 100%;
-	height:100%;
-} */
 
-.solidCustom {
-    border:none;
-    border-right:1px solid #fac463;
-    border-left: 1px solid #fac463;
-}
 
