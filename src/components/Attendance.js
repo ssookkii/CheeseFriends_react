@@ -11,6 +11,7 @@ function Attendance() {
   const [userId, setUserId] = useState("");
 
   const [subCode, setSubCode] = useState("");
+  const [eduCode, seteduCode] = useState("");
   const [selectedSubject, setSelectedSubject] = useState('');
   const [attendanceStatus, setResponseMessage] = useState("");
   const [userName, setUserName] = useState("");
@@ -39,7 +40,18 @@ function Attendance() {
   const loginInfo = JSON.parse(localStorage.getItem("login"));
   const teacherId = loginInfo?.id;
 
-  const [eduCode, setEduCode] = useState(localStorage.getItem("userEdu"));
+  useEffect(() => {
+    if (!teacherId) return;
+    axios.get(`http://localhost:3000/attManage/edu/${teacherId}`)
+      .then((response) => {
+        seteduCode(response.data[0].eduCode);
+
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, [teacherId]);
+
   const fetchWeatherData = async () => {
     const today = new Date();
     const response = await axios.get(
@@ -258,7 +270,7 @@ function Attendance() {
             <input
               type="text"
               value={eduCode}
-              onChange={(e) => setEduCode(e.target.value)}
+              onChange={(e) => seteduCode(e.target.value)}
             />
           </label>
           <label>
