@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link } from "react-router-dom";
 import axios from 'axios';
 
+import { faAngleLeft } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 import styles from './asset/css/adminWrite.module.css'
 
 function MailDetailAdmin(){
@@ -38,13 +41,16 @@ function MailDetailAdmin(){
     return(
         <div className={styles.wrap}>
             <div className={styles.qnaWrap}>
-                <h2 className={styles.title}>보낸쪽지</h2>
+            <Link to="/adminpage/sendmailmanage" className={styles.back}><em><FontAwesomeIcon icon={faAngleLeft} /> </em>보낸쪽지함</Link>
+                <div className={`${styles.InputBox}`}>
+                    <p className={styles.mailTitle}>{mailDetail.title}</p>
+                </div>
                 <div className={styles.InputBox}>
-                    <span>수신자</span>
+                    <span>받는사람</span>
                     <span>{mailDetail.receiver}</span>
                 </div>
                 <div className={styles.InputBox}>
-                    <span>발신자</span>
+                    <span>보낸사람</span>
                     <span>{mailDetail.sender}</span>
                 </div>
                 <div className={styles.InputBox}>
@@ -58,16 +64,11 @@ function MailDetailAdmin(){
                         <span>{mailDetail.filename}<button onClick={download} className={styles.downBtn}>다운로드</button></span>
                     </div>
                 }
-                <div className={`${styles.InputBox} ${styles.bottmline}`}>
-                    <span>제목</span>
-                    <span>{mailDetail.title}</span>
-                </div>
-                <div className={`${styles.InputBox} ${styles.flex}`}>
-                    <span>내용</span>
-                    <p className={styles.width}>{mailDetail.content}</p>
+
+                <div className={`${styles.InputBox} ${styles.flex} ${styles.topline}`}>
+                    <p className={`${styles.width} ${styles.contentPadding}`}>{mailDetail.content}</p>
                 </div>
             </div>
-            <Link to="/adminpage/sendmailmanage">목록으로</Link>
         </div>
     )
 }

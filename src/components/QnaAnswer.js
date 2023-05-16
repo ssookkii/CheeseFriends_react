@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import axios from "axios";
 import { useNavigate, useParams, Link } from 'react-router-dom';
 
+import { faLock } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 import styles from './asset/css/adminWrite.module.css'
 
 function QnaAnswer(){
@@ -157,27 +160,31 @@ function QnaAnswer(){
     return (
         <div className={styles.wrap}>
             <div className={styles.qnaWrap}>
-                <h2 className={styles.title}>문의글</h2>
-                <div className={styles.InputBox}>
-                    <span>작성자</span>
-                    <span>{qna.writer}</span>
+                <h2 className={styles.title}>
+                {answer.writer !== "admin" ?
+                    <span className={`${styles.answerN} ${styles.answerProcess}`}>답변대기</span>
+                    :
+                    <span className={`${styles.answerProcess}`}>답변완료</span>
+                }
+                    <span className={styles.topic}>{qna.topic}</span>
+                    <em><FontAwesomeIcon icon={faLock} /></em>
+                </h2>
+                <div className={`${styles.InputBox} ${styles.titleMargin}`}>
+                    <span className={styles.question}>Q</span>
+                    <span className={styles.mailTitle}>{qna.title}</span>
                 </div>
-                <div className={styles.InputBox}>
-                    <span>문의시간</span>
-                    <span>{qna.regdate}</span>
-                </div>
-                <div className={`${styles.InputBox} ${styles.bottmline}`}>
-                    <span>문의제목</span>
-                    <span>{qna.title}</span>
-                </div>
-                <div className={`${styles.InputBox} ${styles.flex}`}>
-                    <span>문의내용</span>
-                    <p className={styles.width}>{qna.content}</p>
+                <div className={`${styles.answerContent} ${styles.answerMargin}`}>
+                    <div className={`${styles.InputBox} ${styles.flex}`}>
+                        <p>{qna.content}</p>
+                    </div>
+                    <div className={styles.answerWT}>
+                        <span>{qna.writer}</span>
+                        <span>{qna.regdate}</span>
+                    </div>
                 </div>
             </div>
             {answer.writer !== "admin" ? (
             <div>
-                <h2 className={styles.title}>답변</h2>
                 <input
                     type="text"
                     className={styles.titleInput}
@@ -191,27 +198,22 @@ function QnaAnswer(){
             ) : 
             (
             !answerChange ? (
-            <div className={`${styles.qnaWrap} ${styles.answerMargin}`}>
-                <h2 className={styles.title}>답변</h2>
-                <div className={styles.InputBox}>
-                    <span>작성자</span>
-                    <span>{answer.writer}</span>
-                </div>
-                <div className={styles.InputBox}>
-                    <span>답변시간</span>
-                    <span>{answer.regdate}</span>
-                </div>
-                <div className={`${styles.InputBox} ${styles.bottmline}`}>
-                    <span>답변제목</span>
-                    <span>{answer.title}</span>
-                </div>
-                <div className={`${styles.InputBox} ${styles.flex}`}>
-                    <span>답변내용</span>
-                    <p className={styles.width}>{answer.content}</p>
+            <div className={styles.answerWrap}>
+                <div className={`${styles.InputBox}`}>
+                    <span className={styles.question}>A</span>
+                    <span className={styles.mailTitle}>{answer.title}</span>
+                </div>   
+                <div className={`${styles.answerContent} ${styles.answerMargin}`}>
+                    <div className={`${styles.InputBox} ${styles.flex}`}>
+                        <p>{answer.content}</p>
+                    </div>
+                    <div className={styles.answerWT}>
+                        <span>{answer.writer}</span>
+                        <span>{answer.regdate}</span>
+                    </div>
                 </div>
             </div>
             ) : (<div>
-                <h2 className={styles.title}>답변</h2>
                 <input
                     type="text"
                     className={styles.titleInput}
