@@ -12,9 +12,7 @@ export default function LectureList() {
 
     const [lecturelist, setLecturelist] = useState([]);
     const [id, setId] = useState("");
-    const [userEdu, setUserEdu] = useState(
-      localStorage.getItem("userEdu")
-  );
+    //const [userEdu, setUserEdu] = useState( localStorage.getItem("userEdu")  );
     const loginInfo = JSON.parse(localStorage.getItem("login"));
     const userAuth = loginInfo?.auth;
 
@@ -36,6 +34,7 @@ export default function LectureList() {
 
 
     const [subNames, setSubNames] = useState([]);
+    const [desiredSubCode, setDesiredSubCode] = useState('');
 
     useEffect(() => {
       if (userAuth === "teacher") {
@@ -68,66 +67,42 @@ export default function LectureList() {
           setCurrentUserId(userId);
            console.log(userId); // 사용자아이디
         }
-        axios
-          .get("http://localhost:3000/homeEduCode", { params: { id: userId } })
-          .then(function (resp) {
-             console.log(resp.data); // 사용자가 수강중인 학원 코드 EDU001
-             
-    
-            axios
-              .get("http://localhost:3000/subjectlist", { params: { edu_code: userEdu } })
-              .then(function (resp) {
-                // console.log(resp.data); // 사용자가 수강중인 학원의 전과목 정보
-                const subCode = resp.data.map((item) => item?.subcode);
-                console.log(subCode); // 현재 학원 전체 과목 코드
-    
-                axios.get("http://localhost:3000/approvedcheck", { params: { "id":currentUserId, "subcode":subCode } })
-                  .then(function (resp) {
-                    console.log(resp.data);
-                  })
-                  .catch(function (err) {
-                    console.log(err);
-                    alert("err");
-                  });
+        // axios.get("http://localhost:3000/homeEduCode", { params: { id: userId } })
+        //   .then(function (resp) {
+        //      console.log(resp.data); // 사용자가 수강중인 학원 코드 EDU001            
+        //   })
+        //   .catch(function (err) {
+        //     console.log(err);
+        //     alert("err");
+        //   });
+
+        let userEdu = localStorage.getItem("userEdu");
+        alert("userEdu:" + userEdu);
+        axios.get("http://localhost:3000/subjectlist", { params: { edu_code:userEdu } })
+            .then(function (resp) {
+              // console.log(resp.data); // 사용자가 수강중인 학원의 전과목 정보
+              const subCode = resp.data.map((item) => item?.subcode);
+              console.log(subCode); // 현재 학원 전체 과목 코드 11, 12, 13, 14
+
+              /*alert("[" + subCode + "]");   
+              alert(subCode + "]");            
+              let arr = new Array(subCode);*/
+              alert(subCode);
+              alert(subCode[0]);
+              axios.get("http://localhost:3000/usersub", {params: {'subCode': subCode}})
+              .then(function(resp) {
+                console.log(resp.data);
               })
-              .catch(function (err) {
-                console.log(err);
-                alert("err");
-              });
-          })
-          .catch(function (err) {
-            console.log(err);
-            alert("err");
-          });
-      }
+            })
+            .catch(function (err) {
+              console.log(err);
+              alert("err");
+            });
+  
+    }
     }, []);
 
-    //       axios.get("http://localhost:3000/getSub", { params: {"subcode":subCode } })
-    //       .then(function (resp) {
-
-    //         console.log("state : " + resp.data);
-
-    //         // if(resp.data === 'approved'){
-    //         //     alert("이미 수강중인 학습입니다")
-    //         // }else if(resp.data === 'approving'){
-    //         //     alert("수강 승인 대기중인 학습입니다")
-    //         // }else if(resp.data === 'quiting'){
-    //         //     alert("탈퇴 진행 중인 학습입니다")
-    //         // }else{
-    //         //     axios.get("http://localhost:3000/eduname", { params: { "edu_code": edu_code } })
-    //      })
-    //      .catch(function (err) {
-    //       console.log(err);
-    //       alert("err");
-    //     });
-    //   })
-    //   .catch(function (err) {
-    //     console.log(err);
-    //     alert("err");
-    //   });
-
-
-      const getLecList = useCallback(() => {
+       const getLecList = useCallback(() => {
         axios.get("http://localhost:3000/lecturelist")
           .then(function(resp) {
             setLecturelist(resp.data);  // 전체 강의 목록
