@@ -211,7 +211,13 @@ function GradeManage(){
                             }
                             
                         </td>
-                        <td>{grade.studentRanks}/{grade.subTotal}</td>
+                        <td>
+                            
+                            {grade.studentGrade === 0 ?
+                            <>/</>
+                            : <>{grade.studentRanks}/{grade.subTotal}</>
+                            }
+                        </td>
                     </tr>
                         )
                 })
