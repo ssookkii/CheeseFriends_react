@@ -648,7 +648,7 @@ function Sendemail(){
                         <span>제목</span>
                         {titlea === true 
                             ? <input value={title} onChange={(e)=>setTitle(e.target.value)}></input>
-                            : <input style={{ borderColor:"red", width:"230px"}} value={title} onChange={(e)=>setTitle(e.target.value)}></input>}
+                            : <input style={{ borderColor:"red"}} value={title} onChange={(e)=>setTitle(e.target.value)}></input>}
                     </div>
                     <div className={write.contentBox}>
                         <span>파일</span>

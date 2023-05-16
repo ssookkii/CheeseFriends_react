@@ -18,7 +18,7 @@ function Sendemaillist(){
         if(deletecheckboxlist.length > 0){
             setModalOpen(true);
         }else{
-            alert("삭제할 쪽지를 선택해주세요");
+            alert("발송취소할 쪽지를 선택해주세요");
         }
     };
 
@@ -223,7 +223,7 @@ function Sendemaillist(){
                                 <option value="">검색</option>
                                 <option value="title">제목</option>
                                         <option value="content">내용</option>
-                                        <option value="receiver">보낸사람</option>
+                                        <option value="receiver">받는사람</option>
                             </select>
                             <button onClick={searchBtn} className={styles.searchBtn}>검색</button>
                         </div>
