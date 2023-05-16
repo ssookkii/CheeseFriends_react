@@ -10,9 +10,10 @@
 
 .maintitle {
     color: #434343;
-    margin-top: -106px;
+    margin-top: -157px;
     font-size: 2em;
     font-weight: bold;
+    margin-left: -17px;
 }
 .lecBtn {
     width: 214px;
@@ -30,7 +31,7 @@
     color: #ff6b3f;
 }
 .lectable {
-    margin-top: 28px;
+    margin-top: 20px;
     width: 930px;
     height: 400px;
     font-size: 18px;

@@ -4,7 +4,7 @@
 .learninglist{
     width: 1200px;
     height: 500px;
-    margin: 100px auto 0;
+    margin: 150px auto 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -51,4 +51,16 @@
 }
 .empty-row {
     height: 36.5px;
+}
+
+.reply {
+    background: #f0f0f0;
+    font-weight: bold;
+    color: #EA6818;
+}
+
+.replya>a{
+    padding-left: 10px;
+    font-weight: bold;
+    color: #EA6818;
 }

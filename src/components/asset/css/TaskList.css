@@ -4,7 +4,7 @@
 .tasklist {
     width: 1200px;
     height: 500px;
-    margin: 100px auto 0;
+    margin: 110px auto 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -16,8 +16,10 @@
     color: #ff6b3f;
 }
 .taskh2 {
+    color: #434343;
+    margin-top: -157px;
     font-size: 2em;
     font-weight: bold;
-    color: #434343;
+    margin-left: -17px;
 
 }

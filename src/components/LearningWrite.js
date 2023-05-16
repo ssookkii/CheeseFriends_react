@@ -10,6 +10,11 @@ function LearningWrite() {
     const [title, setTitle] = useState('');
     const [writer, setWriter] = useState('');
     const [content, setContent] = useState('');
+    const [file, setFile] = useState(null);
+    const [filename, setFilename] = useState("");
+    const [newfilename, setNewfilename] = useState("");
+    const [inputref, setInputRef] = useState("");
+
 
     const login = JSON.parse(localStorage.getItem("login"));
     const userName = login.name;
@@ -20,51 +25,30 @@ function LearningWrite() {
     const navigate = useNavigate();
 
     const onSubmit = (e) => {
-    e.preventDefault();
-    // alert('onSubmit');
+        e.preventDefault();
+     //   alert('onSubmit~~~');
+        
+        // file + form field -> 짐을 싼다        
+        const formData = new FormData();
+            formData.append("subject", subject);
+           formData.append("title", title);
+           formData.append("writer", userName);
+           formData.append("content", content);
+ 
+    
+          formData.append("uploadFile", document.frm.uploadFile.files[0]);
 
-    // file + form field -> 짐을 싼다
-    let formData = new FormData();
-    formData.append("subject", subject);
-    formData.append("title", title);
-    formData.append("writer", writer);
-    formData.append("content", content);
-
-    formData.append("uploadFile", document.frm.uploadFile.files[0]);
-
-    // 보내자!
-    axios.post("http://localhost:3000/fileUpload", formData)
-    .then(res=>{
-       console.log(res.data);
-       alert('자료 업로드에 성공했습니다');
-       navigate('/cheesefriends/learning');
-    })
-    .catch(function(error){
-       alert('자료 업로드에 실패했습니다');
-    });
-
-    axios.post('http://localhost:3000/writeLearning', null, { params: {
-                subject,
-                title,
-                writer:userName,
-                content
-        }})
-            .then( resp => {
-            console.log(resp);
-            navigate('/cheesefriends/learning');
+          axios.post('http://localhost:3000/fileUpload', formData)
+            .then(resp => {
+              console.log(resp.data);
+              alert('성공적으로 등록되었습니다');
+              navigate('/cheesefriends/learning');
             })
-            .catch(err => console.log(err));
+            .catch(err => {
+              console.log(err);
+          })
+      }
 
-  }
-
-  // download
-  const download = async () => {
-    let filename = "zoom.txt";
-
-    const url = "http://localhost:3000/fileDownload?filename=" + filename;
-
-    window.location.href = url;
-  }
 
     const resetBtn = () => {
         navigate('/cheesefriends/learning');
@@ -80,7 +64,7 @@ function LearningWrite() {
             console.log(resp.data); 
 
             setEdu_code(resp.data.educode);
-
+            
             axios.post("http://localhost:3000/subselect", null, { params:{ "id":login.id, "educode":resp.data.educode}})
             .then(function(resp){   
                 console.log(resp.data); 
@@ -90,13 +74,14 @@ function LearningWrite() {
                 console.log(err);
                 alert('err')
             })
-            
+
         })
         .catch(function(err){
             console.log(err);
             alert('err')
         })
 
+        
     },[]);
 
     const SelectBox = () => {
@@ -139,7 +124,7 @@ function LearningWrite() {
                     <>
                     내용
                     </>
-                    <input type="file" name="uploadFile" className='inputfile' accept="*"  />
+                    <input type="file" name="uploadFile" className='inputfile' accept="*" />
                     <br/>
                     <textarea id='content' className='lecontent' name='content'
                         value={content} onChange={(e) => setContent(e.target.value)} />

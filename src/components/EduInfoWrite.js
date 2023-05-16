@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
 import './asset/css/LectureWrite.css';
-
 import axios from "axios";
-
 
 export default function EduInfoWrite() {
 
@@ -12,14 +10,16 @@ export default function EduInfoWrite() {
     const [writer, setWriter] = useState('');
     const [content, setContent] = useState('');
     const [selectedFile, setSelectedFile] = useState(null);
+    const [mainImg, setMainImg] = useState('');
+    const [previewImg, setPreviewImg] = useState('');
 
     const login = JSON.parse(localStorage.getItem("login"));
     const userName = login.name;
 
-    const handleFileSelect = (event) => {
-        const file = event.target.files[0];
-        setSelectedFile(URL.createObjectURL(file));
-      };
+    // const handleFileSelect = (event) => {
+    //     const file = event.target.files[0];
+    //     setSelectedFile(URL.createObjectURL(file));
+    //   };
 
     const navigate = useNavigate();
 
@@ -27,29 +27,15 @@ export default function EduInfoWrite() {
     const resetBtn = () => {
         navigate('/cheesefriends/learning/EduInfoList');
     }
-
-      // download
-    const download = async () => {
-    let filename = "zoom.txt";
-
-    const url = `http://localhost:3000/fileDownload?filename=${encodeURIComponent(filename)}`;
-
-    // react에서 window를 붙여줘야 한다
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = filename;
-    link.click();
-  }
-
     const SelectBox = () => {
-        return (
-            <select onChange={changeSelectOptionHandler} value={subject}  className='inputsubject'>
-                <option key="kor" value="국어">국어</option>
-                <option key="math" value="수학">수학</option>
-                <option key="eng" value="영어">영어</option>
-                <option key="social" value="사회">사회</option>
-                <option key="sci" value="과학">과학</option>
-            </select>
+    return (
+        <select onChange={changeSelectOptionHandler} value={subject}  className='inputsubject' style={{width:"315px"}}>
+            <option key="kor" value="국어">국어</option>
+            <option key="math" value="수학">수학</option>
+            <option key="eng" value="영어">영어</option>
+            <option key="social" value="사회">사회</option>
+            <option key="sci" value="과학">과학</option>
+        </select>
         );
     };
 
@@ -59,20 +45,37 @@ export default function EduInfoWrite() {
 
     const onSubmit = (e) => {
         e.preventDefault();
+     //   alert('onSubmit~~~');
+        
+        // file + form field -> 짐을 싼다        
+            const formData = new FormData();
+            formData.append("subject", subject);
+            formData.append("title", title);
+            formData.append("writer", userName);
+            formData.append("content", content);
+ 
+    
+          formData.append("uploadFile", document.frm.uploadFile.files[0]);
 
-        axios.post('http://localhost:3000/writeEduInfo', null, { params: {
-                subject,
-                title,
-                writer:userName,
-                content
-        }})
-            .then( resp => {
-            console.log(resp);
-            alert('성공적으로 게시물이 등록되었습니다');
-            navigate('/cheesefriends/learning/EduInfoList');
+          axios.post('http://localhost:3000/fileUpload', formData)
+            .then(resp => {
+              console.log(resp.data);
+              alert('성공적으로 등록되었습니다');
+              navigate('/cheesefriends/learning/EduInfoList');
             })
-            .catch(err => console.log(err));
+            .catch(err => {
+              console.log(err);
+          })
 
+        setPreviewImg = (event) => {
+            var reader = new FileReader();
+
+        reader.onload = function(event) {
+            setMainImg(event.target.result);
+        };
+
+        reader.readAsDataURL(event.target.files[0]);
+    }
     }
     
    
@@ -82,7 +85,7 @@ export default function EduInfoWrite() {
             <form name="frm" onSubmit={onSubmit} encType="multipart/form-data">
             <>
             제목
-            <input type="text" id='title' className='inputtitle' name='title'
+            <input type="text" id='title' className='inputtitle' name='title' style={{width:"315px"}}
                 value={title} onChange={(e) => setTitle(e.target.value)} />
             </>
             <br/>
@@ -100,11 +103,12 @@ export default function EduInfoWrite() {
             <>
             내용
             </>
-            <input type="file" name="uploadFile" className='inputfile' accept="*" onChange={handleFileSelect} />
+            <input type="file" name="uploadFile" className='inputfile' accept="*" onChange={setPreviewImg} />
             <br />
             <div className='efile'>
-            {selectedFile && <img src={selectedFile} id="previewImage" alt="미리보기" style={{ maxWidth: "300px", marginTop:"13px" }} />}
-            <textarea id='content' className='lecontent' name='content'
+           
+            <img alt='이미지' src={mainImg} style={{width:"270px"}} /> 
+            <textarea id='content' className='lecontent' name='content' style={{maxWidth:"733px"}}
                 value={content} onChange={(e) => setContent(e.target.value)} />
             </div>
             <div className='btnwrapper'>

@@ -9,16 +9,14 @@ function LectureWrite() {
     const [writer, setWriter] = useState('');
     const [content, setContent] = useState('');
 
-    const login = JSON.parse(localStorage.getItem("login"));
-    const userName = login.name;
+    const loginInfo = JSON.parse(localStorage.getItem("login"));
+    const userAuth = loginInfo?.auth;
+    const userName = loginInfo.name;
 
     const [subject, setSubject] = useState(
         localStorage.getItem("subject")
     );
-    
-    const [filepath, setFilePath] = useState(
-
-    )
+    const [currentUserId, setCurrentUserId] = useState('');
 
     const navigate = useNavigate();
 
@@ -35,7 +33,7 @@ function LectureWrite() {
         formData.append("uploadFile", document.frm.uploadFile.files[0]);
 
         // 보내자!
-        axios.post("http://localhost:3000/writeLecture", formData)
+        axios.post("http://localhost:3000/fileUpload", formData)
         .then(res=>{
         console.log(res.data);
         alert('성공적으로 등록되었습니다');
@@ -46,45 +44,47 @@ function LectureWrite() {
         });
 
      }
-    
-
-    // download
-    const download = async () => {
-        let filename = "zoom.txt";
-    
-        const url = "http://localhost:3000/fileDownload?filename=" + filename;
-    
-        window.location.href = url;
-      }
-    
-        const resetBtn = () => {
-            navigate('/cheesefriends/lecture');
-        }
+    const resetBtn = () => {
+        navigate('/cheesefriends/lecture');
+    }
 
     const [userSubjects, setUserSubjects] = useState([]);
     const [edu_code, setEdu_code] = useState("");
 
     useEffect(() => {
-        axios.post("http://localhost:3000/eduselect", null, { params: { "id": login.id } })
-          .then(function (resp) {
-            setEdu_code(resp.data.educode);
-    
-            axios.post("http://localhost:3000/subselect", null, { params: { "id": login.id, "educode": resp.data.educode } })
+        if (userAuth === "teacher") {
+            const userId = loginInfo?.id;
+            if(userId) {
+            setCurrentUserId(userId);
+            console.log(userId);
+            }
+            axios
+              .post("http://localhost:3000/eduselect", null, { params: { id: userId } })
               .then(function (resp) {
-                setUserSubjects(resp.data);
+                console.log(resp.data);
+                setEdu_code(resp.data.educode);
+        
+                axios
+                  .post("http://localhost:3000/subselect", null, {
+                    params: { id: userId, educode: resp.data.educode },
+                  })
+                  .then(function (resp) {
+                    console.log(resp.data);
+                    setUserSubjects(resp.data);
+                  })
+                  .catch(function (err) {
+                    console.log(err);
+                    alert("err");
+                  });
               })
               .catch(function (err) {
                 console.log(err);
-                alert('err');
+                alert("err");
               });
-          })
-          .catch(function (err) {
-            console.log(err);
-            alert('err');
-          });
+
+        } 
+        
       }, []);
-
-
 
     const SelectBox = () => {
         return (

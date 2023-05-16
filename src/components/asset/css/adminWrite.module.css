@@ -1,138 +1,156 @@
 .wrap {
-    width:95%;
-    margin:50px auto 0;
+    width: 95%;
+    margin: 50px auto 0;
 }
+
 .title {
-    font-size:1.3em;
+    font-size: 1.3em;
     font-weight: 600;
     background: #fac463;
     padding: 15px 20px;
     margin-bottom: 20px;
     color: #fff;
 }
-.answerMargin {
 
-}
+.answerMargin {}
+
 .InputBox {
-    margin-bottom:7px;
+    margin-bottom: 7px;
 }
+
 .bottmline {
     position: relative;
-    margin-bottom:40px;
+    margin-bottom: 40px;
 }
+
 .flex {
     display: flex;
     justify-content: start;
-    margin:0 0 100px;
+    margin: 0 0 100px;
 }
+
 .bottmline::after {
     content: '';
     background-color: #ddd;
-    width:100%;
-    height:1px;
-    position:absolute;
-    left:0;
-    top:35px;
+    width: 100%;
+    height: 1px;
+    position: absolute;
+    left: 0;
+    top: 35px;
 }
+
 .InputBox span:nth-child(1) {
     display: inline-block;
     text-align: right;
-    width:55px;
+    width: 55px;
     font-weight: 600;
     font-size: 0.9em;
 }
+
 .InputBox span {
-    margin-right:10px;
+    margin-right: 10px;
 }
+
 .InputBox .width {
-    width:100%;
+    width: 100%;
 }
+
 .titleInput {
-    border:1px solid #ddd;
+    border: 1px solid #ddd;
     border-radius: 10px;
-    width:100%;
-    height:50px;
-    padding:0 20px;
+    width: 100%;
+    height: 50px;
+    padding: 0 20px;
 }
+
 .textarea {
-    margin:10px 0 30px;
-    border:1px solid #ddd;
+    margin: 10px 0 30px;
+    border: 1px solid #ddd;
     border-radius: 10px;
-    width:100%;
-    height:300px;
-    padding:20px;
+    width: 100%;
+    height: 300px;
+    padding: 20px;
 }
-.wrap > a,
+
+.wrap>a,
 .answerBtn {
-    width:100px;
-    height:40px;
+    width: 100px;
+    height: 40px;
     border-radius: 10px;
     background-color: #fac463;
-    color:#fff;
-    margin-right:5px;
-    font-weight:500;
-    font-size:0.9em;
+    color: #fff;
+    margin-right: 5px;
+    font-weight: 500;
+    font-size: 0.9em;
 }
+
 .linkBtn {
-    display:inline-block;
+    display: inline-block;
     text-align: center;
-    line-height:38px;
+    line-height: 38px;
 }
 
 /* mail custom */
-.wrap > a {
+.wrap>a {
     display: block;
-    line-height:39px;
+    line-height: 39px;
     text-align: center;
 }
+
 .contentBox {
     display: flex;
     justify-content: space-between;
     align-items: start;
 }
-.contentBox > span {
+
+.contentBox>span {
     font-weight: 600;
-    width:65px;
+    width: 70px;
     text-align: right;
-    margin-right:20px;
-    padding : 5px 0 0;
+    margin-right: 20px;
+    padding: 5px 0 0;
 }
+
 .contentBox .cBox {
     display: flex;
     justify-content: space-between;
     align-items: start;
-    width:100%;
+    width: 100%;
 }
+
 .contentBox .senderList,
-.contentBox > input {
-    width:100%;
-    height:40px;
+.contentBox>input {
+    width: 100%;
+    height: 40px;
     border: 1px solid #dddddd;
-    margin-bottom:10px;
+    margin-bottom: 10px;
     border-radius: 5px;
-    padding:10px 20px;
+    padding: 10px 20px;
 }
+
 .contentBox .senderListWidth {
-    width:76%;
+    width: 76%;
 }
 
 .contentBox textarea {
     border: 1px solid #dddddd;
     border-radius: 5px;
-    height:400px;
-    width:100%;
-    padding:20px;
+    height: 400px;
+    width: 100%;
+    padding: 20px;
     font-family: 'Noto Sans KR';
-    font-size:1em;
+    font-size: 1em;
 }
+
 .contentBox textarea::placeholder {
-    font-size:1em;
+    font-size: 1em;
 }
+
 .btnCenter {
     display: block;
-    margin:30px auto 0;
+    margin: 30px auto 0;
     font-weight: 600;
-    font-size:1em;
+    font-size: 1em;
 }
 
 .contentBox .uploadName {
@@ -144,11 +162,12 @@
     width: 100%;
     color: #555;
     border-radius: 5px;
-    margin-bottom:10px;
+    margin-bottom: 10px;
 }
+
 .contentBox .btn {
     display: inline-block;
-    width:100px;
+    width: 100px;
     color: #fff;
     vertical-align: middle;
     background-color: #fac463;
@@ -156,9 +175,10 @@
     height: 40px;
     margin-left: 10px;
     border-radius: 10px;
-    font-size:0.9em;
+    font-size: 0.9em;
     font-weight: 500;
 }
+
 .contentBox input[type="file"] {
     position: absolute;
     width: 0;
@@ -167,11 +187,13 @@
     overflow: hidden;
     border: 0;
 }
+
 .downBtn {
-    padding:3px 5px;
-    font-size:0.9em;
-    color:#fff;
+    padding: 3px 5px;
+    font-size: 0.9em;
+    color: #fff;
     background-color: #434343;
-    border-radius: 5px;;
-    margin-left:5px;
+    border-radius: 5px;
+    ;
+    margin-left: 5px;
 }

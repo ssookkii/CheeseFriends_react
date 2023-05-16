@@ -24,9 +24,10 @@ export default function ServiceList() {
     let params = useParams();
     
     const bbsData = async(seq) => {
-        const response = await axios.get('http://localhost:3000/getService', { params:{"seq":seq} });
+        const response = await axios.get('http://localhost:3000/getAnswer', { params:{"seq":seq} });
 
         setBbs(response.data);
+        console.log(response.data);
     }
 
     useEffect(() => {
@@ -41,12 +42,14 @@ export default function ServiceList() {
     const [answerContent, setAnswerContent] = useState('');
 
     async function handleItemClick(item) {
-        setSelectedItem(item);
-        setModalIsOpen(true);
-
-        const bbs = await bbsData(item.seq);
-        setAnswerContent(bbs.answer);
-    }
+      setSelectedItem(item);
+      setModalIsOpen(true);
+  
+      const response = await bbsData(item.seq);
+      if (response) {
+          setAnswerContent(response.data.answer);
+      }
+  }
 
     function closeModal() {
         setSelectedItem(null);
@@ -61,9 +64,8 @@ export default function ServiceList() {
         }
         return (
           <Modal isOpen={selectedItem !== null} onRequestClose={closeModal} className='modalcss'>
-                {selectedItem.content && <p>{selectedItem.content}</p>}
-                {answerContent && <p>{answerContent}</p>}
-               
+            {selectedItem.content && <p>Q : {selectedItem.content}</p>}
+            {answerContent ? <p> A: {answerContent}</p> : <p className='answercont'>A : 관리자가 답변을 확인중입니다...</p>}
           </Modal>
         );
     }
@@ -165,39 +167,77 @@ export default function ServiceList() {
            <div className='shelterPageWrap'>
            <div style={{width:"247.94px", textAlign:"center", marginTop:"-204px"}}>
                 <h2 className='maintitle'>고객센터</h2>
-                      {/* {userAuth === 'teacher' && ( */}
+                      { userId != null && (
                         <button type="button" className="learnBtn" style={{marginLeft:"11px", marginTop:"10px"}} onClick={writelink}>
                             글쓰기
                         </button>
-                    {/* )} */}
+                     )} 
               </div>
             </div>
         
     
             {/* 목록 */}
-            <div style={{display:"block", width:"1000px", marginTop:"-152px"}}>
+            <div style={{display:"block", width:"1000px", marginTop:"-252px"}}>
     
                 <div className='contentwrappers'>
                     <div className='fontWrapper'>
-                        <div>
-                            <FontAwesomeIcon icon={faMedal} className='ser' onClick={() => handleButtonClick('frelist')}/>
-                        </div>
-                        <div>
-                            <FontAwesomeIcon icon={faUser} className='ser' onClick={() => handleButtonClick('infolist')}/>
-                        </div>
-                        <div>
-                            <FontAwesomeIcon icon={faDisplay} className='ser' onClick={() => handleButtonClick('useLectList')}/>
-                        </div>
-                        <div>
-                            <FontAwesomeIcon icon={faCirclePlay}className='ser' onClick={() => handleButtonClick('playlist')} />
-                        </div>
-                        <div>
-                            <FontAwesomeIcon icon={faMobileScreen}className='ser' onClick={() => handleButtonClick('mobileli')}/>
-                        </div>
+                    <div>
+                      <FontAwesomeIcon
+                        icon={faMedal}
+                        className={`ser1 ${activeButton === 'frelist' ? 'active' : ''}`}
+                        onClick={() => handleButtonClick('frelist')}
+                      />
+                      <p
+                        className={`p2 ${activeButton === 'frelist' ? 'active' : ''}`}
+                        style={{ marginLeft:"-7px" }}
+                      >
+                        내가쓴글
+                      </p>
                     </div>
-                </div>
+                    
+                    <div>
+                    <FontAwesomeIcon
+                      icon={faUser}
+                      className={`ser2 ${activeButton === 'infolist' ? 'active' : ''}`}
+                      onClick={() => handleButtonClick('infolist')}
+                    />
+                    <p className={`p2 ${activeButton === 'infolist' ? 'active' : ''}`}
+                    style={{ marginLeft:"-10px" }}
+                    >개인정보</p>
+                  </div>
+                  <div>
+                    <FontAwesomeIcon
+                      icon={faDisplay}
+                      className={`ser3 ${activeButton === 'useLectList' ? 'active' : ''}`}
+                      onClick={() => handleButtonClick('useLectList')}
+                    />
+                    <p className={`p2 ${activeButton === 'useLectList' ? 'active' : ''}`}
+                    style={{ marginLeft:"-2px" }}
+                    >강의이용</p>
+                  </div>
+                  <div>
+                    <FontAwesomeIcon
+                      icon={faCirclePlay}
+                      className={`ser4 ${activeButton === 'playlist' ? 'active' : ''}`}
+                      onClick={() => handleButtonClick('playlist')}
+                    />
+                    <p className={`p2 ${activeButton === 'playlist' ? 'active' : ''}`}
+                    style={{ marginLeft:"-31px" }}
+                    >학습플레이어</p>
+                  </div>
+                  <div>
+                    <FontAwesomeIcon
+                      icon={faMobileScreen}
+                      className={`ser5 ${activeButton === 'mobileli' ? 'active' : ''}`}
+                      onClick={() => handleButtonClick('mobileli')}
+                    />
+                    <p className={`p2 ${activeButton === 'mobileli' ? 'active' : ''}`}
+                    style={{ marginLeft:"-30px" }}
+                    >모바일/기타</p>
+                  </div>
 
-                <hr className='servhr'/>            
+                </div>
+                </div> 
             
                 <div className='contentwrapper'>
                     

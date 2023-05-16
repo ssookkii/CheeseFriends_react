@@ -6,6 +6,7 @@ import { faCheese } from "@fortawesome/free-solid-svg-icons";
 import './asset/css/LectureDetail.css';
 
 function TaskDetail(){
+    const [taskDetail, setTaskDetail] = useState([]);
     let history = useNavigate();
 
     const [bbs, setBbs] = useState();
@@ -16,6 +17,22 @@ function TaskDetail(){
     let params = useParams();
     console.log(params);
     console.log(params.seq);
+
+    function getTaskDetail(seq) {
+        axios.get("http://localhost:3000/getTask", { params:{"seq":seq} })
+        .then(function(resp){
+            console.log(resp.data);
+            setTaskDetail(resp.data);
+        })
+        .catch(function(err){
+            alert(err);
+        })
+        
+    }
+
+    useEffect(function(){
+        getTaskDetail(params.seq);
+    },[params.seq]);
 
     const bbsData = async(seq) => {
         const response = await axios.get('http://localhost:3000/getTask', { params:{"seq":seq} });
@@ -38,13 +55,20 @@ function TaskDetail(){
         history('/cheesefriends/learning/TaskList');
     }
 
+    // download
     const download = async () => {
-        let filename = "";
+
+      //  alert(JSON.stringify(bbs));
+
+        let filename = bbs.filename;
     
         const url = "http://localhost:3000/fileDownload?filename=" + filename;
     
         window.location.href = url;
     }
+
+    
+
 
     return (
         <div className="lecdeMain">

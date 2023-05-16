@@ -11,7 +11,7 @@ export default function ServiceWrite() {
     const [content, setContent] = useState('');
 
     const login = JSON.parse(localStorage.getItem("login"));
-    const id = login.id;
+    const id = login?.id;
     const userName = login.name;
 
     const navigate = useNavigate();
@@ -22,7 +22,8 @@ export default function ServiceWrite() {
 
     const SelectBox = () => {
         return (
-            <select onChange={changeSelectOptionHandler} value={topic} className='inputsubject'>
+            <select onChange={changeSelectOptionHandler} value={topic} className='inputsubject' style={{marginLeft:"61px"}}>
+                <option key="" value=""></option>
                 <option key="frequently" value="자주묻는질문">자주묻는질문</option>
                 <option key="userInfo" value="개인정보">개인정보</option>
                 <option key="useLect" value="강의이용">강의이용</option>
@@ -42,7 +43,7 @@ export default function ServiceWrite() {
         axios.post('http://localhost:3000/writeService', null, { params: {
             topic,
             title,
-            writer:userName,
+            writer:id,
             content
     }})
         .then( resp => {
@@ -51,11 +52,9 @@ export default function ServiceWrite() {
         navigate('/cheesefriends/service/ServiceList');
         
         })
-        .catch(err => console.log(err));
-
-
-    
+        .catch(err => console.log(err));    
     }
+
     return (
         <div className='lecwritemain'>
             <h2 className='lecmainh2' >고객센터 문의하기</h2>
@@ -77,7 +76,7 @@ export default function ServiceWrite() {
                 value={id} onChange={(e) => setWriter(e.target.value)} />
             </>
             <br/>
-            <textarea id='content' style={{marginLeft:"131px", width:"954px"}} className='lecontent' name='content'
+            <textarea id='content' style={{marginLeft:"131px", width:"900px"}} className='lecontent' name='content'
                 value={content} onChange={(e) => setContent(e.target.value)} />
 
             <div className='btnwrappera'>
@@ -87,5 +86,5 @@ export default function ServiceWrite() {
             </form>
         </div>
     )
-  }
+}
 

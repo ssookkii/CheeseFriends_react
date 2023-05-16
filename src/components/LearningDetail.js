@@ -41,7 +41,10 @@ function LearningDetail(){
     }
 
     const download = async () => {
-        let filename = "file.txt";
+
+        // alert(JSON.stringify(bbs));
+
+        let filename = bbs.filename;
     
         const url = "http://localhost:3000/fileDownload?filename=" + filename;
     
@@ -50,7 +53,7 @@ function LearningDetail(){
 
    
     return (
-        <div className="lecdeMain">
+        <div className="lecdeMain" style={{marginRight:"240px"}}>
             <h2 className="lech2">수업 자료실</h2>
             <table style={{marginBottom:"180px"}} >
             <tbody>
@@ -83,7 +86,7 @@ function LearningDetail(){
             </tbody>
             </table>
             <div style={{textAlign:"center"}}>
-                <button style={{width:"100px", height:"42px"}} type="button" onClick={learnlist} className="leclistBtn">목록으로</button>
+                <button style={{width:"100px", height:"42px", marginLeft:"-100px"}} type="button" onClick={learnlist} className="leclistBtn">목록으로</button>
             </div>
                     
         </div>

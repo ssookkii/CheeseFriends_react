@@ -83,7 +83,6 @@ import EduInfoWrite from './components/EduInfoWrite';
 import ServiceList from './components/ServiceList';
 import ServiceWrite from './components/ServiceWrite';
 import ServiceDetail from './components/ServiceDetail';
-import ServiceAnswer from './components/ServiceAnswer';
 import Socialregiselect from './login/socialregiselect';
 import Kakao from './login/kakao';
 import NaverLogin from './login/naverlogin';
@@ -144,7 +143,6 @@ function App() {
           <Route path='service/ServiceList' element={<ServiceList />} />
           <Route path='service/ServiceWrite' element={<ServiceWrite />} />
           <Route path='service/ServiceDetail/:seq' element={<ServiceDetail />} />
-          <Route path='service/ServiceAnswer/:seq' element={<ServiceAnswer />} />
           <Route path="lecture" element={<LectureList />} />
           <Route path="lecture/AbLectureList" element={<AbLectureList />} />
           <Route path="lecture/LectureWrite" element={<LectureWrite />} />

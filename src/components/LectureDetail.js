@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from 'axios';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheese } from "@fortawesome/free-solid-svg-icons";
 import './asset/css/LectureDetail.css';
 
 function LectureDetail(){
@@ -22,7 +24,7 @@ function LectureDetail(){
         console.log("bbs:" + JSON.stringify(response.data));
         setBbs(response.data);
         // setFileName(bbs.filename);
-        alert(JSON.stringify(response.data));
+        // alert(JSON.stringify(response.data));
 
         setLoading(true);   // 여기서 rendering 해 준다
     }
@@ -40,29 +42,22 @@ function LectureDetail(){
     }
 
 
+    // download
     const download = async () => {
-        try {
-          const response = await fetch('/fileUpload');
-          const data = await response.json();
-          const filename = data.filename;
-          console.log('filename:', filename);
+
+        // alert(JSON.stringify(bbs));
+  
+          let filename = bbs.filename;
       
-          const url = `http://localhost:3000/download?filename=${filename}`;
+          const url = "http://localhost:3000/fileDownload?filename=" + filename;
       
-          const downloadLink = document.createElement('a');
-          downloadLink.href = url;
-          downloadLink.download = filename;
-          downloadLink.click();
-        } catch (error) {
-          console.error('Error:', error);
-        }
-      };
-      
-      download();
+          window.location.href = url;
+    }
+  
 
   
     return (
-        <div className="lecdeMain">
+        <div className="lecdeMain" style={{marginTop:"15px"}}>
             <h2 className="lech2">강의 보기</h2>
             <table className="lectable">
             <tbody>
@@ -82,17 +77,17 @@ function LectureDetail(){
             </div>
             <tr>	
                 <td colSpan="2" style={{ backgroundColor:'white' }}>
-                    <pre id="content" style={{ marginTop:"6px", fontSize:'18px', lineHeight:"1.5", fontFamily:'고딕, arial', backgroundColor:'white', textAlign:"left", marginLeft:"138px" }}>{bbs.content}</pre>
-                    
-                    {/* <video style={{width:"700px", marginLeft:"272px", border:"3px solid #eeeeee"}} controls >
+                    <pre id="content" style={{ marginTop:"6px", marginBottom:"0px", fontSize:'18px', lineHeight:"1.5", fontFamily:'고딕, arial', backgroundColor:'white', textAlign:"left", marginLeft:"138px" }}>{bbs.content}</pre>
+                    <button onClick={download} style={{backgroundColor:'white', marginLeft:"776px", width:"133px", fontWeight:"bold", color:"#fbca73"}}><FontAwesomeIcon icon={faCheese} color="#fbca73" /> 다운로드</button>
+                    <video style={{width:"629px", height:"357px", marginLeft:"272px", border:"3px solid #eeeeee"}} controls >
                         <source src={require('./asset/css/sample2.mp4')} type="video/mp4" /> 
-                    </video> */}
-                       <button onClick={download} >file download</button>
+                    </video>
+
                 </td>
             </tr>
             </tbody>
             </table>
-            <div style={{textAlign:"center", marginLeft:"50px"}}>
+            <div style={{textAlign:"center", marginTop:"20px"}}>
                 <button className="leclistBtn" type="button" onClick={leclist}>목록으로</button>
             </div>
                   

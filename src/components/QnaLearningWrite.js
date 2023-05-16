@@ -11,9 +11,10 @@ export default function QnaLearningWrite() {
     const [writer, setWriter] = useState('');
     const [content, setContent] = useState('');
 
-    const login = JSON.parse(localStorage.getItem("login"));
-    const userName = login.name;
-
+    const loginInfo = JSON.parse(localStorage.getItem("login"));
+    const userAuth = loginInfo?.auth;
+    const userName = loginInfo?.name;
+    const [currentUserId, setCurrentUserId] = useState('');
     const [subject, setSubject] = useState(
         localStorage.getItem("subject")
     );
@@ -27,41 +28,81 @@ export default function QnaLearningWrite() {
     const [userSubjects, setUserSubjects] = useState([]);
     const [edu_code, setEdu_code] = useState("");
 
-    useEffect (()=>{
-        axios.post("http://localhost:3000/eduselect", null, { params:{ "id":login.id}})
-        .then(function(resp){   
-            console.log(resp.data); 
-
-            setEdu_code(resp.data.educode);
-
-            axios.post("http://localhost:3000/subselect", null, { params:{ "id":login.id, "educode":resp.data.educode}})
-            .then(function(resp){   
-                console.log(resp.data); 
-                setUserSubjects(resp.data);
-            })
-            .catch(function(err){
+    const [subNames, setSubNames] = useState([]);
+    useEffect(() => {
+        if (userAuth === "teacher") {
+            const userId = loginInfo?.id;
+            if(userId) {
+            setCurrentUserId(userId);
+            console.log(userId);
+            }
+            axios
+              .post("http://localhost:3000/eduselect", null, { params: { id: userId } })
+              .then(function (resp) {
+                console.log(resp.data);
+                setEdu_code(resp.data.educode);
+        
+                axios
+                  .post("http://localhost:3000/subselect", null, {
+                    params: { id: userId, educode: resp.data.educode },
+                  })
+                  .then(function (resp) {
+                    console.log(resp.data);
+                    setUserSubjects(resp.data);
+                  })
+                  .catch(function (err) {
+                    console.log(err);
+                    alert("err");
+                  });
+              })
+              .catch(function (err) {
                 console.log(err);
-                alert('err')
-            })
-            
-        })
-        .catch(function(err){
-            console.log(err);
-            alert('err')
-        })
+                alert("err");
+              })
 
-    },[]);
+        } else if(userAuth === "student") {
+            const userId = loginInfo?.id;
+            if(userId) {
+            setCurrentUserId(userId);
+            console.log(userId);
+        }
+
+
+        axios.get("http://localhost:3000/sublist")
+          .then(function (resp) {
+            console.log(resp.data); // 현재 수강중인 과목 목록
+            
+            const subNames = resp.data.list.map(item => item.subName);
+            console.log(subNames);
+            setSubNames(subNames);
+
+          })
+          .catch(function (err) {
+            console.log(err);
+            alert("err");
+          });
+        }
+      }, []);
 
     const SelectBox = () => {
-        return (
+        if(userAuth === "teacher"){
+          return (
             <select onChange={changeSelectOptionHandler} value={subject} className='inputsubject'>
-                {userSubjects.map((subject)=> (
+               {Array.isArray(userSubjects) && userSubjects.map((subject) => (
                     <option key={subject.subCode} value={subject.subname}>{subject.subname}</option>
                 ))}
             </select>
         );
+        } else if(userAuth ==="student") {
+          return (
+            <select onChange={changeSelectOptionHandler} value={subject} className='inputsubject'>
+              {Array.isArray(subNames) && subNames.map((subName) => (
+                <option key={subName} value={subName}>{subName}</option>
+              ))}
+            </select>
+          );
+        }
     };
-
     const changeSelectOptionHandler = (e) => {
         setSubject(e.target.value);
     };

@@ -7,6 +7,8 @@ function QnaLearningDetail(){
     let history = useNavigate();
 
     const [bbs, setBbs] = useState();
+    const loginInfo = JSON.parse(localStorage.getItem("login"));
+    const userAuth = loginInfo?.auth;
 
     // 데이터를 모두 읽어 들일 때까지 rendering을 조절하는 변수
     const [loading, setLoading] = useState(false);
@@ -64,18 +66,21 @@ function QnaLearningDetail(){
                 <td style={{ textAlign:"left" }}>{bbs.regdate}</td>
             </tr>
             <tr style={{height:"32px"}}>	
-                <th>내용</th>
+                <th className="tableth">내용</th>
                 <td colSpan="2" style={{ backgroundColor:'white' }}>
-                    <pre id="content" style={{ fontSize:'20px', fontFamily:'고딕, arial', backgroundColor:'white', textAlign:"left" }}>{bbs.content}</pre>
+                    <pre id="content" style={{ fontSize:'20px', fontFamily:'고딕, arial', backgroundColor:'white', textAlign:"left", marginBottom:"0" }}>{bbs.content}</pre>
                 </td>
             </tr>
             </div>
             </tbody>
             </table>
             <div style={{textAlign:"center"}}>
-                <button className="leclistBtn" type="button" >
-                <Link to={`/cheesefriends/learning/QnaLearningAnswer/${bbs.seq}`} style={{textDecoration:"none", fontWeight:"bold", color:"white", fontSize:"1em"}}>답변하기</Link></button>
-                <button className="resetbtn" type="button" onClick={qnalist}>목록으로</button>
+            {userAuth === 'teacher' && (
+                    <button className="leclistBtn" type="button">
+                        <Link to={`/cheesefriends/learning/QnaLearningAnswer/${bbs.seq}`} style={{textDecoration:"none", fontWeight:"bold", color:"white", fontSize:"1em"}}>답변하기</Link>
+                    </button>
+                )}
+                <button className="resetbtn" type="button" style={{marginLeft:"-100px"}} onClick={qnalist}>목록으로</button>
             </div>
                    
         </div>
