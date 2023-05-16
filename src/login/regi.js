@@ -647,9 +647,9 @@ function Regi() {
                     // .then((response) => response.json())
                     .then((result) => {
                         console.log(result);
-                        // return fetch(`http://localhost:3000/api/imgcrop/${id}`, {
-                        //     method: 'POST',
-                        // });
+                        return fetch(`http://localhost:3000/api/imgcrop/${id}`, {
+                            method: 'POST',
+                        });
                     })
                     .catch((error) => console.error(error));   
             } else {
