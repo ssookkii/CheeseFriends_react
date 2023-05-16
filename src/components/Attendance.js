@@ -209,7 +209,7 @@ function Attendance() {
                   key={subject.subCode}
                   className={selectedSubject === subject.subCode ? 'active' : ''}
                   onClick={() => setSelectedSubject(subject.subCode)}
-                  style={{ fontSize: '20px' }}
+                  style={{ fontSize: '18px', alignItems: 'center' }}
                 >
                   {subject.subName}
                 </li>

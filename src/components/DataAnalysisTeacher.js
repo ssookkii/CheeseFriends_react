@@ -309,7 +309,7 @@ const DataAnalysisTeacher = () => {
                                     key={subject.subCode}
                                     className={selectedSubject === subject.subCode ? 'active' : ''}
                                     onClick={() => setSelectedSubject(subject.subCode)}
-                                    style={{ minWidth: '80px', textAlign: 'center' }}
+                                    style={{ textAlign: 'center' }}
                                 >
                                     {subject.subName}
                                 </li>

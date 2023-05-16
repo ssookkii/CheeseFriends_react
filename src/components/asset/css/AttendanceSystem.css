@@ -183,9 +183,8 @@
 }
 
 .attendancebtn-btn {
-  width: 150px;
+  width: 100px;
   height: 40px;
-  padding: 10px 25px;
   border: 2px solid rgb(199, 97, 97);
   font-family: 'Lato', sans-serif;
   font-weight: 500;
