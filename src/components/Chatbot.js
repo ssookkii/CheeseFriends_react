@@ -14,21 +14,23 @@ function Chatbot() {
     function Papago() {
         axios.post("http://localhost:3000/papago", null, { params: { "msg": umessage } })
           .then((resp) => {
-            const botMsgContainer = document.querySelector('.botmsgContainer');
-            const newMsgDiv = document.createElement('div');
-            newMsgDiv.style.textAlign = 'center'; // 가운데 정렬을 위한 CSS 속성 추가
-            botMsgContainer.insertAdjacentElement('afterend', newMsgDiv);
-      
+            const botMsgContainers = document.querySelectorAll('.botmsgContainer');
+
             const newMsgElem = document.createElement('div');
             newMsgElem.setAttribute('align', 'right');
             newMsgElem.className = 'botmsg';
             newMsgElem.textContent = JSON.stringify(resp.data);
             newMsgElem.style.backgroundColor = '#b4e4ff';
             newMsgElem.style.marginBottom = '20px';
+            newMsgElem.style.marginLeft = '216px';
             newMsgElem.style.color = '#434343';
-      
-            newMsgDiv.appendChild(newMsgElem);
+
+            // 두 번째 botMsgContainer 다음에 newMsgElem 추가
+            botMsgContainers[2].insertAdjacentHTML('afterend', newMsgElem.outerHTML);
+
             scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+      
+ 
           });
       }
     function sendBtnClick() {
