@@ -58,6 +58,7 @@ function TeacherManage(){
     // 체크 배열 점검
     useEffect(()=>{
         console.log(deletecheckboxlist);
+        localStorage.setItem("btnActive", "sendmailmanage");
     }, [deletecheckboxlist]) 
 
     function allcheck(e){

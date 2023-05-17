@@ -57,6 +57,7 @@ function QnaAnswer(){
     useEffect(()=>{
         getQnaData(params.seq);
         getAnswerData(params.seq);
+        localStorage.setItem("btnActive", "qnamanage");
     }, [params.seq]);
 
     function handleButtonClick() {
