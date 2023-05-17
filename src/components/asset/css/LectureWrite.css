@@ -120,7 +120,6 @@
 }
 
 .efile {
-    display: inline-flex;
-    justify-content: center;
+
     margin-top: 16px;
 }

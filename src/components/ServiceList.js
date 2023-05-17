@@ -239,7 +239,7 @@ export default function ServiceList() {
                 </div>
                 </div> 
             
-                <div className='contentwrapper'>
+                <div className='contentwrapper' style={{marginTop:"180px"}}>
                     
                 {activeButton === 'frelist' && frelist && frelist.map(function(list) {
         return (

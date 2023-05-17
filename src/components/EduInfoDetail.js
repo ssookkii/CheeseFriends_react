@@ -58,8 +58,6 @@ function EduInfoDetail(){
       }
 
 
-
-
     return (
         <div className="lecdeMain">
             <h2 className="lech2">교육정보 상세보기</h2>

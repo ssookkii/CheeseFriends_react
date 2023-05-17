@@ -10,11 +10,29 @@ export default function EduInfoWrite() {
     const [writer, setWriter] = useState('');
     const [content, setContent] = useState('');
     const [selectedFile, setSelectedFile] = useState(null);
-    const [mainImg, setMainImg] = useState('');
-    const [previewImg, setPreviewImg] = useState('');
+    const [imgBase64, setImgBase64] = useState(""); // 파일 base64
+    const [uploadFile, setUploadFile] = useState(null);	//파일	
+    
 
     const login = JSON.parse(localStorage.getItem("login"));
     const userName = login.name;
+
+    const handleChangeFile = (event) => {
+        let reader = new FileReader();
+    
+        reader.onloadend = () => {
+          // 2. 읽기가 완료되면 아래코드가 실행됩니다.
+          const base64 = reader.result;
+          if (base64) {
+            setImgBase64(base64.toString()); // 파일 base64 상태 업데이트
+          }
+        }
+        if (event.target.files[0]) {
+          reader.readAsDataURL(event.target.files[0]); // 1. 파일을 읽어 버퍼에 저장합니다.
+          setUploadFile(event.target.files[0]); // 파일 상태 업데이트
+        }
+      }
+      
 
     // const handleFileSelect = (event) => {
     //     const file = event.target.files[0];
@@ -66,27 +84,19 @@ export default function EduInfoWrite() {
             .catch(err => {
               console.log(err);
           })
-
-        setPreviewImg = (event) => {
-            var reader = new FileReader();
-
-        reader.onload = function(event) {
-            setMainImg(event.target.result);
-        };
-
-        reader.readAsDataURL(event.target.files[0]);
-    }
+    
     }
     
    
     return (
+       
         <div className='lecwritemain'>
             <h2 className='lecmainh2'>교육 정보 작성</h2>
             <form name="frm" onSubmit={onSubmit} encType="multipart/form-data">
             <>
-            제목
-            <input type="text" id='title' className='inputtitle' name='title' style={{width:"315px"}}
-                value={title} onChange={(e) => setTitle(e.target.value)} />
+                제목
+                <input type="text" id='title' className='inputtitle' name='title' style={{width:"315px"}} value={title} onChange={(e) => setTitle(e.target.value)}
+                />
             </>
             <br/>
             <>
@@ -95,29 +105,37 @@ export default function EduInfoWrite() {
             </>
             <br/>
             <>
-            작성자
-            <input type="text" id='writer' className='inputwriter' name='writer'
-                value={userName} onChange={(e) => setWriter(e.target.value)} />
+                작성자<input type="text" id='writer' className='inputwriter' name='writer' value={userName} onChange={(e) => setWriter(e.target.value)}/>
             </>
             <br/>
-            <>
-            내용
-            </>
-            <input type="file" name="uploadFile" className='inputfile' accept="*" onChange={setPreviewImg} />
-            <br />
             <div className='efile'>
-           
-            <img alt='이미지' src={mainImg} style={{width:"270px"}} /> 
-            <textarea id='content' className='lecontent' name='content' style={{maxWidth:"733px"}}
-                value={content} onChange={(e) => setContent(e.target.value)} />
+                <>
+                내용
+                <input type="file" name="uploadFile" className='inputfile' accept="*" onChange={handleChangeFile} />
+                <div style={{"backgroundColor": "#efefef", "width":"300px", "height" : "280px"}}>
+                    {imgBase64 && <img src={imgBase64} alt="미리보기" style={{ width: "100%", height: "100%" }} />}
+                </div>
+                </>
             </div>
+            <br />
+            
+            <textarea
+                id='content'
+                className='lecontent'
+                name='content'
+                style={{maxWidth:"733px", marginTop:"-316px", marginLeft:"307px", border:"none"}}
+                value={content}
+                onChange={(e) => setContent(e.target.value)}
+            />
+            
             <div className='btnwrapper'>
-            <button type='button' onClick={resetBtn} className='resetbtn'>취소</button>
-            <button type='submit' value='file upload' className='submitbtn'>등록</button>
+                <button type='button' onClick={resetBtn} className='resetbtn'>취소</button>
+                <button type='submit' value='file upload' className='submitbtn'>등록</button>
             </div>
             </form>
         </div>
-    )
+        )
+
 }
 
 
