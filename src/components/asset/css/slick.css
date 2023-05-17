@@ -103,6 +103,7 @@
 .slick-initialized .slick-slide
 {
     display: block;
+    height: 392px;
 }
 .slick-loading .slick-slide
 {
