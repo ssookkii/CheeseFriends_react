@@ -90,14 +90,14 @@ function Home(){
                 <p>궁금해하는 교육정보 모아모아 한 눈에!</p>
             </div>
             <Slider {...eduSettings}>
-                    <div><Link className={styles.slideContent}><img src={`${process.env.PUBLIC_URL}/img/thumbEx.jpg`}  style={{width:'100%'}} alt=""/></Link></div>
-                    <div><Link className={styles.slideContent}><img src={`${process.env.PUBLIC_URL}/img/thumbEx.jpg`}  style={{width:'100%'}} alt=""/></Link></div>
-                    <div><Link className={styles.slideContent}><img src={`${process.env.PUBLIC_URL}/img/thumbEx.jpg`}  style={{width:'100%'}} alt=""/></Link></div>
-                    <div><Link className={styles.slideContent}><img src={`${process.env.PUBLIC_URL}/img/thumbEx.jpg`}  style={{width:'100%'}} alt=""/></Link></div>
-                    <div><Link className={styles.slideContent}><img src={`${process.env.PUBLIC_URL}/img/thumbEx.jpg`}  style={{width:'100%'}} alt=""/></Link></div>
-                    <div><Link className={styles.slideContent}><img src={`${process.env.PUBLIC_URL}/img/thumbEx.jpg`}  style={{width:'100%'}} alt=""/></Link></div>
-                    <div><Link className={styles.slideContent}><img src={`${process.env.PUBLIC_URL}/img/thumbEx.jpg`}  style={{width:'100%'}} alt=""/></Link></div>
-                    <div><Link className={styles.slideContent}><img src={`${process.env.PUBLIC_URL}/img/thumbEx.jpg`}  style={{width:'100%'}} alt=""/></Link></div>
+                    <div><Link to="cheesefriends/learning/EduInfoDetail/1" className={styles.slideContent}><img src={`${process.env.PUBLIC_URL}/img/eduinfo-1.png`}  style={{width:'100%'}} alt=""/></Link></div>
+                    <div><Link to="cheesefriends/learning/EduInfoDetail/2" className={styles.slideContent}><img src={`${process.env.PUBLIC_URL}/img/eduinfo-2.png`}  style={{width:'100%'}} alt=""/></Link></div>
+                    <div><Link to="cheesefriends/learning/EduInfoDetail/3" className={styles.slideContent}><img src={`${process.env.PUBLIC_URL}/img/eduinfo-3.png`}  style={{width:'100%'}} alt=""/></Link></div>
+                    <div><Link to="cheesefriends/learning/EduInfoDetail/4" className={styles.slideContent}><img src={`${process.env.PUBLIC_URL}/img/eduinfo-4.png`}  style={{width:'100%'}} alt=""/></Link></div>
+                    <div><Link to="cheesefriends/learning/EduInfoDetail/5" className={styles.slideContent}><img src={`${process.env.PUBLIC_URL}/img/eduinfo-5.png`}  style={{width:'100%'}} alt=""/></Link></div>
+                    <div><Link to="cheesefriends/learning/EduInfoDetail/6" className={styles.slideContent}><img src={`${process.env.PUBLIC_URL}/img/eduinfo-6.jpg`}  style={{width:'100%'}} alt=""/></Link></div>
+                    <div><Link to="cheesefriends/learning/EduInfoDetail/7" className={styles.slideContent}><img src={`${process.env.PUBLIC_URL}/img/eduinfo-7.png`}  style={{width:'100%'}} alt=""/></Link></div>
+                    <div><Link to="cheesefriends/learning/EduInfoDetail/8" className={styles.slideContent}><img src={`${process.env.PUBLIC_URL}/img/eduinfo-8.png`}  style={{width:'100%'}} alt=""/></Link></div>
             </Slider>
         </div>
         <div className={styles.containerBg}>

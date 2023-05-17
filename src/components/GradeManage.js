@@ -21,6 +21,7 @@ function GradeManage(){
     console.log(choice);
 
     const [btnChange, setBtnChange] = useState(false);
+    const [ranks, setRanks] = useState(false);
 
     let [btnActive, setBtnActive] = useState(
         parseInt(localStorage.getItem("btnActive")) || 0 
@@ -70,6 +71,7 @@ function GradeManage(){
     }
     // 성적입력수정
     function updateHandler(){
+        setRanks(true);
         axios.post("http://localhost:3000/gradeUpdate", null, {params: {data:JSON.stringify(grade)}})
         .then(function(resp){
             if(resp.data !== null && resp.data !== "" && resp.data === "success"){
@@ -213,7 +215,7 @@ function GradeManage(){
                         </td>
                         <td>
                             
-                            {grade.studentGrade === 0 ?
+                            {grade.studentGrade === 0 || btnChange ?
                             <>/</>
                             : <>{grade.studentRanks}/{grade.subTotal}</>
                             }
