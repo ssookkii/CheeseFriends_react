@@ -87,7 +87,7 @@ function LectureDetail(){
             </tr>
             </tbody>
             </table>
-            <div style={{textAlign:"center", marginTop:"20px"}}>
+            <div style={{textAlign:"center", marginTop:"4px"}}>
                 <button className="leclistBtn" type="button" onClick={leclist}>목록으로</button>
             </div>
                   

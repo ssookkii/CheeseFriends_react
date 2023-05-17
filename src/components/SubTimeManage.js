@@ -243,16 +243,16 @@ function SubTimeManage(){
                 </div>
             </div>
             <div className={`${styles.InputBox}`}>
-                <span>강의시작시간</span>
+                <span>시작시간</span>
                 <input type="time" className={styles.dayTime} defaultValue={insertDateTime.subStartTime} onChange={(e) => setInsertDateTime(prevState => ({...prevState, subStartTime: e.target.value}))}/>
             </div>
             <div className={` ${styles.InputBox}`}>
-                <span>강의종료시간</span>
+                <span>종료시간</span>
                 <input type="time" className={styles.dayTime} defaultValue={insertDateTime.subEndTime} onChange={(e) => setInsertDateTime(prevState => ({...prevState, subEndTime: e.target.value}))}/>
             </div>
         </div>
         <div className={styles.btnWrap}>
-            <button className={styles.btn} onClick={timeTableAdd}>강의시간추가</button>
+            <button className={styles.btn} onClick={timeTableAdd}>시간추가</button>
         </div>
         <table className={styles.subjectList}>
             <thead>

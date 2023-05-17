@@ -101,7 +101,7 @@ function LectureWrite() {
     };
 
         return (
-            <div className='lecwritemain'>
+            <div className='lecwritemain' style={{marginTop:"30px"}}>
                 <h2 className='lecmainh2'>강의 업로드</h2>
                 
                 <form name="frm" onSubmit={onSubmit} encType='multipart/form-data' style={{textAlign:"left", marginTop:"20px"}}>

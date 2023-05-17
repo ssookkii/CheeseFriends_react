@@ -297,8 +297,8 @@ function AttendanceManageTeacher() {
       </nav>
       <div className='attcheck' style={{ display: 'flex', justifyContent: 'space-between' }}>
         <p style={{ color: '#677bde', fontWeight: 'bold' }} >출석: {attendanceStats.attendanceCount}회 </p>
-        <p style={{ color: '#face5e', fontWeight: 'bold' }}> 지각: {attendanceStats.absenceCount}회 </p>
-        <p style={{ color: '#f19c9c', fontWeight: 'bold' }}>결석:{attendanceStats.lateCount}회</p>
+        <p style={{ color: '#face5e', fontWeight: 'bold' }}> 지각: {attendanceStats.lateCount}회 </p>
+        <p style={{ color: '#f19c9c', fontWeight: 'bold' }}>결석:{attendanceStats.absenceCount}회</p>
       </div>
 
       <div className="table-container">

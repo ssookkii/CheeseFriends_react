@@ -124,11 +124,9 @@ export default function QnaLearningList() {
                 <div className='shelterPageWrap'>
                     <div style={{width:"247.94px", textAlign:"center", marginTop:"-352px"}}>
                     <h2 className="learnh2" style={{marginLeft:"-15px"}}>수업질문방</h2>
-                        {/* {userAuth === 'student' && ( */}
-                            <button type="button" className="learnBtn"  onClick={writelink}>
-                                글쓰기
-                            </button>
-                        {/* )}  */}
+                    <button type="button" className="learnBtn"  onClick={writelink}>
+                        글쓰기
+                    </button>
                     <button type="button" className="learnBtn" onClick={movelearn}> 목록으로</button>
                     </div>
                 </div>

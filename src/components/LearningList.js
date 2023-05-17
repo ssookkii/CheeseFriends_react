@@ -8,18 +8,17 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function LearningList() {
 
-  const [learnList, setLearnList] = useState([]);
+    const [learnList, setLearnList] = useState([]);
     const [id, setId] = useState("");
     const [userEdu, setUserEdu] = useState(
       localStorage.getItem("userEdu")
     );
     const loginInfo = JSON.parse(localStorage.getItem("login"));
     const userAuth = loginInfo?.auth;
-    const [mysubjectlist, setMysubjectlist] = useState([]);
-    
-    const [currentUserId, setCurrentUserId] = useState('');
+    const userId = loginInfo?.id;
+
     const [userSubjects, setUserSubjects] = useState([]);
-    const [edu_code, setEdu_code] = useState("");
+    const [eduCode, setEduCode] = useState([]);
     const [subCode, setSubCode] = useState("");
     const [subject, setSubject] = useState(
         localStorage.getItem("subject")
@@ -44,58 +43,43 @@ export default function LearningList() {
       localStorage.setItem("userEdu", e.target.value);
   }
 
-  useEffect(() => {
-    if (userAuth === "teacher") {
-        const userId = loginInfo?.id;
-        if(userId) {
-        setCurrentUserId(userId);
-        console.log(userId);
-        }
-        axios
-          .post("http://localhost:3000/eduselect", null, { params: { id: userId } })
-          .then(function (resp) {
-            console.log(resp.data);
-            setEdu_code(resp.data.educode);
-    
-            axios
-              .post("http://localhost:3000/subselect", null, {
-                params: { id: userId, educode: resp.data.educode },
-              })
-              .then(function (resp) {
-                console.log(resp.data);
-                setUserSubjects(resp.data);
-              })
-              .catch(function (err) {
-                console.log(err);
-                alert("err");
-              });
-          })
-          .catch(function (err) {
-            console.log(err);
-            alert("err");
-          })
-
-    } else if(userAuth === "student") {
-        const userId = loginInfo?.id;
-        if(userId) {
-        setCurrentUserId(userId);
-        console.log(userId);
-    }
-    axios.get("http://localhost:3000/sublist")
-      .then(function (resp) {
-        console.log(resp.data); // 현재 수강중인 과목 목록
-        
-        const subNames = resp.data.list.map(item => item.subName);
-        console.log(subNames);
-        setSubNames(subNames);
-
-      })
-      .catch(function (err) {
-        console.log(err);
+  function getEduCode(){
+    axios.get("http://localhost:3000/homeEduCode", { params:{ "id":userId }})
+    .then(function(resp){
+        console.log(resp.data);
+        setEduCode(resp.data);
+    })
+    .catch(function(err){
         alert("err");
-      });
-    }
-  }, []);
+        console.log(err);
+    })
+  }
+  useEffect(function(){
+    getEduCode();
+  },[id]);
+
+  // 과목 받아오기
+  function subcodereceive(){
+    setSubCode("");
+    axios.get("http://localhost:3000/subselect", { params:{ "id":userId, "eduCode":userEdu}})
+    .then(function(resp){
+
+      console.log(resp.data);
+      setSubNames(resp.data);
+        
+    })
+    .catch(function(err){
+        console.log(err);
+        alert('err');
+    }) 
+ }
+
+ useEffect(()=>{
+  if(eduCode !== ""){
+      subcodereceive();
+      return;
+  }
+   }, [eduCode]) 
 
     const getLearnList = useCallback(() => {
       axios.get("http://localhost:3000/learninglist")
@@ -113,23 +97,13 @@ export default function LearningList() {
     }, [getLearnList]);
   
     const SelectBox = () => {
-      if(userAuth === "teacher"){
-        return (
-          <select onChange={changeSelectOptionHandler} value={subject} className='inputsubject' style={{marginRight:"3px", marginBottom:"8px"}}>
-             {Array.isArray(userSubjects) && userSubjects.map((subject) => (
-                  <option key={subject.subCode} value={subject.subname}>{subject.subname}</option>
-              ))}
-          </select>
+      return (
+        <select onChange={changeSelectOptionHandler} value={subject} className='inputsubject'>
+          {Array.isArray(subNames) && subNames.map((sub) => (
+            <option key={sub.seq} value={sub.subname}>{sub.subname}</option>
+          ))}
+        </select>
       );
-      } else if(userAuth ==="student") {
-        return (
-          <select onChange={changeSelectOptionHandler} value={subject} className='inputsubject' style={{marginRight:"3px", marginBottom:"8px"}}>
-            {Array.isArray(subNames) && subNames.map((subName) => (
-              <option key={subName} value={subName}>{subName}</option>
-            ))}
-          </select>
-        );
-      }
   };
 
   const changeSelectOptionHandler = (e) => {
@@ -171,11 +145,9 @@ export default function LearningList() {
         let fetchedList = res.data.list;
   
         // 과목 필터링
-        if (userAuth === "teacher") {
+
           fetchedList = fetchedList.filter(item => item.subject === subject);
-        } else if (userAuth === "student") {
-          fetchedList = fetchedList.filter(item => userSubjects.find(subject => subject.subname === item.subject));
-        }
+       
   
         const fetchedListLength = fetchedList.length;
   
@@ -232,21 +204,17 @@ export default function LearningList() {
             <div className='shelterPageWrap'>
               <div style={{width:"247.94px", textAlign:"center", marginTop:"-190px"}}>
                 <h2 className='maintitle' style={{marginTop:"-175px"}}>학습자료실</h2>
-
                     {userAuth === 'teacher' && (
-                        <button type="button" className="learnBtn"  onClick={writelink}>
-                            글쓰기
-                        </button>
-                      )} 
-
-                        <button type="button" className="taskBtn"  onClick={tasklink}>
-                            과제제출하기
-                        </button>
-
- 
-                        <button type="button" className="qnabtn"  onClick={qnalink}>
-                            수업질문하기
-                        </button>
+                      <button type="button" className="learnBtn"  onClick={writelink}>
+                          글쓰기
+                      </button>
+                    )} 
+                      <button type="button" className="taskBtn"  onClick={tasklink}>
+                          과제제출하기
+                      </button>
+                      <button type="button" className="qnabtn"  onClick={qnalink}>
+                          수업질문하기
+                      </button>
                 </div>
             </div>
 
@@ -308,5 +276,5 @@ export default function LearningList() {
     </div>
 
     )
-              }
+}
 

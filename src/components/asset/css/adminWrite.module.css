@@ -68,7 +68,7 @@
 .InputBox span:nth-child(1) {
     display: inline-block;
     text-align: right;
-    width: 55px;
+    width: 65px;
     font-weight: 600;
     font-size: 0.9em;
 }
@@ -235,7 +235,9 @@
     font-weight: 600;
     font-size: 1.2em;
 }
-
+.back:hover {
+    color:#222 !important;
+}
 .back>em {
     font-size: 1.4em;
     font-weight: 600;

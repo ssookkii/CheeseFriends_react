@@ -93,6 +93,13 @@
     border-radius: 4px;
     color: white;
 }
+.submitbtn>a {
+    font-weight: bold;
+    color: white;
+}
+.submitbtn>a:hover {
+    color: #fac463;
+}
 
 .submitbtn:hover {
     border: 2px solid #fac463;

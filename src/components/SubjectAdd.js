@@ -53,6 +53,7 @@ function SubjectAdd(){
                 classGrade : subData[btnActive].classGrade,
                 educatorName : id,
             }
+            
             // axios.post("http://localhost:3000/subUpdate", null, {params: {"subCode": subCode, "subName" : updateSubName, "classGrade":updateLevel, "educatorName":id}})
             axios.post("http://localhost:3000/subUpdate", null, {params: subUpdateData})
             .then(function(resp){
