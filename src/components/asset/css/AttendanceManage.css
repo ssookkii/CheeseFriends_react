@@ -162,7 +162,7 @@
 
  [Att-tooltip]:before {
    content: attr(Att-tooltip);
-   height: 13px;
+   height: 18px;
    position: absolute;
    top: -20px;
    padding: 5px 10px;
@@ -174,7 +174,7 @@
 
  [Abs-tooltip]:before {
    content: attr(Abs-tooltip);
-   height: 13px;
+   height: 18px;
    position: absolute;
    top: -20px;
    padding: 5px 10px;
